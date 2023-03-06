@@ -14,13 +14,13 @@ func HandleStatic(c echo.Context) error {
 	root := "../music-metrics-front/public/"
 
 	switch c.Path() {
-	case "/stats":
+	case "/stats", "/stats/":
 		return c.File(root + "stats.html")
-	case "/about":
+	case "/about", "/about/":
 		return c.File(root + "about.html")
-	case "/contact":
+	case "/contact", "/contact/":
 		return c.File(root + "contact.html")
-	case "/account":
+	case "/account", "/account/":
 		return c.File(root + "account.html")
 	}
 
@@ -34,6 +34,6 @@ func HandleStatic(c echo.Context) error {
 	case "logo.png":
 		return c.File(root + "logo.png")
 	default:
-		return c.File(root + "index.html")
+		return c.File(root + "404.html")
 	}
 }
