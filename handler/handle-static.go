@@ -33,7 +33,7 @@ func HandleStatic(c echo.Context) error {
 		return c.File(root + "script.js")
 	case "logo.png":
 		return c.File(root + "logo.png")
+	default:
+		return c.File(root + "index.html")
 	}
-
-	return nil
 }
