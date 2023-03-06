@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/labstack/echo/v4"
 )
 
@@ -13,7 +12,6 @@ func HandleNotFound(err error, c echo.Context) {
 func HandleStatic(c echo.Context) error {
 
 	root := "../music-metrics-front/public/"
-	fmt.Println("hello there")
 
 	switch c.Path() {
 	case "/stats", "/stats/":
