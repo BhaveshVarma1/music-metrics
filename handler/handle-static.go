@@ -16,8 +16,10 @@ func HandleStatic(c echo.Context) error {
 	fmt.Println("hello there")
 
 	switch c.Path() {
-	case "/stats", "/stats/":
+	case "/stats":
 		fmt.Println("stats here")
+		return c.File(root + "stats.html")
+	case "/stats/":
 		return c.File(root + "stats.html")
 	case "/about", "/about/":
 		return c.File(root + "about.html")
