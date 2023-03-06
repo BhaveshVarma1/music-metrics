@@ -13,10 +13,11 @@ func HandleNotFound(err error, c echo.Context) {
 func HandleStatic(c echo.Context) error {
 
 	root := "../music-metrics-front/public/"
-	fmt.Print("hello there")
+	fmt.Println("hello there")
 
 	switch c.Path() {
 	case "/stats", "/stats/":
+		fmt.Println("stats here")
 		return c.File(root + "stats.html")
 	case "/about", "/about/":
 		return c.File(root + "about.html")
