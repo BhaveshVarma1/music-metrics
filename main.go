@@ -11,6 +11,10 @@ func main() {
 
 	e.HTTPErrorHandler = handler.HandleNotFound
 	e.Static("/", "../music-metrics-front/public")
+	e.GET("/stats/:file", handler.HandleStatic)
+	e.GET("/about/:file", handler.HandleStatic)
+	e.GET("/contact/:file", handler.HandleStatic)
+	e.GET("/account/:file", handler.HandleStatic)
 
 	e.Logger.Fatal(e.Start(":3001"))
 
