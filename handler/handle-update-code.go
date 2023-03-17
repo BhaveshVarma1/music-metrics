@@ -21,6 +21,7 @@ func HandleUpdateCode(c echo.Context) error {
 	fmt.Println("What is up HANDLER. Resp.success: ", resp.Success)
 
 	if resp.Success {
+		fmt.Println("RETURNING 200")
 		return c.JSON(200, resp)
 	} else {
 		if resp.Message == "Internal server error" {
