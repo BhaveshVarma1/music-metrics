@@ -1,0 +1,40 @@
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS authtoken;
+DROP TABLE IF EXISTS listen;
+DROP TABLE IF EXISTS song;
+
+CREATE TABLE user (
+	username varchar(255) not null,
+	displayName varchar(255) not null,
+	email varchar(255) not null,
+	code varchar(511),
+	refresh varchar(511),
+	access varchar(511),
+	PRIMARY KEY (username)
+);
+CREATE TABLE authtoken (
+	token varchar(255) not null,
+	username varchar(255) not null,
+	expiration varchar(255),
+	PRIMARY KEY (token),
+	FOREIGN KEY (username) REFERENCES user(username)
+);
+CREATE TABLE song (
+	id varchar(255) not null,
+	name varchar(255) not null,
+	artist varchar(511) not null,
+	album varchar(255) not null,
+	explicit bit not null,
+	popularity int not null,
+	duration int not null,
+	year int not null,
+	PRIMARY KEY (id)
+);
+CREATE TABLE listen (
+	username varchar(255) not null,
+	timestamp varchar(255) not null,
+	songID varchar(255) not null,
+	PRIMARY KEY (username, timestamp),
+	FOREIGN KEY (username) REFERENCES user(username),
+	FOREIGN KEY (songID) REFERENCES song(id)
+);
