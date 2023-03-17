@@ -18,10 +18,9 @@ func HandleUpdateCode(c echo.Context) error {
 
 	resp := service.UpdateCode(req.Code)
 
-	fmt.Println("What is up HANDLER. Resp.success: ", resp.Success)
+	fmt.Println("HANDLER resp.success: ", resp.Success)
 
 	if resp.Success {
-		fmt.Println("RETURNING 200")
 		return c.JSON(200, resp)
 	} else {
 		if resp.Message == "Internal server error" {

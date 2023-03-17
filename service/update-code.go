@@ -24,7 +24,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 
 	var response model.UpdateCodeResponse
 
-	userWithCode, err := dal.RetrieveUserByCode(tx, code)
+	/*userWithCode, err := dal.RetrieveUserByCode(tx, code)
 	if err != nil {
 		if commitAndClose(tx, db, false) != nil {
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
@@ -50,38 +50,56 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			DisplayName: userWithCode.DisplayName,
 			Email:       userWithCode.Email,
 		}
-	} else {
-		// Code not in database
+	} else {*/
 
-		// make http request to /api/token with code
-		// access token and refresh token are returned, put them aside for now (dynamically, in memory)
-		// use access token to make http request to /get/me
-		// user info is returned, use it to create new user along with code, refresh token, and access token
-		// add the new user to DB
-		// create new auth token for user
-		// add new auth token to DB
-		// return auth token just created
+	// make http request to /api/token with code
+	// access token and refresh token are returned, put them aside for now (dynamically, in memory)
+	// use access token to make http request to /get/me
+	// user info is returned, use it to create new user along with code, refresh token, and access token
+	// add the new user to DB
+	// create new auth token for user
+	// add new auth token to DB
+	// return auth token just created
 
-		// url := SPOTIFY_BASE_ACCOUNT + "/api/token"
-		accessToken, refreshToken, err := requestAccessToken(code)
-		if err != nil {
-			if commitAndClose(tx, db, false) != nil {
-				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
-			}
+	// Request Access/Refresh Token from Spotify
+	fmt.Println("Getting access token from Spotify...")
+	accessToken, refreshToken, err := requestAccessToken(code)
+	if err != nil {
+		if commitAndClose(tx, db, false) != nil {
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
+		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
+	}
+	fmt.Println("Successfully got access token from Spotify, now getting user info...")
 
-		currUser, err := requestUserInfo(accessToken)
-		if err != nil {
-			if commitAndClose(tx, db, false) != nil {
-				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
-			}
-			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
+	// Get User Info from Spotify
+	currUser, err := requestUserInfo(accessToken)
+	if err != nil {
+		if commitAndClose(tx, db, false) != nil {
+			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
-		currUser.Code = code
-		currUser.Refresh = refreshToken
-		currUser.Access = accessToken
+		return model.UpdateCodeResponse{Success: false, Message: err.Error()}
+	}
+	fmt.Println("Successfully got user info from Spotify")
+	currUser.Code = code
+	currUser.Refresh = refreshToken
+	currUser.Access = accessToken
 
+	// Determine if user already exists
+	fmt.Println("Checking if user already exists...")
+	existingUser, err := dal.RetrieveUser(tx, currUser.Username)
+	if err != nil {
+		if commitAndClose(tx, db, false) != nil {
+			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
+		}
+		return model.UpdateCodeResponse{Success: false, Message: err.Error()}
+	}
+
+	var token model.AuthToken
+
+	// If user does not exist, create user and auth token
+	if (existingUser == model.User{}) {
+		fmt.Println("User does not exist, creating user and auth token...")
 		err = dal.CreateUser(tx, currUser)
 		if err != nil {
 			if commitAndClose(tx, db, false) != nil {
@@ -89,37 +107,59 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			}
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
-
-		fmt.Println("What is up.")
-		newToken := model.AuthToken{
+		token = model.AuthToken{
 			Username: currUser.Username,
 			Token:    generateID(DEFAULT_ID_LENGTH),
 		}
-		err = dal.CreateAuthToken(tx, newToken)
-		fmt.Println("What is up 2.")
+		err = dal.CreateAuthToken(tx, token)
 		if err != nil {
 			if commitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 			}
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
-
-		response = model.UpdateCodeResponse{
-			Success:     true,
-			Token:       newToken.Token,
-			Username:    currUser.Username,
-			DisplayName: currUser.DisplayName,
-			Email:       currUser.Email,
+		fmt.Println("Successfully created user and auth token")
+	} else { // User already exists, update them and get auth token
+		fmt.Println("User already exists, updating user and getting auth token...")
+		err = dal.UpdateUser(tx, currUser)
+		if err != nil {
+			if commitAndClose(tx, db, false) != nil {
+				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
+			}
+			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 		}
-
+		token, err = dal.RetrieveAuthTokenByUsername(tx, currUser.Username)
+		if err != nil {
+			if commitAndClose(tx, db, false) != nil {
+				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
+			}
+			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
+		}
+		if (token == model.AuthToken{}) {
+			fmt.Println("Token is null, returning (this should not happen)")
+			if commitAndClose(tx, db, false) != nil {
+				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
+			}
+			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
+		}
+		fmt.Println("Successfully updated user and got auth token")
 	}
 
-	fmt.Println("What is up 3.")
+	response = model.UpdateCodeResponse{
+		Success:     true,
+		Token:       token.Token,
+		Username:    currUser.Username,
+		DisplayName: currUser.DisplayName,
+		Email:       currUser.Email,
+	}
+
+	//}
+
+	fmt.Println("Committing to DB...")
 	if commitAndClose(tx, db, true) != nil {
 		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 	}
 
-	fmt.Println("What is up 4.")
 	return response
 }
 
