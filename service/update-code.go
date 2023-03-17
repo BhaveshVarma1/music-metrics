@@ -24,43 +24,6 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 
 	var response model.UpdateCodeResponse
 
-	/*userWithCode, err := dal.RetrieveUserByCode(tx, code)
-	if err != nil {
-		if commitAndClose(tx, db, false) != nil {
-			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
-		}
-		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
-	}
-	if (userWithCode != model.User{}) {
-		// User with code already exists, return associated auth token
-		tokenToReturn, err := dal.RetrieveAuthTokenByUsername(tx, userWithCode.Username)
-		if err != nil {
-			if commitAndClose(tx, db, false) != nil {
-				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
-			}
-			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
-		}
-		if tokenToReturn == (model.AuthToken{}) {
-			fmt.Print("tokenToReturn is empty, this should not happen")
-		}
-		response = model.UpdateCodeResponse{
-			Success:     true,
-			Token:       tokenToReturn.Token,
-			Username:    userWithCode.Username,
-			DisplayName: userWithCode.DisplayName,
-			Email:       userWithCode.Email,
-		}
-	} else {*/
-
-	// make http request to /api/token with code
-	// access token and refresh token are returned, put them aside for now (dynamically, in memory)
-	// use access token to make http request to /get/me
-	// user info is returned, use it to create new user along with code, refresh token, and access token
-	// add the new user to DB
-	// create new auth token for user
-	// add new auth token to DB
-	// return auth token just created
-
 	// Request Access/Refresh Token from Spotify
 	fmt.Println("Getting access token from Spotify...")
 	accessToken, refreshToken, err := requestAccessToken(code)
@@ -81,7 +44,6 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 	}
 	fmt.Println("Successfully got user info from Spotify")
-	currUser.Code = code
 	currUser.Refresh = refreshToken
 	currUser.Access = accessToken
 
@@ -152,8 +114,6 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		DisplayName: currUser.DisplayName,
 		Email:       currUser.Email,
 	}
-
-	//}
 
 	fmt.Println("Committing to DB...")
 	if commitAndClose(tx, db, true) != nil {

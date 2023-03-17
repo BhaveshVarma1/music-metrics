@@ -4,7 +4,6 @@ type User struct {
 	Username    string `json:"username"`
 	DisplayName string `json:"displayName"`
 	Email       string `json:"email"`
-	Code        string `json:"code,omitempty"`
 	Refresh     string `json:"refresh,omitempty"`
 	Access      string `json:"access,omitempty"`
 }

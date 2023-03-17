@@ -20,7 +20,6 @@ Table name: `user`
 | username    | varchar(255) | NO    | PRI | The user's username (obtained from Spotify)                             |
 | displayName | varchar(255) | NO    |     | The user's display name (obtained from Spotify)                         |
 | email       | varchar(255) | NO    |     | The user's email (obtained from Spotify)                                |
-| code        | varchar(511) | YES   |     | The code returned from Spotify that can be used to obtain access tokens |
 | refresh     | varchar(511) | YES   |     | The refresh token used to obtain new access tokens                      |
 | access      | varchar(511) | YES   |     | The access token used to make requests to the Spotify Web API           |
 

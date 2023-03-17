@@ -1,13 +1,12 @@
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS authtoken;
 DROP TABLE IF EXISTS listen;
 DROP TABLE IF EXISTS song;
+DROP TABLE IF EXISTS authtoken;
+DROP TABLE IF EXISTS user;
 
 CREATE TABLE user (
 	username varchar(255) not null,
 	displayName varchar(255) not null,
 	email varchar(255) not null,
-	code varchar(1023),
 	refresh varchar(1023),
 	access varchar(1023),
 	PRIMARY KEY (username)
