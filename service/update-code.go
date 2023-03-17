@@ -76,7 +76,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			if commitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 			}
-			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
+			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 		}
 		currUser.Code = code
 		currUser.Refresh = refreshToken
@@ -182,7 +182,7 @@ func requestUserInfo(access string) (model.User, error) {
 	var getMeResponse model.GetMeResponse
 	err = json.NewDecoder(resp.Body).Decode(&getMeResponse)
 	if err != nil {
-		panic(err)
+		return model.User{}, err
 	}
 
 	err = resp.Body.Close()
