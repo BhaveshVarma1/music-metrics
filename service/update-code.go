@@ -126,7 +126,7 @@ func requestAccessToken(code string) (string, string, error) {
 	if secret == "" {
 		return "", "", fmt.Errorf("secret is empty")
 	}
-	encodedSecret := base64.StdEncoding.EncodeToString([]byte(secret))
+	encodedSecret := base64.StdEncoding.EncodeToString([]byte(SPOTIFY_CLIENT_ID + ":" + secret))
 
 	reqBody := url.Values{}
 	reqBody.Set("grant_type", "authorization_code")

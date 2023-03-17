@@ -15,6 +15,7 @@ var SPOTIFY_BASE_ACCOUNT = "https://accounts.spotify.com"
 var SPOTIFY_BASE_API = "https://api.spotify.com/v1"
 var SPOTIFY_REDIRECT_URL = "https://dev.musicmetrics.app/spotify-landing" // note: this has to be the same as the one on the front end
 var DEFAULT_ID_LENGTH = 32
+var SPOTIFY_CLIENT_ID = "8b99139c99794d4b9e89b8367b0ac3f4"
 
 func GetSecret() string {
 	file, err := os.Open("nogit2.txt")

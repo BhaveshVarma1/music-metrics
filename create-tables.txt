@@ -7,9 +7,9 @@ CREATE TABLE user (
 	username varchar(255) not null,
 	displayName varchar(255) not null,
 	email varchar(255) not null,
-	code varchar(511),
-	refresh varchar(511),
-	access varchar(511),
+	code varchar(1023),
+	refresh varchar(1023),
+	access varchar(1023),
 	PRIMARY KEY (username)
 );
 CREATE TABLE authtoken (
@@ -22,7 +22,7 @@ CREATE TABLE authtoken (
 CREATE TABLE song (
 	id varchar(255) not null,
 	name varchar(255) not null,
-	artist varchar(511) not null,
+	artist varchar(1023) not null,
 	album varchar(255) not null,
 	explicit bit not null,
 	popularity int not null,
