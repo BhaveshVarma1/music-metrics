@@ -25,7 +25,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 	var response model.UpdateCodeResponse
 
 	// Request Access/Refresh Token from Spotify
-	fmt.Println("Getting access token from Spotify...")
+	printMessage("Getting access token from Spotify...")
 	accessToken, refreshToken, err := requestAccessToken(code)
 	if err != nil {
 		if commitAndClose(tx, db, false) != nil {
@@ -33,7 +33,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		}
 		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 	}
-	fmt.Println("Successfully got access token from Spotify, now getting user info...")
+	printMessage("Successfully got access token from Spotify, now getting user info...")
 
 	// Get User Info from Spotify
 	currUser, err := requestUserInfo(accessToken)
@@ -43,12 +43,12 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		}
 		return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 	}
-	fmt.Println("Successfully got user info from Spotify")
+	printMessage("Successfully got user info from Spotify")
 	currUser.Refresh = refreshToken
 	currUser.Access = accessToken
 
 	// Determine if user already exists
-	fmt.Println("Checking if user already exists...")
+	printMessage("Checking if user already exists...")
 	existingUser, err := dal.RetrieveUser(tx, currUser.Username)
 	if err != nil {
 		if commitAndClose(tx, db, false) != nil {
@@ -61,7 +61,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 
 	// If user does not exist, create user and auth token
 	if (existingUser == model.User{}) {
-		fmt.Println("User does not exist, creating user and auth token...")
+		printMessage("User does not exist, creating user and auth token...")
 		err = dal.CreateUser(tx, currUser)
 		if err != nil {
 			if commitAndClose(tx, db, false) != nil {
@@ -80,9 +80,9 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			}
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
-		fmt.Println("Successfully created user and auth token")
+		printMessage("Successfully created user and auth token")
 	} else { // User already exists, update them and get auth token
-		fmt.Println("User already exists, updating user and getting auth token...")
+		printMessage("User already exists, updating user and getting auth token...")
 		err = dal.UpdateUser(tx, currUser)
 		if err != nil {
 			if commitAndClose(tx, db, false) != nil {
@@ -98,13 +98,13 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 		}
 		if (token == model.AuthToken{}) {
-			fmt.Println("Token is null, returning (this should not happen)")
+			printMessage("Token is null, returning (this should not happen)")
 			if commitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 			}
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
-		fmt.Println("Successfully updated user and got auth token")
+		printMessage("Successfully updated user and got auth token")
 	}
 
 	response = model.UpdateCodeResponse{
@@ -115,7 +115,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		Email:       currUser.Email,
 	}
 
-	fmt.Println("Committing to DB...")
+	printMessage("Committing to DB...")
 	if commitAndClose(tx, db, true) != nil {
 		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 	}
