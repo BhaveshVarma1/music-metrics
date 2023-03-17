@@ -90,11 +90,13 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
 
+		fmt.Println("What is up.")
 		newToken := model.AuthToken{
 			Username: currUser.Username,
 			Token:    generateID(DEFAULT_ID_LENGTH),
 		}
 		err = dal.CreateAuthToken(tx, newToken)
+		fmt.Println("What is up 2.")
 		if err != nil {
 			if commitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
