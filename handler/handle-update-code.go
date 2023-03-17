@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"music-metrics-back/model"
 	"music-metrics-back/service"
@@ -16,6 +17,8 @@ func HandleUpdateCode(c echo.Context) error {
 	}
 
 	resp := service.UpdateCode(req.Code)
+
+	fmt.Println("What is up HANDLER. Resp.success: ", resp.Success)
 
 	if resp.Success {
 		return c.JSON(200, resp)

@@ -114,10 +114,12 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 
 	}
 
+	fmt.Println("What is up 3.")
 	if commitAndClose(tx, db, true) != nil {
 		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 	}
 
+	fmt.Println("What is up 4.")
 	return response
 }
 
