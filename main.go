@@ -10,8 +10,9 @@ func main() {
 
 	e := echo.New()
 
+	// todo: change this to NOT allow all origins
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"https://dev.musicmetrics.app:443"},
+		AllowOrigins: []string{"*"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
 
