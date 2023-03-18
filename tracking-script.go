@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -54,11 +55,8 @@ func main() {
 			return
 		}
 
-		// remove this
-		return
-
 		// Sleep for 2 hours
-		//time.Sleep(2 * time.Hour)
+		time.Sleep(2 * time.Hour)
 	}
 
 }
