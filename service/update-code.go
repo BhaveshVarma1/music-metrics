@@ -45,7 +45,6 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 	}
 	PrintMessage("Successfully got user info from Spotify")
 	currUser.Refresh = refreshToken
-	currUser.Access = accessToken
 
 	// Determine if user already exists
 	PrintMessage("Checking if user already exists...")

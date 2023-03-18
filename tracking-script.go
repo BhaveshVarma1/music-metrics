@@ -38,14 +38,15 @@ func main() {
 		}
 
 		for _, user := range users {
-			// get new access token
-			// use new access token to call /recently-played
+			// Get new access token
 			newToken, err := refreshToken(user.Refresh)
 			if err != nil || newToken == "" {
 				service.PrintMessage("Error refreshing token for username: " + user.Username)
 				continue
 			}
 			fmt.Println("New token: " + newToken)
+
+			// use new access token to call /recently-played
 		}
 
 		if service.CommitAndClose(tx, db, true) != nil {

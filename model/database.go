@@ -5,7 +5,6 @@ type User struct {
 	DisplayName string `json:"displayName"`
 	Email       string `json:"email"`
 	Refresh     string `json:"refresh,omitempty"`
-	Access      string `json:"access,omitempty"`
 }
 
 type AuthToken struct {
