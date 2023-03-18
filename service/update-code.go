@@ -25,33 +25,33 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 	var response model.UpdateCodeResponse
 
 	// Request Access/Refresh Token from Spotify
-	printMessage("Getting access token from Spotify...")
+	PrintMessage("Getting access token from Spotify...")
 	accessToken, refreshToken, err := requestAccessToken(code)
 	if err != nil {
-		if commitAndClose(tx, db, false) != nil {
+		if CommitAndClose(tx, db, false) != nil {
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
 		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 	}
-	printMessage("Successfully got access token from Spotify, now getting user info...")
+	PrintMessage("Successfully got access token from Spotify, now getting user info...")
 
 	// Get User Info from Spotify
 	currUser, err := requestUserInfo(accessToken)
 	if err != nil {
-		if commitAndClose(tx, db, false) != nil {
+		if CommitAndClose(tx, db, false) != nil {
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
 		return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 	}
-	printMessage("Successfully got user info from Spotify")
+	PrintMessage("Successfully got user info from Spotify")
 	currUser.Refresh = refreshToken
 	currUser.Access = accessToken
 
 	// Determine if user already exists
-	printMessage("Checking if user already exists...")
+	PrintMessage("Checking if user already exists...")
 	existingUser, err := dal.RetrieveUser(tx, currUser.Username)
 	if err != nil {
-		if commitAndClose(tx, db, false) != nil {
+		if CommitAndClose(tx, db, false) != nil {
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
 		return model.UpdateCodeResponse{Success: false, Message: err.Error()}
@@ -61,10 +61,10 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 
 	// If user does not exist, create user and auth token
 	if (existingUser == model.User{}) {
-		printMessage("User does not exist, creating user and auth token...")
+		PrintMessage("User does not exist, creating user and auth token...")
 		err = dal.CreateUser(tx, currUser)
 		if err != nil {
-			if commitAndClose(tx, db, false) != nil {
+			if CommitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 			}
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
@@ -75,36 +75,36 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		}
 		err = dal.CreateAuthToken(tx, token)
 		if err != nil {
-			if commitAndClose(tx, db, false) != nil {
+			if CommitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 			}
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
-		printMessage("Successfully created user and auth token")
+		PrintMessage("Successfully created user and auth token")
 	} else { // User already exists, update them and get auth token
-		printMessage("User already exists, updating user and getting auth token...")
+		PrintMessage("User already exists, updating user and getting auth token...")
 		err = dal.UpdateUser(tx, currUser)
 		if err != nil {
-			if commitAndClose(tx, db, false) != nil {
+			if CommitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 			}
 			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 		}
 		token, err = dal.RetrieveAuthTokenByUsername(tx, currUser.Username)
 		if err != nil {
-			if commitAndClose(tx, db, false) != nil {
+			if CommitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 			}
 			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 		}
 		if (token == model.AuthToken{}) {
-			printMessage("Token is null, returning (this should not happen)")
-			if commitAndClose(tx, db, false) != nil {
+			PrintMessage("Token is null, returning (this should not happen)")
+			if CommitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 			}
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
-		printMessage("Successfully updated user and got auth token")
+		PrintMessage("Successfully updated user and got auth token")
 	}
 
 	response = model.UpdateCodeResponse{
@@ -115,8 +115,8 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		Email:       currUser.Email,
 	}
 
-	printMessage("Committing to DB...")
-	if commitAndClose(tx, db, true) != nil {
+	PrintMessage("Committing to DB...")
+	if CommitAndClose(tx, db, true) != nil {
 		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 	}
 

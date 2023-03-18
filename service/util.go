@@ -48,7 +48,7 @@ func generateID(length int) string {
 	return string(result)
 }
 
-func commitAndClose(tx *sql.Tx, db *sql.DB, commit bool) error {
+func CommitAndClose(tx *sql.Tx, db *sql.DB, commit bool) error {
 	if commit {
 		err := tx.Commit()
 		if err != nil {
@@ -67,7 +67,7 @@ func commitAndClose(tx *sql.Tx, db *sql.DB, commit bool) error {
 	return nil
 }
 
-func printMessage(message string) {
+func PrintMessage(message string) {
 	if verbose {
 		fmt.Println(message)
 	}

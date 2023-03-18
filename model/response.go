@@ -22,6 +22,13 @@ type GetAccessTokenResponse struct {
 	Refresh     string `json:"refresh_token"`
 }
 
+type GetRefreshTokenResponse struct {
+	AccessToken string `json:"access_token"`
+	TokenType   string `json:"token_type"`
+	Scope       string `json:"scope"`
+	ExpiresIn   int    `json:"expires_in"`
+}
+
 type GetMeResponse struct {
 	Country         string          `json:"country"`
 	DisplayName     string          `json:"display_name"`

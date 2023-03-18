@@ -46,6 +46,29 @@ func UpdateUser(tx *sql.Tx, user model.User) error {
 	return nil
 }
 
+func RetrieveAllUsers(tx *sql.Tx) ([]model.User, error) {
+	rows, err := tx.Query("SELECT * FROM user;")
+	if err != nil {
+		return nil, err
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			fmt.Println("Error closing rows: ", err)
+		}
+	}(rows)
+	var users []model.User
+	for rows.Next() {
+		var user model.User
+		err = rows.Scan(&user.Username, &user.DisplayName, &user.Email, &user.Refresh, &user.Access)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+	return users, nil
+}
+
 func DeleteUser(tx *sql.Tx, username string) error {
 	_, err := tx.Exec("DELETE FROM user WHERE username = ?;", username)
 	if err != nil {
