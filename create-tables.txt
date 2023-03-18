@@ -8,7 +8,6 @@ CREATE TABLE user (
 	displayName varchar(255) not null,
 	email varchar(255) not null,
 	refresh varchar(1023),
-	access varchar(1023),
 	PRIMARY KEY (username)
 );
 CREATE TABLE authtoken (
