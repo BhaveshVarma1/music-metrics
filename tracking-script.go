@@ -21,19 +21,19 @@ func main() {
 		// Instantiate connection
 		db := dal.Db()
 		if db == nil {
-			service.PrintMessage("Error connecting to database")
+			fmt.Println("Error connecting to database")
 			return
 		}
 		tx, err := db.Begin()
 		if err != nil {
-			service.PrintMessage("Error starting transaction")
+			fmt.Println("Error starting transaction")
 			return
 		}
 
 		users, err := dal.RetrieveAllUsers(tx)
 		if err != nil {
 			if service.CommitAndClose(tx, db, false) != nil {
-				service.PrintMessage("Error committing transaction")
+				fmt.Println("Error committing transaction")
 				return
 			}
 		}
@@ -42,7 +42,7 @@ func main() {
 			// Get new access token
 			newToken, err := refreshToken(user.Refresh)
 			if err != nil || newToken == "" {
-				service.PrintMessage("Error refreshing token for username: " + user.Username)
+				fmt.Println("Error refreshing token for username: " + user.Username)
 				continue
 			}
 			fmt.Println("New token: " + newToken)
@@ -51,7 +51,7 @@ func main() {
 		}
 
 		if service.CommitAndClose(tx, db, true) != nil {
-			service.PrintMessage("Error committing transaction")
+			fmt.Println("Error committing transaction")
 			return
 		}
 
