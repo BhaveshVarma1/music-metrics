@@ -7,8 +7,8 @@ import (
 )
 
 func CreateSong(tx *sql.Tx, song *model.Song) error {
-	_, err := tx.Exec("INSERT INTO song (id, name, artist, album, explicit, popularity, duration, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
-		song.Id, song.Name, song.Artist, song.Album, song.Explicit, song.Popularity, song.Duration, song.Year)
+	_, err := tx.Exec("INSERT INTO song (id, name, artist, album, genre, explicit, popularity, duration, year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
+		song.Id, song.Name, song.Artist, song.Album, song.Genre, song.Explicit, song.Popularity, song.Duration, song.Year)
 	if err != nil {
 		return err
 	}
@@ -28,7 +28,7 @@ func RetrieveSong(tx *sql.Tx, id string) (model.Song, error) {
 	}(rows)
 	var song model.Song
 	for rows.Next() {
-		err = rows.Scan(&song.Id, &song.Name, &song.Artist, &song.Album, &song.Explicit, &song.Popularity, &song.Duration, &song.Year)
+		err = rows.Scan(&song.Id, &song.Name, &song.Artist, &song.Album, &song.Genre, &song.Explicit, &song.Popularity, &song.Duration, &song.Year)
 		if err != nil {
 			return model.Song{}, err
 		}
@@ -38,8 +38,8 @@ func RetrieveSong(tx *sql.Tx, id string) (model.Song, error) {
 }
 
 func UpdateSong(tx *sql.Tx, song *model.Song) error {
-	_, err := tx.Exec("UPDATE song SET name = ?, artist = ?, album = ?, explicit = ?, popularity = ?, duration = ?, year = ? WHERE id = ?;",
-		song.Name, song.Artist, song.Album, song.Explicit, song.Popularity, song.Duration, song.Year, song.Id)
+	_, err := tx.Exec("UPDATE song SET name = ?, artist = ?, album = ?, genre = ?, explicit = ?, popularity = ?, duration = ?, year = ? WHERE id = ?;",
+		song.Name, song.Artist, song.Album, song.Genre, song.Explicit, song.Popularity, song.Duration, song.Year, song.Id)
 	if err != nil {
 		return err
 	}

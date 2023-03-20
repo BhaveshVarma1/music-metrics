@@ -47,13 +47,14 @@ Table name: `listen`
 
 Table name: `song`
 
-| Column Name | Data Type    | Null? | Key | Description                                                        |
-|-------------|--------------|-------|-----|--------------------------------------------------------------------|
-| id          | varchar(255) | NO    | PRI | The song's Spotify ID                                              |
-| name        | varchar(255) | NO    |     | The song's name                                                    |
-| artist      | varchar(511) | NO    |     | The song's artist(s) as a string separated by `;;`                 |
-| album       | varchar(255) | NO    |     | The name of the album containing the song                          |
-| explicit    | bit          | NO    |     | Boolean representing whether or not the song is marked as explicit |
-| popularity  | int          | NO    |     | The song's popularity on a scale of 0 to 100 as rated by Spotify   |
-| duration    | int          | NO    |     | The song's duration in milliseconds                                |
-| year        | int          | NO    |     | The year the song was released                                     |
+| Column Name | Data Type     | Null? | Key | Description                                                        |
+|-------------|---------------|-------|-----|--------------------------------------------------------------------|
+| id          | varchar(255)  | NO    | PRI | The song's Spotify ID                                              |
+| name        | varchar(255)  | NO    |     | The song's name                                                    |
+| artist      | varchar(1023) | NO    |     | The song's artist(s) as a string separated by `;;`                 |
+| album       | varchar(255)  | NO    |     | The name of the album containing the song                          |
+| genre       | varchar(1023) | NO    |     | The song's genre(s) as a string separated by `;;`                  |
+| explicit    | bit           | NO    |     | Boolean representing whether or not the song is marked as explicit |
+| popularity  | int           | NO    |     | The song's popularity on a scale of 0 to 100 as rated by Spotify   |
+| duration    | int           | NO    |     | The song's duration in milliseconds                                |
+| year        | int           | NO    |     | The year the song was released                                     |

@@ -43,3 +43,8 @@ type GetMeResponse struct {
 	Type            string          `json:"type"`
 	URI             string          `json:"uri"`
 }
+
+type RecentlyPlayedObject struct {
+	Song      Song
+	Timestamp string
+}

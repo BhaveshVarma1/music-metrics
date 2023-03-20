@@ -22,6 +22,7 @@ CREATE TABLE song (
 	name varchar(255) not null,
 	artist varchar(1023) not null,
 	album varchar(255) not null,
+	genre varchar(1023) not null,
 	explicit bit not null,
 	popularity int not null,
 	duration int not null,

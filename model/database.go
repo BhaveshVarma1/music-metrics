@@ -18,6 +18,7 @@ type Song struct {
 	Name       string `json:"name"`
 	Artist     string `json:"artist"`
 	Album      string `json:"album"`
+	Genre      string `json:"genre"`
 	Explicit   bool   `json:"explicit"`
 	Popularity int    `json:"popularity"`
 	Duration   int    `json:"duration"`
