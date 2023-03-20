@@ -8,6 +8,8 @@ import (
 
 func main() {
 
+	main2()
+
 	e := echo.New()
 
 	// todo: change this to NOT allow all origins

@@ -6,7 +6,7 @@ import (
 	"music-metrics-back/service"
 )
 
-func main() {
+func main3() {
 
 	db := dal.Db()
 	if db == nil {

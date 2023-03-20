@@ -46,5 +46,5 @@ type GetMeResponse struct {
 
 type RecentlyPlayedObject struct {
 	Song      Song
-	Timestamp string
+	Timestamp int64
 }

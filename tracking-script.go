@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -15,7 +14,7 @@ import (
 	"time"
 )
 
-func main() {
+func main2() {
 
 	fmt.Println("STARTING TRACKING SCRIPT...")
 
@@ -51,6 +50,10 @@ func main() {
 
 			// Use new access token to call /recently-played
 			recentlyPlayed, err := getRecentlyPlayed(newToken)
+			if err != nil {
+				fmt.Println("Error getting recently played for username: " + user.Username)
+				continue
+			}
 			fmt.Println("Recently played: " + strconv.Itoa(len(recentlyPlayed)))
 		}
 
@@ -111,16 +114,12 @@ func getRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 
 	uri := service.SPOTIFY_BASE_API + "/me/player/recently-played"
 
-	payload := map[string]int64{
-		"limit":  50,
-		"before": time.Now().UnixMilli(),
-	}
-	jsonPayload, err := json.Marshal(payload)
-	if err != nil {
-		return nil, err
-	}
+	params := url.Values{}
+	params.Add("before", strconv.FormatInt(time.Now().UnixMilli(), 10))
+	params.Add("limit", "50")
+	urlWithParams := fmt.Sprintf("%s?%s", uri, params.Encode())
 
-	req, err := http.NewRequest("GET", uri, bytes.NewBuffer(jsonPayload))
+	req, err := http.NewRequest("GET", urlWithParams, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -159,7 +158,7 @@ func getRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 		}
 		returnObj := model.RecentlyPlayedObject{
 			Song:      song,
-			Timestamp: item.PlayedAt,
+			Timestamp: datetimeToUnixMilli(item.PlayedAt),
 		}
 		toReturn = append(toReturn, returnObj)
 	}
@@ -181,4 +180,12 @@ func yearFromReleaseDate(date string) int {
 		return -1
 	}
 	return i
+}
+
+func datetimeToUnixMilli(datetime string) int64 {
+	t, err := time.Parse(time.RFC3339, datetime)
+	if err != nil {
+		return -1
+	}
+	return t.UnixMilli()
 }
