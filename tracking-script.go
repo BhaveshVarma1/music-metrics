@@ -77,6 +77,7 @@ func main() {
 					song, err := dal.RetrieveSong(tx, rpObj.Song.Id)
 					if err != nil {
 						fmt.Println("Error retrieving song for username: " + user.Username)
+						fmt.Println(err)
 						continue
 					}
 					if (song == model.Song{}) {
@@ -96,6 +97,7 @@ func main() {
 					err = dal.CreateListen(tx, newListen)
 					if err != nil {
 						fmt.Println("Error creating listen for username: " + user.Username)
+						fmt.Println(err)
 						continue
 					}
 				} else {
