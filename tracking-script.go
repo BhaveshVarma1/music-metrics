@@ -41,6 +41,7 @@ func main() {
 
 		for _, user := range users {
 			// Get new access token
+			//refresh := "AQAzE6aLlsKhtWVp3XgKB8fzNvRcKH2ww_a3aoNzsEH80hkpo2zmtCLiCVNJg6D_mN_2FajJg0c5IgtbRMboITeLHp1-p9Wikl9ALLahGfN4Y5Nvw2AX6VStjTE2e3fHX6g"
 			newToken, err := refreshToken(user.Refresh)
 			if err != nil || newToken == "" {
 				fmt.Println("Error refreshing token for username: " + user.Username)
@@ -55,6 +56,53 @@ func main() {
 				continue
 			}
 			fmt.Println("Recently played: " + strconv.Itoa(len(recentlyPlayed)))
+
+			// Get most recent listen
+			mostRecentListen, err := dal.GetMostRecentListen(tx, user.Username)
+			var oldTime int64
+			if err != nil {
+				fmt.Println("Error getting most recent listen for username: " + user.Username)
+				continue
+			}
+			if (mostRecentListen == model.Listen{}) {
+				oldTime = 0
+			} else {
+				oldTime = mostRecentListen.Timestamp
+			}
+
+			// Determine which listens are new and add them if they are
+			for _, rpObj := range recentlyPlayed {
+				if rpObj.Timestamp > oldTime {
+					// Add song to database if it isn't already there
+					song, err := dal.RetrieveSong(tx, rpObj.Song.Id)
+					if err != nil {
+						fmt.Println("Error retrieving song for username: " + user.Username)
+						continue
+					}
+					if (song == model.Song{}) {
+						err = dal.CreateSong(tx, &rpObj.Song)
+						if err != nil {
+							fmt.Println("Error creating song for username: " + user.Username)
+							continue
+						}
+					}
+
+					// Add listen to database
+					newListen := model.Listen{
+						Username:  user.Username,
+						Timestamp: rpObj.Timestamp,
+						SongId:    rpObj.Song.Id,
+					}
+					err = dal.CreateListen(tx, newListen)
+					if err != nil {
+						fmt.Println("Error creating listen for username: " + user.Username)
+						continue
+					}
+				} else {
+					break
+				}
+			}
+
 		}
 
 		if service.CommitAndClose(tx, db, true) != nil {

@@ -27,6 +27,6 @@ type Song struct {
 
 type Listen struct {
 	Username  string `json:"username"`
-	Timestamp string `json:"timestamp"`
+	Timestamp int64  `json:"timestamp"`
 	SongId    string `json:"songID"`
 }

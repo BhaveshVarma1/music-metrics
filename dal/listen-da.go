@@ -14,7 +14,7 @@ func CreateListen(tx *sql.Tx, listen model.Listen) error {
 	return nil
 }
 
-func RetrieveListen(tx *sql.Tx, username string, timestamp string) (model.Listen, error) {
+func RetrieveListen(tx *sql.Tx, username string, timestamp int64) (model.Listen, error) {
 	rows, err := tx.Query("SELECT * FROM listen WHERE username = ? AND timestamp = ?;", username, timestamp)
 	if err != nil {
 		return model.Listen{}, err
@@ -36,7 +36,7 @@ func RetrieveListen(tx *sql.Tx, username string, timestamp string) (model.Listen
 	return model.Listen{}, nil
 }
 
-func DeleteListen(tx *sql.Tx, username string, timestamp string) error {
+func DeleteListen(tx *sql.Tx, username string, timestamp int64) error {
 	_, err := tx.Exec("DELETE FROM listen WHERE username = ? AND timestamp = ?;", username, timestamp)
 	if err != nil {
 		return err
@@ -50,6 +50,28 @@ func DeleteListenByUsername(tx *sql.Tx, username string) error {
 		return err
 	}
 	return nil
+}
+
+func GetMostRecentListen(tx *sql.Tx, username string) (model.Listen, error) {
+	rows, err := tx.Query("SELECT * FROM listen WHERE username = ? ORDER BY timestamp DESC LIMIT 1;", username)
+	if err != nil {
+		return model.Listen{}, err
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			fmt.Println("Error closing rows:", err)
+		}
+	}(rows)
+	var listen model.Listen
+	for rows.Next() {
+		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.SongId)
+		if err != nil {
+			return model.Listen{}, err
+		}
+		return listen, nil
+	}
+	return model.Listen{}, nil
 }
 
 func ClearListen(tx *sql.Tx) error {
