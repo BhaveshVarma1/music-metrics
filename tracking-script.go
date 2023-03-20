@@ -41,13 +41,12 @@ func main() {
 
 		for _, user := range users {
 			// Get new access token
-			//refresh := "AQAzE6aLlsKhtWVp3XgKB8fzNvRcKH2ww_a3aoNzsEH80hkpo2zmtCLiCVNJg6D_mN_2FajJg0c5IgtbRMboITeLHp1-p9Wikl9ALLahGfN4Y5Nvw2AX6VStjTE2e3fHX6g"
 			newToken, err := refreshToken(user.Refresh)
 			if err != nil || newToken == "" {
 				fmt.Println("Error refreshing token for username: " + user.Username)
 				continue
 			}
-			fmt.Println("New token: " + newToken)
+			//fmt.Println("New token: " + newToken)
 
 			// Use new access token to call /recently-played
 			recentlyPlayed, err := getRecentlyPlayed(newToken)
@@ -55,7 +54,7 @@ func main() {
 				fmt.Println("Error getting recently played for username: " + user.Username)
 				continue
 			}
-			fmt.Println("Recently played: " + strconv.Itoa(len(recentlyPlayed)))
+			//fmt.Println("Recently played: " + strconv.Itoa(len(recentlyPlayed)))
 
 			// Get most recent listen
 			mostRecentListen, err := dal.GetMostRecentListen(tx, user.Username)
