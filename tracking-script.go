@@ -47,6 +47,7 @@ func main() {
 				continue
 			}
 			//fmt.Println("New token: " + newToken)
+			newSongsCount := 0
 
 			// Use new access token to call /recently-played
 			recentlyPlayed, err := getRecentlyPlayed(newToken)
@@ -73,6 +74,7 @@ func main() {
 			for _, rpObj := range recentlyPlayed {
 				if rpObj.Timestamp > oldTime {
 					// Add song to database if it isn't already there
+					newSongsCount++
 					song, err := dal.RetrieveSong(tx, rpObj.Song.Id)
 					if err != nil {
 						fmt.Println("Error retrieving song for username: " + user.Username)
@@ -103,6 +105,8 @@ func main() {
 					break
 				}
 			}
+
+			fmt.Println(user.Username + " listened to " + strconv.Itoa(newSongsCount) + " songs in the last 2 hours.")
 
 		}
 
