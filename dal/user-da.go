@@ -7,8 +7,8 @@ import (
 )
 
 func CreateUser(tx *sql.Tx, user model.User) error {
-	_, err := tx.Exec("INSERT INTO user (username, displayName, email, refresh) VALUES (?, ?, ?, ?);",
-		user.Username, user.DisplayName, user.Email, user.Refresh)
+	_, err := tx.Exec("INSERT INTO user (username, displayName, email, refresh, timestamp) VALUES (?, ?, ?, ?, ?);",
+		user.Username, user.DisplayName, user.Email, user.Refresh, user.Timestamp)
 	if err != nil {
 		return err
 	}
@@ -28,7 +28,7 @@ func RetrieveUser(tx *sql.Tx, username string) (model.User, error) {
 	}(rows)
 	var user model.User
 	for rows.Next() {
-		err = rows.Scan(&user.Username, &user.DisplayName, &user.Email, &user.Refresh)
+		err = rows.Scan(&user.Username, &user.DisplayName, &user.Email, &user.Refresh, &user.Timestamp)
 		if err != nil {
 			return model.User{}, err
 		}
@@ -38,8 +38,8 @@ func RetrieveUser(tx *sql.Tx, username string) (model.User, error) {
 }
 
 func UpdateUser(tx *sql.Tx, user model.User) error {
-	_, err := tx.Exec("UPDATE user SET displayName = ?, email = ?, refresh = ? WHERE username = ?;",
-		user.DisplayName, user.Email, user.Refresh, user.Username)
+	_, err := tx.Exec("UPDATE user SET displayName = ?, email = ?, refresh = ?, timestamp = ? WHERE username = ?;",
+		user.DisplayName, user.Email, user.Refresh, user.Timestamp, user.Username)
 	if err != nil {
 		return err
 	}
@@ -60,7 +60,7 @@ func RetrieveAllUsers(tx *sql.Tx) ([]model.User, error) {
 	var users []model.User
 	for rows.Next() {
 		var user model.User
-		err = rows.Scan(&user.Username, &user.DisplayName, &user.Email, &user.Refresh)
+		err = rows.Scan(&user.Username, &user.DisplayName, &user.Email, &user.Refresh, &user.Timestamp)
 		if err != nil {
 			return nil, err
 		}

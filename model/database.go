@@ -5,6 +5,7 @@ type User struct {
 	DisplayName string `json:"displayName"`
 	Email       string `json:"email"`
 	Refresh     string `json:"refresh,omitempty"`
+	Timestamp   int64  `json:"timestamp,omitempty"`
 }
 
 type AuthToken struct {

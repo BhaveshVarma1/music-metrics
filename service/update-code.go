@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 func UpdateCode(code string) model.UpdateCodeResponse {
@@ -57,6 +58,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 	// If user does not exist, create user and auth token
 	if (existingUser == model.User{}) {
 		PrintMessage("User does not exist, creating user and auth token...")
+		currUser.Timestamp = time.Now().UnixMilli()
 		err = dal.CreateUser(tx, currUser)
 		if err != nil {
 			if dal.CommitAndClose(tx, db, false) != nil {
@@ -78,6 +80,8 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		PrintMessage("Successfully created user and auth token")
 	} else { // User already exists, update them and get auth token
 		PrintMessage("User already exists, updating user and getting auth token...")
+		// todo remove
+		currUser.Timestamp = time.Now().UnixMilli()
 		err = dal.UpdateUser(tx, currUser)
 		if err != nil {
 			if dal.CommitAndClose(tx, db, false) != nil {
