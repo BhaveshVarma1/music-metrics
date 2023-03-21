@@ -1,6 +1,9 @@
 package dal
 
-import "database/sql"
+import (
+	"database/sql"
+	"math"
+)
 
 func GetAverageYear(tx *sql.Tx, username string) (int, error) {
 	stmt, err := tx.Prepare("SELECT AVG(year) FROM song INNER JOIN listen ON song.id = listen.songID WHERE username = ?;")
@@ -8,7 +11,7 @@ func GetAverageYear(tx *sql.Tx, username string) (int, error) {
 		return 0, err
 	}
 
-	var result int
+	var result float32
 	err = stmt.QueryRow(username).Scan(&result)
 	if err != nil {
 		return 0, err
@@ -18,5 +21,5 @@ func GetAverageYear(tx *sql.Tx, username string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	return result, nil
+	return int(math.Round(float64(result))), nil
 }
