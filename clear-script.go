@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"music-metrics-back/dal"
-	"music-metrics-back/service"
 )
 
 func main() {
@@ -26,7 +25,7 @@ func main() {
 		return
 	}
 
-	if service.CommitAndClose(tx, db, true) != nil {
+	if dal.CommitAndClose(tx, db, true) != nil {
 		return
 	}
 

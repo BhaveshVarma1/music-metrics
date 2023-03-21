@@ -20,20 +20,15 @@ func main() {
 
 	for {
 		// Instantiate connection
-		db := dal.Db()
-		if db == nil {
-			fmt.Println("Error connecting to database")
-			return
-		}
-		tx, err := db.Begin()
+		tx, db, err := dal.BeginTX()
 		if err != nil {
-			fmt.Println("Error starting transaction")
+			fmt.Println(err.Error())
 			return
 		}
 
 		users, err := dal.RetrieveAllUsers(tx)
 		if err != nil {
-			if service.CommitAndClose(tx, db, false) != nil {
+			if dal.CommitAndClose(tx, db, false) != nil {
 				fmt.Println("Error committing transaction")
 				return
 			}
@@ -110,7 +105,7 @@ func main() {
 
 		}
 
-		if service.CommitAndClose(tx, db, true) != nil {
+		if dal.CommitAndClose(tx, db, true) != nil {
 			fmt.Println("Error committing transaction")
 			return
 		}

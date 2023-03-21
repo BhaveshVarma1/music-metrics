@@ -2,10 +2,8 @@ package service
 
 import (
 	"bufio"
-	"database/sql"
 	"fmt"
 	"math/rand"
-	"music-metrics-back/dal"
 	"os"
 	"time"
 )
@@ -47,25 +45,6 @@ func generateID(length int) string {
 		result[i] = chars[r.Intn(len(chars))]
 	}
 	return string(result)
-}
-
-func CommitAndClose(tx *sql.Tx, db *sql.DB, commit bool) error {
-	if commit {
-		err := tx.Commit()
-		if err != nil {
-			return err
-		}
-	} else {
-		err := tx.Rollback()
-		if err != nil {
-			return err
-		}
-	}
-	err := dal.DbClose(db)
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
 func PrintMessage(message string) {

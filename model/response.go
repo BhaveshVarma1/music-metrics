@@ -48,3 +48,9 @@ type RecentlyPlayedObject struct {
 	Song      Song
 	Timestamp int64
 }
+
+type AverageYearResponse struct {
+	Message     string `json:"message,omitempty"`
+	Success     bool   `json:"success"`
+	AverageYear int    `json:"averageYear,omitempty"`
+}

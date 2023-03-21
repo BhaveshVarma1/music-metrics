@@ -17,6 +17,7 @@ func main() {
 	}))
 
 	e.POST("/updateCode", handler.HandleUpdateCode)
+	e.GET("/averageYear/:username", handler.HandleAverageYear)
 
 	e.Logger.Fatal(e.Start(":3001"))
 

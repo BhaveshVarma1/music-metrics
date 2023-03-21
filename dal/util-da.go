@@ -3,6 +3,7 @@ package dal
 import (
 	"bufio"
 	"database/sql"
+	"errors"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"os"
@@ -53,4 +54,35 @@ func GetPassword() string {
 		return scanner.Text()
 	}
 	return ""
+}
+
+func BeginTX() (*sql.Tx, *sql.DB, error) {
+	db := Db()
+	if db == nil {
+		return nil, nil, errors.New("db is nil")
+	}
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, nil, err
+	}
+	return tx, db, nil
+}
+
+func CommitAndClose(tx *sql.Tx, db *sql.DB, commit bool) error {
+	if commit {
+		err := tx.Commit()
+		if err != nil {
+			return err
+		}
+	} else {
+		err := tx.Rollback()
+		if err != nil {
+			return err
+		}
+	}
+	err := DbClose(db)
+	if err != nil {
+		return err
+	}
+	return nil
 }
