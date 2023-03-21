@@ -11,7 +11,7 @@ func HandleAverageYear(c echo.Context) error {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
+		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error2"})
 	}
 
 	username := c.Param("username")
