@@ -12,6 +12,7 @@ type UpdateCodeResponse struct {
 	Username    string `json:"username,omitempty"`
 	DisplayName string `json:"displayName,omitempty"`
 	Email       string `json:"email,omitempty"`
+	Timestamp   int64  `json:"timestamp,omitempty"`
 }
 
 type GetAccessTokenResponse struct {

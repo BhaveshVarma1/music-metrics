@@ -80,6 +80,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		PrintMessage("Successfully created user and auth token")
 	} else { // User already exists, update them and get auth token
 		PrintMessage("User already exists, updating user and getting auth token...")
+		currUser.Timestamp = existingUser.Timestamp
 		err = dal.UpdateUser(tx, currUser)
 		if err != nil {
 			if dal.CommitAndClose(tx, db, false) != nil {
@@ -110,6 +111,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		Username:    currUser.Username,
 		DisplayName: currUser.DisplayName,
 		Email:       currUser.Email,
+		Timestamp:   currUser.Timestamp,
 	}
 
 	PrintMessage("Committing to DB...")
