@@ -12,3 +12,11 @@ func TestGetAverageYear(t *testing.T) {
 	result := GetAverageYear(username)
 	fmt.Print(result)
 }
+
+func TestGetSongCounts(t *testing.T) {
+
+	username := "prattnj"
+
+	result := GetSongCounts(username)
+	fmt.Println(result)
+}

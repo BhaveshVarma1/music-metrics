@@ -44,13 +44,14 @@ type GetMeResponse struct {
 	URI             string          `json:"uri"`
 }
 
-type RecentlyPlayedObject struct {
-	Song      Song
-	Timestamp int64
-}
-
 type AverageYearResponse struct {
 	Message     string `json:"message,omitempty"`
 	Success     bool   `json:"success"`
 	AverageYear int    `json:"averageYear,omitempty"`
+}
+
+type SongCountsResponse struct {
+	Message    string      `json:"message,omitempty"`
+	Success    bool        `json:"success"`
+	SongCounts []SongCount `json:"songCounts,omitempty"`
 }

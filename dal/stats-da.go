@@ -2,7 +2,9 @@ package dal
 
 import (
 	"database/sql"
+	"fmt"
 	"math"
+	"music-metrics-back/model"
 )
 
 func GetAverageYear(tx *sql.Tx, username string) (int, error) {
@@ -22,4 +24,36 @@ func GetAverageYear(tx *sql.Tx, username string) (int, error) {
 		return 0, err
 	}
 	return int(math.Round(float64(result))), nil
+}
+
+func GetSongCounts(tx *sql.Tx, username string) ([]model.SongCount, error) {
+	stmt, err := tx.Prepare("SELECT song.name, song.artist, COUNT(*) FROM song INNER JOIN listen ON song.id = listen.songID WHERE username = ? GROUP BY song.id ORDER BY COUNT(*) DESC;")
+	if err != nil {
+		return nil, err
+	}
+
+	var results []model.SongCount
+	rows, err := stmt.Query(username)
+	if err != nil {
+		return nil, err
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			fmt.Println("Error closing rows:", err)
+		}
+	}(rows)
+
+	for rows.Next() {
+		var song string
+		var artist string
+		var count int
+		err = rows.Scan(&song, &artist, &count)
+		if err != nil {
+			return nil, err
+		}
+		results = append(results, model.SongCount{Song: song, Artist: artist, Count: count})
+	}
+
+	return results, nil
 }
