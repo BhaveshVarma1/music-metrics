@@ -1,9 +1,9 @@
 package model
 
 type SongCount struct {
-	Song   string
-	Artist string
-	Count  int
+	Song   string `json:"song"`
+	Artist string `json:"artist"`
+	Count  int    `json:"count"`
 }
 
 type RecentlyPlayedObject struct {
