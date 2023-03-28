@@ -20,7 +20,9 @@ func main() {
 	e.GET("/averageYear/:username", handler.HandleAverageYear)
 	e.GET("/songCounts/:username", handler.HandleSongCounts)
 
-	e.Static("/", "../music-metrics-front/build")
+	e.GET("/*", func(c echo.Context) error {
+		return c.File("../music-metrics-front/build/index.html")
+	})
 
 	e.Logger.Fatal(e.Start(":3000"))
 
