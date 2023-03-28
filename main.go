@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"music-metrics-back/handler"
+	"net/http"
 )
 
 func main() {
@@ -16,7 +17,9 @@ func main() {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
 
-	e.Static("/", "../music-metrics-front/build")
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "../music-metrics-front/build/index.html")
+	})
 	e.POST("/updateCode", handler.HandleUpdateCode)
 	e.GET("/averageYear/:username", handler.HandleAverageYear)
 	e.GET("/songCounts/:username", handler.HandleSongCounts)
