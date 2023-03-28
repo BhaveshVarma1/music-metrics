@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"music-metrics-back/handler"
@@ -18,6 +19,7 @@ func main() {
 	}))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Print("Serving index.html\n")
 		http.ServeFile(w, r, "../music-metrics-front/build/index.html")
 	})
 	e.POST("/updateCode", handler.HandleUpdateCode)
