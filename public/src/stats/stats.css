@@ -27,7 +27,7 @@
 .table-column-names {
     color: #3de2ff;
     padding: 10px 0;
-    border-bottom: 2px solid #cce2e6;
+    border: 2px solid #cce2e6;
 }
 
 .table-column-names > th {
