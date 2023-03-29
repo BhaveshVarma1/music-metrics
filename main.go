@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"music-metrics/handler"
@@ -24,12 +23,10 @@ func main() {
 	e.GET("/songCounts/:username", handler.HandleSongCounts)
 
 	e.GET("/manifest.json", func(c echo.Context) error {
-		fmt.Println("Serving manifest")
 		return c.File(buildPath + "/manifest.json")
 	})
 
 	e.GET("/*", func(c echo.Context) error {
-		fmt.Println("Serving index.html")
 		return c.File(buildPath + "/index.html")
 	})
 
