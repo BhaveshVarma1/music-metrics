@@ -33,9 +33,11 @@ func main() {
 		return c.File(buildPath + "/manifest.json")
 	})
 
-	e.GET("/*", func(c echo.Context) error {
+	e.Static("/", buildPath)
+
+	/*e.GET("/*", func(c echo.Context) error {
 		return c.File(buildPath + "/index.html")
-	})
+	})*/
 
 	e.Logger.Fatal(e.Start(":3000"))
 
