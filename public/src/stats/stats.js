@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 
 export function Stats() {
 
+    const [songCountsLimit, setSongCountsLimit] = useState(100);
     const [averageYear, setAverageYear] = useState('Calculating...');
     const [songCounts, setSongCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
 
@@ -20,7 +21,7 @@ export function Stats() {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setSongCounts(data.songCounts)
+                setSongCounts(data.songCounts.slice(0, songCountsLimit))
             }).catch(error => {
             console.log("ERROR: " + error)
         })
@@ -57,7 +58,7 @@ function CountsTable({ songCounts }) {
             </thead>
             <tbody>
             {songCounts.map(songCount => (
-                <tr>
+                <tr className={"table-row"}>
                     <td>{songCount.song}</td>
                     <td>{songCount.artist}</td>
                     <td>{songCount.count}</td>
