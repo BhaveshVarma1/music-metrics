@@ -22,20 +22,17 @@ func main() {
 	e.GET("/averageYear/:username", handler.HandleAverageYear)
 	e.GET("/songCounts/:username", handler.HandleSongCounts)
 
-	/*e.GET("/static/*", func(c echo.Context) error {
-		fmt.Println("Serving static file")
+	e.GET("/static/*", func(c echo.Context) error {
 		return c.File(buildPath + c.Request().URL.Path)
 	})
 
 	e.GET("/manifest.json", func(c echo.Context) error {
-		fmt.Println("Serving manifest.json")
 		return c.File(buildPath + "/manifest.json")
 	})
 
 	e.GET("/favicon.ico", func(c echo.Context) error {
-		fmt.Println("Serving favicon.ico")
 		return c.File(buildPath + "/favicon.ico")
-	})*/
+	})
 
 	e.GET("/*", func(c echo.Context) error {
 		return c.File(buildPath + "/index.html")
