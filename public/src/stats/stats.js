@@ -39,7 +39,7 @@ export function Stats() {
         <div>
             <PrimaryInfo text="Stats central."/>
             <SecondaryInfo text={"Average release year: " + averageYear}/>
-            <SecondaryInfo text={"Song counts: "}/>
+            <SecondaryInfo text={"Song counts (showing first " + songCounts + ")"}/>
             <CountsTable songCounts={songCounts}/>
         </div>
     )
