@@ -35,9 +35,9 @@ func main() {
 
 	//e.Static("/", buildPath)
 
-	/*e.GET("/*", func(c echo.Context) error {
+	e.GET("/", func(c echo.Context) error {
 		return c.File(buildPath + "/index.html")
-	})*/
+	})
 
 	e.Logger.Fatal(e.Start(":3000"))
 
