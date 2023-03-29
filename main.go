@@ -31,14 +31,12 @@ func main() {
 	e.GET("/manifest.json", func(c echo.Context) error {
 		return c.File(buildPath + "/manifest.json")
 	})*/
+
 	e.Static("/", buildPath)
 
-	/*e.GET("/*", func(c echo.Context) error {
-		req := c.Request()
-		res := c.Response()
-		http.FileServer(http.Dir(buildPath)).ServeHTTP(res, req)
-		return nil
-	})*/
+	e.GET("/*", func(c echo.Context) error {
+		return c.File(buildPath + "/index.html")
+	})
 
 	e.Logger.Fatal(e.Start(":3000"))
 
