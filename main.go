@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"music-metrics/handler"
 )
 
 func main() {
@@ -18,7 +19,7 @@ func main() {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
 
-	/*e.POST("/updateCode", handler.HandleUpdateCode)
+	e.POST("/updateCode", handler.HandleUpdateCode)
 	e.GET("/averageYear/:username", handler.HandleAverageYear)
 	e.GET("/songCounts/:username", handler.HandleSongCounts)
 
@@ -26,16 +27,16 @@ func main() {
 		fmt.Println("Serving static file")
 		fmt.Println(buildPath + c.Request().URL.Path)
 		return c.File(buildPath + c.Request().URL.Path)
-	})*/
+	})
 
 	e.GET("/manifest.json", func(c echo.Context) error {
 		fmt.Println("Serving manifest.json")
 		return c.File(buildPath + "/manifest.json")
 	})
 
-	/*e.GET("/*", func(c echo.Context) error {
+	e.GET("/*", func(c echo.Context) error {
 		return c.File(buildPath + "/index.html")
-	})*/
+	})
 
 	e.Logger.Fatal(e.Start(":3000"))
 
