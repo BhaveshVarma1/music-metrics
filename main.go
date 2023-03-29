@@ -8,6 +8,8 @@ import (
 
 func main() {
 
+	buildPath := "../music-metrics-front/build"
+
 	e := echo.New()
 
 	// todo: change this to NOT allow all origins
@@ -20,8 +22,12 @@ func main() {
 	e.GET("/averageYear/:username", handler.HandleAverageYear)
 	e.GET("/songCounts/:username", handler.HandleSongCounts)
 
+	e.GET("/static/*", func(c echo.Context) error {
+		return c.File(buildPath + c.Request().URL.Path)
+	})
+
 	e.GET("/*", func(c echo.Context) error {
-		return c.File("../music-metrics-front/build/index.html")
+		return c.File(buildPath + "/index.html")
 	})
 
 	e.Logger.Fatal(e.Start(":3000"))
