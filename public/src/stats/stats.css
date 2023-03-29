@@ -24,7 +24,14 @@
     margin: 0 auto 100px;
 }
 
+.table-column-names {
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 10px 0;
+    border-bottom: 2px solid #cce2e6;
+}
+
 .table-row {
     padding: 10px 0;
-    border-bottom: 1px solid #cce2e6;
+    border-bottom: 2px solid #cce2e6;
 }
