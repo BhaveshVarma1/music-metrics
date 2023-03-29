@@ -18,10 +18,12 @@ func main() {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
 
+	// API ENDPOINTS
 	e.POST("/updateCode", handler.HandleUpdateCode)
 	e.GET("/averageYear/:username", handler.HandleAverageYear)
 	e.GET("/songCounts/:username", handler.HandleSongCounts)
 
+	// STATIC / REACT FILES
 	e.GET("/static/*", func(c echo.Context) error {
 		return c.File(buildPath + c.Request().URL.Path)
 	})
