@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"music-metrics/handler"
+	"net/http"
 )
 
 func main() {
@@ -33,7 +34,10 @@ func main() {
 	})*/
 
 	e.GET("/*", func(c echo.Context) error {
-		return c.File(buildPath + "/index.html")
+		req := c.Request()
+		res := c.Response()
+		http.FileServer(http.Dir(buildPath)).ServeHTTP(res, req)
+		return nil
 	})
 
 	e.Logger.Fatal(e.Start(":3000"))
