@@ -25,6 +25,7 @@ func main() {
 
 	e.GET("/static/*", func(c echo.Context) error {
 		fmt.Println("Serving static file")
+		fmt.Println(buildPath + c.Request().URL.Path)
 		return c.File(buildPath + c.Request().URL.Path)
 	})
 
