@@ -4,7 +4,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"music-metrics/handler"
-	"net/http"
 )
 
 func main() {
@@ -32,13 +31,14 @@ func main() {
 	e.GET("/manifest.json", func(c echo.Context) error {
 		return c.File(buildPath + "/manifest.json")
 	})*/
+	e.Static("/", buildPath)
 
-	e.GET("/*", func(c echo.Context) error {
+	/*e.GET("/*", func(c echo.Context) error {
 		req := c.Request()
 		res := c.Response()
 		http.FileServer(http.Dir(buildPath)).ServeHTTP(res, req)
 		return nil
-	})
+	})*/
 
 	e.Logger.Fatal(e.Start(":3000"))
 
