@@ -3,8 +3,8 @@ package handler
 import (
 	"encoding/json"
 	"github.com/labstack/echo/v4"
-	"music-metrics-back/model"
-	"music-metrics-back/service"
+	"music-metrics/model"
+	"music-metrics/service"
 )
 
 func HandleUpdateCode(c echo.Context) error {

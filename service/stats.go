@@ -1,8 +1,8 @@
 package service
 
 import (
-	"music-metrics-back/dal"
-	"music-metrics-back/model"
+	"music-metrics/dal"
+	"music-metrics/model"
 )
 
 func GetAverageYear(username string) int {

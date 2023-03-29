@@ -1,4 +1,4 @@
-module music-metrics-back
+module music-metrics
 
 go 1.18
 

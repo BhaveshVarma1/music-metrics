@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"math"
-	"music-metrics-back/model"
+	"music-metrics/model"
 )
 
 func GetAverageYear(tx *sql.Tx, username string) (int, error) {

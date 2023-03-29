@@ -2,9 +2,9 @@ package handler
 
 import (
 	"github.com/labstack/echo/v4"
-	"music-metrics-back/dal"
-	"music-metrics-back/model"
-	"music-metrics-back/service"
+	"music-metrics/dal"
+	"music-metrics/model"
+	"music-metrics/service"
 )
 
 func HandleAverageYear(c echo.Context) error {

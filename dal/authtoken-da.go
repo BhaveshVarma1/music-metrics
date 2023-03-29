@@ -3,7 +3,7 @@ package dal
 import (
 	"database/sql"
 	"fmt"
-	"music-metrics-back/model"
+	"music-metrics/model"
 )
 
 func CreateAuthToken(tx *sql.Tx, token model.AuthToken) error {

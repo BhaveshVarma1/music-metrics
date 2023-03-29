@@ -3,7 +3,7 @@ package dal
 import (
 	"database/sql"
 	"fmt"
-	"music-metrics-back/model"
+	"music-metrics/model"
 )
 
 func CreateSong(tx *sql.Tx, song *model.Song) error {
