@@ -1,0 +1,9 @@
+.bottom-margin {
+    margin-bottom: 20px;
+}
+
+.register-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

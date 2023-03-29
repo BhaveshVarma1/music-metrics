@@ -1,0 +1,16 @@
+.terms-list {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 10px auto 100px;
+    font-size: 30px;
+    text-align: left;
+}
+
+.terms-list p {
+    text-align: center;
+}
+
+.terms-list-item {
+    font-size: 20px;
+}

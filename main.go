@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	buildPath := "../music-metrics-front/build"
+	buildPath := "public/build"
 
 	e := echo.New()
 

@@ -1,0 +1,41 @@
+.landing-image {
+    width: 100%;
+    border-bottom: #cce2e6 2px solid;
+}
+
+.landing-info {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px 20px;
+    height: 500px;
+}
+
+.landing-tile-text {
+    display: flex;
+    flex-direction: column;
+    color: #cce2e6;
+    padding: 10px;
+    justify-content: center;
+    text-align: center;
+}
+
+.landing-tile {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 40px;
+    border: 2px solid #cce2e6;
+    border-radius: 5px;
+    font-size: 28px;
+    width: 300px;
+    height: 420px;
+}
+
+.landing-tile:hover {
+    cursor: pointer;
+    width: 330px;
+    height: 462px;
+    font-size: 31px;
+    transition: .5s;
+}

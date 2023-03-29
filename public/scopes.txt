@@ -1,0 +1,24 @@
+SPOTIFY AUTHORIZATION SCOPES
+
+ALLOWED (read):
+user-read-playback-state,
+playlist-read-private,
+playlist-read-collaborative,
+user-follow-read,
+user-read-currently-playing,
+user-read-playback-position,
+user-read-email,
+user-top-read,
+user-read-recently-played,
+user-read-private,
+user-library-read,
+
+NOT ALLOWED (write):
+ugc-image-upload,
+app-remote-control,
+user-modify-playback-state,
+user-follow-modify,
+playlist-modify-private,
+playlist-modify-public,
+user-library-modify,
+streaming,
