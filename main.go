@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"music-metrics/handler"
@@ -22,10 +23,10 @@ func main() {
 	e.GET("/averageYear/:username", handler.HandleAverageYear)
 	e.GET("/songCounts/:username", handler.HandleSongCounts)
 
-	/*e.GET("/static/*", func(c echo.Context) error {
+	e.GET("/static/*", func(c echo.Context) error {
 		fmt.Println("Serving static file")
 		return c.File(buildPath + c.Request().URL.Path)
-	})*/
+	})
 
 	e.GET("/manifest.json", func(c echo.Context) error {
 		return c.File(buildPath + "/manifest.json")
