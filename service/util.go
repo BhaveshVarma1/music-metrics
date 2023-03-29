@@ -1,10 +1,8 @@
 package service
 
 import (
-	"bufio"
 	"fmt"
 	"math/rand"
-	"os"
 	"time"
 )
 
@@ -16,26 +14,6 @@ var DEFAULT_ID_LENGTH = 32
 var SPOTIFY_CLIENT_ID = "8b99139c99794d4b9e89b8367b0ac3f4"
 var SEPARATOR = ";;"
 var verbose = false
-
-func GetSecret() string {
-	file, err := os.Open("nogit2.txt")
-	if err != nil {
-		fmt.Println("Error opening file:", err)
-		return ""
-	}
-	defer func(file *os.File) {
-		err := file.Close()
-		if err != nil {
-			fmt.Println("Error closing file:", err)
-		}
-	}(file)
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		return scanner.Text()
-	}
-	return ""
-}
 
 func generateID(length int) string {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))

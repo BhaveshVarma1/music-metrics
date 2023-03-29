@@ -9,6 +9,7 @@ import (
 	"music-metrics/service"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -119,7 +120,7 @@ func main() {
 func refreshToken(refresh string) (string, error) {
 
 	uri := service.SPOTIFY_BASE_ACCOUNT + "/api/token"
-	secret := service.GetSecret()
+	secret := os.Getenv("SPOTIFY_CLIENT_SECRET")
 	if secret == "" {
 		return "", fmt.Errorf("secret is empty")
 	}

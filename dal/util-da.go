@@ -1,7 +1,6 @@
 package dal
 
 import (
-	"bufio"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -10,7 +9,7 @@ import (
 )
 
 func Db() *sql.DB {
-	password := GetPassword()
+	password := os.Getenv("MYSQL_PASSWORD")
 	if password == "" {
 		return nil
 	}
@@ -34,26 +33,6 @@ func DbClose(db *sql.DB) error {
 		return err
 	}
 	return nil
-}
-
-func GetPassword() string {
-	file, err := os.Open("nogit.txt")
-	if err != nil {
-		fmt.Println("Error opening file:", err)
-		return ""
-	}
-	defer func(file *os.File) {
-		err := file.Close()
-		if err != nil {
-			fmt.Println("Error closing file:", err)
-		}
-	}(file)
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		return scanner.Text()
-	}
-	return ""
 }
 
 func BeginTX() (*sql.Tx, *sql.DB, error) {

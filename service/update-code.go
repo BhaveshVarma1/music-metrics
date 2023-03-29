@@ -8,6 +8,7 @@ import (
 	"music-metrics/model"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 	"time"
 )
@@ -125,7 +126,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 func requestAccessToken(code string) (string, string, error) {
 
 	uri := SPOTIFY_BASE_ACCOUNT + "/api/token"
-	secret := GetSecret()
+	secret := os.Getenv("SPOTIFY_CLIENT_SECRET")
 	if secret == "" {
 		return "", "", fmt.Errorf("secret is empty")
 	}
