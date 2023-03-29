@@ -23,8 +23,13 @@ func main() {
 	e.GET("/averageYear/:username", handler.HandleAverageYear)
 	e.GET("/songCounts/:username", handler.HandleSongCounts)
 
+	e.GET("/static/*", func(c echo.Context) error {
+		fmt.Println("Serving static file")
+		return c.File(buildPath + c.Request().URL.Path)
+	})
+
 	e.GET("/*", func(c echo.Context) error {
-		fmt.Print("Serving index.html")
+		fmt.Println("Serving index.html")
 		return c.File(buildPath + "/index.html")
 	})
 
