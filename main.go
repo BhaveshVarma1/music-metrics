@@ -30,6 +30,7 @@ func main() {
 	})
 
 	e.GET("/manifest.json", func(c echo.Context) error {
+		fmt.Println("Serving manifest.json")
 		return c.File(buildPath + "/manifest.json")
 	})
 
