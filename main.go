@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	buildPath := "/public/build"
+	buildPath := "public/build"
 
 	e := echo.New()
 
