@@ -51,7 +51,7 @@ function CountsTable({ songCounts }) {
         <table className={"table-all"}>
             <thead>
             <tr>
-                <th>Song</th>
+                <th>Song name</th>
                 <th>Artist</th>
                 <th>Count</th>
             </tr>
