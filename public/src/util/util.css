@@ -25,19 +25,19 @@
 
 .login-input {
     background-color: #2a2e2f;
-    padding: 10px;
-    border-radius: 10px;
+    padding: .65rem;
+    border-radius: .65rem;
     border: none;
-    margin: 10px;
-    font-size: 18px;
-    width: 350px;
+    margin: .65rem;
+    font-size: 1.2rem;
+    width: 21.5rem;
     color: #3de2ff;
 }
 
 .login-input-wrapper {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 1.3rem;
     width: 95%;
     margin: 0;
     align-items: center;
