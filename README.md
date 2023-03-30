@@ -45,3 +45,7 @@ There are a couple cool things I was able to learn in this section. First of all
 ## What I Learned (Login portion):
 
 In this unit, despite it not being as lengthy as past units, I still learned a lot. One thing I thought was interesting was the different methods of authorization, like SSO, OAuth, etc. I also was unaware of things like AWS Cognito and Google Firebase, so it is interesting to know that even though I didn't use those for this class, there are third party options available for me to use. I was also interested to learn about password hashing. I attempted to add this functionality to my own project a couple weeks ago and had I read ahead to this unit, a lot of questions could have been answered.
+
+## What I Learned (WebSocket portion):
+
+WebSockets are really cool. As mentioned above, I have at least a little bit of experience with most of the concepts in this class, but the WebSocket protocol was completely new to me. I've never had a project before this that requires me to need that type of connection, but it is insanely useful. It honestly surprises me that it wasn't developed sooner. It is so nice for the client to not have to constantly poll the server for new information, and I'm sure it makes the total runtime in the end a certain amount faster. To add upon that, linking multiple clients to each other in a sort of web-chat feature isn't nearly as complex as you would think, and certainly simpler than it would have been 20 years ago. I definitely plan on using WebSocket quite a lot throughout my life of web/app development.
