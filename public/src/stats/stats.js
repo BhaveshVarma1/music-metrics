@@ -22,6 +22,7 @@ export function Stats() {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
+                fixArtistNames(data.songCounts)
                 setSongCounts(data.songCounts)
                 setDisplayedCounts(data.songCounts.slice(0, songCountsLimit))
             }).catch(error => {
@@ -85,8 +86,6 @@ export function Stats() {
 
 }
 
-
-
 function CountsTable({ displayedCounts }) {
     return (
         <table className={"table-all"}>
@@ -108,4 +107,10 @@ function CountsTable({ displayedCounts }) {
             </tbody>
         </table>
     )
+}
+
+function fixArtistNames(songCounts) {
+    songCounts.forEach(songCount => {
+        songCount.artist = songCount.artist.replace(';;', ', ')
+    })
 }
