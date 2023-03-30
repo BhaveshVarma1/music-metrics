@@ -35,6 +35,41 @@ export function Stats() {
                 <LoginButton text="LOGIN TO SPOTIFY"/>
             </div>)
     }
+
+    function DropdownMenu() {
+        const [isOpen, setIsOpen] = useState(false);
+
+        function toggle() {
+            setIsOpen(!isOpen);
+        }
+
+        function itemClicked(size) {
+            toggle()
+            setSongCountsLimit(size)
+        }
+
+        return (
+            <div className={'dropdown-wrapper'}>
+                <div className='dropdown'>
+                    <div className='dropdown-button' onClick={toggle}>
+                        Select table size... {songCountsLimit}
+                    </div>
+                    {isOpen && (
+                        <div className='dropdown-menu'>
+                            <ul>
+                                <li onClick={() => itemClicked(25)}>25</li>
+                                <li onClick={() => itemClicked(50)}>50</li>
+                                <li onClick={() => itemClicked(100)}>100</li>
+                                <li onClick={() => itemClicked(250)}>250</li>
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+        );
+    }
+
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
@@ -47,40 +82,7 @@ export function Stats() {
 
 }
 
-function DropdownMenu() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [value, setValue] = useState(100);
 
-    function toggle() {
-        setIsOpen(!isOpen);
-    }
-
-    function itemClicked(size) {
-        toggle()
-        setValue(size)
-    }
-
-    return (
-        <div className={'dropdown-wrapper'}>
-            <div className='dropdown'>
-                <div className='dropdown-button' onClick={toggle}>
-                    Select table size... {value}
-                </div>
-                {isOpen && (
-                    <div className='dropdown-menu'>
-                        <ul>
-                            <li onClick={() => itemClicked(25)}>25</li>
-                            <li onClick={() => itemClicked(50)}>50</li>
-                            <li onClick={() => itemClicked(100)}>100</li>
-                            <li onClick={() => itemClicked(250)}>250</li>
-                        </ul>
-                    </div>
-                )}
-            </div>
-        </div>
-
-    );
-}
 
 function CountsTable({ songCounts }) {
     return (
