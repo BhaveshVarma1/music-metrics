@@ -111,6 +111,6 @@ function CountsTable({ displayedCounts }) {
 
 function fixArtistNames(songCounts) {
     songCounts.forEach(songCount => {
-        songCount.artist = songCount.artist.replace(';;', ', ')
+        songCount.artist = songCount.artist.replaceAll(';;', ', ')
     })
 }
