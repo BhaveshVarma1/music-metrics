@@ -7,6 +7,7 @@ export function Stats() {
     const [songCountsLimit, setSongCountsLimit] = useState(100);
     const [averageYear, setAverageYear] = useState('Calculating...');
     const [songCounts, setSongCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
+    const [displayedCounts, setDisplayedCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
 
     useEffect(() => {
         fetch(BASE_URL_API + '/averageYear/' + localStorage.getItem('username'), fetchInit('/averageYear', null, getToken()))
@@ -21,7 +22,8 @@ export function Stats() {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setSongCounts(data.songCounts.slice(0, songCountsLimit))
+                setSongCounts(data.songCounts)
+                setDisplayedCounts(data.songCounts.slice(0, songCountsLimit))
             }).catch(error => {
             console.log("ERROR: " + error)
         })
@@ -46,7 +48,7 @@ export function Stats() {
         function itemClicked(size) {
             toggle()
             setSongCountsLimit(size)
-            setSongCounts(songCounts.slice(0, size))
+            setDisplayedCounts(songCounts.slice(0, size))
         }
 
         return (
@@ -77,7 +79,7 @@ export function Stats() {
             <SecondaryInfo text={"Average release year: " + averageYear}/>
             <SecondaryInfo text={"Song counts:"}/>
             <DropdownMenu/>
-            <CountsTable songCounts={songCounts}/>
+            <CountsTable displayedCounts={displayedCounts}/>
         </div>
     )
 
@@ -85,7 +87,7 @@ export function Stats() {
 
 
 
-function CountsTable({ songCounts }) {
+function CountsTable({ displayedCounts }) {
     return (
         <table className={"table-all"}>
             <thead>
@@ -96,7 +98,7 @@ function CountsTable({ songCounts }) {
             </tr>
             </thead>
             <tbody>
-            {songCounts.map(songCount => (
+            {displayedCounts.map(songCount => (
                 <tr className={"table-row"}>
                     <td>{songCount.song}</td>
                     <td>{songCount.artist}</td>
