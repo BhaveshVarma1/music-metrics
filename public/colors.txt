@@ -18,6 +18,9 @@ Less Dark
 Light
 #cce2e6
 
+Less Light
+#b3c9cc
+
 Success (Spotify Green)
 #1db954
 
