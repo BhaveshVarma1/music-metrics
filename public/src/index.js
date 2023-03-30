@@ -42,6 +42,7 @@ root.render(
             <Route path="/spotify-landing" element={<SpotifyLanding />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
+        <div style={{height: '3rem', width: '100%'}}></div>
         <Footer />
     </BrowserRouter>
 
