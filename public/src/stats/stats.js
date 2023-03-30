@@ -39,7 +39,8 @@ export function Stats() {
         <div>
             <PrimaryInfo text="Stats central."/>
             <SecondaryInfo text={"Average release year: " + averageYear}/>
-            <SecondaryInfo text={"Song counts (showing first " + <DropdownMenu/> + "):"}/>
+            <SecondaryInfo text={"Song counts (showing first " + songCountsLimit + "):"}/>
+            <DropdownMenu/>
             <CountsTable songCounts={songCounts}/>
         </div>
     )
@@ -48,22 +49,29 @@ export function Stats() {
 
 function DropdownMenu() {
     const [isOpen, setIsOpen] = useState(false);
+    const [value, setValue] = useState("Select table size...");
 
     function toggle() {
         setIsOpen(!isOpen);
     }
 
+    function itemClicked(size) {
+        toggle()
+        setValue(size)
+    }
+
     return (
         <div className='dropdown'>
             <div className='dropdown-button' onClick={toggle}>
-                Click Me!
+                {value}
             </div>
             {isOpen && (
                 <div className='dropdown-menu'>
                     <ul>
-                        <li>Option 1</li>
-                        <li>Option 2</li>
-                        <li>Option 3</li>
+                        <li onClick={() => itemClicked(25)}>25</li>
+                        <li onClick={() => itemClicked(50)}>50</li>
+                        <li onClick={() => itemClicked(100)}>100</li>
+                        <li onClick={() => itemClicked(250)}>250</li>
                     </ul>
                 </div>
             )}
