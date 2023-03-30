@@ -46,6 +46,7 @@ export function Stats() {
         function itemClicked(size) {
             toggle()
             setSongCountsLimit(size)
+            setSongCounts(songCounts.slice(0, size))
         }
 
         return (
