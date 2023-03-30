@@ -40,6 +40,11 @@
     margin: 0;
 }
 
+.dropdown-wrapper {
+    width: 100%;
+    text-align: center;
+}
+
 .login-button {
     background-color: #1db954;
     padding: 10px;

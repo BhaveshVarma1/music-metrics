@@ -61,21 +61,24 @@ function DropdownMenu() {
     }
 
     return (
-        <div className='dropdown'>
-            <div className='dropdown-button' onClick={toggle}>
-                Select table size... {value}
-            </div>
-            {isOpen && (
-                <div className='dropdown-menu'>
-                    <ul>
-                        <li onClick={() => itemClicked(25)}>25</li>
-                        <li onClick={() => itemClicked(50)}>50</li>
-                        <li onClick={() => itemClicked(100)}>100</li>
-                        <li onClick={() => itemClicked(250)}>250</li>
-                    </ul>
+        <div className={'dropdown-wrapper'}>
+            <div className='dropdown'>
+                <div className='dropdown-button' onClick={toggle}>
+                    Select table size... {value}
                 </div>
-            )}
+                {isOpen && (
+                    <div className='dropdown-menu'>
+                        <ul>
+                            <li onClick={() => itemClicked(25)}>25</li>
+                            <li onClick={() => itemClicked(50)}>50</li>
+                            <li onClick={() => itemClicked(100)}>100</li>
+                            <li onClick={() => itemClicked(250)}>250</li>
+                        </ul>
+                    </div>
+                )}
+            </div>
         </div>
+
     );
 }
 
