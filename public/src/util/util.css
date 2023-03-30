@@ -13,8 +13,8 @@
     left: 0;
     right: 0;
     text-align: center;
-    padding: 1rem;
-    font-size: 1.5rem;
+    padding: 0.7rem;
+    font-size: 1.3rem;
 }
 
 .login-error {
@@ -44,7 +44,7 @@
 }
 
 .logo-primary {
-    height: 50px;
+    height: 3rem;
 }
 
 .logo-primary:hover {
@@ -64,8 +64,8 @@
 }
 
 .nav-button {
-    padding: .65em 1.3em;
-    border-radius: .65em;
+    padding: .65rem 1.3rem;
+    border-radius: .65rem;
 }
 
 .nav-button:hover {
@@ -78,7 +78,7 @@
 .nav-buttons {
     display: flex;
     flex-direction: row;
-    padding: .65em;
+    padding: .65rem;
 }
 
 .primary-info {
@@ -97,13 +97,13 @@
 
 .secondary-info {
     text-align: center;
-    font-size: 30px;
+    font-size: 1.9rem;
     color: #cce2e6;
-    margin: 40px;
+    margin: 2.4rem;
 }
 
 .test-border {
-    border: red 2px solid;
+    border: red .1rem solid;
 }
 
 .text-color-white {
