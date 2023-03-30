@@ -40,10 +40,36 @@ export function Stats() {
             <PrimaryInfo text="Stats central."/>
             <SecondaryInfo text={"Average release year: " + averageYear}/>
             <SecondaryInfo text={"Song counts (showing first " + songCountsLimit + "):"}/>
+            <DropdownMenu/>
             <CountsTable songCounts={songCounts}/>
         </div>
     )
 
+}
+
+function DropdownMenu() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    function toggle() {
+        setIsOpen(!isOpen);
+    }
+
+    return (
+        <div className='dropdown'>
+            <div className='dropdown-button' onClick={toggle}>
+                Click Me!
+            </div>
+            {isOpen && (
+                <div className='dropdown-menu'>
+                    <ul>
+                        <li>Option 1</li>
+                        <li>Option 2</li>
+                        <li>Option 3</li>
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
 }
 
 function CountsTable({ songCounts }) {
