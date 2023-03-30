@@ -34,7 +34,7 @@
     text-align: left;
 }
 
-.table-row {
+.table-row td {
     padding: 10px 0;
-    border-bottom: 2px solid #cce2e6;
+    border-bottom: 1px solid #cce2e6;
 }
