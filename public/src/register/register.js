@@ -49,19 +49,6 @@ export function RegisterForm () {
         if (valid !== '') {
             setErrorVisible(true);
             setErrorText(valid);
-        } else {
-            /*fetchData('/register', {username, password, firstName, lastName, email})
-                .then(data => {
-                    if (data.success) {
-                        setErrorVisible(false);
-                        setErrorText('');
-                        localStorage.token = data.token;
-                        window.location.href = 'https://dev.musicmetrics.app';
-                    } else {
-                        setErrorVisible(true);
-                        setErrorText(data.message);
-                    }
-                })*/
         }
     }
 
