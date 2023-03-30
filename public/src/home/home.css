@@ -29,13 +29,13 @@
     border-radius: .3rem;
     font-size: 1.4rem;
     width: 17rem;
-    height: 22rem;
+    height: 24rem;
 }
 
 .landing-tile:hover {
     cursor: pointer;
     width: 18.7rem;
-    height: 24.2rem;
+    height: 26.4rem;
     font-size: 1.54rem;
     transition: .5s;
 }
