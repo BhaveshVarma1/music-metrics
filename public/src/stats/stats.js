@@ -93,7 +93,7 @@ function CountsTable({ displayedCounts }) {
             <tr className={"table-column-names"}>
                 <th>Song name</th>
                 <th>Artist</th>
-                <th>Count</th>
+                <th style={{textAlign: 'right'}}>Count</th>
             </tr>
             </thead>
             <tbody>
@@ -101,7 +101,7 @@ function CountsTable({ displayedCounts }) {
                 <tr className={"table-row"}>
                     <td>{songCount.song}</td>
                     <td>{songCount.artist}</td>
-                    <td>{songCount.count}</td>
+                    <td style={{textAlign: 'right'}}>{songCount.count}</td>
                 </tr>
             ))}
             </tbody>
