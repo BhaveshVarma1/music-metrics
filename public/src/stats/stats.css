@@ -31,11 +31,14 @@
     border: 2px solid #cce2e6;
 }
 
-.table-column-names > th {
+.table-column-names th {
     text-align: left;
 }
 
 .table-row {
+    border-bottom: 1px solid #555555;
+}
+
+.table-row td {
     padding: 10px 0;
-    border-bottom: 1px solid #cce2e6;
 }
