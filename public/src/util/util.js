@@ -25,6 +25,15 @@ const HTTP_METHODS = {
 // ELEMENTS COMMON TO EVERY PAGE ---------------------------------------------------------------------------------------
 
 export function Header() {
+
+    const navButtons = (
+        <div className='nav-buttons default-text-color'>
+            <NavButton url="/" text="HOME"/>
+            <NavButton url="/stats" text="STATS"/>
+            <NavButton url="/account" text="ACCOUNT"/>
+        </div>
+    )
+
     return (
         <header className="nav">
             <div>
@@ -36,11 +45,7 @@ export function Header() {
                     />
                 </Link>
             </div>
-            <div className='nav-buttons default-text-color'>
-                <NavButton url="/" text="HOME"/>
-                <NavButton url="/stats" text="STATS"/>
-                <NavButton url="/account" text="ACCOUNT"/>
-            </div>
+            {navButtons}
         </header>
     )
 }

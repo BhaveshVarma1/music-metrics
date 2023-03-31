@@ -18,7 +18,6 @@ import {Social} from "./social/social";
 import {SpotifyLanding} from "./util/spotify-landing";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-console.log('Root created')
 
 const socket = new WebSocket('wss://dev.musicmetrics.app/ws');
 socket.onopen = () => {
@@ -42,7 +41,6 @@ root.render(
             <Route path="/spotify-landing" element={<SpotifyLanding />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
-        {/*<div style={{height: '2rem', width: '100%'}}></div>*/}
         <Footer />
     </BrowserRouter>
 
