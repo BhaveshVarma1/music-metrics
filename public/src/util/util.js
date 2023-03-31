@@ -32,7 +32,7 @@ export function Header() {
                     <img
                         className="logo-primary"
                         src = {logo}
-                        alt = "Image not found."
+                        alt = "Unavailable."
                     />
                 </Link>
             </div>

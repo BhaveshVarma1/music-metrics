@@ -47,6 +47,12 @@
     height: 3rem;
 }
 
+@media (orientation: portrait) {
+    .logo-primary {
+        height: 2.5rem;
+    }
+}
+
 .logo-primary:hover {
     cursor: pointer;
 }
