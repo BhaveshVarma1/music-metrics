@@ -22,8 +22,8 @@
 }
 
 .hamburger-button {
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 2rem;
+    width: 2rem;
     background-color: transparent;
     display: flex;
     flex-direction: column;
@@ -32,7 +32,7 @@
 
 .hamburger-button-line {
     height: 0.2rem;
-    width: 2.2rem;
+    width: 2rem;
     background-color: #3de2ff;
     border-radius: 0.2rem;
 }
