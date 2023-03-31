@@ -58,23 +58,21 @@ export function Header() {
         }
 
         return (
-            <div className={'hamburger-wrapper'}>
-                <div className='hamburger'>
-                    <div className='hamburger-button' onClick={toggle}>
-                        <div className='hamburger-button-line'/>
-                        <div className='hamburger-button-line'/>
-                        <div className='hamburger-button-line'/>
-                    </div>
-                    {isOpen && (
-                        <div className='hamburger-menu'>
-                            <ul>
-                                <li onClick={toggle}><Link to="/" className='custom-link'>HOME</Link></li>
-                                <li onClick={toggle}><Link to="/stats" className='custom-link'>STATS</Link></li>
-                                <li onClick={toggle}><Link to="/account" className='custom-link'>ACCOUNT</Link></li>
-                            </ul>
-                        </div>
-                    )}
+            <div className='hamburger'>
+                <div className='hamburger-button' onClick={toggle}>
+                    <div className='hamburger-button-line'/>
+                    <div className='hamburger-button-line'/>
+                    <div className='hamburger-button-line'/>
                 </div>
+                {isOpen && (
+                    <div className='hamburger-menu'>
+                        <ul>
+                            <li onClick={toggle}><Link to="/" className='custom-link'>HOME</Link></li>
+                            <li onClick={toggle}><Link to="/stats" className='custom-link'>STATS</Link></li>
+                            <li onClick={toggle}><Link to="/account" className='custom-link'>ACCOUNT</Link></li>
+                        </ul>
+                    </div>
+                )}
             </div>
         )
     }
