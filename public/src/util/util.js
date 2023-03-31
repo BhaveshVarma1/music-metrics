@@ -77,7 +77,7 @@ export function Header() {
         )
     }
 
-    const [navButtons, setNavButtons] = useState(navButtonsLandscape);
+    const [navButtons, setNavButtons] = useState(navButtonsPortrait);
 
     // Dynamically change the navigation bar based on the orientation of the device.
     useEffect(() => {
