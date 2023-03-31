@@ -19,14 +19,14 @@
     border: .12rem solid #cce2e6;
     border-radius: .3rem;
     font-size: 1.4rem;
-    width: 17rem;
-    height: 24rem;
+    width: 15rem;
+    height: 22rem;
 }
 
 .landing-tile:hover {
     cursor: pointer;
-    width: 18.7rem;
-    height: 26.4rem;
+    width: 16.5rem;
+    height: 24.2rem;
     font-size: 1.54rem;
     transition: .5s;
 }
