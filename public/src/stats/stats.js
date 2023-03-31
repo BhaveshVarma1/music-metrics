@@ -52,6 +52,14 @@ export function Stats() {
             setDisplayedCounts(songCounts.slice(0, size))
         }
 
+        useEffect(() => {
+            document.addEventListener('click', (event) => {
+                if (isOpen && !event.target.classList.toString().includes('dropdown')) {
+                    setIsOpen(false);
+                }
+            })
+        }, [isOpen])
+
         return (
             <div className={'dropdown-wrapper'}>
                 <div className='dropdown'>
