@@ -39,8 +39,8 @@
 
 .hamburger-menu {
     position: absolute;
-    bottom: 100%;
-    right: 0;
+    top: 100%;
+    left: 0;
     padding: 0.5rem;
     background-color: #cce2e6;
     box-shadow: 0 .06rem .3rem rgba(0, 0, 0, 0.1);
