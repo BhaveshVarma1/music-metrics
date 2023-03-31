@@ -1,7 +1,7 @@
 .dropdown {
     position: relative;
     display: inline-block;
-    margin: .6rem auto 2rem;
+    margin: .6rem auto 3rem;
 }
 
 .dropdown-button {
@@ -69,7 +69,7 @@
 .table-all {
     color: #cce2e6;
     width: 90%;
-    margin: 0 auto 3rem;
+    margin: 0 auto 1rem;
     border-collapse: collapse;
 }
 
