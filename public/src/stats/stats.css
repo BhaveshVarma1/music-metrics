@@ -1,7 +1,7 @@
 .dropdown {
     position: relative;
     display: inline-block;
-    margin: 10px auto;
+    margin: .6rem auto;
 }
 
 .dropdown-button {
@@ -21,7 +21,7 @@
     right: 0;
     padding: 0.5rem;
     background-color: #cce2e6;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 .06rem .3rem rgba(0, 0, 0, 0.1);
     border-radius: 0.25rem;
     z-index: 1;
 }
@@ -48,11 +48,11 @@
 
 .login-button {
     background-color: #1db954;
-    padding: 10px;
-    border-radius: 10px;
+    padding: .6rem;
+    border-radius: .6rem;
     display: inline-block;
     color: #cce2e6;
-    margin: 10px;
+    margin: .6rem;
 }
 
 .login-button:hover {
@@ -69,7 +69,7 @@
 .table-all {
     color: #cce2e6;
     width: 90%;
-    margin: 0 auto 100px;
+    margin: 0 auto 63rem;
     border-collapse: collapse;
 }
 
@@ -79,14 +79,14 @@
 
 .table-column-names th {
     text-align: left;
-    padding: 10px 0;
-    border-bottom: 1px solid #555555;
+    padding: .62rem 0;
+    border-bottom: .06rem solid #555555;
 }
 
 .table-row {
-    border-bottom: 1px solid #555555;
+    border-bottom: .06rem solid #555555;
 }
 
 .table-row td {
-    padding: 10px 0;
+    padding: .62rem 0;
 }
