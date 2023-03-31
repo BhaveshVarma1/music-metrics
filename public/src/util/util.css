@@ -44,7 +44,7 @@
     top: 100%;
     right: 0;
     padding: 0.5rem;
-    background-color: #cce2e6;
+    background-color: transparent;
     box-shadow: 0 .06rem .3rem rgba(0, 0, 0, 0.1);
     border-radius: 0.25rem;
     z-index: 1;

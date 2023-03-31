@@ -67,9 +67,9 @@ export function Header() {
                 {isOpen && (
                     <div className='hamburger-menu'>
                         <ul>
-                            <li onClick={toggle}><Link to="/" className='custom-link'>HOME</Link></li>
-                            <li onClick={toggle}><Link to="/stats" className='custom-link'>STATS</Link></li>
-                            <li onClick={toggle}><Link to="/account" className='custom-link'>ACCOUNT</Link></li>
+                            <Link to="/" className='custom-link'><li onClick={toggle}>HOME</li></Link>
+                            <Link to="/stats" className='custom-link'><li onClick={toggle}>STATS</li></Link>
+                            <Link to="/account" className='custom-link'><li onClick={toggle}>ACCOUNT</li></Link>
                         </ul>
                     </div>
                 )}
