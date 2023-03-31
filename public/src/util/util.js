@@ -65,7 +65,7 @@ export function Header() {
                     setIsOpen(false);
                 }
             })
-        }, [])
+        }, [isOpen])
 
         return (
             <div className='hamburger'>
