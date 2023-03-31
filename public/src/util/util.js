@@ -57,6 +57,12 @@ export function Header() {
             setIsOpen(!isOpen);
         }
 
+        useEffect(() => {
+            document.addEventListener('click', () => {
+                setIsOpen(false);
+            })
+        }, [])
+
         return (
             <div className='hamburger'>
                 <div className='hamburger-button' onClick={toggle}>
