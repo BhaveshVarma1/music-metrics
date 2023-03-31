@@ -61,7 +61,7 @@ export function Stats() {
         }, [isOpen])
 
         return (
-            <div className={'dropdown-wrapper'}>
+            <div className={'dd-wrapper'}>
                 <div className='dropdown'>
                     {isOpen && (
                         <div className='dropdown-menu'>
