@@ -60,6 +60,7 @@ export function Header() {
         useEffect(() => {
             document.addEventListener('click', (event) => {
                 if (isOpen && !event.target.classList.contains('hamburger')) {
+                    console.log("here")
                     setIsOpen(false);
                 }
             })
