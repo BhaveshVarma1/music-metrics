@@ -1,7 +1,7 @@
 import './util.css';
 import logo from './logo.png';
 import {Link} from 'react-router-dom';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {GoogleLogin} from '@react-oauth/google';
 
 // GLOBAL CONSTANTS ----------------------------------------------------------------------------------------------------
@@ -26,7 +26,8 @@ const HTTP_METHODS = {
 
 export function Header() {
 
-    const navButtons = (
+    // The default navigation bar in landscape mode
+    const navButtonsLandscape = (
         <div className='nav-buttons default-text-color'>
             <NavButton url="/" text="HOME"/>
             <NavButton url="/stats" text="STATS"/>
@@ -34,8 +35,69 @@ export function Header() {
         </div>
     )
 
+    // The navigation bar in portrait mode, defined below.
+    const navButtonsPortrait = (
+        <HamburgerMenu/>
+    )
+
+    function NavButton(props) {
+        return (
+            <Link to={props.url} className='custom-link'>
+                <div className="nav-button">
+                    {props.text}
+                </div>
+            </Link>
+        )
+    }
+
+    function HamburgerMenu() {
+        const [isOpen, setIsOpen] = useState(false);
+
+        function toggle() {
+            setIsOpen(!isOpen);
+        }
+
+        return (
+            <div className={'hamburger-wrapper'}>
+                <div className='hamburger'>
+                    <div className='hamburger-button' onClick={toggle}>
+                        <div className='hamburger-button-line'/>
+                        <div className='hamburger-button-line'/>
+                        <div className='hamburger-button-line'/>
+                    </div>
+                    {isOpen && (
+                        <div className='hamburger-menu'>
+                            <ul>
+                                <li onClick={toggle}><Link to="/" className='custom-link'>HOME</Link></li>
+                                <li onClick={toggle}><Link to="/stats" className='custom-link'>STATS</Link></li>
+                                <li onClick={toggle}><Link to="/account" className='custom-link'>ACCOUNT</Link></li>
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </div>
+        )
+    }
+
+    const [navButtons, setNavButtons] = useState(navButtonsLandscape);
+
+    // Dynamically change the navigation bar based on the orientation of the device.
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(orientation: portrait)');
+        setNavButtons(mediaQuery.matches ? navButtonsPortrait : navButtonsLandscape);
+
+        const handleOrientationChange = (event) => {
+            setNavButtons(event.matches ? navButtonsPortrait : navButtonsLandscape);
+        };
+
+        mediaQuery.addEventListener('change', handleOrientationChange);
+        return () => {
+            mediaQuery.removeEventListener('change', handleOrientationChange);
+        };
+    }, [])
+
     return (
-        <header className="nav">
+        <header className="header-all">
             <div>
                 <Link to="/">
                     <img
@@ -47,16 +109,6 @@ export function Header() {
             </div>
             {navButtons}
         </header>
-    )
-}
-
-function NavButton(props) {
-    return (
-        <Link to={props.url} className='custom-link'>
-            <div className="nav-button">
-                {props.text}
-            </div>
-        </Link>
     )
 }
 
@@ -247,7 +299,6 @@ function logStorage() {
     console.log(localStorage);
     console.log(sessionStorage);
 }
-
 
 export class fetchData {
 }

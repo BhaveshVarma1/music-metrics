@@ -17,6 +17,45 @@
     font-size: 1rem;
 }
 
+.hamburger {
+
+}
+
+.hamburger-button {
+    height: 2.5rem;
+    width: 2.5rem;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.hamburger-button-line {
+    height: 0.2rem;
+    width: 2.2rem;
+    background-color: #3de2ff;
+    border-radius: 0.2rem;
+}
+
+.hamburger-menu {
+
+}
+
+.hamburger-wrapper {
+
+}
+
+.header-all {
+    /*width: 100%;*/
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding: 0.65rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .login-error {
     color: #e24646;
     font-size: 1rem;
@@ -55,18 +94,6 @@
 
 .logo-primary:hover {
     cursor: pointer;
-}
-
-.nav {
-    /*width: 100%;*/
-    z-index: 1;
-    top: 0;
-    left: 0;
-    padding: 0.65rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
 }
 
 .nav-button {
