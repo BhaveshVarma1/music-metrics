@@ -4,6 +4,12 @@
     margin: .6rem auto 3rem;
 }
 
+@media (orientation: portrait) {
+    .dropdown {
+        margin: .6rem auto 5rem;
+    }
+}
+
 .dropdown-button {
     display: flex;
     align-items: center;
