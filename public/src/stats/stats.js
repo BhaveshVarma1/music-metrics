@@ -55,9 +55,6 @@ export function Stats() {
         return (
             <div className={'dropdown-wrapper'}>
                 <div className='dropdown'>
-                    <div className='dropdown-button' onClick={toggle}>
-                        Select table size... {songCountsLimit}
-                    </div>
                     {isOpen && (
                         <div className='dropdown-menu'>
                             <ul>
@@ -68,6 +65,9 @@ export function Stats() {
                             </ul>
                         </div>
                     )}
+                    <div className='dropdown-button' onClick={toggle}>
+                        Select table size... {songCountsLimit}
+                    </div>
                 </div>
             </div>
 
