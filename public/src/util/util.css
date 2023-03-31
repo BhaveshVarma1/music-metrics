@@ -94,6 +94,12 @@
     margin: 1.5rem;
 }
 
+@media (orientation: portrait) {
+    .primary-info {
+        font-size: 2rem;
+    }
+}
+
 .register-message {
     font-size: 1rem;
     width: 20rem;
