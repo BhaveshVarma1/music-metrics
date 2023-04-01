@@ -12,7 +12,6 @@ import {Terms} from "./terms/terms";
 import {Account} from "./account/account";
 import {About} from "./about/about";
 import {Contact} from "./contact/contact";
-import {RegisterForm} from "./register/register";
 import {Playlist} from "./playlist/playlist";
 import {Social} from "./social/social";
 import {SpotifyLanding} from "./util/spotify-landing";
@@ -36,7 +35,6 @@ root.render(
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/playlist" element={<Playlist />} />
-            <Route path="/register" element={<RegisterForm />} />
             <Route path="/social" element={<Social />} />
             <Route path="/spotify-landing" element={<SpotifyLanding />} />
             <Route path="*" element={<NotFound />} />
