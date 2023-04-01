@@ -80,30 +80,24 @@
     align-items: center;
 }
 
-.login-error {
-    color: #e24646;
-    font-size: 1rem;
-    margin: 0.65rem;
+.login-button {
+    background-color: #1db954;
+    padding: .6rem;
+    border-radius: .6rem;
+    display: inline-block;
+    color: #cce2e6;
+    margin: .6rem;
 }
 
-.login-input {
-    background-color: #2a2e2f;
-    padding: .65rem;
-    border-radius: .65rem;
-    border: none;
-    margin: .65rem;
-    font-size: 1.2rem;
-    width: 21.5rem;
-    color: #3de2ff;
+.login-button:hover {
+    background-color: #cce2e6;
+    color: #1a1e1f;
+    cursor: pointer;
 }
 
-.login-input-wrapper {
-    display: flex;
-    flex-direction: column;
-    padding: 1.3rem;
-    width: 95%;
-    margin: 0;
-    align-items: center;
+.login-button-wrapper {
+    width: 100%;
+    text-align: center;
 }
 
 .logo-primary {
@@ -149,13 +143,6 @@
     .primary-info {
         font-size: 2.5rem;
     }
-}
-
-.register-message {
-    font-size: 1rem;
-    width: 20rem;
-    margin: 1rem;
-    text-align: center;
 }
 
 .secondary-info {

@@ -52,26 +52,6 @@
     text-align: center;
 }
 
-.login-button {
-    background-color: #1db954;
-    padding: .6rem;
-    border-radius: .6rem;
-    display: inline-block;
-    color: #cce2e6;
-    margin: .6rem;
-}
-
-.login-button:hover {
-    background-color: #cce2e6;
-    color: #1a1e1f;
-    cursor: pointer;
-}
-
-.login-button-wrapper {
-    width: 100%;
-    text-align: center;
-}
-
 .table-all {
     color: #cce2e6;
     width: 90%;

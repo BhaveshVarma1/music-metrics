@@ -10,7 +10,7 @@ export function Stats() {
     const [displayedCounts, setDisplayedCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
 
     useEffect(() => {
-        fetch(BASE_URL_API + '/averageYear/' + localStorage.getItem('username'), fetchInit('/averageYear', null, getToken()))
+        fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -18,7 +18,7 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-        fetch(BASE_URL_API + '/songCounts/' + localStorage.getItem('username'), fetchInit('/songCounts', null, getToken()))
+        fetch(BASE_URL_API + '/api/v1/songCounts/' + localStorage.getItem('username'), fetchInit('/api/v1/songCounts', null, getToken()))
             .then(response => response.json())
             .then(data => {
                 console.log(data)

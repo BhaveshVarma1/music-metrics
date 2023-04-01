@@ -19,9 +19,9 @@ func main() {
 	}))
 
 	// API ENDPOINTS
-	e.POST("/updateCode", handler.HandleUpdateCode)
-	e.GET("/averageYear/:username", handler.HandleAverageYear)
-	e.GET("/songCounts/:username", handler.HandleSongCounts)
+	e.POST("/api/v1/updateCode", handler.HandleUpdateCode)
+	e.GET("/api/v1/averageYear/:username", handler.HandleAverageYear)
+	e.GET("/api/v1/songCounts/:username", handler.HandleSongCounts)
 
 	// STATIC / REACT FILES
 	e.GET("/static/*", func(c echo.Context) error {
