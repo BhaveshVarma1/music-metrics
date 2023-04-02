@@ -7,6 +7,7 @@ import (
 )
 
 func CreateAlbum(tx *sql.Tx, album *model.AlbumBean) error {
+	fmt.Println("Creating album: ", album)
 	_, err := tx.Exec("INSERT INTO album (id, name, artist, genre, totalTracks, year, image, popularity) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
 		album.Id, album.Name, album.Artist, album.Genre, album.TotalTracks, album.Year, album.Image, album.Popularity)
 	if err != nil {
