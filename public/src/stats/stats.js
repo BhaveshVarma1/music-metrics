@@ -48,7 +48,7 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [])
+    }, [songCountsLimit, albumCountsLimit])
 
     if (getToken() == null || getToken() === 'undefined') {
         sessionStorage.setItem('route', 'stats')
