@@ -1,13 +1,11 @@
 .corner-rounded-left {
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
-    border-left: 0;
 }
 
 .corner-rounded-right {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
-    border-left: 0;
 }
 
 .dropdown {
@@ -75,7 +73,7 @@
     padding: .5rem;
     width: 50%;
     text-align: center;
-    border: .1rem solid #cce2e6;
+    border-top: .1rem solid #cce2e6;
 }
 
 .selector-selected {
