@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedVariable
+
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
 import {useEffect, useState} from "react";
