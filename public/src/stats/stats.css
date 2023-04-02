@@ -1,13 +1,13 @@
 .corner-rounded-left {
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
-    border-right: none;
+    border-left: 0;
 }
 
 .corner-rounded-right {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
-    border-left: none;
+    border-left: 0;
 }
 
 .dropdown {
