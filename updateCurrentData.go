@@ -99,6 +99,12 @@ func main() {
 
 	}
 
+	// Commit transaction
+	if dal.CommitAndClose(tx, db, true) != nil {
+		fmt.Println("Error committing transaction")
+		return
+	}
+
 }
 
 func getSongData(token string, songID string) (model.Track, error) {
