@@ -40,6 +40,7 @@ export function Stats() {
                 fixArtistNames(data.songCounts)
                 setSongCounts(data.songCounts)
                 setDisplayedCounts(data.songCounts.slice(0, songCountsLimit))
+                console.log(songCountsTable)
                 setDisplayedTable(songCountsTable)
             }).catch(error => {
                 console.log("ERROR: " + error)
