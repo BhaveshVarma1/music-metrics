@@ -77,7 +77,7 @@ export function Stats() {
     }
 
     function tempClick() {
-        console.log("CLICKED")
+        console.log(songCountsTable)
         console.log(displayedCounts)
     }
 
