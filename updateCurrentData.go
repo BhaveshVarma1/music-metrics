@@ -63,7 +63,7 @@ func main() {
 
 		album, err := dal.RetrieveAlbum(tx, track.Album.ID)
 		if err != nil {
-			fmt.Println("Error retrieving album: " + track.Album.ID)
+			fmt.Println("Error retrieving album: " + err.Error())
 			continue
 		}
 
