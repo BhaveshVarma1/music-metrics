@@ -14,6 +14,11 @@ export function Stats() {
     const [topAlbums, setTopAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedAlbums, setDisplayedAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
 
+    const songCountsTable = <CountsTable displayedCounts={displayedCounts}/>
+    const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
+    const [displayedTable, setDisplayedTable] = useState(songCountsTable);
+
+    // Call MusicMetrics APIs
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
             .then(response => response.json())
@@ -140,15 +145,47 @@ export function Stats() {
         );
     }
 
+    function TableSelector() {
+
+        const selectedStyle = {
+            backgroundColor: '#cce2e6',
+            color: '#1a1e1f'
+        }
+        const unselectedStyle = {
+            backgroundColor: '#1a1e1f',
+            color: '#cce2e6'
+        }
+
+        const [songStyle, setSongStyle] = useState(selectedStyle);
+        const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
+
+        function setToSong() {
+            setSongStyle(selectedStyle)
+            setAlbumStyle(unselectedStyle)
+            setDisplayedTable(songCountsTable)
+        }
+
+        function setToAlbum() {
+            setSongStyle(unselectedStyle)
+            setAlbumStyle(selectedStyle)
+            setDisplayedTable(topAlbumsTable)
+        }
+
+        return (
+            <div className={selector}>
+                <div style={songStyle} onClick={setToSong}>Top Songs</div>
+                <div style={albumStyle} onClick={setToAlbum}>Top Albums</div>
+            </div>
+        )
+    }
+
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
             <SecondaryInfo text={"Average release year: " + averageYear}/>
-            <SecondaryInfo text={"Song counts:"}/>
-            <CountsTable displayedCounts={displayedCounts}/>
-            <CountsDropdown/>
-            <AlbumsTable displayedAlbums={displayedAlbums}/>
-            <AlbumsDropdown/>
+            <TableSelector/>
+            {displayedTable}
+
         </div>
     )
 

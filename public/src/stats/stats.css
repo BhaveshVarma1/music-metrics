@@ -52,6 +52,14 @@
     text-align: center;
 }
 
+.selector {
+    display: flex;
+    border-radius: 1rem;
+    border: .1rem solid #cce2e6;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
 .table-all {
     color: #cce2e6;
     width: 90%;
