@@ -34,6 +34,9 @@ func main() {
 			continue
 		}
 
+		fmt.Println("TRACK: " + track.Name)
+		return
+
 		newAlbum := model.AlbumBean{
 			Id:          track.Album.ID,
 			Name:        track.Album.Name,
