@@ -8,7 +8,7 @@ import (
 
 func CreateSong(tx *sql.Tx, song *model.SongBean) error {
 
-	_, err := tx.Exec("INSERT INTO song (id, name, artist, album, explicit, popularity, duration) VALUES (?, ?, ?, ?, ?, ?, ?);",
+	_, err := tx.Exec("INSERT INTO song (`id`, `name`, `artist`, `album`, `explicit`, `popularity`, `duration`) VALUES (?, ?, ?, ?, ?, ?, ?);",
 		song.Id, song.Name, song.Artist, song.Album, song.Explicit, song.Popularity, song.Duration)
 	if err != nil {
 		return err
