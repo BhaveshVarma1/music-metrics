@@ -67,6 +67,7 @@ func main() {
 		}
 
 		if (album == model.AlbumBean{}) {
+			fmt.Println("Creating album: " + newAlbum.Id)
 			if dal.CreateAlbum(tx, &newAlbum) != nil {
 				fmt.Println("Error creating album: " + newAlbum.Id)
 				continue
