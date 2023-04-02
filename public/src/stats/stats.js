@@ -25,6 +25,9 @@ export function Stats() {
 
     // Call MusicMetrics APIs
     useEffect(() => {
+        if (getToken() == null || getToken() === 'undefined') {
+            return
+        }
         fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
             .then(response => response.json())
             .then(data => {
