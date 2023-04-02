@@ -12,6 +12,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -93,6 +94,8 @@ func main() {
 			fmt.Println("Error updating song: " + newSong.Id)
 			continue
 		}
+
+		time.Sleep(100 * time.Millisecond)
 
 	}
 
