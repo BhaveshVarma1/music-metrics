@@ -7,6 +7,7 @@ import (
 	"music-metrics/model"
 	"music-metrics/service"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -36,10 +37,10 @@ func main() {
 		newAlbum := model.AlbumBean{
 			Id:          track.Album.ID,
 			Name:        track.Album.Name,
-			Artist:      artistsToString(track.Album.Artists),
+			Artist:      artistsToString2(track.Album.Artists),
 			Genre:       strings.Join(track.Album.Genres, service.SEPARATOR),
 			TotalTracks: track.Album.TotalTracks,
-			Year:        yearFromReleaseDate(track.Album.ReleaseDate),
+			Year:        yearFromReleaseDate2(track.Album.ReleaseDate),
 			Image:       track.Album.Images[0].URL,
 			Popularity:  track.Album.Popularity,
 		}
@@ -65,7 +66,7 @@ func main() {
 		newSong := model.SongBean{
 			Id:         track.ID,
 			Name:       track.Name,
-			Artist:     artistsToString(track.Artists),
+			Artist:     artistsToString2(track.Artists),
 			Album:      track.Album.ID,
 			Explicit:   track.Explicit,
 			Popularity: track.Popularity,
@@ -109,4 +110,20 @@ func getSongData(songID string) (model.Track, error) {
 
 	return respBody, nil
 
+}
+
+func artistsToString2(artists []model.Artist) string {
+	var arr []string
+	for _, artist := range artists {
+		arr = append(arr, artist.Name)
+	}
+	return strings.Join(arr, service.SEPARATOR)
+}
+
+func yearFromReleaseDate2(date string) int {
+	i, err := strconv.Atoi(date[:4])
+	if err != nil {
+		return -1
+	}
+	return i
 }
