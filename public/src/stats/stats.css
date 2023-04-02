@@ -68,21 +68,23 @@
     border-radius: .5rem;
     cursor: pointer;
     margin: 0 auto;
-    width: 15rem;
+    width: 12rem;
+}
+
+.selector-option {
+    padding: .5rem;
+    width: 50%;
+    text-align: center;
 }
 
 .selector-selected {
     background-color: #cce2e6;
     color: #1a1e1f;
-    padding: .5rem;
-    width: 50%;
 }
 
 .selector-unselected {
     background-color: #1a1e1f;
     color: #cce2e6;
-    padding: .5rem;
-    width: 50%;
 }
 
 .table-all {

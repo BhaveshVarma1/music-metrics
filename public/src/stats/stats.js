@@ -167,8 +167,8 @@ export function Stats() {
 
         return (
             <div className={'selector'}>
-                <div className={songStyle + ' corner-rounded-left'} onClick={setToSong}>Top Songs</div>
-                <div className={albumStyle + ' corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
+                <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+                <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
             </div>
         )
     }
