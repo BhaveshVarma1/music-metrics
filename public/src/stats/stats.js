@@ -23,9 +23,9 @@ export function Stats() {
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
     const [displayedTable, setDisplayedTable] = useState(songCountsTable);
 
-    const songLimitOptions = [25, 50, 100, 250]
+    /*const songLimitOptions = [25, 50, 100, 250]
     const albumLimitOptions = [25, 50, 100, 250]
-    const [possibleDropdownValues, setPossibleDropdownValues] = useState(songLimitOptions)
+    const [possibleDropdownValues, setPossibleDropdownValues] = useState(songLimitOptions)*/
 
     // Call MusicMetrics APIs
     useEffect(() => {
@@ -89,6 +89,92 @@ export function Stats() {
         setDisplayedTable(songCountsTable)
     }
 
+    function CountsDropdown() {
+        const [isOpen, setIsOpen] = useState(false);
+
+        function toggle() {
+            setIsOpen(!isOpen);
+        }
+
+        function itemClicked(size) {
+            toggle()
+            setSongCountsLimit(size)
+            setDisplayedCounts(songCounts.slice(0, size))
+        }
+
+        useEffect(() => {
+            document.addEventListener('click', (event) => {
+                if (isOpen && !event.target.classList.toString().includes('dropdown')) {
+                    setIsOpen(false);
+                }
+            })
+        }, [isOpen])
+
+        return (
+            <div className={'dd-wrapper'}>
+                <div className='dropdown'>
+                    {isOpen && (
+                        <div className='dropdown-menu'>
+                            <ul>
+                                <li onClick={() => itemClicked(25)}>25</li>
+                                <li onClick={() => itemClicked(50)}>50</li>
+                                <li onClick={() => itemClicked(100)}>100</li>
+                                <li onClick={() => itemClicked(250)}>250</li>
+                            </ul>
+                        </div>
+                    )}
+                    <div className='dropdown-button' onClick={toggle}>
+                        Select table size... {songCountsLimit}
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
+
+    function AlbumsDropdown() {
+        const [isOpen, setIsOpen] = useState(false);
+
+        function toggle() {
+            setIsOpen(!isOpen);
+        }
+
+        function itemClicked(size) {
+            toggle()
+            setAlbumCountsLimit(size)
+            setDisplayedAlbums(topAlbums.slice(0, size))
+        }
+
+        useEffect(() => {
+            document.addEventListener('click', (event) => {
+                if (isOpen && !event.target.classList.toString().includes('dropdown')) {
+                    setIsOpen(false);
+                }
+            })
+        }, [isOpen])
+
+        return (
+            <div className={'dd-wrapper'}>
+                <div className='dropdown'>
+                    {isOpen && (
+                        <div className='dropdown-menu'>
+                            <ul>
+                                <li onClick={() => itemClicked(10)}>10</li>
+                                <li onClick={() => itemClicked(25)}>25</li>
+                                <li onClick={() => itemClicked(50)}>50</li>
+                                <li onClick={() => itemClicked(100)}>100</li>
+                            </ul>
+                        </div>
+                    )}
+                    <div className='dropdown-button' onClick={toggle}>
+                        Select table size... {albumCountsLimit}
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
+
     return (
         <div>
             <div onClick={tempClick}><PrimaryInfo text="Stats central."/></div>
@@ -98,96 +184,10 @@ export function Stats() {
                 <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
             </div>
             {displayedTable}
-            <CountsDropdown setSongCountsLimit={setSongCountsLimit} setDisplayedCounts={setDisplayedCounts}/>
+            <CountsDropdown/>
         </div>
     )
 
-}
-
-function CountsDropdown(setSongCountsLimit, setDisplayedCounts) {
-    const [isOpen, setIsOpen] = useState(false);
-
-    function toggle() {
-        setIsOpen(!isOpen);
-    }
-
-    function itemClicked(size) {
-        toggle()
-        setSongCountsLimit(size)
-        setDisplayedCounts(songCounts.slice(0, size))
-    }
-
-    useEffect(() => {
-        document.addEventListener('click', (event) => {
-            if (isOpen && !event.target.classList.toString().includes('dropdown')) {
-                setIsOpen(false);
-            }
-        })
-    }, [isOpen])
-
-    return (
-        <div className={'dd-wrapper'}>
-            <div className='dropdown'>
-                {isOpen && (
-                    <div className='dropdown-menu'>
-                        <ul>
-                            <li onClick={() => itemClicked(25)}>25</li>
-                            <li onClick={() => itemClicked(50)}>50</li>
-                            <li onClick={() => itemClicked(100)}>100</li>
-                            <li onClick={() => itemClicked(250)}>250</li>
-                        </ul>
-                    </div>
-                )}
-                <div className='dropdown-button' onClick={toggle}>
-                    Select table size... {songCountsLimit}
-                </div>
-            </div>
-        </div>
-
-    );
-}
-
-function AlbumsDropdown() {
-    const [isOpen, setIsOpen] = useState(false);
-
-    function toggle() {
-        setIsOpen(!isOpen);
-    }
-
-    function itemClicked(size) {
-        toggle()
-        setAlbumCountsLimit(size)
-        setDisplayedAlbums(topAlbums.slice(0, size))
-    }
-
-    useEffect(() => {
-        document.addEventListener('click', (event) => {
-            if (isOpen && !event.target.classList.toString().includes('dropdown')) {
-                setIsOpen(false);
-            }
-        })
-    }, [isOpen])
-
-    return (
-        <div className={'dd-wrapper'}>
-            <div className='dropdown'>
-                {isOpen && (
-                    <div className='dropdown-menu'>
-                        <ul>
-                            <li onClick={() => itemClicked(10)}>10</li>
-                            <li onClick={() => itemClicked(25)}>25</li>
-                            <li onClick={() => itemClicked(50)}>50</li>
-                            <li onClick={() => itemClicked(100)}>100</li>
-                        </ul>
-                    </div>
-                )}
-                <div className='dropdown-button' onClick={toggle}>
-                    Select table size... {albumCountsLimit}
-                </div>
-            </div>
-        </div>
-
-    );
 }
 
 function CountsTable({ displayedCounts }) {
