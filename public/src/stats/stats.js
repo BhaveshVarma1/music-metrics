@@ -6,6 +6,10 @@ import {useEffect, useState} from "react";
 
 export function Stats() {
 
+    window.onload = function () {
+        console.log("reloaded")
+    }
+
     const [songCountsLimit, setSongCountsLimit] = useState(100);
     const [albumCountsLimit, setAlbumCountsLimit] = useState(100);
     const [averageYear, setAverageYear] = useState('Calculating...');
