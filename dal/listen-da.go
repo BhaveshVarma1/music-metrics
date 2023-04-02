@@ -6,7 +6,7 @@ import (
 	"music-metrics/model"
 )
 
-func CreateListen(tx *sql.Tx, listen model.Listen) error {
+func CreateListen(tx *sql.Tx, listen model.ListenBean) error {
 	_, err := tx.Exec("INSERT INTO listen (username, timestamp, songID) VALUES(?,?,?);", listen.Username, listen.Timestamp, listen.SongId)
 	if err != nil {
 		return err
@@ -14,10 +14,10 @@ func CreateListen(tx *sql.Tx, listen model.Listen) error {
 	return nil
 }
 
-func RetrieveListen(tx *sql.Tx, username string, timestamp int64) (model.Listen, error) {
+func RetrieveListen(tx *sql.Tx, username string, timestamp int64) (model.ListenBean, error) {
 	rows, err := tx.Query("SELECT * FROM listen WHERE username = ? AND timestamp = ?;", username, timestamp)
 	if err != nil {
-		return model.Listen{}, err
+		return model.ListenBean{}, err
 	}
 	defer func(rows *sql.Rows) {
 		err := rows.Close()
@@ -25,15 +25,15 @@ func RetrieveListen(tx *sql.Tx, username string, timestamp int64) (model.Listen,
 			fmt.Println("Error closing rows:", err)
 		}
 	}(rows)
-	var listen model.Listen
+	var listen model.ListenBean
 	for rows.Next() {
 		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.SongId)
 		if err != nil {
-			return model.Listen{}, err
+			return model.ListenBean{}, err
 		}
 		return listen, nil
 	}
-	return model.Listen{}, nil
+	return model.ListenBean{}, nil
 }
 
 func DeleteListen(tx *sql.Tx, username string, timestamp int64) error {
@@ -52,10 +52,10 @@ func DeleteListenByUsername(tx *sql.Tx, username string) error {
 	return nil
 }
 
-func GetMostRecentListen(tx *sql.Tx, username string) (model.Listen, error) {
+func GetMostRecentListen(tx *sql.Tx, username string) (model.ListenBean, error) {
 	rows, err := tx.Query("SELECT * FROM listen WHERE username = ? ORDER BY timestamp DESC LIMIT 1;", username)
 	if err != nil {
-		return model.Listen{}, err
+		return model.ListenBean{}, err
 	}
 	defer func(rows *sql.Rows) {
 		err := rows.Close()
@@ -63,15 +63,15 @@ func GetMostRecentListen(tx *sql.Tx, username string) (model.Listen, error) {
 			fmt.Println("Error closing rows:", err)
 		}
 	}(rows)
-	var listen model.Listen
+	var listen model.ListenBean
 	for rows.Next() {
 		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.SongId)
 		if err != nil {
-			return model.Listen{}, err
+			return model.ListenBean{}, err
 		}
 		return listen, nil
 	}
-	return model.Listen{}, nil
+	return model.ListenBean{}, nil
 }
 
 func ClearListen(tx *sql.Tx) error {

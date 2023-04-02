@@ -35,6 +35,7 @@ func main() {
 			}
 		}
 
+		// For every user in the database
 		for _, user := range users {
 			// Get new access token
 			newToken, err := refreshToken(user.Refresh)
@@ -60,7 +61,7 @@ func main() {
 				fmt.Println("Error getting most recent listen for username: " + user.Username)
 				continue
 			}
-			if (mostRecentListen == model.Listen{}) {
+			if (mostRecentListen == model.ListenBean{}) {
 				oldTime = 0
 			} else {
 				oldTime = mostRecentListen.Timestamp
@@ -77,16 +78,45 @@ func main() {
 						fmt.Println(err)
 						continue
 					}
-					if (song == model.Song{}) {
+					if (song == model.SongBean{}) {
 						err = dal.CreateSong(tx, &rpObj.Song)
 						if err != nil {
 							fmt.Println("Error creating song for username: " + user.Username)
 							continue
 						}
+					} else {
+						// Update song if it is already there
+						err = dal.UpdateSong(tx, &rpObj.Song)
+						if err != nil {
+							fmt.Println("Error updating song for username: " + user.Username)
+							continue
+						}
+					}
+
+					// Add album to database if it isn't already there
+					album, err := dal.RetrieveAlbum(tx, rpObj.Album.Id)
+					if err != nil {
+						fmt.Println("Error retrieving album for username: " + user.Username)
+						fmt.Println(err)
+						continue
+					}
+					if (album == model.AlbumBean{}) {
+						err = dal.CreateAlbum(tx, &rpObj.Album)
+						if err != nil {
+							fmt.Println("Error creating album for username: " + user.Username)
+							continue
+						}
+					} else {
+						// Update album if it is already there
+						err = dal.UpdateAlbum(tx, &rpObj.Album)
+						if err != nil {
+							fmt.Println("Error updating album for username: " + user.Username)
+							continue
+						}
 					}
 
 					// Add listen to database
-					newListen := model.Listen{
+					newListen := model.ListenBean{
 						Username:  user.Username,
 						Timestamp: rpObj.Timestamp,
 						SongId:    rpObj.Song.Id,
@@ -194,19 +224,28 @@ func getRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 
 	var toReturn []model.RecentlyPlayedObject
 	for _, item := range respBody.Items {
-		song := model.Song{
+		song := model.SongBean{
 			Id:         item.Track.ID,
 			Name:       item.Track.Name,
 			Artist:     artistsToString(item.Track.Artists),
-			Album:      item.Track.Album.Name,
-			Genre:      strings.Join(item.Track.Album.Genres, service.SEPARATOR),
+			Album:      item.Track.Album.ID,
 			Explicit:   item.Track.Explicit,
 			Popularity: item.Track.Popularity,
 			Duration:   item.Track.DurationMs,
-			Year:       yearFromReleaseDate(item.Track.Album.ReleaseDate),
+		}
+		album := model.AlbumBean{
+			Id:          item.Track.Album.ID,
+			Name:        item.Track.Album.Name,
+			Artist:      artistsToString(item.Track.Album.Artists),
+			Genre:       strings.Join(item.Track.Album.Genres, service.SEPARATOR),
+			TotalTracks: item.Track.Album.TotalTracks,
+			Year:        yearFromReleaseDate(item.Track.Album.ReleaseDate),
+			Image:       item.Track.Album.Images[0].URL,
+			Popularity:  item.Track.Album.Popularity,
 		}
 		returnObj := model.RecentlyPlayedObject{
 			Song:      song,
+			Album:     album,
 			Timestamp: datetimeToUnixMilli(item.PlayedAt),
 		}
 		toReturn = append(toReturn, returnObj)

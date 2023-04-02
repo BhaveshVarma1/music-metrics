@@ -16,10 +16,10 @@ func main() {
 		return
 	}
 
-	err = dal.ClearUsers(tx)
-	err = dal.ClearAuthTokens(tx)
-	err = dal.ClearSongs(tx)
-	err = dal.ClearListen(tx)
+	//err = dal.ClearUsers(tx)
+	//err = dal.ClearAuthTokens(tx)
+	//err = dal.ClearSongs(tx)
+	//err = dal.ClearListen(tx)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -29,6 +29,6 @@ func main() {
 		return
 	}
 
-	fmt.Println("Database cleared.")
+	//fmt.Println("Database cleared.")
 
 }

@@ -39,3 +39,14 @@ CREATE TABLE listen (
 	FOREIGN KEY (username) REFERENCES user(username),
 	FOREIGN KEY (songID) REFERENCES song(id)
 );
+CREATE TABLE album (
+    id varchar(255) not null,
+    name varchar(255) not null,
+    artist varchar(1023) not null,
+    genre varchar(1023) not null,
+    totalTracks int not null,
+    year int not null,
+    image varchar(1023) not null,
+    popularity int not null,
+    PRIMARY KEY (id)
+);

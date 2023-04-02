@@ -6,7 +6,7 @@ import (
 	"music-metrics/model"
 )
 
-func CreateUser(tx *sql.Tx, user model.User) error {
+func CreateUser(tx *sql.Tx, user model.UserBean) error {
 	_, err := tx.Exec("INSERT INTO user (username, displayName, email, refresh, timestamp) VALUES (?, ?, ?, ?, ?);",
 		user.Username, user.DisplayName, user.Email, user.Refresh, user.Timestamp)
 	if err != nil {
@@ -15,10 +15,10 @@ func CreateUser(tx *sql.Tx, user model.User) error {
 	return nil
 }
 
-func RetrieveUser(tx *sql.Tx, username string) (model.User, error) {
+func RetrieveUser(tx *sql.Tx, username string) (model.UserBean, error) {
 	rows, err := tx.Query("SELECT * FROM user WHERE username = ?;", username)
 	if err != nil {
-		return model.User{}, err
+		return model.UserBean{}, err
 	}
 	defer func(rows *sql.Rows) {
 		err := rows.Close()
@@ -26,18 +26,18 @@ func RetrieveUser(tx *sql.Tx, username string) (model.User, error) {
 			fmt.Println("Error closing rows: ", err)
 		}
 	}(rows)
-	var user model.User
+	var user model.UserBean
 	for rows.Next() {
 		err = rows.Scan(&user.Username, &user.DisplayName, &user.Email, &user.Refresh, &user.Timestamp)
 		if err != nil {
-			return model.User{}, err
+			return model.UserBean{}, err
 		}
 		return user, nil
 	}
-	return model.User{}, nil
+	return model.UserBean{}, nil
 }
 
-func UpdateUser(tx *sql.Tx, user model.User) error {
+func UpdateUser(tx *sql.Tx, user model.UserBean) error {
 	_, err := tx.Exec("UPDATE user SET displayName = ?, email = ?, refresh = ?, timestamp = ? WHERE username = ?;",
 		user.DisplayName, user.Email, user.Refresh, user.Timestamp, user.Username)
 	if err != nil {
@@ -46,7 +46,7 @@ func UpdateUser(tx *sql.Tx, user model.User) error {
 	return nil
 }
 
-func RetrieveAllUsers(tx *sql.Tx) ([]model.User, error) {
+func RetrieveAllUsers(tx *sql.Tx) ([]model.UserBean, error) {
 	rows, err := tx.Query("SELECT * FROM user;")
 	if err != nil {
 		return nil, err
@@ -57,9 +57,9 @@ func RetrieveAllUsers(tx *sql.Tx) ([]model.User, error) {
 			fmt.Println("Error closing rows: ", err)
 		}
 	}(rows)
-	var users []model.User
+	var users []model.UserBean
 	for rows.Next() {
-		var user model.User
+		var user model.UserBean
 		err = rows.Scan(&user.Username, &user.DisplayName, &user.Email, &user.Refresh, &user.Timestamp)
 		if err != nil {
 			return nil, err

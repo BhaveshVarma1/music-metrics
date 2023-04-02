@@ -33,7 +33,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 	}
 	PrintMessage("Successfully got access token from Spotify, now getting user info...")
 
-	// Get User Info from Spotify
+	// Get UserBean Info from Spotify
 	currUser, err := requestUserInfo(accessToken)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
@@ -54,11 +54,11 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 	}
 
-	var token model.AuthToken
+	var token model.AuthTokenBean
 
 	// If user does not exist, create user and auth token
-	if (existingUser == model.User{}) {
-		PrintMessage("User does not exist, creating user and auth token...")
+	if (existingUser == model.UserBean{}) {
+		PrintMessage("UserBean does not exist, creating user and auth token...")
 		currUser.Timestamp = time.Now().UnixMilli()
 		err = dal.CreateUser(tx, currUser)
 		if err != nil {
@@ -67,7 +67,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			}
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
-		token = model.AuthToken{
+		token = model.AuthTokenBean{
 			Username: currUser.Username,
 			Token:    generateID(DEFAULT_ID_LENGTH),
 		}
@@ -79,8 +79,8 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
 		PrintMessage("Successfully created user and auth token")
-	} else { // User already exists, update them and get auth token
-		PrintMessage("User already exists, updating user and getting auth token...")
+	} else { // UserBean already exists, update them and get auth token
+		PrintMessage("UserBean already exists, updating user and getting auth token...")
 		currUser.Timestamp = existingUser.Timestamp
 		err = dal.UpdateUser(tx, currUser)
 		if err != nil {
@@ -96,7 +96,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			}
 			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 		}
-		if (token == model.AuthToken{}) {
+		if (token == model.AuthTokenBean{}) {
 			PrintMessage("Token is null, returning (this should not happen)")
 			if dal.CommitAndClose(tx, db, false) != nil {
 				return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
@@ -166,13 +166,13 @@ func requestAccessToken(code string) (string, string, error) {
 	return tokenResp.AccessToken, tokenResp.Refresh, nil
 }
 
-func requestUserInfo(access string) (model.User, error) {
+func requestUserInfo(access string) (model.UserBean, error) {
 
 	uri := SPOTIFY_BASE_API + "/me"
 
 	req, err := http.NewRequest("GET", uri, nil)
 	if err != nil {
-		return model.User{}, err
+		return model.UserBean{}, err
 	}
 
 	req.Header.Set("Authorization", "Bearer "+access)
@@ -180,18 +180,18 @@ func requestUserInfo(access string) (model.User, error) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return model.User{}, err
+		return model.UserBean{}, err
 	}
 
 	var getMeResponse model.GetMeResponse
 	err = json.NewDecoder(resp.Body).Decode(&getMeResponse)
 	if err != nil {
-		return model.User{}, err
+		return model.UserBean{}, err
 	}
 
 	err = resp.Body.Close()
 	if err != nil {
-		return model.User{}, err
+		return model.UserBean{}, err
 	}
-	return model.User{Username: getMeResponse.ID, DisplayName: getMeResponse.DisplayName, Email: getMeResponse.Email}, nil
+	return model.UserBean{Username: getMeResponse.ID, DisplayName: getMeResponse.DisplayName, Email: getMeResponse.Email}, nil
 }
