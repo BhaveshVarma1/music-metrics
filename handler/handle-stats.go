@@ -79,7 +79,7 @@ func HandleSongCounts(c echo.Context) error {
 	return c.JSON(200, model.SongCountsResponse{Success: true, SongCounts: result})
 }
 
-/*func HandleTopAlbums(c echo.Context) error {
+func HandleTopAlbums(c echo.Context) error {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
@@ -114,4 +114,3 @@ func HandleSongCounts(c echo.Context) error {
 
 	return c.JSON(200, model.TopAlbumsResponse{Success: true, TopAlbums: result})
 }
-*/

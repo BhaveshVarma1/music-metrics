@@ -47,6 +47,12 @@ type SongCountsResponse struct {
 	SongCounts []SongCount `json:"songCounts,omitempty"`
 }
 
+type TopAlbumsResponse struct {
+	Message   string     `json:"message,omitempty"`
+	Success   bool       `json:"success"`
+	TopAlbums []TopAlbum `json:"topAlbums,omitempty"`
+}
+
 type UpdateCodeResponse struct {
 	Message     string `json:"message,omitempty"`
 	Success     bool   `json:"success"`

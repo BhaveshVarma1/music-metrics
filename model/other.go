@@ -11,3 +11,10 @@ type SongCount struct {
 	Artist string `json:"artist"`
 	Count  int    `json:"count"`
 }
+
+type TopAlbum struct {
+	Album  string `json:"album"`
+	Artist string `json:"artist"`
+	Image  string `json:"image"`
+	Count  int    `json:"count"`
+}

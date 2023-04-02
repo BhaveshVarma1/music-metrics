@@ -57,3 +57,36 @@ func GetSongCounts(tx *sql.Tx, username string) ([]model.SongCount, error) {
 
 	return results, nil
 }
+
+func GetTopAlbums(tx *sql.Tx, username string) ([]model.TopAlbum, error) {
+	stmt, err := tx.Prepare("SELECT album.name, album.artist, album.image, COUNT(*) FROM album INNER JOIN song ON album.id = song.album INNER JOIN listen ON song.id = listen.songID WHERE username = ? GROUP BY album.id ORDER BY COUNT(*) DESC;")
+	if err != nil {
+		return nil, err
+	}
+
+	var results []model.TopAlbum
+	rows, err := stmt.Query(username)
+	if err != nil {
+		return nil, err
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			fmt.Println("Error closing rows:", err)
+		}
+	}(rows)
+
+	for rows.Next() {
+		var album string
+		var artist string
+		var image string
+		var count int
+		err = rows.Scan(&album, &artist, &image, &count)
+		if err != nil {
+			return nil, err
+		}
+		results = append(results, model.TopAlbum{Album: album, Artist: artist, Image: image, Count: count})
+	}
+
+	return results, nil
+}

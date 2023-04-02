@@ -22,6 +22,7 @@ func main() {
 	e.POST("/api/v1/updateCode", handler.HandleUpdateCode)
 	e.GET("/api/v1/averageYear/:username", handler.HandleAverageYear)
 	e.GET("/api/v1/songCounts/:username", handler.HandleSongCounts)
+	e.GET("/api/v1/topAlbums/:username", handler.HandleTopAlbums)
 
 	// STATIC / REACT FILES
 	e.GET("/static/*", func(c echo.Context) error {

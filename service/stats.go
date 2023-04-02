@@ -50,3 +50,26 @@ func GetSongCounts(username string) []model.SongCount {
 	return result
 
 }
+
+func GetTopAlbums(username string) []model.TopAlbum {
+
+	tx, db, err := dal.BeginTX()
+	if err != nil {
+		return nil
+	}
+
+	result, err := dal.GetTopAlbums(tx, username)
+	if err != nil {
+		if dal.CommitAndClose(tx, db, false) != nil {
+			return nil
+		}
+		return nil
+	}
+
+	if dal.CommitAndClose(tx, db, true) != nil {
+		return nil
+	}
+
+	return result
+
+}
