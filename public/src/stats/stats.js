@@ -23,6 +23,10 @@ export function Stats() {
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
     const [displayedTable, setDisplayedTable] = useState(songCountsTable);
 
+    const songLimitOptions = [25, 50, 100, 250]
+    const albumLimitOptions = [25, 50, 100, 250]
+    const [possibleDropdownValues, setPossibleDropdownValues] = useState(songLimitOptions)
+
     // Call MusicMetrics APIs
     useEffect(() => {
         if (getToken() == null || getToken() === 'undefined') {
@@ -94,13 +98,13 @@ export function Stats() {
                 <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
             </div>
             {displayedTable}
-
+            <CountsDropdown setSongCountsLimit={setSongCountsLimit} setDisplayedCounts={setDisplayedCounts}/>
         </div>
     )
 
 }
 
-/*function CountsDropdown() {
+function CountsDropdown(setSongCountsLimit, setDisplayedCounts) {
     const [isOpen, setIsOpen] = useState(false);
 
     function toggle() {
@@ -184,7 +188,7 @@ function AlbumsDropdown() {
         </div>
 
     );
-}*/
+}
 
 function CountsTable({ displayedCounts }) {
     return (
