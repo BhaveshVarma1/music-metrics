@@ -30,6 +30,7 @@ export function Stats() {
     // Call MusicMetrics APIs
     useEffect(() => {
         if (getToken() == null || getToken() === 'undefined' || dataFetched) {
+            console.log("No token or data already fetched")
             return
         }
         dataFetched = true
