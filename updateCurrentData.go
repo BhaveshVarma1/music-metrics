@@ -121,6 +121,7 @@ func artistsToString2(artists []model.Artist) string {
 }
 
 func yearFromReleaseDate2(date string) int {
+	fmt.Println("DATE: " + date)
 	i, err := strconv.Atoi(date[:4])
 	if err != nil {
 		return -1
