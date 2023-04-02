@@ -8,6 +8,7 @@ export function Stats() {
     const [averageYear, setAverageYear] = useState('Calculating...');
     const [songCounts, setSongCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedCounts, setDisplayedCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
+    const [topAlbums, setTopAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
 
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
@@ -26,8 +27,15 @@ export function Stats() {
                 setSongCounts(data.songCounts)
                 setDisplayedCounts(data.songCounts.slice(0, songCountsLimit))
             }).catch(error => {
-            console.log("ERROR: " + error)
-        })
+                console.log("ERROR: " + error)
+            })
+        fetch(BASE_URL_API + '/api/v1/topAlbums/' + localStorage.getItem('username'), fetchInit('/api/v1/topAlbums', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
     }, [])
 
     if (getToken() == null || getToken() === 'undefined') {

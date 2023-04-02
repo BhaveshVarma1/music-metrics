@@ -11,6 +11,7 @@ const HTTP_METHODS = {
     '/api/v1/updateCode': 'POST',
     '/api/v1/averageYear': 'GET',
     '/api/v1/songCounts': 'GET',
+    '/api/v1/topAlbums': 'GET',
 }
 
 // ELEMENTS COMMON TO EVERY PAGE ---------------------------------------------------------------------------------------
