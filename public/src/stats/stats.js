@@ -156,13 +156,13 @@ export function Stats() {
         function setToSong() {
             setSongStyle(selectedStyle)
             setAlbumStyle(unselectedStyle)
-            //setDisplayedTable(songCountsTable)
+            setDisplayedTable(songCountsTable)
         }
 
         function setToAlbum() {
             setSongStyle(unselectedStyle)
             setAlbumStyle(selectedStyle)
-            //setDisplayedTable(topAlbumsTable)
+            setDisplayedTable(topAlbumsTable)
         }
 
         return (
