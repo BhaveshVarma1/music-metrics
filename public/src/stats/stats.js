@@ -19,7 +19,7 @@ export function Stats() {
     const [topAlbums, setTopAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedAlbums, setDisplayedAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
 
-    let songCountsTable = <CountsTable displayedCounts={displayedCounts}/>
+    const songCountsTable = <CountsTable displayedCounts={displayedCounts}/>
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
     const [displayedTable, setDisplayedTable] = useState(songCountsTable);
 
@@ -40,7 +40,6 @@ export function Stats() {
                 fixArtistNames(data.songCounts)
                 setSongCounts(data.songCounts)
                 setDisplayedCounts(data.songCounts.slice(0, songCountsLimit))
-                songCountsTable = <CountsTable displayedCounts={displayedCounts}/>
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
@@ -77,9 +76,13 @@ export function Stats() {
         setDisplayedTable(topAlbumsTable)
     }
 
+    function tempClick() {
+        console.log(displayedCounts)
+    }
+
     return (
         <div>
-            <PrimaryInfo text="Stats central."/>
+            <PrimaryInfo onClick={tempClick} text="Stats central."/>
             <SecondaryInfo text={"Average release year: " + averageYear}/>
             <div className={'selector'}>
                 <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
