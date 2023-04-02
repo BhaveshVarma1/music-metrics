@@ -172,7 +172,7 @@ export function Stats() {
         }
 
         return (
-            <div className={selector}>
+            <div className={'selector'}>
                 <div style={songStyle} onClick={setToSong}>Top Songs</div>
                 <div style={albumStyle} onClick={setToAlbum}>Top Albums</div>
             </div>
