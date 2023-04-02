@@ -5,10 +5,12 @@ import {useEffect, useState} from "react";
 export function Stats() {
 
     const [songCountsLimit, setSongCountsLimit] = useState(100);
+    const [albumCountsLimit, setAlbumCountsLimit] = useState(100);
     const [averageYear, setAverageYear] = useState('Calculating...');
     const [songCounts, setSongCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedCounts, setDisplayedCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
     const [topAlbums, setTopAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
+    const [displayedAlbums, setDisplayedAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
 
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
@@ -33,6 +35,9 @@ export function Stats() {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
+                fixArtistNames(data.topAlbums)
+                setTopAlbums(data.topAlbums)
+                setDisplayedAlbums(data.topAlbums.slice(0, albumCountsLimit))
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
@@ -47,7 +52,7 @@ export function Stats() {
             </div>)
     }
 
-    function DropdownMenu() {
+    function CountsDropdown() {
         const [isOpen, setIsOpen] = useState(false);
 
         function toggle() {
@@ -90,13 +95,58 @@ export function Stats() {
         );
     }
 
+    function AlbumsDropdown() {
+        const [isOpen, setIsOpen] = useState(false);
+
+        function toggle() {
+            setIsOpen(!isOpen);
+        }
+
+        function itemClicked(size) {
+            toggle()
+            setAlbumCountsLimit(size)
+            setDisplayedAlbums(topAlbums.slice(0, size))
+        }
+
+        useEffect(() => {
+            document.addEventListener('click', (event) => {
+                if (isOpen && !event.target.classList.toString().includes('dropdown')) {
+                    setIsOpen(false);
+                }
+            })
+        }, [isOpen])
+
+        return (
+            <div className={'dd-wrapper'}>
+                <div className='dropdown'>
+                    {isOpen && (
+                        <div className='dropdown-menu'>
+                            <ul>
+                                <li onClick={() => itemClicked(25)}>10</li>
+                                <li onClick={() => itemClicked(50)}>25</li>
+                                <li onClick={() => itemClicked(100)}>50</li>
+                                <li onClick={() => itemClicked(250)}>100</li>
+                            </ul>
+                        </div>
+                    )}
+                    <div className='dropdown-button' onClick={toggle}>
+                        Select table size... {albumCountsLimit}
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
+
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
             <SecondaryInfo text={"Average release year: " + averageYear}/>
             <SecondaryInfo text={"Song counts:"}/>
             <CountsTable displayedCounts={displayedCounts}/>
-            <DropdownMenu/>
+            <CountsDropdown/>
+            <AlbumsTable displayedAlbums={displayedAlbums}/>
+            <AlbumsDropdown/>
         </div>
     )
 
@@ -125,8 +175,31 @@ function CountsTable({ displayedCounts }) {
     )
 }
 
-function fixArtistNames(songCounts) {
-    songCounts.forEach(songCount => {
-        songCount.artist = songCount.artist.replaceAll(';;', ', ')
+function AlbumsTable({ displayedAlbums }) {
+    return (
+        <table className={"table-all"}>
+            <thead>
+            <tr className={"table-column-names"}>
+                <th>Album name</th>
+                <th>Artist</th>
+                <th style={{textAlign: 'right'}}>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            {displayedAlbums.map(albumCount => (
+                <tr className={"table-row"}>
+                    <td>{albumCount.album}</td>
+                    <td>{albumCount.artist}</td>
+                    <td style={{textAlign: 'right'}}>{albumCount.count}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+    )
+}
+
+function fixArtistNames(items) {
+    items.forEach(item => {
+        item.artist = item.artist.replaceAll(';;', ', ')
     })
 }
