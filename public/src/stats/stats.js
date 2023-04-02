@@ -6,10 +6,6 @@ import {useEffect, useState} from "react";
 
 export function Stats() {
 
-    window.onload = function () {
-        console.log("reloaded")
-    }
-
     const [songCountsLimit, setSongCountsLimit] = useState(100);
     const [albumCountsLimit, setAlbumCountsLimit] = useState(100);
     const [averageYear, setAverageYear] = useState('Calculating...');
@@ -186,11 +182,17 @@ export function Stats() {
             <PrimaryInfo text="Stats central."/>
             <SecondaryInfo text={"Average release year: " + averageYear}/>
             <TableSelector/>
-            {displayedTable}
+            <DisplayedTable/>
 
         </div>
     )
 
+}
+
+function DisplayedTable() {
+    return (
+        {displayedTable}
+    )
 }
 
 function CountsTable({ displayedCounts }) {
