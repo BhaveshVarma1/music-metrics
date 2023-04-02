@@ -122,10 +122,10 @@ export function Stats() {
                     {isOpen && (
                         <div className='dropdown-menu'>
                             <ul>
-                                <li onClick={() => itemClicked(25)}>10</li>
-                                <li onClick={() => itemClicked(50)}>25</li>
-                                <li onClick={() => itemClicked(100)}>50</li>
-                                <li onClick={() => itemClicked(250)}>100</li>
+                                <li onClick={() => itemClicked(10)}>10</li>
+                                <li onClick={() => itemClicked(25)}>25</li>
+                                <li onClick={() => itemClicked(50)}>50</li>
+                                <li onClick={() => itemClicked(100)}>100</li>
                             </ul>
                         </div>
                     )}
