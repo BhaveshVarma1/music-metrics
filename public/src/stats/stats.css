@@ -64,6 +64,8 @@
 
 .selector {
     display: flex;
+    border: .1rem solid #cce2e6;
+    border-radius: .5rem;
     cursor: pointer;
     margin: 0 auto;
     width: 15rem;
