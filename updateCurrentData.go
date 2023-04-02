@@ -34,9 +34,6 @@ func main() {
 			continue
 		}
 
-		fmt.Println("TRACK: " + track.Name)
-		return
-
 		newAlbum := model.AlbumBean{
 			Id:          track.Album.ID,
 			Name:        track.Album.Name,
@@ -99,6 +96,8 @@ func getSongData(songID string) (model.Track, error) {
 	if err != nil {
 		return model.Track{}, err
 	}
+
+	fmt.Println("RESPONSE: " + resp.Status)
 
 	var respBody model.Track
 	err = json.NewDecoder(resp.Body).Decode(&respBody)
