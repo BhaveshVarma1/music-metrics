@@ -23,8 +23,8 @@ export function Stats() {
         const selectedStyle = 'selector-selected'
         const unselectedStyle = 'selector-unselected'
 
-        const [songStyle, setSongStyle] = useState();
-        const [albumStyle, setAlbumStyle] = useState();
+        const [songStyle, setSongStyle] = useState(selectedStyle);
+        const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
 
         function setToSong() {
             setSongStyle(selectedStyle)
