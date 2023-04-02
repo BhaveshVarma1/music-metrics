@@ -51,7 +51,9 @@ export function Stats() {
                 setSongCounts(data.songCounts)
                 setDisplayedCounts(data.songCounts.slice(0, DEFAULT_SONG_COUNT_LIMIT))
                 // This line is needed because React's state update is asynchronous
-                setDisplayedTable(<CountsTable displayedCounts={data.songCounts.slice(0, DEFAULT_SONG_COUNT_LIMIT)}/>)
+                if (songStyle === selectedStyle) {
+                    setDisplayedTable(<CountsTable displayedCounts={data.songCounts.slice(0, DEFAULT_SONG_COUNT_LIMIT)}/>)
+                }
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
