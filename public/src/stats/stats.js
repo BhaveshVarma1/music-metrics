@@ -182,14 +182,14 @@ export function Stats() {
             <PrimaryInfo text="Stats central."/>
             <SecondaryInfo text={"Average release year: " + averageYear}/>
             <TableSelector/>
-            <DisplayedTable/>
+            <DisplayedTable displayedTable={displayedTable}/>
 
         </div>
     )
 
 }
 
-function DisplayedTable() {
+function DisplayedTable({ displayedTable }) {
     return (
         {displayedTable}
     )
