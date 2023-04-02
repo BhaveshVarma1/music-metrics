@@ -19,6 +19,18 @@ func main() {
 		return
 	}
 
+	user, err := dal.RetrieveUser(tx, "prattnj")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	token, err := refreshToken(user.Refresh)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
 	songs, err := dal.RetrieveAllSongs(tx)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
@@ -28,7 +40,7 @@ func main() {
 	}
 
 	for _, song := range songs {
-		track, err := getSongData(song.Id)
+		track, err := getSongData(token, song.Id)
 		if err != nil {
 			fmt.Println("Error getting song data for song: " + song.Id)
 			continue
@@ -82,7 +94,7 @@ func main() {
 
 }
 
-func getSongData(songID string) (model.Track, error) {
+func getSongData(token string, songID string) (model.Track, error) {
 
 	uri := service.SPOTIFY_BASE_API + "/tracks/" + songID
 
@@ -90,6 +102,8 @@ func getSongData(songID string) (model.Track, error) {
 	if err != nil {
 		return model.Track{}, err
 	}
+
+	req.Header.Set("Authorization", "Bearer "+token)
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
@@ -123,7 +137,6 @@ func artistsToString2(artists []model.Artist) string {
 }
 
 func yearFromReleaseDate2(date string) int {
-	fmt.Println("DATE: " + date)
 	i, err := strconv.Atoi(date[:4])
 	if err != nil {
 		return -1
