@@ -18,6 +18,34 @@ export function Stats() {
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
     const [displayedTable, setDisplayedTable] = useState(songCountsTable);
 
+    function TableSelector() {
+
+        const selectedStyle = 'selector-selected'
+        const unselectedStyle = 'selector-unselected'
+
+        const [songStyle, setSongStyle] = useState(selectedStyle);
+        const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
+
+        function setToSong() {
+            setSongStyle(selectedStyle)
+            setAlbumStyle(unselectedStyle)
+            setDisplayedTable(songCountsTable)
+        }
+
+        function setToAlbum() {
+            setSongStyle(unselectedStyle)
+            setAlbumStyle(selectedStyle)
+            setDisplayedTable(topAlbumsTable)
+        }
+
+        return (
+            <div className={'selector'}>
+                <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+                <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
+            </div>
+        )
+    }
+
     // Call MusicMetrics APIs
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
@@ -49,10 +77,6 @@ export function Stats() {
                 console.log("ERROR: " + error)
             })
     }, [songCountsLimit, albumCountsLimit])
-
-    useEffect(() => {
-        setDisplayedTable(songCountsTable)
-    })
 
     if (getToken() == null || getToken() === 'undefined') {
         sessionStorage.setItem('route', 'stats')
@@ -147,34 +171,6 @@ export function Stats() {
             </div>
 
         );
-    }
-
-    function TableSelector() {
-
-        const selectedStyle = 'selector-selected'
-        const unselectedStyle = 'selector-unselected'
-
-        const [songStyle, setSongStyle] = useState(selectedStyle);
-        const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
-
-        function setToSong() {
-            setSongStyle(selectedStyle)
-            setAlbumStyle(unselectedStyle)
-            setDisplayedTable(songCountsTable)
-        }
-
-        function setToAlbum() {
-            setSongStyle(unselectedStyle)
-            setAlbumStyle(selectedStyle)
-            setDisplayedTable(topAlbumsTable)
-        }
-
-        return (
-            <div className={'selector'}>
-                <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
-                <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
-            </div>
-        )
     }
 
     return (
