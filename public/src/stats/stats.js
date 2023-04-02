@@ -64,92 +64,6 @@ export function Stats() {
             </div>)
     }
 
-    function CountsDropdown() {
-        const [isOpen, setIsOpen] = useState(false);
-
-        function toggle() {
-            setIsOpen(!isOpen);
-        }
-
-        function itemClicked(size) {
-            toggle()
-            setSongCountsLimit(size)
-            setDisplayedCounts(songCounts.slice(0, size))
-        }
-
-        useEffect(() => {
-            document.addEventListener('click', (event) => {
-                if (isOpen && !event.target.classList.toString().includes('dropdown')) {
-                    setIsOpen(false);
-                }
-            })
-        }, [isOpen])
-
-        return (
-            <div className={'dd-wrapper'}>
-                <div className='dropdown'>
-                    {isOpen && (
-                        <div className='dropdown-menu'>
-                            <ul>
-                                <li onClick={() => itemClicked(25)}>25</li>
-                                <li onClick={() => itemClicked(50)}>50</li>
-                                <li onClick={() => itemClicked(100)}>100</li>
-                                <li onClick={() => itemClicked(250)}>250</li>
-                            </ul>
-                        </div>
-                    )}
-                    <div className='dropdown-button' onClick={toggle}>
-                        Select table size... {songCountsLimit}
-                    </div>
-                </div>
-            </div>
-
-        );
-    }
-
-    function AlbumsDropdown() {
-        const [isOpen, setIsOpen] = useState(false);
-
-        function toggle() {
-            setIsOpen(!isOpen);
-        }
-
-        function itemClicked(size) {
-            toggle()
-            setAlbumCountsLimit(size)
-            setDisplayedAlbums(topAlbums.slice(0, size))
-        }
-
-        useEffect(() => {
-            document.addEventListener('click', (event) => {
-                if (isOpen && !event.target.classList.toString().includes('dropdown')) {
-                    setIsOpen(false);
-                }
-            })
-        }, [isOpen])
-
-        return (
-            <div className={'dd-wrapper'}>
-                <div className='dropdown'>
-                    {isOpen && (
-                        <div className='dropdown-menu'>
-                            <ul>
-                                <li onClick={() => itemClicked(10)}>10</li>
-                                <li onClick={() => itemClicked(25)}>25</li>
-                                <li onClick={() => itemClicked(50)}>50</li>
-                                <li onClick={() => itemClicked(100)}>100</li>
-                            </ul>
-                        </div>
-                    )}
-                    <div className='dropdown-button' onClick={toggle}>
-                        Select table size... {albumCountsLimit}
-                    </div>
-                </div>
-            </div>
-
-        );
-    }
-
     function setToSong() {
         setSongStyle(selectedStyle)
         setAlbumStyle(unselectedStyle)
@@ -176,6 +90,92 @@ export function Stats() {
     )
 
 }
+
+/*function CountsDropdown() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    function toggle() {
+        setIsOpen(!isOpen);
+    }
+
+    function itemClicked(size) {
+        toggle()
+        setSongCountsLimit(size)
+        setDisplayedCounts(songCounts.slice(0, size))
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', (event) => {
+            if (isOpen && !event.target.classList.toString().includes('dropdown')) {
+                setIsOpen(false);
+            }
+        })
+    }, [isOpen])
+
+    return (
+        <div className={'dd-wrapper'}>
+            <div className='dropdown'>
+                {isOpen && (
+                    <div className='dropdown-menu'>
+                        <ul>
+                            <li onClick={() => itemClicked(25)}>25</li>
+                            <li onClick={() => itemClicked(50)}>50</li>
+                            <li onClick={() => itemClicked(100)}>100</li>
+                            <li onClick={() => itemClicked(250)}>250</li>
+                        </ul>
+                    </div>
+                )}
+                <div className='dropdown-button' onClick={toggle}>
+                    Select table size... {songCountsLimit}
+                </div>
+            </div>
+        </div>
+
+    );
+}
+
+function AlbumsDropdown() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    function toggle() {
+        setIsOpen(!isOpen);
+    }
+
+    function itemClicked(size) {
+        toggle()
+        setAlbumCountsLimit(size)
+        setDisplayedAlbums(topAlbums.slice(0, size))
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', (event) => {
+            if (isOpen && !event.target.classList.toString().includes('dropdown')) {
+                setIsOpen(false);
+            }
+        })
+    }, [isOpen])
+
+    return (
+        <div className={'dd-wrapper'}>
+            <div className='dropdown'>
+                {isOpen && (
+                    <div className='dropdown-menu'>
+                        <ul>
+                            <li onClick={() => itemClicked(10)}>10</li>
+                            <li onClick={() => itemClicked(25)}>25</li>
+                            <li onClick={() => itemClicked(50)}>50</li>
+                            <li onClick={() => itemClicked(100)}>100</li>
+                        </ul>
+                    </div>
+                )}
+                <div className='dropdown-button' onClick={toggle}>
+                    Select table size... {albumCountsLimit}
+                </div>
+            </div>
+        </div>
+
+    );
+}*/
 
 function CountsTable({ displayedCounts }) {
     return (
