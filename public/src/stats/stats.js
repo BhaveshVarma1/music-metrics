@@ -147,14 +147,8 @@ export function Stats() {
 
     function TableSelector() {
 
-        const selectedStyle = {
-            backgroundColor: '#cce2e6',
-            color: '#1a1e1f'
-        }
-        const unselectedStyle = {
-            backgroundColor: '#1a1e1f',
-            color: '#cce2e6'
-        }
+        const selectedStyle = 'selector-selected'
+        const unselectedStyle = 'selector-unselected'
 
         const [songStyle, setSongStyle] = useState(selectedStyle);
         const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
@@ -173,8 +167,8 @@ export function Stats() {
 
         return (
             <div className={'selector'}>
-                <div style={songStyle} onClick={setToSong}>Top Songs</div>
-                <div style={albumStyle} onClick={setToAlbum}>Top Albums</div>
+                <div className={songStyle + ' corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+                <div className={albumStyle + ' corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
             </div>
         )
     }
