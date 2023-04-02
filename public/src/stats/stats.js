@@ -6,13 +6,16 @@ import {useEffect, useState} from "react";
 
 export function Stats() {
 
+    const DEFAULT_SONG_COUNT_LIMIT = 100
+    const DEFAULT_ALBUM_COUNT_LIMIT = 100
+
     const selectedStyle = 'selector-selected'
     const unselectedStyle = 'selector-unselected'
     const [songStyle, setSongStyle] = useState(selectedStyle);
     const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
 
-    const [songCountsLimit, setSongCountsLimit] = useState(100);
-    const [albumCountsLimit, setAlbumCountsLimit] = useState(100);
+    const [songCountsLimit, setSongCountsLimit] = useState(DEFAULT_SONG_COUNT_LIMIT);
+    const [albumCountsLimit, setAlbumCountsLimit] = useState(DEFAULT_ALBUM_COUNT_LIMIT);
     const [averageYear, setAverageYear] = useState('Calculating...');
     const [songCounts, setSongCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedCounts, setDisplayedCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
@@ -46,11 +49,9 @@ export function Stats() {
                 console.log(data)
                 fixArtistNames(data.songCounts)
                 setSongCounts(data.songCounts)
-                setDisplayedCounts(data.songCounts.slice(0, songCountsLimit))
+                setDisplayedCounts(data.songCounts.slice(0, DEFAULT_SONG_COUNT_LIMIT))
                 // This line is needed because React's state update is asynchronous
-                if (songStyle === selectedStyle) {
-                    setDisplayedTable(<CountsTable displayedCounts={data.songCounts.slice(0, songCountsLimit)}/>)
-                }
+                setDisplayedTable(<CountsTable displayedCounts={data.songCounts.slice(0, DEFAULT_SONG_COUNT_LIMIT)}/>)
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
@@ -60,7 +61,7 @@ export function Stats() {
                 console.log(data)
                 fixArtistNames(data.topAlbums)
                 setTopAlbums(data.topAlbums)
-                setDisplayedAlbums(data.topAlbums.slice(0, albumCountsLimit))
+                setDisplayedAlbums(data.topAlbums.slice(0, DEFAULT_ALBUM_COUNT_LIMIT))
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
