@@ -30,7 +30,6 @@ export function Stats() {
     // Call MusicMetrics APIs
     useEffect(() => {
         if (getToken() == null || getToken() === 'undefined' || dataFetched) {
-            console.log("No token or data already fetched")
             return
         }
         dataFetched = true
@@ -50,9 +49,7 @@ export function Stats() {
                 setSongCounts(data.songCounts)
                 setDisplayedCounts(data.songCounts.slice(0, songCountsLimit))
                 // This line is needed because React's state update is asynchronous
-                if (songStyle === selectedStyle) {
-                    setDisplayedTable(<CountsTable displayedCounts={data.songCounts.slice(0, songCountsLimit)}/>)
-                }
+                setDisplayedTable(<CountsTable displayedCounts={data.songCounts.slice(0, songCountsLimit)}/>)
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
