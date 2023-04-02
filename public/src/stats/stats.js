@@ -4,8 +4,6 @@ import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
 import {useEffect, useState} from "react";
 
-let dataFetched = false;
-
 export function Stats() {
 
     const selectedStyle = 'selector-selected'
@@ -25,14 +23,15 @@ export function Stats() {
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
     const [displayedTable, setDisplayedTable] = useState(songCountsTable);
 
+    const countsDropdown = <CountsDropdown/>
+    const albumsDropdown = <AlbumsDropdown/>
     const [currentDropdown, setCurrentDropdown] = useState(<CountsDropdown/>)
 
     // Call MusicMetrics APIs
     useEffect(() => {
-        if (getToken() == null || getToken() === 'undefined' || dataFetched) {
+        if (getToken() == null || getToken() === 'undefined') {
             return
         }
-        dataFetched = true
         fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
             .then(response => response.json())
             .then(data => {
@@ -78,18 +77,18 @@ export function Stats() {
         setSongStyle(selectedStyle)
         setAlbumStyle(unselectedStyle)
         setDisplayedTable(songCountsTable)
-        setCurrentDropdown(<CountsDropdown/>)
+        setCurrentDropdown(countsDropdown)
     }
 
     function setToAlbum() {
         setSongStyle(unselectedStyle)
         setAlbumStyle(selectedStyle)
         setDisplayedTable(topAlbumsTable)
-        setCurrentDropdown(<AlbumsDropdown/>)
+        setCurrentDropdown(albumsDropdown)
     }
 
     function tempClick() {
-        setDisplayedTable(songCountsTable)
+        //setDisplayedTable(songCountsTable)
     }
 
     function CountsDropdown() {
