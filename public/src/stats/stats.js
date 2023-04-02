@@ -83,7 +83,7 @@ export function Stats() {
 
     return (
         <div>
-            <PrimaryInfo onClick={() => tempClick} text="Stats central."/>
+            <div onClick={tempClick}><PrimaryInfo text="Stats central."/></div>
             <SecondaryInfo text={"Average release year: " + averageYear}/>
             <div className={'selector'}>
                 <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
