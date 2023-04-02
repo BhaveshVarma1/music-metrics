@@ -50,6 +50,10 @@ export function Stats() {
             })
     }, [songCountsLimit, albumCountsLimit])
 
+    useEffect(() => {
+        setDisplayedTable(songCountsTable)
+    })
+
     if (getToken() == null || getToken() === 'undefined') {
         sessionStorage.setItem('route', 'stats')
         return (
@@ -172,10 +176,6 @@ export function Stats() {
             </div>
         )
     }
-
-    useEffect(() => {
-        setDisplayedTable(songCountsTable)
-    })
 
     return (
         <div>
