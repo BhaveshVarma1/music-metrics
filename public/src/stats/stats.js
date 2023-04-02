@@ -173,6 +173,10 @@ export function Stats() {
         )
     }
 
+    useEffect(() => {
+        setDisplayedTable(songCountsTable)
+    })
+
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
