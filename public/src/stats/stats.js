@@ -145,34 +145,6 @@ export function Stats() {
         );
     }
 
-    function TableSelector() {
-
-        const selectedStyle = 'selector-selected'
-        const unselectedStyle = 'selector-unselected'
-
-        const [songStyle, setSongStyle] = useState(selectedStyle);
-        const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
-
-        function setToSong() {
-            setSongStyle(selectedStyle)
-            setAlbumStyle(unselectedStyle)
-            setDisplayedTable(songCountsTable)
-        }
-
-        function setToAlbum() {
-            setSongStyle(unselectedStyle)
-            setAlbumStyle(selectedStyle)
-            setDisplayedTable(topAlbumsTable)
-        }
-
-        return (
-            <div className={'selector'}>
-                <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
-                <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
-            </div>
-        )
-    }
-
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
@@ -183,6 +155,34 @@ export function Stats() {
         </div>
     )
 
+}
+
+function TableSelector() {
+
+    const selectedStyle = 'selector-selected'
+    const unselectedStyle = 'selector-unselected'
+
+    const [songStyle, setSongStyle] = useState(selectedStyle);
+    const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
+
+    function setToSong() {
+        setSongStyle(selectedStyle)
+        setAlbumStyle(unselectedStyle)
+        //setDisplayedTable(songCountsTable)
+    }
+
+    function setToAlbum() {
+        setSongStyle(unselectedStyle)
+        setAlbumStyle(selectedStyle)
+        //setDisplayedTable(topAlbumsTable)
+    }
+
+    return (
+        <div className={'selector'}>
+            <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+            <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
+        </div>
+    )
 }
 
 function CountsTable({ displayedCounts }) {
