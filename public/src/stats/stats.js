@@ -23,9 +23,7 @@ export function Stats() {
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
     const [displayedTable, setDisplayedTable] = useState(songCountsTable);
 
-    /*const songLimitOptions = [25, 50, 100, 250]
-    const albumLimitOptions = [25, 50, 100, 250]
-    const [possibleDropdownValues, setPossibleDropdownValues] = useState(songLimitOptions)*/
+    const [currentDropdown, setCurrentDropdown] = useState(<CountsDropdown/>)
 
     // Call MusicMetrics APIs
     useEffect(() => {
@@ -77,12 +75,14 @@ export function Stats() {
         setSongStyle(selectedStyle)
         setAlbumStyle(unselectedStyle)
         setDisplayedTable(songCountsTable)
+        setCurrentDropdown(<CountsDropdown/>)
     }
 
     function setToAlbum() {
         setSongStyle(unselectedStyle)
         setAlbumStyle(selectedStyle)
         setDisplayedTable(topAlbumsTable)
+        setCurrentDropdown(<AlbumsDropdown/>)
     }
 
     function tempClick() {
@@ -184,7 +184,7 @@ export function Stats() {
                 <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
             </div>
             {displayedTable}
-            <CountsDropdown/>
+            {currentDropdown}
         </div>
     )
 
