@@ -6,6 +6,8 @@ import {useEffect, useState} from "react";
 
 export function Stats() {
 
+    let dataFetched = false;
+
     const selectedStyle = 'selector-selected'
     const unselectedStyle = 'selector-unselected'
     const [songStyle, setSongStyle] = useState(selectedStyle);
@@ -27,9 +29,10 @@ export function Stats() {
 
     // Call MusicMetrics APIs
     useEffect(() => {
-        if (getToken() == null || getToken() === 'undefined') {
+        if (getToken() == null || getToken() === 'undefined' || dataFetched) {
             return
         }
+        dataFetched = true
         fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
             .then(response => response.json())
             .then(data => {
