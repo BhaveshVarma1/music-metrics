@@ -1,12 +1,15 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"music-metrics/dal"
 	"music-metrics/model"
 	"music-metrics/service"
 	"net/http"
+	"net/url"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -25,7 +28,7 @@ func main() {
 		return
 	}
 
-	token, err := refreshToken(user.Refresh)
+	token, err := refreshToken2(user.Refresh)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -126,6 +129,48 @@ func getSongData(token string, songID string) (model.Track, error) {
 
 	return respBody, nil
 
+}
+
+func refreshToken2(refresh string) (string, error) {
+
+	uri := service.SPOTIFY_BASE_ACCOUNT + "/api/token"
+	secret := os.Getenv("SPOTIFY_CLIENT_SECRET")
+	if secret == "" {
+		return "", fmt.Errorf("secret is empty")
+	}
+	encodedSecret := base64.StdEncoding.EncodeToString([]byte(service.SPOTIFY_CLIENT_ID + ":" + secret))
+
+	reqBody := url.Values{}
+	reqBody.Set("grant_type", "refresh_token")
+	reqBody.Set("refresh_token", refresh)
+
+	encodedRequestBody := reqBody.Encode()
+
+	req, err := http.NewRequest("POST", uri, strings.NewReader(encodedRequestBody))
+	if err != nil {
+		return "", err
+	}
+
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Authorization", "Basic "+encodedSecret)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+
+	var tokenResp model.GetRefreshTokenResponse
+	err = json.NewDecoder(resp.Body).Decode(&tokenResp)
+	if err != nil {
+		panic(err)
+	}
+
+	err = resp.Body.Close()
+	if err != nil {
+		return "", err
+	}
+	return tokenResp.AccessToken, nil
 }
 
 func artistsToString2(artists []model.Artist) string {
