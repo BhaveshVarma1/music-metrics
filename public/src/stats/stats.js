@@ -4,9 +4,9 @@ import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
 import {useEffect, useState} from "react";
 
-export function Stats() {
+let dataFetched = false;
 
-    let dataFetched = false;
+export function Stats() {
 
     const selectedStyle = 'selector-selected'
     const unselectedStyle = 'selector-unselected'
