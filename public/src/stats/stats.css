@@ -1,11 +1,13 @@
 .corner-rounded-left {
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
+    border-left: .1rem solid #cce2e6;
 }
 
 .corner-rounded-right {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
+    border-right: .1rem solid #cce2e6;
 }
 
 .dropdown {
@@ -74,6 +76,7 @@
     width: 50%;
     text-align: center;
     border-top: .1rem solid #cce2e6;
+    border-bottom: .1rem solid #cce2e6;
 }
 
 .selector-selected {
