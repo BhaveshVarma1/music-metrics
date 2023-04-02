@@ -43,6 +43,7 @@ CREATE TABLE album (
     id varchar(255) not null,
     name varchar(255) not null,
     artist varchar(1023) not null,
+    genre varchar(1023),
     totalTracks int not null,
     year int not null,
     image varchar(1023) not null,
