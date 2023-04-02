@@ -19,7 +19,7 @@ export function Stats() {
     const [topAlbums, setTopAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedAlbums, setDisplayedAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
 
-    const songCountsTable = <CountsTable displayedCounts={displayedCounts}/>
+    let songCountsTable = <CountsTable displayedCounts={displayedCounts}/>
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
     const [displayedTable, setDisplayedTable] = useState(songCountsTable);
 
@@ -40,7 +40,7 @@ export function Stats() {
                 fixArtistNames(data.songCounts)
                 setSongCounts(data.songCounts)
                 setDisplayedCounts(data.songCounts.slice(0, songCountsLimit))
-                setDisplayedTable(songCountsTable)
+                songCountsTable = <CountsTable displayedCounts={displayedCounts}/>
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
