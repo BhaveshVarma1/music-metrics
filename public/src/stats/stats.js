@@ -77,6 +77,7 @@ export function Stats() {
     }
 
     function tempClick() {
+        console.log("CLICKED")
         console.log(displayedCounts)
     }
 
