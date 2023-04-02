@@ -8,7 +8,7 @@ import (
 )
 
 func GetAverageYear(tx *sql.Tx, username string) (int, error) {
-	stmt, err := tx.Prepare("SELECT AVG(year) FROM song INNER JOIN listen ON song.id = listen.songID WHERE username = ?;")
+	stmt, err := tx.Prepare("SELECT AVG(year) FROM listen INNER JOIN song ON listen.songID = song.id INNER JOIN album ON song.album = album.id WHERE username = ?;")
 	if err != nil {
 		return 0, err
 	}
