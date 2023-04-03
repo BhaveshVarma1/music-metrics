@@ -21,7 +21,7 @@ export function Home() {
 function LandingTile(props) {
     return (
         <div className="landing-tile">
-            <img src={props.image} alt="Image not found." className="landing-image"/>
+            <img src={props.image} alt="Not found." className="landing-image"/>
             <div className="landing-tile-text">
               {props.text}
             </div>
