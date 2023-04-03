@@ -4,10 +4,14 @@ import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
 import {useEffect, useState} from "react";
 
-export function Stats() {
+const DEFAULT_SONG_COUNT_LIMIT = 100
+const DEFAULT_ALBUM_COUNT_LIMIT = 100
+let allSongs = [{"song": "Loading...", "artist": "Loading...", "count": 0}]
+let allAlbums = [{"album": "Loading...", "artist": "Loading...", "count": 0}]
+let numSongs = DEFAULT_SONG_COUNT_LIMIT
+let numAlbums = DEFAULT_ALBUM_COUNT_LIMIT
 
-    const DEFAULT_SONG_COUNT_LIMIT = 100
-    const DEFAULT_ALBUM_COUNT_LIMIT = 100
+export function Stats() {
 
     const selectedStyle = 'selector-selected'
     const unselectedStyle = 'selector-unselected'
@@ -17,9 +21,9 @@ export function Stats() {
     const [songCountsLimit, setSongCountsLimit] = useState(DEFAULT_SONG_COUNT_LIMIT);
     const [albumCountsLimit, setAlbumCountsLimit] = useState(DEFAULT_ALBUM_COUNT_LIMIT);
     const [averageYear, setAverageYear] = useState('Calculating...');
-    const [songCounts, setSongCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
+    //const [songCounts, setSongCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedCounts, setDisplayedCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
-    const [topAlbums, setTopAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
+    //const [topAlbums, setTopAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedAlbums, setDisplayedAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
 
     const songCountsTable = <CountsTable displayedCounts={displayedCounts}/>
@@ -48,7 +52,8 @@ export function Stats() {
             .then(data => {
                 console.log(data)
                 fixArtistNames(data.songCounts)
-                setSongCounts(data.songCounts)
+                //setSongCounts(data.songCounts)
+                allSongs = data.songCounts
                 setDisplayedCounts(data.songCounts.slice(0, DEFAULT_SONG_COUNT_LIMIT))
                 // This line is needed because React's state update is asynchronous
                 if (songStyle === selectedStyle) {
@@ -62,7 +67,8 @@ export function Stats() {
             .then(data => {
                 console.log(data)
                 fixArtistNames(data.topAlbums)
-                setTopAlbums(data.topAlbums)
+                //setTopAlbums(data.topAlbums)
+                allAlbums = data.topAlbums
                 setDisplayedAlbums(data.topAlbums.slice(0, DEFAULT_ALBUM_COUNT_LIMIT))
             }).catch(error => {
                 console.log("ERROR: " + error)
@@ -106,9 +112,9 @@ export function Stats() {
         function itemClicked(size) {
             toggle()
             setSongCountsLimit(size)
-            //setDisplayedCounts(songCounts.slice(0, size))
-            console.log(songCounts.slice(0, size))
-            setDisplayedTable(<CountsTable displayedCounts={songCounts.slice(0, size)}/>)
+            setDisplayedCounts(songCounts.slice(0, size))
+            //console.log(songCounts.slice(0, size))
+            //setDisplayedTable(<CountsTable displayedCounts={songCounts.slice(0, size)}/>)
         }
 
         useEffect(() => {
