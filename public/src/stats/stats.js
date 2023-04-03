@@ -112,7 +112,7 @@ export function Stats() {
         function itemClicked(size) {
             toggle()
             setSongCountsLimit(size)
-            setDisplayedCounts(songCounts.slice(0, size))
+            setDisplayedCounts(allSongs.slice(0, size))
             //console.log(songCounts.slice(0, size))
             //setDisplayedTable(<CountsTable displayedCounts={songCounts.slice(0, size)}/>)
         }
@@ -157,7 +157,7 @@ export function Stats() {
         function itemClicked(size) {
             toggle()
             setAlbumCountsLimit(size)
-            setDisplayedAlbums(topAlbums.slice(0, size))
+            setDisplayedAlbums(allAlbums.slice(0, size))
         }
 
         useEffect(() => {
