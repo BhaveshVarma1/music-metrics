@@ -2,4 +2,4 @@
 
 ---
 
-The root url for this API is `https://music-metrics.app/api`.
+The root url for this API is `https://dev.musicmetrics.app/api/v1`.

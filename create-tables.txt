@@ -24,11 +24,9 @@ CREATE TABLE song (
 	name varchar(255) not null,
 	artist varchar(1023) not null,
 	album varchar(255) not null,
-	genre varchar(1023) not null,
-	explicit bool not null,
+	explicit tinyint(1) not null,
 	popularity int not null,
 	duration int not null,
-	year int not null,
 	PRIMARY KEY (id)
 );
 CREATE TABLE listen (
