@@ -140,7 +140,7 @@ export function Stats() {
                         </div>
                     )}
                     <div className='dropdown-button' onClick={toggle}>
-                        Select table size... {songCountsLimit}
+                        Select table size... {allSongs}
                     </div>
                 </div>
             </div>
@@ -184,7 +184,7 @@ export function Stats() {
                         </div>
                     )}
                     <div className='dropdown-button' onClick={toggle}>
-                        Select table size... {albumCountsLimit}
+                        Select table size... {allAlbums}
                     </div>
                 </div>
             </div>
