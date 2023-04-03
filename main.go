@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"music-metrics/handler"
+	"music-metrics/service"
 )
 
 func main() {
@@ -18,11 +19,15 @@ func main() {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
 
+	var avgYearService service.GetAverageYearService
+	var songCountService service.GetSongCountsService
+	var topAlbumService service.GetTopAlbumsService
+
 	// API ENDPOINTS
 	e.POST("/api/v1/updateCode", handler.HandleUpdateCode)
-	e.GET("/api/v1/averageYear/:username", handler.HandleAverageYear)
-	e.GET("/api/v1/songCounts/:username", handler.HandleSongCounts)
-	e.GET("/api/v1/topAlbums/:username", handler.HandleTopAlbums)
+	e.GET("/api/v1/averageYear/:username", handler.StatsHandler(avgYearService))
+	e.GET("/api/v1/songCounts/:username", handler.StatsHandler(songCountService))
+	e.GET("/api/v1/topAlbums/:username", handler.StatsHandler(topAlbumService))
 
 	// STATIC / REACT FILES
 	e.GET("/static/*", func(c echo.Context) error {

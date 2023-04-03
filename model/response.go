@@ -1,11 +1,5 @@
 package model
 
-type AverageYearResponse struct {
-	Message     string `json:"message,omitempty"`
-	Success     bool   `json:"success"`
-	AverageYear int    `json:"averageYear,omitempty"`
-}
-
 type GenericResponse struct {
 	Message string `json:"message,omitempty"`
 	Success bool   `json:"success"`
@@ -39,18 +33,6 @@ type GetRefreshTokenResponse struct {
 	TokenType   string `json:"token_type"`
 	Scope       string `json:"scope"`
 	ExpiresIn   int    `json:"expires_in"`
-}
-
-type SongCountsResponse struct {
-	Message    string      `json:"message,omitempty"`
-	Success    bool        `json:"success"`
-	SongCounts []SongCount `json:"songCounts,omitempty"`
-}
-
-type TopAlbumsResponse struct {
-	Message   string     `json:"message,omitempty"`
-	Success   bool       `json:"success"`
-	TopAlbums []TopAlbum `json:"topAlbums,omitempty"`
 }
 
 type UpdateCodeResponse struct {

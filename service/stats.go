@@ -5,30 +5,39 @@ import (
 	"music-metrics/model"
 )
 
-func GetAverageYear(username string) int {
+type StatsService interface {
+	ExecuteService(username string) model.StatsResponse
+}
+
+type GetAverageYearService struct{}
+
+type GetSongCountsService struct{}
+
+type GetTopAlbumsService struct{}
+
+func (s GetAverageYearService) ExecuteService(username string) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
-		return -1
+		return nil
 	}
 
 	result, err := dal.GetAverageYear(tx, username)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
-			return -1
+			return nil
 		}
-		return -1
+		return nil
 	}
 
 	if dal.CommitAndClose(tx, db, true) != nil {
-		return -1
+		return nil
 	}
 
-	return result
-
+	return model.AverageYearResponse{Success: true, AverageYear: result}
 }
 
-func GetSongCounts(username string) []model.SongCount {
+func (s GetSongCountsService) ExecuteService(username string) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
@@ -47,11 +56,10 @@ func GetSongCounts(username string) []model.SongCount {
 		return nil
 	}
 
-	return result
-
+	return model.SongCountsResponse{Success: true, SongCounts: result}
 }
 
-func GetTopAlbums(username string) []model.TopAlbum {
+func (s GetTopAlbumsService) ExecuteService(username string) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
@@ -70,6 +78,5 @@ func GetTopAlbums(username string) []model.TopAlbum {
 		return nil
 	}
 
-	return result
-
+	return model.TopAlbumsResponse{Success: true, TopAlbums: result}
 }

@@ -7,110 +7,40 @@ import (
 	"music-metrics/service"
 )
 
-func HandleAverageYear(c echo.Context) error {
+func StatsHandler(s service.StatsService) echo.HandlerFunc {
+	return func(c echo.Context) error {
 
-	tx, db, err := dal.BeginTX()
-	if err != nil {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-	}
-
-	username := c.Param("username")
-	token := c.Request().Header.Get("Authorization")
-	authtoken, err := dal.RetrieveAuthToken(tx, token)
-	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		tx, db, err := dal.BeginTX()
+		if err != nil {
 			return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 		}
-		return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
-	}
-	if authtoken.Username != username {
-		if dal.CommitAndClose(tx, db, false) != nil {
+
+		username := c.Param("username")
+		token := c.Request().Header.Get("Authorization")
+		authtoken, err := dal.RetrieveAuthToken(tx, token)
+		if err != nil {
+			if dal.CommitAndClose(tx, db, false) != nil {
+				return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
+			}
+			return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
+		}
+		if authtoken.Username != username {
+			if dal.CommitAndClose(tx, db, false) != nil {
+				return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
+			}
+			return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
+		}
+
+		if dal.CommitAndClose(tx, db, true) != nil {
 			return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 		}
-		return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
-	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-	}
+		result := s.ExecuteService(username)
 
-	result := service.GetAverageYear(username)
-
-	if result == -1 {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-	}
-
-	return c.JSON(200, model.AverageYearResponse{Success: true, AverageYear: result})
-}
-
-func HandleSongCounts(c echo.Context) error {
-
-	tx, db, err := dal.BeginTX()
-	if err != nil {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-	}
-
-	username := c.Param("username")
-	token := c.Request().Header.Get("Authorization")
-	authtoken, err := dal.RetrieveAuthToken(tx, token)
-	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if result == nil {
 			return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 		}
-		return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
+
+		return c.JSON(200, result)
 	}
-	if authtoken.Username != username {
-		if dal.CommitAndClose(tx, db, false) != nil {
-			return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-		}
-		return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
-	}
-
-	if dal.CommitAndClose(tx, db, true) != nil {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-	}
-
-	result := service.GetSongCounts(username)
-
-	if result == nil {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-	}
-
-	return c.JSON(200, model.SongCountsResponse{Success: true, SongCounts: result})
-}
-
-func HandleTopAlbums(c echo.Context) error {
-
-	tx, db, err := dal.BeginTX()
-	if err != nil {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-	}
-
-	username := c.Param("username")
-	token := c.Request().Header.Get("Authorization")
-	authtoken, err := dal.RetrieveAuthToken(tx, token)
-	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
-			return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-		}
-		return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
-	}
-	if authtoken.Username != username {
-		if dal.CommitAndClose(tx, db, false) != nil {
-			return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-		}
-		return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
-	}
-
-	if dal.CommitAndClose(tx, db, true) != nil {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-	}
-
-	result := service.GetTopAlbums(username)
-
-	if result == nil {
-		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
-	}
-
-	return c.JSON(200, model.TopAlbumsResponse{Success: true, TopAlbums: result})
 }

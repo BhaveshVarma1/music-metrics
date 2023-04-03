@@ -8,15 +8,17 @@ import (
 func TestGetAverageYear(t *testing.T) {
 
 	username := "prattnj"
+	var service GetAverageYearService
 
-	result := GetAverageYear(username)
+	result := service.ExecuteService(username)
 	fmt.Print(result)
 }
 
 func TestGetSongCounts(t *testing.T) {
 
 	username := "prattnj"
+	var service GetSongCountsService
 
-	result := GetSongCounts(username)
+	result := service.ExecuteService(username)
 	fmt.Println(result)
 }
