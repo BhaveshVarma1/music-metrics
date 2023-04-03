@@ -104,6 +104,7 @@ export function Stats() {
 
     function CountsDropdown() {
         const [isOpen, setIsOpen] = useState(false);
+        const [dropdownValue, setDropdownValue] = useState(DEFAULT_SONG_COUNT_LIMIT)
 
         function toggle() {
             setIsOpen(!isOpen);
@@ -113,9 +114,10 @@ export function Stats() {
             toggle()
             //setSongCountsLimit(size)
             numSongs = size
-            setDisplayedCounts(allSongs.slice(0, size))
+            setDropdownValue(size)
+            //setDisplayedCounts(allSongs.slice(0, size))
             //console.log(songCounts.slice(0, size))
-            //setDisplayedTable(<CountsTable displayedCounts={songCounts.slice(0, size)}/>)
+            setDisplayedTable(<CountsTable displayedCounts={allSongs.slice(0, size)}/>)
         }
 
         useEffect(() => {
@@ -140,7 +142,7 @@ export function Stats() {
                         </div>
                     )}
                     <div className='dropdown-button' onClick={toggle}>
-                        Select table size...
+                        Select table size... {dropdownValue}
                     </div>
                 </div>
             </div>
