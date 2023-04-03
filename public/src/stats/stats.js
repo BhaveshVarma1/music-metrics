@@ -18,8 +18,8 @@ export function Stats() {
     const [songStyle, setSongStyle] = useState(selectedStyle);
     const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
 
-    const [songCountsLimit, setSongCountsLimit] = useState(DEFAULT_SONG_COUNT_LIMIT);
-    const [albumCountsLimit, setAlbumCountsLimit] = useState(DEFAULT_ALBUM_COUNT_LIMIT);
+    //const [songCountsLimit, setSongCountsLimit] = useState(DEFAULT_SONG_COUNT_LIMIT);
+    //const [albumCountsLimit, setAlbumCountsLimit] = useState(DEFAULT_ALBUM_COUNT_LIMIT);
     const [averageYear, setAverageYear] = useState('Calculating...');
     //const [songCounts, setSongCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedCounts, setDisplayedCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
@@ -111,7 +111,8 @@ export function Stats() {
 
         function itemClicked(size) {
             toggle()
-            setSongCountsLimit(size)
+            //setSongCountsLimit(size)
+            numSongs = size
             setDisplayedCounts(allSongs.slice(0, size))
             //console.log(songCounts.slice(0, size))
             //setDisplayedTable(<CountsTable displayedCounts={songCounts.slice(0, size)}/>)
@@ -156,7 +157,8 @@ export function Stats() {
 
         function itemClicked(size) {
             toggle()
-            setAlbumCountsLimit(size)
+            //setAlbumCountsLimit(size)
+            numAlbums = size
             setDisplayedAlbums(allAlbums.slice(0, size))
         }
 
