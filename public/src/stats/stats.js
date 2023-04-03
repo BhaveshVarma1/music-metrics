@@ -140,7 +140,7 @@ export function Stats() {
                         </div>
                     )}
                     <div className='dropdown-button' onClick={toggle}>
-                        Select table size... {allSongs}
+                        Select table size...
                     </div>
                 </div>
             </div>
@@ -184,7 +184,7 @@ export function Stats() {
                         </div>
                     )}
                     <div className='dropdown-button' onClick={toggle}>
-                        Select table size... {allAlbums}
+                        Select table size...
                     </div>
                 </div>
             </div>
