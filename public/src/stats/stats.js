@@ -65,6 +65,13 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
+        fetch(BASE_URL_API + '/api/v1/decadeBreakdown/' + localStorage.getItem('username'), fetchInit('/api/v1/decadeBreakdown', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
     }, [])
 
     if (getToken() == null || getToken() === 'undefined') {
