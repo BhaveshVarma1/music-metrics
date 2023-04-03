@@ -8,8 +8,6 @@ const DEFAULT_SONG_COUNT_LIMIT = 100
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
 let allSongs = [{"song": "Loading...", "artist": "Loading...", "count": 0}]
 let allAlbums = [{"album": "Loading...", "artist": "Loading...", "count": 0}]
-let numSongs = DEFAULT_SONG_COUNT_LIMIT
-let numAlbums = DEFAULT_ALBUM_COUNT_LIMIT
 
 export function Stats() {
 
@@ -102,7 +100,6 @@ export function Stats() {
 
         function itemClicked(size) {
             toggle()
-            numSongs = size
             setDropdownValue(size)
             setDisplayedTable(<CountsTable displayedCounts={allSongs.slice(0, size)}/>)
         }
@@ -147,7 +144,6 @@ export function Stats() {
 
         function itemClicked(size) {
             toggle()
-            numAlbums = size
             setDropdownValue(size)
             setDisplayedTable(<AlbumsTable displayedAlbums={allAlbums.slice(0, size)}/>)
         }
