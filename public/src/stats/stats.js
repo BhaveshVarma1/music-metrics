@@ -107,7 +107,7 @@ export function Stats() {
             toggle()
             setSongCountsLimit(size)
             //setDisplayedCounts(songCounts.slice(0, size))
-            setDisplayedTable(<CountsTable displayedCounts={data.songCounts.slice(0, size)}/>)
+            setDisplayedTable(<CountsTable displayedCounts={songCounts.slice(0, size)}/>)
         }
 
         useEffect(() => {
