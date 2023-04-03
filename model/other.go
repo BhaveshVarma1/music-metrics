@@ -1,5 +1,10 @@
 package model
 
+type DecadeBreakdown struct {
+	Decade string `json:"decade"`
+	Count  int    `json:"count"`
+}
+
 type RecentlyPlayedObject struct {
 	Song      SongBean
 	Album     AlbumBean

@@ -20,3 +20,9 @@ type TopAlbumsResponse struct {
 	Success   bool       `json:"success"`
 	TopAlbums []TopAlbum `json:"topAlbums,omitempty"`
 }
+
+type DecadeBreakdownResponse struct {
+	Message          string            `json:"message,omitempty"`
+	Success          bool              `json:"success"`
+	DecadeBreakdowns []DecadeBreakdown `json:"decadeBreakdowns,omitempty"`
+}
