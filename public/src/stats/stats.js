@@ -152,6 +152,7 @@ export function Stats() {
 
     function AlbumsDropdown() {
         const [isOpen, setIsOpen] = useState(false);
+        const [dropdownValue, setDropdownValue] = useState(DEFAULT_ALBUM_COUNT_LIMIT)
 
         function toggle() {
             setIsOpen(!isOpen);
@@ -161,7 +162,9 @@ export function Stats() {
             toggle()
             //setAlbumCountsLimit(size)
             numAlbums = size
-            setDisplayedAlbums(allAlbums.slice(0, size))
+            setDropdownValue(size)
+            //setDisplayedAlbums(allAlbums.slice(0, size))
+            setDisplayedTable(<AlbumsTable displayedAlbums={allAlbums.slice(0, size)}/>)
         }
 
         useEffect(() => {
@@ -186,7 +189,7 @@ export function Stats() {
                         </div>
                     )}
                     <div className='dropdown-button' onClick={toggle}>
-                        Select table size...
+                        Select table size... {dropdownValue}
                     </div>
                 </div>
             </div>
