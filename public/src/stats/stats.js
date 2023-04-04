@@ -102,7 +102,7 @@ function SongsTable() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    })
+    }, [])
 
     function SongsDropdown() {
         const [isOpen, setIsOpen] = useState(false);
@@ -191,7 +191,7 @@ function ArtistsTable() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    })
+    }, [])
 
     function ArtistsDropdown() {
         const [isOpen, setIsOpen] = useState(false);
@@ -278,7 +278,7 @@ function AlbumsTable() {
             }).catch(error => {
             console.log("ERROR: " + error)
         })
-    })
+    }, [])
 
     function AlbumsDropdown() {
         const [isOpen, setIsOpen] = useState(false);
