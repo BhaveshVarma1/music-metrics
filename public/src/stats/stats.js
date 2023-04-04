@@ -444,7 +444,7 @@ function TopTable(props) {
     // initialState, url, fixArtistNames, defaultCount, ddValues, thead, itemCallback
 
     const [allItems, setAllItems] = useState(props.initialState)
-    const [displayedItems, setDisplayedItems] = useState([])
+    const [displayedItems, setDisplayedItems] = useState(props.initialState)
 
     useEffect(() => {
         fetch(BASE_URL_API + props.url + '/' + localStorage.getItem('username'), fetchInit(props.url, null, getToken()))
