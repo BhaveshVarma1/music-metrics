@@ -509,7 +509,7 @@ function TopTable(props) {
             <table className={"table-all"}>
                 {props.thead}
                 <tbody>
-                {displayedItems.map(props.itemCallback)}
+                {displayedItems != null && displayedItems.map(props.itemCallback)}
                 </tbody>
             </table>
             <Dropdown/>
