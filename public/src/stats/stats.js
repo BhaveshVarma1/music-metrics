@@ -25,18 +25,17 @@ export function Stats() {
         fixArtistNames: true,
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
-        thead: () => {
-            return (
-                <thead>
-                <tr className={"table-column-names"}>
-                    <th>Rank</th>
-                    <th>Song name</th>
-                    <th>Artist</th>
-                    <th style={{textAlign: 'right'}}>Count</th>
-                </tr>
-                </thead>
-            )
-        },
+        tableStyle: 'table-all',
+        thead: (
+            <thead>
+            <tr className={"table-column-names"}>
+                <th>Rank</th>
+                <th>Song name</th>
+                <th>Artist</th>
+                <th style={{textAlign: 'right'}}>Count</th>
+            </tr>
+            </thead>
+        ),
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
@@ -54,17 +53,16 @@ export function Stats() {
         fixArtistNames: false,
         defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
-        thead: () => {
-            return (
-                <thead>
-                <tr className={"table-column-names"}>
-                    <th>Rank</th>
-                    <th>Artist name</th>
-                    <th style={{textAlign: 'right'}}>Count</th>
-                </tr>
-                </thead>
-            )
-        },
+        tableStyle: 'table-all table-all-artist',
+        thead: (
+            <thead>
+            <tr className={"table-column-names"}>
+                <th>Rank</th>
+                <th>Artist name</th>
+                <th style={{textAlign: 'right'}}>Count</th>
+            </tr>
+            </thead>
+        ),
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
@@ -81,18 +79,17 @@ export function Stats() {
         fixArtistNames: true,
         defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
-        thead: () => {
-            return (
-                <thead>
-                <tr className={"table-column-names"}>
-                    <th>Rank</th>
-                    <th>Album name</th>
-                    <th>Artist</th>
-                    <th style={{textAlign: 'right'}}>Count</th>
-                </tr>
-                </thead>
-            )
-        },
+        tableStyle: 'table-all',
+        thead: (
+            <thead>
+            <tr className={"table-column-names"}>
+                <th>Rank</th>
+                <th>Album name</th>
+                <th>Artist</th>
+                <th style={{textAlign: 'right'}}>Count</th>
+            </tr>
+            </thead>
+        ),
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
@@ -441,7 +438,7 @@ function TopTable(props) {
     props = props.props
 
     // TO PASS IN AS PROPS:
-    // initialState, url, fixArtistNames, defaultCount, ddValues, thead, itemCallback
+    // initialState, url, fixArtistNames, defaultCount, ddValues, tableStyle, thead, itemCallback
 
     const [allItems, setAllItems] = useState(props.initialState)
     const [displayedItems, setDisplayedItems] = useState(props.initialState)
@@ -506,7 +503,7 @@ function TopTable(props) {
 
     return (
         <div>
-            <table className={"table-all"}>
+            <table className={props.tableStyle}>
                 {props.thead}
                 <tbody>
                 {displayedItems != null && displayedItems.map(props.itemCallback)}
