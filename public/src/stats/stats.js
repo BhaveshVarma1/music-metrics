@@ -266,7 +266,7 @@ function DecadePieChart() {
                 options={{
                     title: 'Decade breakdown',
                     backgroundColor: 'transparent',
-                    fontColor: '#cce2e6',
+                    fontColor: 'white',
                 }}
             />
         </div>
