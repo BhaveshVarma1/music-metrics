@@ -92,11 +92,11 @@
 .selector-option {
     padding: .5rem;
     width: 33.3%;
-    text-align: center;
     border-top: .1rem solid #cce2e6;
     border-bottom: .1rem solid #cce2e6;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .selector-selected {
