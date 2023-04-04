@@ -163,6 +163,7 @@ export function Stats() {
 
 }
 
+// SECONDARY COMPONENTS
 function TopTable(props) {
     // For some reason, props is wrapped in another props object
     props = props.props
@@ -172,6 +173,7 @@ function TopTable(props) {
 
     const [allItems, setAllItems] = useState(props.initialState)
     const [displayedItems, setDisplayedItems] = useState(props.initialState)
+    const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
 
     useEffect(() => {
         fetch(BASE_URL_API + props.url + '/' + localStorage.getItem('username'), fetchInit(props.url, null, getToken()))
@@ -189,7 +191,7 @@ function TopTable(props) {
 
     function Dropdown() {
         const [isOpen, setIsOpen] = useState(false);
-        const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
+        //const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
 
         // Close the dropdown if the user clicks outside of it
         useEffect(() => {
