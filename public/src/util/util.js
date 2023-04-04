@@ -21,7 +21,7 @@ const HTTP_METHODS = {
 // ELEMENTS COMMON TO EVERY PAGE ---------------------------------------------------------------------------------------
 
 export function Header() {// The default navigation bar in landscape mode
-    const navButtonsLandscape = (
+    const [navButtonsLandscape, setNavButtonsLandscape] = useState(
         <div className='nav-buttons default-text-color'>
             <NavButton url="/" text="HOME"/>
             <NavButton url="/stats" text="STATS"/>
@@ -30,7 +30,7 @@ export function Header() {// The default navigation bar in landscape mode
     )
 
     // The navigation bar in portrait mode, defined below.
-    const navButtonsPortrait = (
+    const [navButtonsPortrait, setNavButtonsPortrait] = useState(
         <HamburgerMenu/>
     )
 
