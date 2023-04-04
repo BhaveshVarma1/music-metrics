@@ -447,6 +447,7 @@ function TopTable(props) {
     const [displayedItems, setDisplayedItems] = useState(props.initialState)
 
     useEffect(() => {
+        console.log("FETCHING: " + BASE_URL_API + props.url + '/' + localStorage.getItem('username'))
         fetch(BASE_URL_API + props.url + '/' + localStorage.getItem('username'), fetchInit(props.url, null, getToken()))
             .then(response => response.json())
             .then(data => {
