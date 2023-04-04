@@ -94,7 +94,7 @@ export function Header() {// The default navigation bar in landscape mode
         return () => {
             mediaQuery.removeEventListener('change', handleOrientationChange);
         };
-    }, [])
+    }, [navButtonsLandscape, navButtonsPortrait]);
 
     return (
         <header className="header-all">
