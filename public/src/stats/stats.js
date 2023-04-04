@@ -439,7 +439,7 @@ function AlbumsTable() {
 }*/
 
 function TopTable(props) {
-    console.log(props)
+    props = props.props
 
     // TO PASS IN AS PROPS:
     // initialState, url, fixArtistNames, defaultCount, ddValues, thead, itemCallback
