@@ -19,7 +19,7 @@ export function Stats() {
 
     const [averageYear, setAverageYear] = useState('Calculating...');
 
-    const [displayedTable, setDisplayedTable] = useState(topSongsTable);
+    const [displayedTable, setDisplayedTable] = useState(<SongsTable/>);
 
     // Call MusicMetrics APIs
     useEffect(() => {
