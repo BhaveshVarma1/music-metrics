@@ -106,6 +106,12 @@
     width: 40rem !important;
 }
 
+@media (orientation: portrait) {
+    .table-all-artist {
+        width: 90% !important;
+    }
+}
+
 .table-column-names {
     color: #3de2ff;
 }
