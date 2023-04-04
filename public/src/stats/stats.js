@@ -1,4 +1,4 @@
-// noinspection JSUnresolvedVariable
+// noinspection JSUnresolvedVariable,JSCheckFunctionSignatures
 
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
@@ -16,6 +16,7 @@ export function Stats() {
     const [songStyle, setSongStyle] = useState(selectedStyle);
     const [artistStyle, setArtistStyle] = useState(unselectedStyle);
     const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
+    const [chartStyle, setChartStyle] = useState(unselectedStyle);
 
     const [averageYear, setAverageYear] = useState('Calculating...');
 
@@ -101,8 +102,7 @@ export function Stats() {
             )
         }
     }
-    //const [displayedTable, setDisplayedTable] = useState(<TopTable props={songTableProps}/>);
-    const [currentProps, setCurrentProps] = useState(songTableProps)
+    const [currentData, setCurrentData] = useState(<TopTable props={songTableProps}/>);
 
     // Call MusicMetrics APIs
     useEffect(() => {
@@ -133,27 +133,36 @@ export function Stats() {
         setSongStyle(selectedStyle)
         setArtistStyle(unselectedStyle)
         setAlbumStyle(unselectedStyle)
+        setChartStyle(unselectedStyle)
 
-        //setDisplayedTable(<TopTable props={songTableProps}/>)
-        setCurrentProps(songTableProps)
+        setCurrentData(<TopTable props={songTableProps}/>)
     }
 
     function setToArtist() {
         setSongStyle(unselectedStyle)
         setArtistStyle(selectedStyle)
         setAlbumStyle(unselectedStyle)
+        setChartStyle(unselectedStyle)
 
-        //setDisplayedTable(<TopTable props={artistTableProps}/>)
-        setCurrentProps(artistTableProps)
+        setCurrentData(<TopTable props={artistTableProps}/>)
     }
 
     function setToAlbum() {
         setSongStyle(unselectedStyle)
         setArtistStyle(unselectedStyle)
         setAlbumStyle(selectedStyle)
+        setChartStyle(unselectedStyle)
 
-        //setDisplayedTable(<TopTable props={albumTableProps}/>)
-        setCurrentProps(albumTableProps)
+        setCurrentData(<TopTable props={albumTableProps}/>)
+    }
+
+    function setToChart() {
+        setSongStyle(unselectedStyle)
+        setArtistStyle(unselectedStyle)
+        setAlbumStyle(unselectedStyle)
+        setChartStyle(selectedStyle)
+
+        setCurrentData(<AllCharts/>)
     }
 
     return (
@@ -163,10 +172,10 @@ export function Stats() {
             <div className={'selector'}>
                 <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
                 <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
-                <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
+                <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
+                <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Charts</div>
             </div>
-            <TopTable props={currentProps}/>
-            <DecadePieChart/>
+            {currentData}
         </div>
     )
 
@@ -249,6 +258,14 @@ function TopTable(props) {
                 </tbody>
             </table>
             <Dropdown/>
+        </div>
+    )
+}
+
+function AllCharts() {
+    return (
+        <div>
+            <DecadePieChart/>
         </div>
     )
 }
