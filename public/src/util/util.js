@@ -20,21 +20,8 @@ const HTTP_METHODS = {
 
 // ELEMENTS COMMON TO EVERY PAGE ---------------------------------------------------------------------------------------
 
-export function Header() {// The default navigation bar in landscape mode
-    const [navButtonsLandscape, setNavButtonsLandscape] = useState(
-        <div className='nav-buttons default-text-color'>
-            <NavButton url="/" text="HOME"/>
-            <NavButton url="/stats" text="STATS"/>
-            <NavButton url="/account" text="ACCOUNT"/>
-        </div>
-    )
-
-    // The navigation bar in portrait mode, defined below.
-    const [navButtonsPortrait, setNavButtonsPortrait] = useState(
-        <HamburgerMenu/>
-    )
-
-    const [navButtons, setNavButtons] = useState(navButtonsPortrait);
+export function Header() {
+    const [navButtons, setNavButtons] = useState(null);
 
     function NavButton(props) {
         return (
@@ -83,6 +70,18 @@ export function Header() {// The default navigation bar in landscape mode
 
     // Dynamically change the navigation bar based on the orientation of the device.
     useEffect(() => {
+        // The default navigation bar in landscape mode
+        const navButtonsLandscape = (
+            <div className='nav-buttons default-text-color'>
+                <NavButton url="/" text="HOME"/>
+                <NavButton url="/stats" text="STATS"/>
+                <NavButton url="/account" text="ACCOUNT"/>
+            </div>
+        )
+        // The navigation bar in portrait mode, defined below.
+        const navButtonsPortrait = (
+            <HamburgerMenu/>
+        )
         const mediaQuery = window.matchMedia('(orientation: portrait)');
         setNavButtons(mediaQuery.matches ? navButtonsPortrait : navButtonsLandscape);
 
@@ -94,7 +93,7 @@ export function Header() {// The default navigation bar in landscape mode
         return () => {
             mediaQuery.removeEventListener('change', handleOrientationChange);
         };
-    }, [navButtonsLandscape, navButtonsPortrait]);
+    }, []);
 
     return (
         <header className="header-all">
