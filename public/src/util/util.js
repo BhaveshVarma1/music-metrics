@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedVariable
+
 import './util.css';
 import logo from './logo.png';
 import {Link} from 'react-router-dom';
@@ -18,9 +20,7 @@ const HTTP_METHODS = {
 
 // ELEMENTS COMMON TO EVERY PAGE ---------------------------------------------------------------------------------------
 
-export function Header() {
-
-    // The default navigation bar in landscape mode
+export function Header() {// The default navigation bar in landscape mode
     const navButtonsLandscape = (
         <div className='nav-buttons default-text-color'>
             <NavButton url="/" text="HOME"/>
@@ -33,6 +33,8 @@ export function Header() {
     const navButtonsPortrait = (
         <HamburgerMenu/>
     )
+
+    const [navButtons, setNavButtons] = useState(navButtonsPortrait);
 
     function NavButton(props) {
         return (
@@ -53,11 +55,11 @@ export function Header() {
 
         useEffect(() => {
             document.addEventListener('click', (event) => {
-                if (isOpen && !event.target.classList.toString().includes('hamburger')) {
+                if (!event.target.classList.toString().includes('hamburger')) {
                     setIsOpen(false);
                 }
             })
-        }, [isOpen])
+        }, [])
 
         return (
             <div className='hamburger'>
@@ -79,8 +81,6 @@ export function Header() {
         )
     }
 
-    const [navButtons, setNavButtons] = useState(navButtonsPortrait);
-
     // Dynamically change the navigation bar based on the orientation of the device.
     useEffect(() => {
         const mediaQuery = window.matchMedia('(orientation: portrait)');
@@ -94,7 +94,7 @@ export function Header() {
         return () => {
             mediaQuery.removeEventListener('change', handleOrientationChange);
         };
-    }, [navButtonsPortrait, navButtonsLandscape])
+    }, [])
 
     return (
         <header className="header-all">
