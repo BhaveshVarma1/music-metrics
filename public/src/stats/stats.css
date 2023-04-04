@@ -1,6 +1,7 @@
 .chart-wrapper {
-    display: flex;
-    justify-content: center;
+    margin: 0 auto;
+    width: 30rem;
+    height: 30rem;
 }
 
 .corner-rounded-left {
