@@ -265,6 +265,7 @@ function DecadePieChart() {
                 data={chartData}
                 options={{
                     title: 'Decade breakdown',
+                    backgroundColor: 'transparent',
                 }}
             />
         </div>
