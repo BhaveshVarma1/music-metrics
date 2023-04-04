@@ -24,5 +24,5 @@ type TopAlbumsResponse struct {
 type DecadeBreakdownResponse struct {
 	Message          string            `json:"message,omitempty"`
 	Success          bool              `json:"success"`
-	DecadeBreakdowns []DecadeBreakdown `json:"decadeBreakdowns,omitempty"`
+	DecadeBreakdowns []DecadeBreakdown `json:"decadeBreakdown,omitempty"`
 }
