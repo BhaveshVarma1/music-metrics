@@ -211,11 +211,11 @@ function TopTable(props) {
 
         useEffect(() => {
             document.addEventListener('click', (event) => {
-                if (isOpen && !event.target.classList.toString().includes('dropdown')) {
+                if (!event.target.classList.toString().includes('dropdown')) {
                     setIsOpen(false);
                 }
             })
-        }, [isOpen])
+        }, [])
 
         function toggle() {
             setIsOpen(!isOpen);
