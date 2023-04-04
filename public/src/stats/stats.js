@@ -176,6 +176,7 @@ function TopTable(props) {
     const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
 
     useEffect(() => {
+        setDropdownValue(props.defaultCount)
         fetch(BASE_URL_API + props.url + '/' + localStorage.getItem('username'), fetchInit(props.url, null, getToken()))
             .then(response => response.json())
             .then(data => {
