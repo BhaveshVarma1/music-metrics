@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 
 const DEFAULT_SONG_COUNT_LIMIT = 100
+const DEFAULT_ARTIST_COUNT_LIMIT = 50
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
 let allSongs = [{"song": "Loading...", "artist": "Loading...", "count": 0}]
 let allArtists = [{"artist": "Loading...", "count": 0}]
@@ -16,19 +17,23 @@ export function Stats() {
     const selectedStyle = 'selector-selected'
     const unselectedStyle = 'selector-unselected'
     const [songStyle, setSongStyle] = useState(selectedStyle);
+    const [artistStyle, setArtistStyle] = useState(unselectedStyle);
     const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
 
     const [averageYear, setAverageYear] = useState('Calculating...');
     const [displayedSongs, setDisplayedSongs] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
+    const [displayedArtists, setDisplayedArtists] = useState([{"artist": "Loading...", "count": 0}]);
     const [displayedAlbums, setDisplayedAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
 
     const topSongsTable = <SongsTable displayedCounts={displayedSongs}/>
+    const topArtistsTable = <ArtistsTable displayedCounts={displayedArtists}/>
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
     const [displayedTable, setDisplayedTable] = useState(topSongsTable);
 
-    const countsDropdown = <CountsDropdown/>
+    const songsDropdown = <SongsDropdown/>
+    const artistsDropdown = <ArtistsDropdown/>
     const albumsDropdown = <AlbumsDropdown/>
-    const [currentDropdown, setCurrentDropdown] = useState(<CountsDropdown/>)
+    const [currentDropdown, setCurrentDropdown] = useState(<SongsDropdown/>)
 
     // Call MusicMetrics APIs
     useEffect(() => {
@@ -64,6 +69,7 @@ export function Stats() {
                 console.log(data)
                 addRankColumn(data.topArtists)
                 allArtists = data.topArtists
+                setDisplayedArtists(data.topArtists.slice(0, DEFAULT_ARTIST_COUNT_LIMIT))
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
@@ -91,19 +97,32 @@ export function Stats() {
 
     function setToSong() {
         setSongStyle(selectedStyle)
+        setArtistStyle(unselectedStyle)
         setAlbumStyle(unselectedStyle)
+
         setDisplayedTable(topSongsTable)
-        setCurrentDropdown(countsDropdown)
+        setCurrentDropdown(songsDropdown)
+    }
+
+    function setToArtist() {
+        setSongStyle(unselectedStyle)
+        setArtistStyle(selectedStyle)
+        setAlbumStyle(unselectedStyle)
+
+        setDisplayedTable(topArtistsTable)
+        setCurrentDropdown(artistsDropdown)
     }
 
     function setToAlbum() {
         setSongStyle(unselectedStyle)
+        setArtistStyle(unselectedStyle)
         setAlbumStyle(selectedStyle)
+
         setDisplayedTable(topAlbumsTable)
         setCurrentDropdown(albumsDropdown)
     }
 
-    function CountsDropdown() {
+    function SongsDropdown() {
         const [isOpen, setIsOpen] = useState(false);
         const [dropdownValue, setDropdownValue] = useState(DEFAULT_SONG_COUNT_LIMIT)
 
@@ -135,6 +154,50 @@ export function Stats() {
                                 <li onClick={() => itemClicked(50)}>50</li>
                                 <li onClick={() => itemClicked(100)}>100</li>
                                 <li onClick={() => itemClicked(250)}>250</li>
+                            </ul>
+                        </div>
+                    )}
+                    <div className='dropdown-button' onClick={toggle}>
+                        Select table size... {dropdownValue}
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
+
+    function ArtistsDropdown() {
+        const [isOpen, setIsOpen] = useState(false);
+        const [dropdownValue, setDropdownValue] = useState(DEFAULT_ARTIST_COUNT_LIMIT)
+
+        function toggle() {
+            setIsOpen(!isOpen);
+        }
+
+        function itemClicked(size) {
+            toggle()
+            setDropdownValue(size)
+            setDisplayedTable(<ArtistsTable displayedArtists={allArtists.slice(0, size)}/>)
+        }
+
+        useEffect(() => {
+            document.addEventListener('click', (event) => {
+                if (isOpen && !event.target.classList.toString().includes('dropdown')) {
+                    setIsOpen(false);
+                }
+            })
+        }, [isOpen])
+
+        return (
+            <div className={'dd-wrapper'}>
+                <div className='dropdown'>
+                    {isOpen && (
+                        <div className='dropdown-menu'>
+                            <ul>
+                                <li onClick={() => itemClicked(10)}>10</li>
+                                <li onClick={() => itemClicked(25)}>25</li>
+                                <li onClick={() => itemClicked(50)}>50</li>
+                                <li onClick={() => itemClicked(100)}>100</li>
                             </ul>
                         </div>
                     )}
@@ -197,6 +260,7 @@ export function Stats() {
             <SecondaryInfo text={"Average release year: " + averageYear}/>
             <div className={'selector'}>
                 <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+                <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
                 <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
             </div>
             {displayedTable}
@@ -207,7 +271,7 @@ export function Stats() {
 
 }
 
-function SongsTable({ displayedCounts }) {
+function SongsTable({ displayedSongs }) {
     return (
         <table className={"table-all"}>
             <thead>
@@ -219,7 +283,7 @@ function SongsTable({ displayedCounts }) {
             </tr>
             </thead>
             <tbody>
-            {displayedCounts.map(songCount => (
+            {displayedSongs.map(songCount => (
                 <tr className={"table-row"}>
                     <td>{songCount.rank}</td>
                     <td>{songCount.song}</td>
@@ -232,7 +296,27 @@ function SongsTable({ displayedCounts }) {
     )
 }
 
-function ArtistsTable() {
+function ArtistsTable({ displayedArtists }) {
+    return (
+        <table className={"table-all"}>
+            <thead>
+            <tr className={"table-column-names"}>
+                <th>Rank</th>
+                <th>Artist name</th>
+                <th style={{textAlign: 'right'}}>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            {displayedArtists.map(artistCount => (
+                <tr className={"table-row"}>
+                    <td>{artistCount.rank}</td>
+                    <td>{artistCount.artist}</td>
+                    <td style={{textAlign: 'right'}}>{artistCount.count}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+    )
 }
 
 function AlbumsTable({ displayedAlbums }) {
