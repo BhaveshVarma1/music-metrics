@@ -18,8 +18,6 @@ export function Stats() {
     const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
     const [chartStyle, setChartStyle] = useState(unselectedStyle);
 
-    const [averageYear, setAverageYear] = useState('Calculating...');
-
     const songTableProps = {
         initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
         url: '/api/v1/topSongs',
@@ -104,21 +102,6 @@ export function Stats() {
     }
     const [currentData, setCurrentData] = useState(<TopTable props={songTableProps}/>);
 
-    // Call MusicMetrics APIs
-    useEffect(() => {
-        if (getToken() == null || getToken() === 'undefined') {
-            return
-        }
-        fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setAverageYear(data.averageYear)
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-    }, [])
-
     if (getToken() == null || getToken() === 'undefined') {
         sessionStorage.setItem('route', 'stats')
         return (
@@ -168,7 +151,6 @@ export function Stats() {
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
-            <SecondaryInfo text={"Average release year: " + averageYear}/>
             <div className={'selector'}>
                 <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
                 <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
@@ -209,6 +191,7 @@ function TopTable(props) {
         const [isOpen, setIsOpen] = useState(false);
         const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
 
+        // Close the dropdown if the user clicks outside of it
         useEffect(() => {
             document.addEventListener('click', (event) => {
                 if (!event.target.classList.toString().includes('dropdown')) {
@@ -263,8 +246,22 @@ function TopTable(props) {
 }
 
 function AllCharts() {
+    const [averageYear, setAverageYear] = useState('Calculating...');
+
+    useEffect(() => {
+        fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setAverageYear(data.averageYear)
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
+    }, [])
+
     return (
         <div>
+            <SecondaryInfo text={"Average release year: " + averageYear}/>
             <DecadePieChart/>
         </div>
     )
