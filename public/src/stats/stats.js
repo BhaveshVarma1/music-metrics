@@ -68,7 +68,7 @@ export function Stats() {
         fetch(BASE_URL_API + '/api/v1/decadeBreakdown/' + localStorage.getItem('username'), fetchInit('/api/v1/decadeBreakdown', null, getToken()))
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                //console.log(data)
                 convertDecadesToPieChartData(data.decadeBreakdown)
             }).catch(error => {
                 console.log("ERROR: " + error)
@@ -255,6 +255,7 @@ function fixArtistNames(items) {
 
 function convertDecadesToPieChartData(data) {
     let result = [["Decade", "Count"]]
+    console.log(data)
     data.forEach(item => {
         data.push([item.decade, item.count])
     })
