@@ -190,7 +190,7 @@ function TopTable(props) {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [])
+    }, [props])
 
     function Dropdown() {
         const [isOpen, setIsOpen] = useState(false);
