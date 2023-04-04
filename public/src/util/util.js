@@ -94,7 +94,7 @@ export function Header() {
         return () => {
             mediaQuery.removeEventListener('change', handleOrientationChange);
         };
-    }, [navButtonsPortrait, navButtonsLandscape])
+    })
 
     return (
         <header className="header-all">
