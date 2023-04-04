@@ -19,8 +19,6 @@ export function Stats() {
 
     const [averageYear, setAverageYear] = useState('Calculating...');
 
-    // TO PASS IN AS PROPS:
-    // initialState, url, fixArtistNames, defaultCount, ddValues, thead, itemCallback
     const songTableProps = {
         initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
         url: '/api/v1/topSongs',
@@ -439,6 +437,7 @@ function AlbumsTable() {
 }*/
 
 function TopTable(props) {
+    // For some reason, props is wrapped in another props object
     props = props.props
 
     // TO PASS IN AS PROPS:
@@ -448,7 +447,6 @@ function TopTable(props) {
     const [displayedItems, setDisplayedItems] = useState(props.initialState)
 
     useEffect(() => {
-        console.log("FETCHING: " + BASE_URL_API + props.url + '/' + localStorage.getItem('username'))
         fetch(BASE_URL_API + props.url + '/' + localStorage.getItem('username'), fetchInit(props.url, null, getToken()))
             .then(response => response.json())
             .then(data => {
