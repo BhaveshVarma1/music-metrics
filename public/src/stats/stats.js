@@ -255,7 +255,8 @@ function fixArtistNames(items) {
 
 function convertDecadesToPieChartData(data) {
     let result = [["Decade", "Count"]]
-    console.log("DATA PASSED IN:" + data)
+    console.log("DATA PASSED IN:")
+    console.log(data)
     data.forEach(item => {
         data.push([item.decade, item.count])
     })
