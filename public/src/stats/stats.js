@@ -47,6 +47,7 @@ export function Stats() {
             .then(data => {
                 console.log(data)
                 fixArtistNames(data.songCounts)
+                addRankColumn(data.songCounts)
                 allSongs = data.songCounts
                 setDisplayedCounts(data.songCounts.slice(0, DEFAULT_SONG_COUNT_LIMIT))
                 // This line is needed because React's state update is asynchronous
@@ -61,6 +62,7 @@ export function Stats() {
             .then(data => {
                 console.log(data)
                 fixArtistNames(data.topAlbums)
+                addRankColumn(data.topAlbums)
                 allAlbums = data.topAlbums
                 setDisplayedAlbums(data.topAlbums.slice(0, DEFAULT_ALBUM_COUNT_LIMIT))
             }).catch(error => {
@@ -208,6 +210,7 @@ function CountsTable({ displayedCounts }) {
             <tbody>
             {displayedCounts.map(songCount => (
                 <tr className={"table-row"}>
+                    <td>{songCount.rank}</td>
                     <td>{songCount.song}</td>
                     <td>{songCount.artist}</td>
                     <td style={{textAlign: 'right'}}>{songCount.count}</td>
@@ -231,6 +234,7 @@ function AlbumsTable({ displayedAlbums }) {
             <tbody>
             {displayedAlbums.map(albumCount => (
                 <tr className={"table-row"}>
+                    <td>{albumCount.rank}</td>
                     <td>{albumCount.album}</td>
                     <td>{albumCount.artist}</td>
                     <td style={{textAlign: 'right'}}>{albumCount.count}</td>
@@ -281,6 +285,14 @@ function DecadePieChart() {
 function fixArtistNames(items) {
     items.forEach(item => {
         item.artist = item.artist.replaceAll(';;', ', ')
+    })
+}
+
+function addRankColumn(items) {
+    let rank = 1
+    items.forEach(item => {
+        item.rank = rank
+        rank++
     })
 }
 
