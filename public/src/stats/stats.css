@@ -108,7 +108,7 @@
 
 .table-column-names th {
     text-align: left;
-    padding: .62rem 0;
+    padding: .62rem .5rem;
     border-bottom: .06rem solid #555555;
 }
 
@@ -117,5 +117,5 @@
 }
 
 .table-row td {
-    padding: .62rem 0;
+    padding: .62rem .5rem;
 }
