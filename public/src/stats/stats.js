@@ -3,6 +3,7 @@
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
 import {useEffect, useState} from "react";
+import {Chart} from "react-google-charts";
 
 const DEFAULT_SONG_COUNT_LIMIT = 100
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
@@ -62,14 +63,6 @@ export function Stats() {
                 fixArtistNames(data.topAlbums)
                 allAlbums = data.topAlbums
                 setDisplayedAlbums(data.topAlbums.slice(0, DEFAULT_ALBUM_COUNT_LIMIT))
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-        fetch(BASE_URL_API + '/api/v1/decadeBreakdown/' + localStorage.getItem('username'), fetchInit('/api/v1/decadeBreakdown', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                convertDecadesToPieChartData(data.decadeBreakdown)
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
@@ -196,6 +189,7 @@ export function Stats() {
             </div>
             {displayedTable}
             {currentDropdown}
+            <DecadePieChart/>
         </div>
     )
 
@@ -247,6 +241,35 @@ function AlbumsTable({ displayedAlbums }) {
     )
 }
 
+function DecadePieChart() {
+
+    const [chartData, setChartData] = useState([["Decade", "Count"]])
+
+    useEffect(() => {
+        fetch(BASE_URL_API + '/api/v1/decadeBreakdown/' + localStorage.getItem('username'), fetchInit('/api/v1/decadeBreakdown', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setChartData(convertDecadesToPieChartData(data.decadeBreakdown))
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
+    }, [])
+
+    return (
+        <Chart
+            width={'50rem'}
+            height={'50rem'}
+            chartType="PieChart"
+            data={chartData}
+            options={{
+                title: 'Decade breakdown',
+            }}
+        />
+    )
+
+}
+
 function fixArtistNames(items) {
     items.forEach(item => {
         item.artist = item.artist.replaceAll(';;', ', ')
@@ -255,11 +278,8 @@ function fixArtistNames(items) {
 
 function convertDecadesToPieChartData(data) {
     let result = [["Decade", "Count"]]
-    //console.log("DATA PASSED IN:")
-    //console.log(data)
     data.forEach(item => {
         result.push([item.decade, item.count])
     })
-    console.log(result)
     return result
 }
