@@ -264,7 +264,6 @@ function DecadePieChart() {
                 chartType="PieChart"
                 data={chartData}
                 options={{
-                    title: none,
                     backgroundColor: 'transparent',
                     fontColor: '#cce2e6',
                     legend: {
