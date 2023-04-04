@@ -259,8 +259,8 @@ function DecadePieChart() {
     return (
         <div className={'chart-wrapper'}>
             <Chart
-                width={'50rem'}
-                height={'50rem'}
+                width={'30rem'}
+                height={'30rem'}
                 chartType="PieChart"
                 data={chartData}
                 options={{
