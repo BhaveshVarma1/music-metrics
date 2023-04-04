@@ -202,6 +202,7 @@ function CountsTable({ displayedCounts }) {
         <table className={"table-all"}>
             <thead>
             <tr className={"table-column-names"}>
+                <th>Rank</th>
                 <th>Song name</th>
                 <th>Artist</th>
                 <th style={{textAlign: 'right'}}>Count</th>
@@ -226,6 +227,7 @@ function AlbumsTable({ displayedAlbums }) {
         <table className={"table-all"}>
             <thead>
             <tr className={"table-column-names"}>
+                <th>Rank</th>
                 <th>Album name</th>
                 <th>Artist</th>
                 <th style={{textAlign: 'right'}}>Count</th>
