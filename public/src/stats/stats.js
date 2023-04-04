@@ -528,7 +528,7 @@ function DecadePieChart() {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setChartData(convertDecadesToPieChartData(data.decadeBreakdown))
+                setChartData(convertDecadesToPieChartData(data.items))
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
