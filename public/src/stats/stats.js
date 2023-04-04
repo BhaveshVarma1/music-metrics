@@ -267,6 +267,11 @@ function DecadePieChart() {
                     title: 'Decade breakdown',
                     backgroundColor: 'transparent',
                     fontColor: '#cce2e6',
+                    legend: {
+                        textStyle: {
+                            color: '#cce2e6'
+                        }
+                    }
                 }}
             />
         </div>
