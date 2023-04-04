@@ -101,7 +101,8 @@ export function Stats() {
             )
         }
     }
-    const [displayedTable, setDisplayedTable] = useState(<TopTable props={songTableProps}/>);
+    //const [displayedTable, setDisplayedTable] = useState(<TopTable props={songTableProps}/>);
+    const [currentProps, setCurrentProps] = useState(songTableProps)
 
     // Call MusicMetrics APIs
     useEffect(() => {
@@ -133,7 +134,8 @@ export function Stats() {
         setArtistStyle(unselectedStyle)
         setAlbumStyle(unselectedStyle)
 
-        setDisplayedTable(<TopTable props={songTableProps}/>)
+        //setDisplayedTable(<TopTable props={songTableProps}/>)
+        setCurrentProps(songTableProps)
     }
 
     function setToArtist() {
@@ -141,7 +143,8 @@ export function Stats() {
         setArtistStyle(selectedStyle)
         setAlbumStyle(unselectedStyle)
 
-        setDisplayedTable(<TopTable props={artistTableProps}/>)
+        //setDisplayedTable(<TopTable props={artistTableProps}/>)
+        setCurrentProps(artistTableProps)
     }
 
     function setToAlbum() {
@@ -149,7 +152,8 @@ export function Stats() {
         setArtistStyle(unselectedStyle)
         setAlbumStyle(selectedStyle)
 
-        setDisplayedTable(<TopTable props={albumTableProps}/>)
+        //setDisplayedTable(<TopTable props={albumTableProps}/>)
+        setCurrentProps(albumTableProps)
     }
 
     return (
@@ -161,7 +165,7 @@ export function Stats() {
                 <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
                 <div className={albumStyle + ' selector-option corner-rounded-right'} onClick={setToAlbum}>Top Albums</div>
             </div>
-            {displayedTable}
+            <TopTable props={currentProps}/>
             <DecadePieChart/>
         </div>
     )
