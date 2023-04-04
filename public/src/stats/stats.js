@@ -68,7 +68,8 @@ export function Stats() {
         fetch(BASE_URL_API + '/api/v1/decadeBreakdown/' + localStorage.getItem('username'), fetchInit('/api/v1/decadeBreakdown', null, getToken()))
             .then(response => response.json())
             .then(data => {
-                console.log(convertDecadesToPieChartData(data.decadeBreakdown))
+                console.log(data)
+                convertDecadesToPieChartData(data.decadeBreakdown)
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
