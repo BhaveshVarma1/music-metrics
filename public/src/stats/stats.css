@@ -102,6 +102,10 @@
     border-collapse: collapse;
 }
 
+.table-all-artist {
+    width: 40rem !important;
+}
+
 .table-column-names {
     color: #3de2ff;
 }

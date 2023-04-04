@@ -298,7 +298,7 @@ function SongsTable({ displayedSongs }) {
 
 function ArtistsTable({ displayedArtists }) {
     return (
-        <table className={"table-all"}>
+        <table className={"table-all table-all-artist"}>
             <thead>
             <tr className={"table-column-names"}>
                 <th>Rank</th>
