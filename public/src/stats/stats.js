@@ -257,15 +257,17 @@ function DecadePieChart() {
     }, [])
 
     return (
-        <Chart
-            width={'50rem'}
-            height={'50rem'}
-            chartType="PieChart"
-            data={chartData}
-            options={{
-                title: 'Decade breakdown',
-            }}
-        />
+        <div className={'chart-wrapper'}>
+            <Chart
+                width={'50rem'}
+                height={'50rem'}
+                chartType="PieChart"
+                data={chartData}
+                options={{
+                    title: 'Decade breakdown',
+                }}
+            />
+        </div>
     )
 
 }
