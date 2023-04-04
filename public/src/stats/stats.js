@@ -19,7 +19,94 @@ export function Stats() {
 
     const [averageYear, setAverageYear] = useState('Calculating...');
 
-    const [displayedTable, setDisplayedTable] = useState(<SongsTable/>);
+    // TO PASS IN AS PROPS:
+    // initialState, url, fixArtistNames, defaultCount, ddValues, thead, itemCallback
+    const songTableProps = {
+        initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
+        url: '/api/v1/topSongs',
+        fixArtistNames: true,
+        defaultCount: DEFAULT_SONG_COUNT_LIMIT,
+        ddValues: [25, 50, 100, 250],
+        thead: () => {
+            return (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th>Rank</th>
+                    <th>Song name</th>
+                    <th>Artist</th>
+                    <th style={{textAlign: 'right'}}>Count</th>
+                </tr>
+                </thead>
+            )
+        },
+        itemCallback: (item) => {
+            return (
+                <tr className={"table-row"}>
+                    <td>{item.rank}</td>
+                    <td>{item.song}</td>
+                    <td>{item.artist}</td>
+                    <td style={{textAlign: 'right'}}>{item.count}</td>
+                </tr>
+            )
+        }
+    }
+    const artistTableProps = {
+        initialState: [{"artist": "Loading...", "count": 0}],
+        url: '/api/v1/topArtists',
+        fixArtistNames: false,
+        defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
+        ddValues: [10, 25, 50, 100],
+        thead: () => {
+            return (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th>Rank</th>
+                    <th>Artist name</th>
+                    <th style={{textAlign: 'right'}}>Count</th>
+                </tr>
+                </thead>
+            )
+        },
+        itemCallback: (item) => {
+            return (
+                <tr className={"table-row"}>
+                    <td>{item.rank}</td>
+                    <td>{item.artist}</td>
+                    <td style={{textAlign: 'right'}}>{item.count}</td>
+                </tr>
+            )
+        }
+    }
+    const albumTableProps = {
+        initialState: [{"album": "Loading...", "artist": "Loading...", "count": 0}],
+        url: '/api/v1/topAlbums',
+        fixArtistNames: true,
+        defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
+        ddValues: [10, 25, 50, 100],
+        thead: () => {
+            return (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th>Rank</th>
+                    <th>Album name</th>
+                    <th>Artist</th>
+                    <th style={{textAlign: 'right'}}>Count</th>
+                </tr>
+                </thead>
+            )
+        },
+        itemCallback: (item) => {
+            return (
+                <tr className={"table-row"}>
+                    <td>{item.rank}</td>
+                    <td>{item.album}</td>
+                    <td>{item.artist}</td>
+                    <td style={{textAlign: 'right'}}>{item.count}</td>
+                </tr>
+            )
+        }
+    }
+    const [displayedTable, setDisplayedTable] = useState(<TopTable props={songTableProps}/>);
 
     // Call MusicMetrics APIs
     useEffect(() => {
@@ -51,7 +138,7 @@ export function Stats() {
         setArtistStyle(unselectedStyle)
         setAlbumStyle(unselectedStyle)
 
-        setDisplayedTable(<SongsTable/>)
+        setDisplayedTable(<TopTable props={songTableProps}/>)
     }
 
     function setToArtist() {
@@ -59,7 +146,7 @@ export function Stats() {
         setArtistStyle(selectedStyle)
         setAlbumStyle(unselectedStyle)
 
-        setDisplayedTable(<ArtistsTable/>)
+        setDisplayedTable(<TopTable props={artistTableProps}/>)
     }
 
     function setToAlbum() {
@@ -67,7 +154,7 @@ export function Stats() {
         setArtistStyle(unselectedStyle)
         setAlbumStyle(selectedStyle)
 
-        setDisplayedTable(<AlbumsTable/>)
+        setDisplayedTable(<TopTable props={albumTableProps}/>)
     }
 
     return (
@@ -86,7 +173,7 @@ export function Stats() {
 
 }
 
-function SongsTable() {
+/*function SongsTable() {
     const [allSongs, setAllSongs] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}])
     const [displayedSongs, setDisplayedSongs] = useState([])
 
@@ -276,8 +363,8 @@ function AlbumsTable() {
                 setAllAlbums(data.topAlbums)
                 setDisplayedAlbums(data.topAlbums.slice(0, DEFAULT_ALBUM_COUNT_LIMIT))
             }).catch(error => {
-            console.log("ERROR: " + error)
-        })
+                console.log("ERROR: " + error)
+            })
     }, [])
 
     function AlbumsDropdown() {
@@ -347,6 +434,85 @@ function AlbumsTable() {
                 </tbody>
             </table>
             <AlbumsDropdown/>
+        </div>
+    )
+}*/
+
+function TopTable(props) {
+
+    // TO PASS IN AS PROPS:
+    // initialState, url, fixArtistNames, defaultCount, ddValues, thead, itemCallback
+
+    const [allItems, setAllItems] = useState(props.initialState)
+    const [displayedItems, setDisplayedItems] = useState([])
+
+    useEffect(() => {
+        fetch(BASE_URL_API + props.url + '/' + localStorage.getItem('username'), fetchInit(props.url, null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (props.fixArtistNames) fixArtistNames(data.items)
+                addRankColumn(data.items)
+                setAllItems(data.items)
+                setDisplayedItems(data.items.slice(0, props.defaultCount))
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
+    }, [])
+
+    function Dropdown() {
+        const [isOpen, setIsOpen] = useState(false);
+        const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
+
+        useEffect(() => {
+            document.addEventListener('click', (event) => {
+                if (isOpen && !event.target.classList.toString().includes('dropdown')) {
+                    setIsOpen(false);
+                }
+            })
+        }, [isOpen])
+
+        function toggle() {
+            setIsOpen(!isOpen);
+        }
+
+        function itemClicked(size) {
+            toggle()
+            setDropdownValue(size)
+            setDisplayedItems(allItems.slice(0, size))
+        }
+
+        return (
+            <div className={'dd-wrapper'}>
+                <div className='dropdown'>
+                    {isOpen && (
+                        <div className='dropdown-menu'>
+                            <ul>
+                                <li onClick={() => itemClicked(props.ddValues[0])}>props.ddValues[0]</li>
+                                <li onClick={() => itemClicked(props.ddValues[1])}>props.ddValues[1]</li>
+                                <li onClick={() => itemClicked(props.ddValues[2])}>props.ddValues[2]</li>
+                                <li onClick={() => itemClicked(props.ddValues[3])}>props.ddValues[3]</li>
+                            </ul>
+                        </div>
+                    )}
+                    <div className='dropdown-button' onClick={toggle}>
+                        Select table size... {dropdownValue}
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
+
+    return (
+        <div>
+            <table className={"table-all"}>
+                {props.thead}
+                <tbody>
+                {displayedItems.map(props.itemCallback)}
+                </tbody>
+            </table>
+            <Dropdown/>
         </div>
     )
 }

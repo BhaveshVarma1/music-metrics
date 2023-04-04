@@ -62,7 +62,7 @@ func (s GetTopSongsService) ExecuteService(username string) model.StatsResponse 
 		return nil
 	}
 
-	return model.TopSongsResponse{Success: true, TopSongs: result}
+	return model.TopSongsResponse{Success: true, Items: result}
 }
 
 func (s GetTopAlbumsService) ExecuteService(username string) model.StatsResponse {
@@ -84,7 +84,7 @@ func (s GetTopAlbumsService) ExecuteService(username string) model.StatsResponse
 		return nil
 	}
 
-	return model.TopAlbumsResponse{Success: true, TopAlbums: result}
+	return model.TopAlbumsResponse{Success: true, Items: result}
 }
 
 func (s GetDecadeBreakdownService) ExecuteService(username string) model.StatsResponse {
@@ -106,7 +106,7 @@ func (s GetDecadeBreakdownService) ExecuteService(username string) model.StatsRe
 		return nil
 	}
 
-	return model.DecadeBreakdownResponse{Success: true, DecadeBreakdowns: result}
+	return model.DecadeBreakdownResponse{Success: true, Items: result}
 }
 
 func (s GetTopArtistsService) ExecuteService(username string) model.StatsResponse {
@@ -150,5 +150,5 @@ func (s GetTopArtistsService) ExecuteService(username string) model.StatsRespons
 		return nil
 	}
 
-	return model.TopArtistsResponse{Success: true, TopArtists: sortedArtists}
+	return model.TopArtistsResponse{Success: true, Items: sortedArtists}
 }
