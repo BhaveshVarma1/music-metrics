@@ -10,7 +10,8 @@ export const BASE_URL_WEB = 'https://dev.musicmetrics.app';
 const HTTP_METHODS = {
     '/api/v1/updateCode': 'POST',
     '/api/v1/averageYear': 'GET',
-    '/api/v1/songCounts': 'GET',
+    '/api/v1/topSongs': 'GET',
+    '/api/v1/topArtists': 'GET',
     '/api/v1/topAlbums': 'GET',
     '/api/v1/decadeBreakdown': 'GET',
 }

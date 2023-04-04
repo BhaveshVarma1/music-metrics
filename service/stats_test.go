@@ -14,10 +14,10 @@ func TestGetAverageYear(t *testing.T) {
 	fmt.Print(result)
 }
 
-func TestGetSongCounts(t *testing.T) {
+func TestGetTopSongs(t *testing.T) {
 
 	username := "prattnj"
-	var service GetSongCountsService
+	var service GetTopSongsService
 
 	result := service.ExecuteService(username)
 	fmt.Println(result)

@@ -9,10 +9,10 @@ type AverageYearResponse struct {
 	AverageYear int    `json:"averageYear,omitempty"`
 }
 
-type SongCountsResponse struct {
-	Message    string      `json:"message,omitempty"`
-	Success    bool        `json:"success"`
-	SongCounts []SongCount `json:"songCounts,omitempty"`
+type TopSongsResponse struct {
+	Message  string    `json:"message,omitempty"`
+	Success  bool      `json:"success"`
+	TopSongs []TopSong `json:"topSongs,omitempty"`
 }
 
 type TopAlbumsResponse struct {

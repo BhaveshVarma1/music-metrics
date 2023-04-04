@@ -20,7 +20,7 @@ func main() {
 	}))
 
 	var avgYearService service.GetAverageYearService
-	var songCountService service.GetSongCountsService
+	var topSongService service.GetTopSongsService
 	var topAlbumService service.GetTopAlbumsService
 	var decadeBreakdownService service.GetDecadeBreakdownService
 	var topArtistService service.GetTopArtistsService
@@ -28,10 +28,10 @@ func main() {
 	// API ENDPOINTS
 	e.POST("/api/v1/updateCode", handler.HandleUpdateCode)
 	e.GET("/api/v1/averageYear/:username", handler.StatsHandler(avgYearService))
-	e.GET("/api/v1/songCounts/:username", handler.StatsHandler(songCountService))
+	e.GET("/api/v1/topSongs/:username", handler.StatsHandler(topSongService))
+	e.GET("/api/v1/topArtists/:username", handler.StatsHandler(topArtistService))
 	e.GET("/api/v1/topAlbums/:username", handler.StatsHandler(topAlbumService))
 	e.GET("/api/v1/decadeBreakdown/:username", handler.StatsHandler(decadeBreakdownService))
-	e.GET("/api/v1/topArtists/:username", handler.StatsHandler(topArtistService))
 
 	// STATIC / REACT FILES
 	e.GET("/static/*", func(c echo.Context) error {

@@ -11,7 +11,7 @@ type RecentlyPlayedObject struct {
 	Timestamp int64
 }
 
-type SongCount struct {
+type TopSong struct {
 	Song   string `json:"song"`
 	Artist string `json:"artist"`
 	Count  int    `json:"count"`

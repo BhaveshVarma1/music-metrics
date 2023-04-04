@@ -13,7 +13,7 @@ type StatsService interface {
 
 type GetAverageYearService struct{}
 
-type GetSongCountsService struct{}
+type GetTopSongsService struct{}
 
 type GetTopAlbumsService struct{}
 
@@ -43,14 +43,14 @@ func (s GetAverageYearService) ExecuteService(username string) model.StatsRespon
 	return model.AverageYearResponse{Success: true, AverageYear: result}
 }
 
-func (s GetSongCountsService) ExecuteService(username string) model.StatsResponse {
+func (s GetTopSongsService) ExecuteService(username string) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetSongCounts(tx, username)
+	result, err := dal.GetTopSongs(tx, username)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -62,7 +62,7 @@ func (s GetSongCountsService) ExecuteService(username string) model.StatsRespons
 		return nil
 	}
 
-	return model.SongCountsResponse{Success: true, SongCounts: result}
+	return model.TopSongsResponse{Success: true, TopSongs: result}
 }
 
 func (s GetTopAlbumsService) ExecuteService(username string) model.StatsResponse {

@@ -8,6 +8,7 @@ import {Chart} from "react-google-charts";
 const DEFAULT_SONG_COUNT_LIMIT = 100
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
 let allSongs = [{"song": "Loading...", "artist": "Loading...", "count": 0}]
+let allArtists = [{"artist": "Loading...", "count": 0}]
 let allAlbums = [{"album": "Loading...", "artist": "Loading...", "count": 0}]
 
 export function Stats() {
@@ -18,12 +19,12 @@ export function Stats() {
     const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
 
     const [averageYear, setAverageYear] = useState('Calculating...');
-    const [displayedCounts, setDisplayedCounts] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
+    const [displayedSongs, setDisplayedSongs] = useState([{"song": "Loading...", "artist": "Loading...", "count": 0}]);
     const [displayedAlbums, setDisplayedAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
 
-    const songCountsTable = <CountsTable displayedCounts={displayedCounts}/>
+    const topSongsTable = <SongsTable displayedCounts={displayedSongs}/>
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
-    const [displayedTable, setDisplayedTable] = useState(songCountsTable);
+    const [displayedTable, setDisplayedTable] = useState(topSongsTable);
 
     const countsDropdown = <CountsDropdown/>
     const albumsDropdown = <AlbumsDropdown/>
@@ -42,18 +43,27 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-        fetch(BASE_URL_API + '/api/v1/songCounts/' + localStorage.getItem('username'), fetchInit('/api/v1/songCounts', null, getToken()))
+        fetch(BASE_URL_API + '/api/v1/topSongs/' + localStorage.getItem('username'), fetchInit('/api/v1/topSongs', null, getToken()))
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                fixArtistNames(data.songCounts)
-                addRankColumn(data.songCounts)
-                allSongs = data.songCounts
-                setDisplayedCounts(data.songCounts.slice(0, DEFAULT_SONG_COUNT_LIMIT))
+                fixArtistNames(data.topSongs)
+                addRankColumn(data.topSongs)
+                allSongs = data.topSongs
+                setDisplayedSongs(data.topSongs.slice(0, DEFAULT_SONG_COUNT_LIMIT))
                 // This line is needed because React's state update is asynchronous
                 if (songStyle === selectedStyle) {
-                    setDisplayedTable(<CountsTable displayedCounts={data.songCounts.slice(0, DEFAULT_SONG_COUNT_LIMIT)}/>)
+                    setDisplayedTable(<SongsTable displayedCounts={data.topSongs.slice(0, DEFAULT_SONG_COUNT_LIMIT)}/>)
                 }
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
+        fetch(BASE_URL_API + '/api/v1/topArtists/' + localStorage.getItem('username'), fetchInit('/api/v1/topArtists', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                addRankColumn(data.topArtists)
+                allArtists = data.topArtists
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
@@ -82,7 +92,7 @@ export function Stats() {
     function setToSong() {
         setSongStyle(selectedStyle)
         setAlbumStyle(unselectedStyle)
-        setDisplayedTable(songCountsTable)
+        setDisplayedTable(topSongsTable)
         setCurrentDropdown(countsDropdown)
     }
 
@@ -104,7 +114,7 @@ export function Stats() {
         function itemClicked(size) {
             toggle()
             setDropdownValue(size)
-            setDisplayedTable(<CountsTable displayedCounts={allSongs.slice(0, size)}/>)
+            setDisplayedTable(<SongsTable displayedCounts={allSongs.slice(0, size)}/>)
         }
 
         useEffect(() => {
@@ -197,7 +207,7 @@ export function Stats() {
 
 }
 
-function CountsTable({ displayedCounts }) {
+function SongsTable({ displayedCounts }) {
     return (
         <table className={"table-all"}>
             <thead>
@@ -220,6 +230,9 @@ function CountsTable({ displayedCounts }) {
             </tbody>
         </table>
     )
+}
+
+function ArtistsTable() {
 }
 
 function AlbumsTable({ displayedAlbums }) {

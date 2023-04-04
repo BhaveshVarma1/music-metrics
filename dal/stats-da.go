@@ -26,13 +26,13 @@ func GetAverageYear(tx *sql.Tx, username string) (int, error) {
 	return int(math.Round(float64(result))), nil
 }
 
-func GetSongCounts(tx *sql.Tx, username string) ([]model.SongCount, error) {
+func GetTopSongs(tx *sql.Tx, username string) ([]model.TopSong, error) {
 	stmt, err := tx.Prepare("SELECT s.name, s.artist, COUNT(*) FROM song s JOIN listen l ON s.id = l.songID WHERE username = ? GROUP BY s.id ORDER BY COUNT(*) DESC;")
 	if err != nil {
 		return nil, err
 	}
 
-	var results []model.SongCount
+	var results []model.TopSong
 	rows, err := stmt.Query(username)
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func GetSongCounts(tx *sql.Tx, username string) ([]model.SongCount, error) {
 		if err != nil {
 			return nil, err
 		}
-		results = append(results, model.SongCount{Song: song, Artist: artist, Count: count})
+		results = append(results, model.TopSong{Song: song, Artist: artist, Count: count})
 	}
 
 	return results, nil
