@@ -3,6 +3,8 @@ package service
 import (
 	"music-metrics/dal"
 	"music-metrics/model"
+	"sort"
+	"strings"
 )
 
 type StatsService interface {
@@ -16,6 +18,8 @@ type GetSongCountsService struct{}
 type GetTopAlbumsService struct{}
 
 type GetDecadeBreakdownService struct{}
+
+type GetTopArtistsService struct{}
 
 func (s GetAverageYearService) ExecuteService(username string) model.StatsResponse {
 
@@ -103,4 +107,48 @@ func (s GetDecadeBreakdownService) ExecuteService(username string) model.StatsRe
 	}
 
 	return model.DecadeBreakdownResponse{Success: true, DecadeBreakdowns: result}
+}
+
+func (s GetTopArtistsService) ExecuteService(username string) model.StatsResponse {
+
+	tx, db, err := dal.BeginTX()
+	if err != nil {
+		return nil
+	}
+
+	result, err := dal.GetRawArtists(tx, username)
+	if err != nil {
+		if dal.CommitAndClose(tx, db, false) != nil {
+			return nil
+		}
+		return nil
+	}
+
+	// Create a proper map of top artists and counts since they are stored with ';;' in the db
+	topArtists := make(map[string]int)
+	for _, rawArtist := range result {
+		artists := strings.Split(rawArtist, ";;")
+		for _, artist := range artists {
+			if _, ok := topArtists[artist]; ok {
+				topArtists[artist]++
+			} else {
+				topArtists[artist] = 1
+			}
+		}
+	}
+
+	// Sort the map by descending count
+	sortedArtists := make([]model.TopArtist, 0)
+	for artist, count := range topArtists {
+		sortedArtists = append(sortedArtists, model.TopArtist{Artist: artist, Count: count})
+	}
+	sort.Slice(sortedArtists, func(i, j int) bool {
+		return sortedArtists[i].Count > sortedArtists[j].Count
+	})
+
+	if dal.CommitAndClose(tx, db, true) != nil {
+		return nil
+	}
+
+	return model.TopArtistsResponse{Success: true, TopArtists: sortedArtists}
 }
