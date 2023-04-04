@@ -25,8 +25,8 @@ export function Stats() {
     const [displayedArtists, setDisplayedArtists] = useState([{"artist": "Loading...", "count": 0}]);
     const [displayedAlbums, setDisplayedAlbums] = useState([{"album": "Loading...", "artist": "Loading...", "count": 0}]);
 
-    const topSongsTable = <SongsTable displayedCounts={displayedSongs}/>
-    const topArtistsTable = <ArtistsTable displayedCounts={displayedArtists}/>
+    const topSongsTable = <SongsTable displayedSongs={displayedSongs}/>
+    const topArtistsTable = <ArtistsTable displayedArtists={displayedArtists}/>
     const topAlbumsTable = <AlbumsTable displayedAlbums={displayedAlbums}/>
     const [displayedTable, setDisplayedTable] = useState(topSongsTable);
 
@@ -58,7 +58,7 @@ export function Stats() {
                 setDisplayedSongs(data.topSongs.slice(0, DEFAULT_SONG_COUNT_LIMIT))
                 // This line is needed because React's state update is asynchronous
                 if (songStyle === selectedStyle) {
-                    setDisplayedTable(<SongsTable displayedCounts={data.topSongs.slice(0, DEFAULT_SONG_COUNT_LIMIT)}/>)
+                    setDisplayedTable(<SongsTable displayedSongs={data.topSongs.slice(0, DEFAULT_SONG_COUNT_LIMIT)}/>)
                 }
             }).catch(error => {
                 console.log("ERROR: " + error)
@@ -133,7 +133,7 @@ export function Stats() {
         function itemClicked(size) {
             toggle()
             setDropdownValue(size)
-            setDisplayedTable(<SongsTable displayedCounts={allSongs.slice(0, size)}/>)
+            setDisplayedTable(<SongsTable displayedSongs={allSongs.slice(0, size)}/>)
         }
 
         useEffect(() => {
