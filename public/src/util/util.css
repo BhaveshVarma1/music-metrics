@@ -15,9 +15,9 @@
 }
 
 .connection-modal-connected {
+    position: relative;
     background-color: #1db954;
     box-shadow: 0 0 .5rem #0e592a;
-    z-index: 2;
 }
 
 .connection-modal-disconnected {
