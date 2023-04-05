@@ -26,7 +26,7 @@ func HandleWebsocket(c echo.Context) error {
 
 	// Handle WebSocket messages
 	for {
-		messageType, message, err := conn.ReadMessage()
+		_, message, err := conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				fmt.Printf("WebSocket error: %v", err)
@@ -36,13 +36,13 @@ func HandleWebsocket(c echo.Context) error {
 		}
 
 		// Handle the received message
-		// ...
 		fmt.Println(string(message))
 		fmt.Println("Connections: ", len(connections))
 
-		// Send response
-		err = conn.WriteMessage(messageType, message)
+		// Send response (for testing)
+		err = conn.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("Wassap homes. This bitch sent from main.go")))
 		if err != nil {
+			fmt.Println("Error encountered while sending message.")
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				fmt.Printf("WebSocket error: %v", err)
 			}
@@ -73,6 +73,7 @@ func notifyClients(count int) {
 	for _, conn := range connections {
 		err := conn.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("Total connections: %d", count)))
 		if err != nil {
+			fmt.Println("Error encountered while sending message.")
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 				fmt.Printf("WebSocket error: %v", err)
 			}
