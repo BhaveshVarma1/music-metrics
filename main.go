@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -37,6 +38,7 @@ func main() {
 
 			// Handle the received message
 			// ...
+			fmt.Println(string(message))
 
 			// Send response
 			err = conn.WriteMessage(messageType, message)
