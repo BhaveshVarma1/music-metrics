@@ -92,7 +92,7 @@ func GetTopAlbums(tx *sql.Tx, username string) ([]model.TopAlbum, error) {
 }
 
 func GetDecadeBreakdown(tx *sql.Tx, username string) ([]model.DecadeBreakdown, error) {
-	stmt, err := tx.Prepare("SELECT CONCAT(FLOOR(a.year / 10) * 10, '-', FLOOR(a.year / 10) * 10 + 9) AS decade, COUNT(*) FROM listen l JOIN song s ON l.songID = s.id JOIN album a ON s.album = a.id WHERE username = ? GROUP BY decade ORDER BY COUNT(*) DESC;")
+	stmt, err := tx.Prepare("SELECT CONCAT(FLOOR(a.year / 10) * 10, 's') AS decade, COUNT(*) FROM listen l JOIN song s ON l.songID = s.id JOIN album a ON s.album = a.id WHERE username = ? GROUP BY decade ORDER BY COUNT(*) DESC;")
 	if err != nil {
 		return nil, err
 	}
