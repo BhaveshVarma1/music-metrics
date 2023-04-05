@@ -18,7 +18,7 @@ import {SpotifyLanding} from "./util/spotify-landing";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const socket = new WebSocket('wss://dev.musicmetrics.app/ws');
+const socket = new WebSocket('wss://dev.musicmetrics.app/');
 socket.onopen = () => {
     console.log('Websocket connected')
 }
