@@ -19,7 +19,7 @@ import {SpotifyLanding} from "./util/spotify-landing";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 export const websocket = new WebSocket('wss://dev.musicmetrics.app/ws');
-/*websocket.onopen = () => {
+websocket.onopen = () => {
     console.log('Websocket connected')
 }
 websocket.onerror = (error) => {
@@ -27,7 +27,9 @@ websocket.onerror = (error) => {
 }
 websocket.onclose = (event) => {
     console.warn('Websocket closed', event)
-}*/
+    console.log('Websocket close code:', event.code)
+    console.log('Websocket close reason:', event.reason)
+}
 
 root.render(
     <BrowserRouter>
