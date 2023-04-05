@@ -4,6 +4,7 @@ import './util.css';
 import logo from './logo.png';
 import {Link} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
+import {websocket} from "../index";
 
 // GLOBAL CONSTANTS ----------------------------------------------------------------------------------------------------
 
@@ -112,10 +113,15 @@ export function Header() {
 }
 
 export function Footer() {
+
+    function onClickTemp() {
+        websocket.send("hello there from the client")
+    }
+
     return (
         <footer className="footer default-text-color">
             <p>
-                <span onClick={() => clearStorage()}>&copy;</span> (pending) <span onClick={() => logStorage()}>2023</span> Noah Pratt <span className={'text-color-white'}>&#8226;</span>
+                <span onClick={() => clearStorage()}>&copy;</span> (pending) <span onClick={() => logStorage()}>2023</span> Noah <span onClick={() => onClickTemp()}>Pratt</span> <span className={'text-color-white'}>&#8226;</span>
                 <Link to={"/privacy"} className='custom-link'> Privacy Policy</Link> <span className={'text-color-white'}>&#8226;</span>
                 <Link to={"/terms"} className='custom-link'> Terms of Service</Link> <span className={'text-color-white'}>&#8226;</span>
                 <Link to={"/about"} className='custom-link'> About</Link> <span className={'text-color-white'}>&#8226;</span>
