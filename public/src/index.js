@@ -21,6 +21,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 export const websocket = new WebSocket('wss://dev.musicmetrics.app/ws');
 websocket.onopen = () => {
     console.log('Websocket connected')
+    setTimeout(() => window.location.reload(), 500)
 }
 websocket.onerror = () => {
     console.log('ERROR: Websocket connection failed')
