@@ -37,6 +37,7 @@ func main() {
 
 		// For every user in the database
 		for _, user := range users {
+			startTime := time.Now()
 			// Get new access token
 			newToken, err := refreshToken(user.Refresh)
 			if err != nil || newToken == "" {
@@ -132,7 +133,10 @@ func main() {
 				}
 			}
 
-			fmt.Println(user.Username + " listened to " + strconv.Itoa(newSongsCount) + " songs in the last 2 hours.")
+			fmt.Println(user.Username + " listened to " + strconv.Itoa(newSongsCount) + " songs in the last 2 hours. (" + time.Since(startTime).String() + ")")
+
+			// Sleep for a little bit to avoid rate limiting
+			time.Sleep(500 * time.Millisecond)
 
 		}
 
