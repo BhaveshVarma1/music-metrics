@@ -133,21 +133,31 @@ export function Footer() {
 }
 
 export function ConnectionModal() {
-    /*const [isConnected, setIsConnected] = useState(true);
-    const [numConnections, setNumConnections] = useState(0);
+    const [circleStyle, setCircleStyle] = useState('connection-modal-disconnected');
+    const [message, setMessage] = useState('Offline');
 
     useEffect(() => {
         websocket.onopen = () => {
-            setIsConnected(true);
+            setCircleStyle('connection-modal-connected');
         }
         websocket.onclose = () => {
-            setIsConnected(false);
+            setCircleStyle('connection-modal-disconnected');
+            setMessage('Offline');
         }
-    }, [])*/
+        websocket.onmessage = (event) => {
+            let numConn = findFirstInteger(event.data);
+            if (numConn === 1) {
+                setMessage(numConn + ' user online');
+            } else {
+                setMessage(numConn + ' users online');
+            }
+        }
+    }, [])
 
     return (
         <div className={'connection-modal'}>
-            1 User Online
+            <div className={'connection-modal-circle ' + circleStyle}></div>
+            <div>{message}</div>
         </div>
     )
 }
