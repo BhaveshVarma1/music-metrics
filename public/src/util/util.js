@@ -116,7 +116,6 @@ export function Footer() {
 
     function onClickTemp() {
         //websocket.send("hello there from the client")
-        const websocket = new WebSocket('wss://dev.musicmetrics.app/ws');
     }
 
     return (
