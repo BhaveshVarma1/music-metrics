@@ -18,34 +18,16 @@ import {SpotifyLanding} from "./util/spotify-landing";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const connectWebSocket = () => {
-    return new Promise((resolve, reject) => {
-        const websocket = new WebSocket('wss://dev.musicmetrics.app/ws');
-        websocket.onopen = () => {
-            console.log('WebSocket connected');
-            resolve(websocket);
-        };
-        websocket.onerror = (error) => {
-            console.error('WebSocket error:', error);
-            reject(error);
-        };
-    });
-};
-
-// Call the connectWebSocket function before rendering the root component
-connectWebSocket()
-    .then((websocket) => {
-        // Do something with the websocket instance, like attaching event listeners
-    })
-    .catch((error) => {
-        // Handle the error
-    });
-/*websocket.onopen = () => {
+export const websocket = new WebSocket('wss://dev.musicmetrics.app/ws');
+websocket.onopen = () => {
     console.log('Websocket connected')
 }
-websocket.onerror = () => {
-    console.log('ERROR: Websocket connection failed')
-}*/
+websocket.onerror = (error) => {
+    console.error('ERROR: Websocket connection failed')
+}
+websocket.onclose = (event) => {
+    console.warn('Websocket closed', event)
+}
 
 root.render(
     <BrowserRouter>
