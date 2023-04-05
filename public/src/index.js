@@ -22,6 +22,9 @@ export const websocket = new WebSocket('wss://dev.musicmetrics.app/ws');
 websocket.onopen = () => {
     console.log('Websocket connected')
 }
+websocket.onmessage = (event) => {
+    console.log('Websocket message received: ', event.data)
+}
 /*websocket.onerror = (error) => {
     console.error('ERROR: Websocket connection failed', error)
 }
