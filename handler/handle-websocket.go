@@ -40,7 +40,7 @@ func HandleWebsocket(c echo.Context) error {
 		fmt.Println("Connections: ", len(connections))
 
 		// Send response (for testing)
-		err = conn.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("Wassap homes. This bitch sent from main.go")))
+		/*err = conn.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintf("Wassap homes. This bitch sent from main.go")))
 		if err != nil {
 			fmt.Println("Error encountered while sending message.")
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
@@ -48,7 +48,7 @@ func HandleWebsocket(c echo.Context) error {
 			}
 			removeConnection(conn)
 			break
-		}
+		}*/
 	}
 
 	return nil
