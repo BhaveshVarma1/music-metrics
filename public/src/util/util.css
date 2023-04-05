@@ -23,7 +23,7 @@
 
 .connection-modal-connected {
     background-color: #1db954;
-    box-shadow: 0 0 3rem #fff;
+    box-shadow: 0 0 3rem #fff; !important;
 }
 
 .connection-modal-disconnected {
