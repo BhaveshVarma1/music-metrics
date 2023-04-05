@@ -24,6 +24,8 @@ Less Light
 Success (Spotify Green)
 #1db954
 
+#0e592a
+
 Error (Semi-inverse of Spotify Green)
 #e24646
 
