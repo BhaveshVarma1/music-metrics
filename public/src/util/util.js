@@ -165,7 +165,7 @@ export function ConnectionModal() {
 export function PrimaryInfo(props) {
 
     return (
-        <div className="primary-info connection-modal-connected">
+        <div className="primary-info">
             <b>{props.text}</b>
         </div>
     )
