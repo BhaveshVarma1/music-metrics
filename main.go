@@ -34,7 +34,10 @@ func main() {
 		for {
 			messageType, message, err := conn.ReadMessage()
 			if err != nil {
-				return err
+				if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+					e.Logger.Errorf("WebSocket error: %v", err)
+				}
+				break
 			}
 
 			// Handle the received message
@@ -44,7 +47,10 @@ func main() {
 			// Send response
 			err = conn.WriteMessage(messageType, message)
 			if err != nil {
-				return err
+				if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+					e.Logger.Errorf("WebSocket error: %v", err)
+				}
+				break
 			}
 		}
 	})
