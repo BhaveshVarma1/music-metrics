@@ -16,6 +16,7 @@
 
 .connection-modal-connected {
     background-color: #1db954;
+    box-shadow: .1rem .1rem rgba(0, 0, 0, 0.1);
 }
 
 .connection-modal-disconnected {
@@ -23,10 +24,10 @@
 }
 
 .connection-modal-circle {
-    height: 1.5rem;
-    width: 1.5rem;
+    height: .5rem;
+    width: .5rem;
     border-radius: 50%;
-    margin-right: 1rem;
+    margin-right: .7rem;
 }
 
 .custom-link {
