@@ -20,8 +20,8 @@ func main() {
 	}*/
 
 	// Handle WebSocket connections
-	/*e.GET("/ws", func(c echo.Context) error {
-		conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
+	e.GET("/ws", func(c echo.Context) error {
+		/*conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 		if err != nil {
 			return err
 		}
@@ -48,9 +48,9 @@ func main() {
 				}
 				break
 			}
-		}
+		}*/
 		return nil
-	})*/
+	})
 
 	// todo: change this to NOT allow all origins
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
