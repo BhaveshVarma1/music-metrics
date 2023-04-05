@@ -24,6 +24,7 @@ func main() {
 
 	// Handle WebSocket connections
 	e.GET("/ws", func(c echo.Context) error {
+		fmt.Println("Websocket connection entered.")
 		conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 		if err != nil {
 			return err
