@@ -53,6 +53,7 @@ func main() {
 				break
 			}
 		}
+		return nil
 	})
 
 	// todo: change this to NOT allow all origins
