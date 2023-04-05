@@ -10,6 +10,7 @@ import {websocket} from "../index";
 
 export const BASE_URL_API = 'https://dev.musicmetrics.app';
 export const BASE_URL_WEB = 'https://dev.musicmetrics.app';
+export const websocket = new WebSocket('wss://dev.musicmetrics.app/ws');
 const HTTP_METHODS = {
     '/api/v1/updateCode': 'POST',
     '/api/v1/averageYear': 'GET',
