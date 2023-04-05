@@ -4,7 +4,7 @@ import './index.css';
 import {Home} from './home/home';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import {Footer, Header} from "./util/util";
+import {ConnectionModal, Footer, Header} from "./util/util";
 import {NotFound} from "./404/404";
 import {Stats} from "./stats/stats";
 import {Privacy} from "./privacy/privacy";
@@ -50,6 +50,7 @@ root.render(
             <Route path="/spotify-landing" element={<SpotifyLanding />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
+        <ConnectionModal />
         <Footer />
     </BrowserRouter>
 

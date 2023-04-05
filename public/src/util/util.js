@@ -132,6 +132,26 @@ export function Footer() {
     )
 }
 
+export function ConnectionModal() {
+    /*const [isConnected, setIsConnected] = useState(true);
+    const [numConnections, setNumConnections] = useState(0);
+
+    useEffect(() => {
+        websocket.onopen = () => {
+            setIsConnected(true);
+        }
+        websocket.onclose = () => {
+            setIsConnected(false);
+        }
+    }, [])*/
+
+    return (
+        <div className={'connection-modal'}>
+            1 User Online
+        </div>
+    )
+}
+
 export function PrimaryInfo(props) {
 
     return (
@@ -223,4 +243,12 @@ function clearStorage() {
 function logStorage() {
     console.log(localStorage);
     console.log(sessionStorage);
+}
+
+function findFirstInteger(str) {
+    const match = str.match(/\d+/);
+    if (match) {
+        return parseInt(match[0], 10);
+    }
+    return null;
 }

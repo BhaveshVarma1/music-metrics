@@ -1,3 +1,15 @@
+.connection-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    padding: 3rem;
+    border: #cce2e6 .1rem solid;
+    border-radius: .5rem;
+}
+
 .custom-link {
     color: #3de2ff;
     text-decoration: none;
