@@ -22,6 +22,9 @@ export const websocket = new WebSocket('wss://dev.musicmetrics.app/ws');
 websocket.onopen = () => {
     console.log('Websocket connected')
 }
+websocket.onerror = () => {
+    console.log('ERROR: Websocket connection failed')
+}
 
 root.render(
     <BrowserRouter>
