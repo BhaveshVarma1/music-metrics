@@ -23,7 +23,7 @@ websocket.onopen = () => {
     console.log('Websocket connected')
 }
 websocket.onerror = (error) => {
-    console.error('ERROR: Websocket connection failed')
+    console.error('ERROR: Websocket connection failed', error)
 }
 websocket.onclose = (event) => {
     console.warn('Websocket closed', event)
