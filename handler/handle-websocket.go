@@ -37,7 +37,8 @@ func HandleWebsocket(c echo.Context) error {
 
 		// Handle the received message
 		// ...
-		//fmt.Println(string(message))
+		fmt.Println(string(message))
+		fmt.Println("Connections: ", len(connections))
 
 		// Send response
 		err = conn.WriteMessage(messageType, message)
