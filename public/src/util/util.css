@@ -2,7 +2,7 @@
     position: fixed;
     right: 1.5rem;
     bottom: 1.5rem;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
     padding: 1rem;
     border: #cce2e6 .1rem solid;
@@ -16,7 +16,7 @@
 
 .connection-modal-connected {
     background-color: #1db954;
-    box-shadow: .4rem .1rem #1db954;
+    box-shadow: 0 0 .1rem #1db954;
 }
 
 .connection-modal-disconnected {
