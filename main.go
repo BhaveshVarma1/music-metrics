@@ -1,10 +1,12 @@
 package main
 
 import (
+	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"music-metrics/handler"
 	"music-metrics/service"
+	"net/http"
 )
 
 func main() {
@@ -12,6 +14,37 @@ func main() {
 	buildPath := "public/build"
 
 	e := echo.New()
+
+	upgrader := &websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
+
+	// Handle WebSocket connections
+	e.GET("/ws", func(c echo.Context) error {
+		conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
+		if err != nil {
+			return err
+		}
+
+		// Handle WebSocket messages
+		for {
+			messageType, message, err := conn.ReadMessage()
+			if err != nil {
+				return err
+			}
+
+			// Handle the received message
+			// ...
+
+			// Send response
+			err = conn.WriteMessage(messageType, message)
+			if err != nil {
+				return err
+			}
+		}
+	})
 
 	// todo: change this to NOT allow all origins
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
