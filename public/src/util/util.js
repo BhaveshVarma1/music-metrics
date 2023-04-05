@@ -115,7 +115,7 @@ export function Header() {
 export function Footer() {
 
     function onClickTemp() {
-        //websocket.send("hello there from the client")
+        websocket.send("hello there from the client")
     }
 
     return (
