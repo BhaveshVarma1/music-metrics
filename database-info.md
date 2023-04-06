@@ -11,7 +11,7 @@
 The database contains 4 tables that store user info, auth tokens, listening history, and song metadata.
 All inputs are sanitized before being stored in the database.
 
-## User Table
+## 👨‍🦰 User Table
 
 Table name: `user`
 
@@ -23,7 +23,7 @@ Table name: `user`
 | refresh     | varchar(1023) | YES   |     | The refresh token used to obtain new Spotify access tokens (shouldn't change)         |
 | timestamp   | bigint        | NO    |     | When MusicMetrics began tracking the user's listening, formatted as Unix milliseconds |
 
-## Auth Token Table
+## 🔐 Auth Token Table
 
 Table name: `authtoken`
 
@@ -33,7 +33,7 @@ Table name: `authtoken`
 | username    | varchar(255) | NO     | MUL | The username of the user that the auth token belongs to                 |
 | expiration  | varchar(255) | YES    |     | The expiration time of the auth token, in Unix milliseconds as a string |
 
-## Listening History Table
+## 🎧 Listening History Table
 
 Table name: `listen`
 
@@ -43,7 +43,7 @@ Table name: `listen`
 | timestamp   | bigint       | NO    | PK2      | The timestamp of the listen, in Unix milliseconds as a string |
 | songID      | varchar(255) | NO    | MUL      | The ID of the song that was listened to                       |
 
-## Song Metadata Table
+## 🎵 Song Metadata Table
 
 Table name: `song`
 
@@ -57,7 +57,7 @@ Table name: `song`
 | popularity  | int           | NO    |     | The song's popularity on a scale of 0 to 100 as rated by Spotify   |
 | duration    | int           | NO    |     | The song's duration in milliseconds                                |
 
-## Album Metadata Table
+## 💽 Album Metadata Table
 
 Table name: `album`  
 *Note: `genre` and `popularity` are currently not supported by the Spotify API*
