@@ -28,6 +28,8 @@
 
 .connection-modal-disconnected {
     background-color: #e24646;
+    width: .5rem !important;
+    height: .5rem !important;
 }
 
 .custom-link {
