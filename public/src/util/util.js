@@ -138,7 +138,7 @@ export function ConnectionModal() {
 
     useEffect(() => {
         websocket.onopen = () => {
-            setCircleStyle('connection-modal-connected');
+            setCircleStyle('connection-modal-disconnected');
         }
         websocket.onclose = () => {
             setCircleStyle('connection-modal-disconnected');

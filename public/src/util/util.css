@@ -27,7 +27,8 @@
 }
 
 .connection-modal-disconnected {
-    background-color: #b3c9cc;
+    background-color: #e24646;
+    box-shadow: 0 0 .5rem .2rem #e24646;
 }
 
 .custom-link {
