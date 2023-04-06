@@ -1,10 +1,25 @@
 METRICS TO ADD:
 
 Top artists/albums by time
+SQL:
+
 Day of the week pie chart
+SQL:
+
 Line graph showing average listening by hour of day
+SQL:
+
 Add album covers to top albums, top songs
+SQL:
+
 Average popularity and an example
+SQL:
+
 Total number of unique songs, artists, and albums listened to
+SQL:
+
 Percentage of songs listened to that are explicit
+SQL: SELECT ROUND((SUM(s.explicit) / COUNT(*) * 100), 0) FROM listen l JOIN song s ON l.songID = s.id WHERE username = ?;
+
 Average length of songs listened to
+SQL:
