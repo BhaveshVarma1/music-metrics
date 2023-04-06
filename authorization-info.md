@@ -5,8 +5,6 @@ Note: the user must be signed in to Music Metrics.
 
 ## Step 1: User Authorization
 
----
-
 At the click of a button on the web page, a JavaScript function is executed that sends a `GET` request to the
 Spotify API. The request contains the following parameters in the URI:
 
@@ -28,8 +26,6 @@ using the `/updateCode` endpoint with their Music Metrics auth token. The code i
 access tokens from Spotify.
 
 ## Step 2: Request Access Tokens
-
----
 
 Now that we have the code and client secret stored on the back end, we can make a `POST` request to the Spotify Web API
 to exchange the code for an access token. The request contains the following parameters in the body:
@@ -54,8 +50,6 @@ If the request is successful, the response will contain the following parameters
 This `access_token` is now ready to be used to make requests to the Spotify Web API.
 
 ## Step 3: Refreshing the Token
-
----
 
 The access token that was received in Step 2 will expire after a certain amount of time (usually 1 hour). To prevent this, we can use the
 refresh token that was received in Step 2 to request a new access token. The request contains the following parameters in the body:
