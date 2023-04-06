@@ -157,7 +157,7 @@ export function ConnectionModal() {
     return (
         <div className={'connection-modal'}>
             <div className={'connection-modal-circle ' + circleStyle}></div>
-            <div>{message}</div>
+            <div>Offline</div>
         </div>
     )
 }
