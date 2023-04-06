@@ -138,7 +138,7 @@ export function ConnectionModal() {
 
     useEffect(() => {
         websocket.onopen = () => {
-            setCircleStyle('connection-modal-disconnected');
+            setCircleStyle('connection-modal-connected');
         }
         websocket.onclose = () => {
             setCircleStyle('connection-modal-disconnected');
@@ -157,7 +157,7 @@ export function ConnectionModal() {
     return (
         <div className={'connection-modal'}>
             <div className={'connection-modal-circle ' + circleStyle}></div>
-            <div>Offline</div>
+            <div>{message}</div>
         </div>
     )
 }
