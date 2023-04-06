@@ -133,7 +133,7 @@ func main() {
 				}
 			}
 
-			fmt.Println(user.Username + " listened to " + strconv.Itoa(newSongsCount) + " songs in the last 2 hours. (" + time.Since(startTime).String() + "), (" + time.Now().String() + ")")
+			fmt.Println(user.Username + " listened to " + strconv.Itoa(newSongsCount) + " songs in the last 2 hours. (" + time.Since(startTime).String() + "), (" + time.Now().Format("2006-01-02 15:04:05 -0700 MST") + ")")
 
 			// Sleep for a little bit to avoid rate limiting
 			time.Sleep(500 * time.Millisecond)
