@@ -17,8 +17,6 @@ func HandleUpdateCode(c echo.Context) error {
 
 	resp := service.UpdateCode(req.Code)
 
-	//fmt.Println("HANDLER resp.success: ", resp.Success)
-
 	if resp.Success {
 		return c.JSON(200, resp)
 	} else {

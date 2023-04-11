@@ -5,6 +5,22 @@ type DecadeBreakdown struct {
 	Count  int    `json:"count"`
 }
 
+type ModeYear struct {
+	Year  int
+	Count int
+}
+
+type PopularityObject struct {
+	Song       string `json:"song"`
+	Artist     string `json:"artist"`
+	Popularity int    `json:"popularity"`
+}
+
+type RawArtistTime struct {
+	Artist string
+	Millis int
+}
+
 type RecentlyPlayedObject struct {
 	Song      SongBean
 	Album     AlbumBean

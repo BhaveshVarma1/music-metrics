@@ -256,7 +256,7 @@ function AllCharts() {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setAverageYear(data.averageYear)
+                setAverageYear(data.value)
             }).catch(error => {
                 console.log("ERROR: " + error)
             })

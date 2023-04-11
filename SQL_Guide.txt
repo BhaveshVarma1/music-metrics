@@ -1,0 +1,174 @@
+--- TOP SONGS ----------------------------------------------------------------------------------------------------------
+Get top 1000 songs by number of listens:
+SELECT s.name, s.artist, COUNT(*)
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+WHERE username = ?
+GROUP BY s.id
+ORDER BY COUNT(*) DESC
+LIMIT 1000;
+
+Top 1000 by time:
+SELECT s.name, s.artist, ROUND(COUNT(*) * s.duration / 1000) AS time
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+WHERE username = ?
+GROUP BY s.id
+ORDER BY time DESC
+LIMIT 1000;
+
+Total songs:
+SELECT COUNT(*)
+FROM listen
+WHERE username = ?;
+
+Total unique songs:
+SELECT COUNT(DISTINCT s.id)
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+WHERE username = ?;
+
+--- TOP ARTISTS --------------------------------------------------------------------------------------------------------
+List of artists associated with each listen (needs further processing):
+SELECT s.artist, s.duration
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+WHERE username = ?;
+
+--- TOP ALBUMS ---------------------------------------------------------------------------------------------------------
+Top 1000 by number of listens:
+SELECT a.name, a.artist, a.image, COUNT(*)
+FROM album a
+JOIN song s
+ON a.id = s.album
+JOIN listen l
+ON s.id = l.songID
+WHERE l.username = ?
+GROUP BY a.id
+ORDER BY COUNT(*) DESC
+LIMIT 1000;
+
+Top 1000 by time:
+SELECT a.name, a.artist, a.image, ROUND(SUM(x.time) / 1000)
+FROM (
+    SELECT s.album, (COUNT(*) * s.duration) AS time
+    FROM listen l
+    JOIN song s
+    ON l.songID = s.id
+    WHERE username = ?
+    GROUP BY s.id
+    ORDER BY time DESC
+) AS x
+JOIN album a
+ON x.album = a.id
+GROUP BY x.album
+ORDER BY SUM(x.time) DESC
+LIMIT 1000;
+
+Total unique albums:
+SELECT COUNT(DISTINCT a.id)
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+JOIN album a
+ON s.album = a.id
+WHERE username = ?;
+
+--- AVERAGE YEAR -------------------------------------------------------------------------------------------------------
+Mean year:
+SELECT AVG(s.year)
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+JOIN album a
+ON s.album = a.id
+WHERE username = ?;
+
+Median year (needs further processing):
+SELECT a.year
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+JOIN album a
+ON s.album = a.id
+WHERE username = ?
+ORDER BY year;
+
+Mode year (top 3):
+SELECT a.year, COUNT(*)
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+JOIN album a
+ON s.album = a.id
+WHERE username = ?
+GROUP BY year
+ORDER BY COUNT(*) DESC
+LIMIT 3;
+
+--- DECADE BREAKDOWN ---------------------------------------------------------------------------------------------------
+SELECT CONCAT(FLOOR(a.year / 10) * 10, 's') AS decade, COUNT(*)
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+JOIN album a
+ON s.album = a.id
+WHERE username = ?
+GROUP BY decade
+ORDER BY COUNT(*) DESC;
+
+--- PERCENT EXPLICIT ---------------------------------------------------------------------------------------------------
+Option 1 (sum of explicit column / total listens):
+SELECT ROUND((SUM(s.explicit) / COUNT(*) * 100), 0)
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+WHERE username = ?;
+
+Option 2 (avg of explicit column):
+SELECT ROUND(100 * AVG(s.explicit = 1), 0)
+FROM listen l
+JOIN song s
+ON l.songID = s.id WHERE l.username = ?;
+
+Option 3 (only using counts and sub queries, probably the fastest):
+SELECT ROUND(
+    (SELECT COUNT(*)
+    FROM listen l
+    JOIN song s
+    ON l.songID = s.id
+    WHERE l.username = ?
+    AND s.explicit = 1)
+    /
+    (SELECT COUNT(*)
+    FROM listen l
+    JOIN song s
+    ON l.songID = s.id
+    WHERE l.username = ?)
+* 100, 0);
+
+--- AVERAGE POPULARITY -------------------------------------------------------------------------------------------------
+3 songs the user has listened to with their rounded average popularity:
+SELECT s.name, s.artist, s.popularity
+FROM listen l JOIN song s
+ON l.songID = s.id
+WHERE l.username = ?
+AND s.popularity = ROUND((
+    SELECT AVG(s.popularity)
+    FROM listen l JOIN song s
+    ON l.songID = s.id
+    WHERE l.username = ?
+), 0)
+GROUP BY s.id
+LIMIT 3;
+
+--- AVERAGE SONG LENGTH ------------------------------------------------------------------------------------------------
+SELECT ROUND(AVG(s.duration) / 1000, 0)
+FROM listen l
+JOIN song s
+ON l.songID = s.id
+WHERE username = ?;
