@@ -89,6 +89,10 @@
     }
 }
 
+.selector2 {
+    margin: 0 auto;
+}
+
 .selector-option {
     padding: .5rem;
     width: 25%;

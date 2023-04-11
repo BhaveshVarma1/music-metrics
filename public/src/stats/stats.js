@@ -280,8 +280,11 @@ export function Stats() {
             </div>
             {showSelector2 && (
                 <div className={'selector'}>
-                    <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
-                    <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
+                    <div className={'selector2'}>
+                        <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
+                        <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
+                    </div>
+
                 </div>
             )}
             {currentData}
