@@ -17,8 +17,11 @@ export function Stats() {
     const [artistStyle, setArtistStyle] = useState(unselectedStyle);
     const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
     const [chartStyle, setChartStyle] = useState(unselectedStyle);
+    const [showSelector2, setShowSelector2] = useState(true);
+    const [countStyle, setCountStyle] = useState(selectedStyle);
+    const [timeStyle, setTimeStyle] = useState(unselectedStyle);
 
-    const songTableProps = {
+    const songCountProps = {
         initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
         url: '/api/v1/topSongs',
         fixArtistNames: true,
@@ -46,7 +49,35 @@ export function Stats() {
             )
         }
     }
-    const artistTableProps = {
+    const songTimeProps = {
+        initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
+        url: '/api/v1/topSongsTime',
+        fixArtistNames: true,
+        defaultCount: DEFAULT_SONG_COUNT_LIMIT,
+        ddValues: [25, 50, 100, 250],
+        tableStyle: 'table-all',
+        thead: (
+            <thead>
+            <tr className={"table-column-names"}>
+                <th>Rank</th>
+                <th>Song name</th>
+                <th>Artist</th>
+                <th style={{textAlign: 'right'}}>Minutes</th>
+            </tr>
+            </thead>
+        ),
+        itemCallback: (item) => {
+            return (
+                <tr className={"table-row"}>
+                    <td>{item.rank}</td>
+                    <td>{item.song}</td>
+                    <td>{item.artist}</td>
+                    <td style={{textAlign: 'right'}}>{item.count/60}</td>
+                </tr>
+            )
+        }
+    }
+    const artistCountProps = {
         initialState: [{"artist": "Loading...", "count": 0}],
         url: '/api/v1/topArtists',
         fixArtistNames: false,
@@ -72,7 +103,33 @@ export function Stats() {
             )
         }
     }
-    const albumTableProps = {
+    const artistTimeProps = {
+        initialState: [{"artist": "Loading...", "count": 0}],
+        url: '/api/v1/topArtistsTime',
+        fixArtistNames: false,
+        defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
+        ddValues: [10, 25, 50, 100],
+        tableStyle: 'table-all table-all-artist',
+        thead: (
+            <thead>
+            <tr className={"table-column-names"}>
+                <th>Rank</th>
+                <th>Artist name</th>
+                <th style={{textAlign: 'right'}}>Minutes</th>
+            </tr>
+            </thead>
+        ),
+        itemCallback: (item) => {
+            return (
+                <tr className={"table-row"}>
+                    <td>{item.rank}</td>
+                    <td>{item.artist}</td>
+                    <td style={{textAlign: 'right'}}>{item.count/60}</td>
+                </tr>
+            )
+        }
+    }
+    const albumCountProps = {
         initialState: [{"album": "Loading...", "artist": "Loading...", "count": 0}],
         url: '/api/v1/topAlbums',
         fixArtistNames: true,
@@ -100,7 +157,35 @@ export function Stats() {
             )
         }
     }
-    const [currentData, setCurrentData] = useState(<TopTable props={songTableProps}/>);
+    const albumTimeProps = {
+        initialState: [{"album": "Loading...", "artist": "Loading...", "count": 0}],
+        url: '/api/v1/topAlbumsTime',
+        fixArtistNames: true,
+        defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
+        ddValues: [10, 25, 50, 100],
+        tableStyle: 'table-all',
+        thead: (
+            <thead>
+            <tr className={"table-column-names"}>
+                <th>Rank</th>
+                <th>Album name</th>
+                <th>Artist</th>
+                <th style={{textAlign: 'right'}}>Minutes</th>
+            </tr>
+            </thead>
+        ),
+        itemCallback: (item) => {
+            return (
+                <tr className={"table-row"}>
+                    <td>{item.rank}</td>
+                    <td>{item.album}</td>
+                    <td>{item.artist}</td>
+                    <td style={{textAlign: 'right'}}>{item.count/60}</td>
+                </tr>
+            )
+        }
+    }
+    const [currentData, setCurrentData] = useState(<TopTable props={songCountProps}/>);
 
     if (getToken() == null || getToken() === 'undefined') {
         sessionStorage.setItem('route', 'stats')
@@ -117,8 +202,11 @@ export function Stats() {
         setArtistStyle(unselectedStyle)
         setAlbumStyle(unselectedStyle)
         setChartStyle(unselectedStyle)
+        setShowSelector2(true)
+        setCountStyle(selectedStyle)
+        setTimeStyle(unselectedStyle)
 
-        setCurrentData(<TopTable props={songTableProps}/>)
+        setCurrentData(<TopTable props={songCountProps}/>)
     }
 
     function setToArtist() {
@@ -126,8 +214,11 @@ export function Stats() {
         setArtistStyle(selectedStyle)
         setAlbumStyle(unselectedStyle)
         setChartStyle(unselectedStyle)
+        setShowSelector2(true)
+        setCountStyle(selectedStyle)
+        setTimeStyle(unselectedStyle)
 
-        setCurrentData(<TopTable props={artistTableProps}/>)
+        setCurrentData(<TopTable props={artistCountProps}/>)
     }
 
     function setToAlbum() {
@@ -135,8 +226,11 @@ export function Stats() {
         setArtistStyle(unselectedStyle)
         setAlbumStyle(selectedStyle)
         setChartStyle(unselectedStyle)
+        setShowSelector2(true)
+        setCountStyle(selectedStyle)
+        setTimeStyle(unselectedStyle)
 
-        setCurrentData(<TopTable props={albumTableProps}/>)
+        setCurrentData(<TopTable props={albumCountProps}/>)
     }
 
     function setToChart() {
@@ -144,8 +238,35 @@ export function Stats() {
         setArtistStyle(unselectedStyle)
         setAlbumStyle(unselectedStyle)
         setChartStyle(selectedStyle)
+        setShowSelector2(false)
 
         setCurrentData(<AllCharts/>)
+    }
+
+    function setToCount() {
+        setCountStyle(selectedStyle)
+        setTimeStyle(unselectedStyle)
+
+        if (songStyle === selectedStyle) {
+            setCurrentData(<TopTable props={songCountProps}/>)
+        } else if (artistStyle === selectedStyle) {
+            setCurrentData(<TopTable props={artistCountProps}/>)
+        } else if (albumStyle === selectedStyle) {
+            setCurrentData(<TopTable props={albumCountProps}/>)
+        }
+    }
+
+    function setToTime() {
+        setCountStyle(unselectedStyle)
+        setTimeStyle(selectedStyle)
+
+        if (songStyle === selectedStyle) {
+            setCurrentData(<TopTable props={songTimeProps}/>)
+        } else if (artistStyle === selectedStyle) {
+            setCurrentData(<TopTable props={artistTimeProps}/>)
+        } else if (albumStyle === selectedStyle) {
+            setCurrentData(<TopTable props={albumTimeProps}/>)
+        }
     }
 
     return (
@@ -157,6 +278,12 @@ export function Stats() {
                 <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
                 <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Charts</div>
             </div>
+            {showSelector2 && (
+                <div className={'selector'}>
+                    <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
+                    <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
+                </div>
+            )}
             {currentData}
         </div>
     )
