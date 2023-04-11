@@ -14,8 +14,11 @@ const HTTP_METHODS = {
     '/api/v1/updateCode': 'POST',
     '/api/v1/averageYear': 'GET',
     '/api/v1/topSongs': 'GET',
+    '/api/v1/topSongsTime': 'GET',
     '/api/v1/topArtists': 'GET',
+    '/api/v1/topArtistsTime': 'GET',
     '/api/v1/topAlbums': 'GET',
+    '/api/v1/topAlbumsTime': 'GET',
     '/api/v1/decadeBreakdown': 'GET',
 }
 
