@@ -81,17 +81,13 @@
     cursor: pointer;
     margin: 0 auto 2rem;
     width: 25rem;
+    justify-content: center;
 }
 
 @media (orientation: portrait) {
     .selector {
         width: 85%;
     }
-}
-
-.selector2 {
-    width: 100%;
-    margin: auto;
 }
 
 .selector-option {
