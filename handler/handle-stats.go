@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"music-metrics/dal"
 	"music-metrics/model"
@@ -10,8 +9,6 @@ import (
 
 func StatsHandler(s service.StatsService) echo.HandlerFunc {
 	return func(c echo.Context) error {
-
-		fmt.Println("StatsHandler called")
 
 		tx, db, err := dal.BeginTX()
 		if err != nil {

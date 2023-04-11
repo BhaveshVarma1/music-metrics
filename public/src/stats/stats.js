@@ -72,7 +72,7 @@ export function Stats() {
                     <td>{item.rank}</td>
                     <td>{item.song}</td>
                     <td>{item.artist}</td>
-                    <td style={{textAlign: 'right'}}>{item.count/60}</td>
+                    <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
                 </tr>
             )
         }
@@ -124,7 +124,7 @@ export function Stats() {
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
                     <td>{item.artist}</td>
-                    <td style={{textAlign: 'right'}}>{item.count/60}</td>
+                    <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
                 </tr>
             )
         }
@@ -180,7 +180,7 @@ export function Stats() {
                     <td>{item.rank}</td>
                     <td>{item.album}</td>
                     <td>{item.artist}</td>
-                    <td style={{textAlign: 'right'}}>{item.count/60}</td>
+                    <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
                 </tr>
             )
         }
