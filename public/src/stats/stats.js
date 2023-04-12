@@ -379,6 +379,10 @@ function AllCharts() {
     const [averageYear, setAverageYear] = useState('Calculating...');
     const [medianYear, setMedianYear] = useState('Calculating...');
     const [percentExplicit, setPercentExplicit] = useState('Calculating...');
+    const [totalSongs, setTotalSongs] = useState('Calculating...');
+    const [uniqueAlbums, setUniqueAlbums] = useState('Calculating...');
+    const [uniqueArtists, setUniqueArtists] = useState('Calculating...');
+    const [uniqueSongs, setUniqueSongs] = useState('Calculating...');
 
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/averageLength/' + localStorage.getItem('username'), fetchInit('/api/v1/averageLength', null, getToken()))
@@ -414,6 +418,38 @@ function AllCharts() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
+        fetch(BASE_URL_API + '/api/v1/totalSongs/' + localStorage.getItem('username'), fetchInit('/api/v1/totalSongs', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setTotalSongs(data.value)
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
+        fetch(BASE_URL_API + '/api/v1/uniqueAlbums/' + localStorage.getItem('username'), fetchInit('/api/v1/uniqueAlbums', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setUniqueAlbums(data.value)
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
+        fetch(BASE_URL_API + '/api/v1/uniqueArtists/' + localStorage.getItem('username'), fetchInit('/api/v1/uniqueArtists', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setUniqueArtists(data.value)
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
+        fetch(BASE_URL_API + '/api/v1/uniqueSongs/' + localStorage.getItem('username'), fetchInit('/api/v1/uniqueSongs', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setUniqueSongs(data.value)
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
     }, [])
 
     return (
@@ -422,6 +458,10 @@ function AllCharts() {
             <BasicPanel primary={"Average Song Length"} data={averageLength} secondary={"That's not very long."}/>
             <BasicPanel primary={"Median Year"} data={medianYear} secondary={"That was a better year."}/>
             <BasicPanel primary={"Percent Explicit"} data={percentExplicit} secondary={"You must be Mormon."}/>
+            <BasicPanel primary={"Total Songs"} data={totalSongs} secondary={"You must be Mormon."}/>
+            <BasicPanel primary={"Unique Album Count"} data={uniqueAlbums} secondary={"Wow, not a whole lot of diversity there."}/>
+            <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} secondary={"Nice!"}/>
+            <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} secondary={"Looks like you repeat quite a lot of songs there bud!"}/>
         </div>
     )
 }
