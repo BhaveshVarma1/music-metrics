@@ -378,6 +378,7 @@ function AllCharts() {
     const [averageLength, setAverageLength] = useState('Calculating...');
     const [averageYear, setAverageYear] = useState('Calculating...');
     const [medianYear, setMedianYear] = useState('Calculating...');
+    const [percentExplicit, setPercentExplicit] = useState('Calculating...');
 
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/averageLength/' + localStorage.getItem('username'), fetchInit('/api/v1/averageLength', null, getToken()))
@@ -405,6 +406,14 @@ function AllCharts() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
+        fetch(BASE_URL_API + '/api/v1/percentExplicit/' + localStorage.getItem('username'), fetchInit('/api/v1/percentExplicit', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setPercentExplicit(data.value + "%")
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
     }, [])
 
     return (
@@ -412,6 +421,7 @@ function AllCharts() {
             <BasicPanel primary={"Average Year"} data={averageYear} secondary={"That was a good year."}/>
             <BasicPanel primary={"Average Song Length"} data={averageLength} secondary={"That's not very long."}/>
             <BasicPanel primary={"Median Year"} data={medianYear} secondary={"That was a better year."}/>
+            <BasicPanel primary={"Percent Explicit"} data={percentExplicit} secondary={"You must be Mormon."}/>
         </div>
     )
 }
