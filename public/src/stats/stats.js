@@ -276,7 +276,7 @@ export function Stats() {
                 <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
                 <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
                 <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
-                <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Charts</div>
+                <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
             </div>
             {showSelector2 && (
                 <div className={'selector'}>
