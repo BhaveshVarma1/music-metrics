@@ -384,6 +384,7 @@ function AllCharts() {
     const [uniqueArtists, setUniqueArtists] = useState('Calculating...');
     const [uniqueSongs, setUniqueSongs] = useState('Calculating...');
 
+    // Fetches ALL the data used in this component
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/averageLength/' + localStorage.getItem('username'), fetchInit('/api/v1/averageLength', null, getToken()))
             .then(response => response.json())
@@ -458,7 +459,7 @@ function AllCharts() {
             <BasicPanel primary={"Average Song Length"} data={averageLength} secondary={"That's not very long."}/>
             <BasicPanel primary={"Median Year"} data={medianYear} secondary={"That was a better year."}/>
             <BasicPanel primary={"Percent Explicit"} data={percentExplicit} secondary={"You must be Mormon."}/>
-            <BasicPanel primary={"Total Songs"} data={totalSongs} secondary={"You must be Mormon."}/>
+            <BasicPanel primary={"Total Songs"} data={totalSongs} secondary={"Baskemtball."}/>
             <BasicPanel primary={"Unique Album Count"} data={uniqueAlbums} secondary={"Wow, not a whole lot of diversity there."}/>
             <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} secondary={"Nice!"}/>
             <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} secondary={"Looks like you repeat quite a lot of songs there bud!"}/>
