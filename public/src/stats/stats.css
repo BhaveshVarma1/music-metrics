@@ -81,10 +81,12 @@
     border: .1rem solid #cce2e6;
     border-radius: .5rem;
     color: #cce2e6;
+    padding: .5rem
 }
 
 .panel-data {
     font-size: 3rem;
+    color: #3de2ff;
 }
 
 .panel-primary {
