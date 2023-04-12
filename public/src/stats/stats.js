@@ -375,9 +375,19 @@ function TopTable(props) {
 }
 
 function AllCharts() {
+    const [averageLength, setAverageLength] = useState('Calculating...');
     const [averageYear, setAverageYear] = useState('Calculating...');
 
     useEffect(() => {
+        fetch(BASE_URL_API + '/api/v1/averageLength/' + localStorage.getItem('username'), fetchInit('/api/v1/averageLength', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                let minutes = Math.floor(data.value / 60)
+                setAverageLength(minutes + " min " + (data.value - minutes * 60) + " sec")
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
         fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
             .then(response => response.json())
             .then(data => {
@@ -391,6 +401,7 @@ function AllCharts() {
     return (
         <div className={'all-panels'}>
             <BasicPanel primary={"Average Year"} data={averageYear} secondary={"That was a good year."}/>
+            <BasicPanel primary={"Average Song Length"} data={averageLength} secondary={"That's not very long."}/>
         </div>
     )
 }
