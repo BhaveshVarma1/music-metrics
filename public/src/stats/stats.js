@@ -292,7 +292,6 @@ export function Stats() {
 
 // SECONDARY COMPONENTS
 function TopTable(props) {
-    // For some reason, props is wrapped in another props object
     props = props.props
 
     // TO PASS IN AS PROPS:
@@ -390,9 +389,8 @@ function AllCharts() {
     }, [])
 
     return (
-        <div>
-            <SecondaryInfo text={"Average release year: " + averageYear}/>
-            <DecadePieChart/>
+        <div className={'all-panels'}>
+            <BasicPanel primary={"Average Year"} data={averageYear} secondary={"That was a good year."}/>
         </div>
     )
 }
@@ -413,7 +411,7 @@ function DecadePieChart() {
     }, [])
 
     return (
-        <div className={'chart-wrapper'}>
+        <div className={'pie-chart-wrapper'}>
             <Chart
                 width={'100%'}
                 height={'100%'}
@@ -432,6 +430,16 @@ function DecadePieChart() {
         </div>
     )
 
+}
+
+function BasicPanel(props) {
+    return (
+        <div className={'panel'}>
+            <div className={'panel-primary'}>{props.primary}</div>
+            <div className={'panel-data'}>{props.data}</div>
+            <div className={'panel-secondary'}>{props.secondary}</div>
+        </div>
+    )
 }
 
 // HELPER FUNCTIONS
