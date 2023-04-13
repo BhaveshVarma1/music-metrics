@@ -83,35 +83,47 @@
     width: 100%;
 }
 
-.panel-sub {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: .5rem;
+.panel-commentary {
+    font-size: .8rem;
+    align-self: flex-end;
+    text-align: right;
 }
 
 .panel-data {
     font-size: 3rem;
     color: #3de2ff;
     align-self: flex-start;
+    text-align: right;
 }
 
 .panel-desc {
     font-size: .8rem;
     align-self: flex-end;
+    text-align: left;
 }
 
 .panel-left {
-    text-align: left;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: .5rem;
+    height: 100%;
 }
 
 .panel-primary {
     font-size: 2rem;
     align-self: flex-start;
+    text-align: left;
 }
 
 .panel-right {
-    text-align: right;
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: .5rem;
+    height: 100%;
 }
 
 .pie-chart-wrapper {
