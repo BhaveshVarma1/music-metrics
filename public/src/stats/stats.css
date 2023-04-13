@@ -103,12 +103,12 @@
 }
 
 .panel-left {
-    align-self: flex-start;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: .5rem;
     height: 100%;
+    align-items: flex-start;
 }
 
 .panel-primary {
@@ -118,12 +118,12 @@
 }
 
 .panel-right {
-    align-self: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: .5rem;
     height: 100%;
+    align-items: flex-end;
 }
 
 .pie-chart-wrapper {
