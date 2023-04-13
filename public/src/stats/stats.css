@@ -90,25 +90,28 @@
     padding: .5rem;
 }
 
-.panel-left {
-    text-align: left;
-}
-
-.panel-right {
-    text-align: right;
-}
-
 .panel-data {
     font-size: 3rem;
     color: #3de2ff;
-}
-
-.panel-primary {
-    font-size: 2rem;
+    align-self: flex-start;
 }
 
 .panel-desc {
     font-size: 1.2rem;
+    align-self: flex-end;
+}
+
+.panel-left {
+    text-align: left;
+}
+
+.panel-primary {
+    font-size: 2rem;
+    align-self: flex-start;
+}
+
+.panel-right {
+    text-align: right;
 }
 
 .pie-chart-wrapper {
