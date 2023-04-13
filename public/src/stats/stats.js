@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable,JSCheckFunctionSignatures
 
 import './stats.css';
-import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
+import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
 import {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 
@@ -497,7 +497,12 @@ function DecadePieChart() {
                             color: '#cce2e6'
                         }
                     },
-                    margin: '0',
+                    chartArea: {
+                        left: 0,
+                        top: 0,
+                        width: '100%',
+                        height: '100%',
+                    },
                 }}
             />
         </div>
