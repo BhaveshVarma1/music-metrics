@@ -493,6 +493,8 @@ function DecadePieChart() {
                     backgroundColor: 'transparent',
                     fontColor: '#cce2e6',
                     legend: {
+                        position: 'right',
+                        alignment: 'center',
                         textStyle: {
                             color: '#cce2e6'
                         }
