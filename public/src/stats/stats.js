@@ -463,6 +463,7 @@ function AllCharts() {
             <BasicPanel primary={"Unique Album Count"} data={uniqueAlbums} secondary={"Wow, not a whole lot of diversity there."}/>
             <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} secondary={"Nice!"}/>
             <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} secondary={"Looks like you repeat quite a lot of songs there bud!"}/>
+            <DecadePieChart/>
         </div>
     )
 }
@@ -483,7 +484,7 @@ function DecadePieChart() {
     }, [])
 
     return (
-        <div className={'pie-chart-wrapper'}>
+        <div className={'panel'}>
             <Chart
                 width={'100%'}
                 height={'100%'}
