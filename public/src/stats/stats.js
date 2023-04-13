@@ -504,6 +504,9 @@ function DecadePieChart() {
                         width: '100%',
                         height: '100%',
                     },
+                    tooltip: {
+                        trigger: 'none',
+                    },
                 }}
             />
         </div>
