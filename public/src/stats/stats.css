@@ -75,9 +75,7 @@
 
 .panel {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
     color: #cce2e6;
     border-bottom: .1rem solid #cce2e6;
     width: 100%;
@@ -102,12 +100,12 @@
     text-align: left;
 }
 
-.panel-left {
+.panel-top {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     padding: .5rem;
-    height: 100%;
+    width: 100%;
     align-items: flex-start;
 }
 
@@ -117,12 +115,12 @@
     text-align: left;
 }
 
-.panel-right {
+.panel-bottom {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     padding: .5rem;
-    height: 100%;
+    width: 100%;
     align-items: flex-end;
 }
 
