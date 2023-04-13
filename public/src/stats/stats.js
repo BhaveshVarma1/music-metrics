@@ -484,7 +484,7 @@ function DecadePieChart() {
     }, [])
 
     return (
-        <div className={'panel'}>
+        <div>
             <Chart
                 width={'100%'}
                 height={'100%'}
