@@ -486,7 +486,7 @@ function DecadePieChart() {
     return (
         <div>
             <Chart
-                height={'5rem'}
+                height={'25rem'}
                 chartType="PieChart"
                 data={chartData}
                 options={{
