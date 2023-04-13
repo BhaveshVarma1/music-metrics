@@ -497,7 +497,8 @@ function DecadePieChart() {
                         textStyle: {
                             color: '#cce2e6'
                         }
-                    }
+                    },
+                    margin: '0',
                 }}
             />
         </div>
