@@ -537,8 +537,8 @@ function HourChart() {
                         backgroundColor: 'transparent',
                         fontColor: '#cce2e6',
                         chartArea: {
-                            width: '100%',
-                            height: '100%',
+                            width: '90%',
+                            height: '90%',
                         },
                         enableInteractivity: false,
                         orientation: 'horizontal',
