@@ -547,6 +547,9 @@ function HourChart() {
                         },
                         enableInteractivity: true,
                         orientation: 'horizontal',
+                        hAxis: {
+                            title: 'Hour',
+                        },
                     }}
                 />
             </div>
