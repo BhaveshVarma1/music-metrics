@@ -123,6 +123,8 @@
 @media (orientation: portrait) {
     .panel-primary {
         align-items: center;
+        text-align: center;
+        padding-bottom: 0;
     }
 }
 
