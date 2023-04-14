@@ -542,7 +542,7 @@ function HourChart() {
                             width: '100%',
                             height: '100%',
                         },
-                        enableInteractivity: true,
+                        enableInteractivity: false,
                         orientation: 'horizontal',
                         hAxis: {
                             title: 'Hour',
