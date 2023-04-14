@@ -463,7 +463,7 @@ function AllCharts() {
             <BasicPanel primary={"Unique Album Count"} data={uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
             <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} commentary={"Nice!"}/>
             <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} commentary={"Looks like you repeat quite a lot of songs there bud!"}/>
-            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart/>}/>
+            <BasicPanel style={'panel-last'} primary={"Breakdown by Decade"} data={<DecadePieChart/>}/>
         </div>
     )
 }
