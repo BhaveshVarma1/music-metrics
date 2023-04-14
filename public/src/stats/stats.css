@@ -27,7 +27,8 @@
 }
 
 .decade-wrapper {
-    width: 15rem;
+    padding: .7rem;
+    width: 12rem;
 }
 
 .dropdown {
