@@ -458,12 +458,12 @@ function AllCharts() {
             <BasicPanel primary={"Average Year"} data={averageYear} commentary={"That was a good year."}/>
             <BasicPanel primary={"Average Song Length"} data={averageLength} commentary={"That's not very long."}/>
             <BasicPanel primary={"Median Year"} data={medianYear} commentary={"That was a better year."}/>
-            <BasicPanel primary={"Percent Explicit"} data={percentExplicit} commentary={"Good for you."}/>
-            <BasicPanel primary={"Total Songs"} data={totalSongs} commentary={"Baskemtball."}/>
+            <BasicPanel primary={"Percent Explicit"} data={percentExplicit} commentary={"That's too high."}/>
+            <BasicPanel primary={"Total Songs"} data={totalSongs} commentary={"Looks like you spend too much time on Spotify."}/>
             <BasicPanel primary={"Unique Album Count"} data={uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
             <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} commentary={"Nice!"}/>
-            <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} commentary={"Looks like you repeat quite a lot of songs there bud!"}/>
-            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart/>} last={true}/>
+            <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} commentary={"That's pretty ok."}/>
+            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart/>} commentary={"Looks like you need more diversity."} last={true}/>
         </div>
     )
 }
