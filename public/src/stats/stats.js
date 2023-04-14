@@ -548,6 +548,10 @@ function HourChart() {
                             title: 'Count',
                             textStyle: {
                                 color: '#cce2e6',
+                            },
+                            viewWindow: {
+                                min: 0,
+                                max: 150
                             }
                         },
                         chartArea: {
