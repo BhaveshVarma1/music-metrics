@@ -553,6 +553,7 @@ function HourChart() {
                         chartArea: {
                             left: 50, // adjust the left margin to make space for the y-axis labels
                             top: 20, // adjust the top margin to make space for the x-axis labels
+                            bottom: 20, // adjust the bottom margin to make space for the x-axis labels
                             width: '100%', // adjust the width to make the chart larger
                             height: '80%' // adjust the height to make the chart larger
                         }
