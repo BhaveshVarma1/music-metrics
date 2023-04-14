@@ -547,13 +547,15 @@ function HourChart() {
                         hAxis: {
                             title: 'Hour',
                             textStyle: {
-                                color: '#cce2e6'
+                                color: '#cce2e6',
+                                fontSize: 12
                             }
                         },
                         vAxis: {
                             title: 'Count',
                             textStyle: {
-                                color: '#cce2e6'
+                                color: '#cce2e6',
+                                fontSize: 12
                             }
                         },
                     }}
