@@ -536,26 +536,22 @@ function HourChart() {
                     options={{
                         backgroundColor: 'transparent',
                         fontColor: '#cce2e6',
-                        /*chartArea: {
-                            left: 0,
-                            top: 0,
+                        chartArea: {
                             width: '100%',
                             height: '100%',
-                        },*/
+                        },
                         enableInteractivity: false,
                         orientation: 'horizontal',
                         hAxis: {
                             title: 'Hour',
                             textStyle: {
                                 color: '#cce2e6',
-                                fontSize: 12
                             }
                         },
                         vAxis: {
                             title: 'Count',
                             textStyle: {
                                 color: '#cce2e6',
-                                fontSize: 12
                             }
                         },
                     }}
