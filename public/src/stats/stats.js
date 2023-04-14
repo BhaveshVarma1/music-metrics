@@ -516,6 +516,7 @@ function BasicPanel(props) {
 
     let style = 'panel'
     if (props.last) {
+        console.log('whattup foo')
         style += ' last'
     }
 
