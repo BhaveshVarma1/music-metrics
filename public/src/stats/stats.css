@@ -30,6 +30,12 @@
     width: 15rem;
 }
 
+@media (orientation: portrait) {
+    .decade-wrapper {
+        width: 10rem;
+    }
+}
+
 .dropdown {
     position: relative;
     display: inline-block;
