@@ -5,6 +5,7 @@
     width: 50%;
     border-radius: .5rem;
     border: .1rem solid #cce2e6;
+    border-bottom: none;
 }
 
 .corner-rounded-left {
@@ -93,15 +94,12 @@
     color: #3de2ff;
 }
 
-.panel-left {
+.panel-primary {
     display: flex;
     flex-direction: column;
     height: 100%;
     align-items: flex-start;
     padding: .5rem;
-}
-
-.panel-primary {
     font-size: 2rem;
 }
 

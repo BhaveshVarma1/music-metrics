@@ -517,9 +517,7 @@ function DecadePieChart() {
 function BasicPanel(props) {
     return (
         <div className={'panel'}>
-            <div className={'panel-left'}>
-                <div className={'panel-primary'}>{props.primary}</div>
-            </div>
+            <div className={'panel-primary'}>{props.primary}</div>
             <div className={'panel-right'}>
                 <div className={'panel-data'}>{props.data}</div>
                 <div className={'panel-commentary'}>{props.commentary}</div>
