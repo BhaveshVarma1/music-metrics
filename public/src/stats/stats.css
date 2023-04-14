@@ -91,7 +91,8 @@
 }
 
 .hour-wrapper {
-
+    padding: .7rem;
+    width: 15rem;
 }
 
 .panel {
