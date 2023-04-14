@@ -463,7 +463,7 @@ function AllCharts() {
             <BasicPanel primary={"Unique Album Count"} data={uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
             <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} commentary={"Nice!"}/>
             <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} commentary={"That's pretty ok."}/>
-            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart/>} commentary={"Looks like you need more diversity."} last={true}/>
+            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart/>} commentary={"Looks like you need more diversity."}/>
             <BasicPanel primary={"Breakdown by Hour"} data={<HourChart/>} commentary={"Looks like you need more diversity."} last={true}/>
         </div>
     )
@@ -546,7 +546,7 @@ function HourChart() {
                             height: '100%',
                         },
                         enableInteractivity: true,
-                        orientation: 'vertical',
+                        orientation: 'horizontal',
                     }}
                 />
             </div>
