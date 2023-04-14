@@ -550,6 +550,12 @@ function HourChart() {
                                 color: '#cce2e6'
                             }
                         },
+                        vAxis: {
+                            title: 'Count',
+                            textStyle: {
+                                color: '#cce2e6'
+                            }
+                        },
                     }}
                 />
             </div>
