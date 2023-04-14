@@ -101,6 +101,7 @@
     align-items: flex-start;
     padding: .5rem;
     font-size: 2rem;
+    text-align: left;
 }
 
 .panel-right {
