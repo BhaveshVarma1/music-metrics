@@ -28,7 +28,7 @@
 
 .decade-wrapper {
     padding: .7rem;
-    width: 6rem;
+    width: 15rem;
 }
 
 .dropdown {
@@ -94,6 +94,12 @@
     border-bottom: .1rem solid #cce2e6;
     width: 100%;
     text-align: right;
+}
+
+@media (orientation: portrait) {
+    .panel {
+        flex-direction: column;
+    }
 }
 
 .panel-commentary {
