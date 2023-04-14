@@ -8,6 +8,12 @@
     border-bottom: none;
 }
 
+@media (orientation: portrait) {
+    .all-panels {
+        width: 90%;
+    }
+}
+
 .corner-rounded-left {
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
