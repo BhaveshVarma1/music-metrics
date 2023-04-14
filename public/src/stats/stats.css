@@ -97,7 +97,7 @@
 
 @media (orientation: portrait) {
     .hour-wrapper {
-        width: 90%;
+        width: 15rem;
     }
 }
 
