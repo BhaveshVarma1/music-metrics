@@ -92,7 +92,19 @@
 
 .hour-wrapper {
     padding: .7rem;
-    width: 15rem;
+    width: 25rem;
+}
+
+@media (min-width: 768px) {
+    .hour-wrapper {
+        width: 20rem;
+    }
+}
+
+@media (orientation: portrait) {
+    .hour-wrapper {
+        width: 10rem;
+    }
 }
 
 .panel {
