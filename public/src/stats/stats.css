@@ -10,7 +10,7 @@
 
 @media (orientation: portrait) {
     .all-panels {
-        width: 90%;
+        width: 70%;
     }
 }
 
@@ -127,6 +127,12 @@
     justify-content: space-between;
     align-items: flex-end;
     padding: .5rem;
+}
+
+@media (orientation: portrait) {
+    .panel-right {
+        align-items: center;
+    }
 }
 
 .pie-chart-wrapper {
