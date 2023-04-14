@@ -93,10 +93,6 @@
     color: #3de2ff;
 }
 
-.panel-description {
-    font-size: .8rem;
-}
-
 .panel-left {
     display: flex;
     flex-direction: column;

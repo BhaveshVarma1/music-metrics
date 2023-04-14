@@ -391,7 +391,7 @@ function AllCharts() {
             .then(data => {
                 console.log(data)
                 let minutes = Math.floor(data.value / 60)
-                setAverageLength(minutes + " min " + (data.value - minutes * 60) + " sec")
+                setAverageLength(minutes + ":" + (data.value - minutes * 60))
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
@@ -455,14 +455,14 @@ function AllCharts() {
 
     return (
         <div className={'all-panels'}>
-            <BasicPanel primary={"Average Year"} description={"Average release year of every song listened to"} data={averageYear} commentary={"That was a good year."}/>
+            <BasicPanel primary={"Average Year"} data={averageYear} commentary={"That was a good year."}/>
             <BasicPanel primary={"Average Song Length"} data={averageLength} commentary={"That's not very long."}/>
-            <BasicPanel primary={"Median Year"} description={"The middle year of every song listened to"} data={medianYear} commentary={"That was a better year."}/>
-            <BasicPanel primary={"Percent Explicit"} description={"The percentage of all listens marked as explicit"} data={percentExplicit} commentary={"Good for you."}/>
-            <BasicPanel primary={"Total Songs"} description={"The total number of listens"} data={totalSongs} commentary={"Baskemtball."}/>
-            <BasicPanel primary={"Unique Album Count"} description={"The number of different albums you've listened to"} data={uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
-            <BasicPanel primary={"Unique Artist Count"} description={"The number of different artists you've listened to"} data={uniqueArtists} commentary={"Nice!"}/>
-            <BasicPanel primary={"Unique Song Count"} description={"The number of different songs you've listened to"} data={uniqueSongs} commentary={"Looks like you repeat quite a lot of songs there bud!"}/>
+            <BasicPanel primary={"Median Year"} data={medianYear} commentary={"That was a better year."}/>
+            <BasicPanel primary={"Percent Explicit"} data={percentExplicit} commentary={"Good for you."}/>
+            <BasicPanel primary={"Total Songs"} data={totalSongs} commentary={"Baskemtball."}/>
+            <BasicPanel primary={"Unique Album Count"} data={uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
+            <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} commentary={"Nice!"}/>
+            <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} commentary={"Looks like you repeat quite a lot of songs there bud!"}/>
             <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart/>}/>
         </div>
     )
