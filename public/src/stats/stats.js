@@ -603,6 +603,7 @@ function convertHoursToChartData(data) {
     let i = 0;
     data.forEach(item => {
         result.push([hours[i], item])
+        i++
     })
     return result
 }
