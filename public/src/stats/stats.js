@@ -536,12 +536,12 @@ function HourChart() {
                     options={{
                         backgroundColor: 'transparent',
                         fontColor: '#cce2e6',
-                        chartArea: {
+                        /*chartArea: {
                             left: 0,
                             top: 0,
                             width: '100%',
                             height: '100%',
-                        },
+                        },*/
                         enableInteractivity: false,
                         orientation: 'horizontal',
                         hAxis: {
