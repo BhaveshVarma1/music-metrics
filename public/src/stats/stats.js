@@ -536,9 +536,6 @@ function HourChart() {
                     options={{
                         backgroundColor: 'transparent',
                         fontColor: '#cce2e6',
-                        legend: {
-                            position: 'none'
-                        },
                         chartArea: {
                             left: 0,
                             top: 0,
