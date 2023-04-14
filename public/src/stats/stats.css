@@ -26,6 +26,10 @@
     border-right: .1rem solid #cce2e6;
 }
 
+.decade-wrapper {
+    width: 15rem;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;

@@ -484,7 +484,7 @@ function DecadePieChart() {
     }, [])
 
     return (
-        <div style={{padding: '1rem'}}>
+        <div className={'decade-wrapper'}>
             <Chart
                 chartType="PieChart"
                 data={chartData}
