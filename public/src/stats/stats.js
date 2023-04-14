@@ -551,8 +551,8 @@ function HourChart() {
                             }
                         },
                         chartArea: {
-                            left: 100, // adjust the left margin to make space for the y-axis labels
-                            top: 20, // adjust the top margin to make space for the x-axis labels
+                            left: 60, // adjust the left margin to make space for the y-axis labels
+                            top: 0, // adjust the top margin to make space for the x-axis labels
                             width: '80%', // adjust the width to make the chart larger
                             height: '80%' // adjust the height to make the chart larger
                         }
