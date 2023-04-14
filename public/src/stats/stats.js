@@ -519,7 +519,6 @@ function BasicPanel(props) {
         <div className={'panel'}>
             <div className={'panel-left'}>
                 <div className={'panel-primary'}>{props.primary}</div>
-                <div className={'panel-description'}>{props.description}</div>
             </div>
             <div className={'panel-right'}>
                 <div className={'panel-data'}>{props.data}</div>
