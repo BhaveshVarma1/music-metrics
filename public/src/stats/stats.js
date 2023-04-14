@@ -464,6 +464,7 @@ function AllCharts() {
             <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} commentary={"Nice!"}/>
             <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} commentary={"That's pretty ok."}/>
             <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart/>} commentary={"Looks like you need more diversity."} last={true}/>
+            <HourChart/>
         </div>
     )
 }
@@ -512,6 +513,45 @@ function DecadePieChart() {
 
 }
 
+function HourChart() {
+
+        const [chartData, setChartData] = useState([["Hour", "Count"]])
+
+        useEffect(() => {
+            fetch(BASE_URL_API + '/api/v1/hourBreakdown/' + localStorage.getItem('username'), fetchInit('/api/v1/hourBreakdown', null, getToken()))
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    setChartData(convertHoursToChartData(data.items))
+                }).catch(error => {
+                    console.log("ERROR: " + error)
+                })
+        }, [])
+
+        return (
+            <div className={'hour-wrapper'}>
+                <Chart
+                    chartType="BarChart"
+                    data={chartData}
+                    options={{
+                        backgroundColor: 'transparent',
+                        fontColor: '#cce2e6',
+                        legend: {
+                            position: 'none'
+                        },
+                        chartArea: {
+                            left: 0,
+                            top: 0,
+                            width: '100%',
+                            height: '100%',
+                        },
+                        enableInteractivity: false,
+                    }}
+                />
+            </div>
+        )
+}
+
 function BasicPanel(props) {
 
     let style = 'panel'
@@ -549,6 +589,16 @@ function convertDecadesToPieChartData(data) {
     let result = [["Decade", "Count"]]
     data.forEach(item => {
         result.push([item.decade, item.count])
+    })
+    return result
+}
+
+function convertHoursToChartData(data) {
+    let result = [["Hour", "Count"]]
+    let hours = ["12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"]
+    let i = 0;
+    data.forEach(item => {
+        result.push([hours[i], item])
     })
     return result
 }

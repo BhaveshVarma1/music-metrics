@@ -90,6 +90,10 @@
     text-align: center;
 }
 
+.hour-wrapper {
+
+}
+
 .panel {
     display: flex;
     flex-direction: row;
