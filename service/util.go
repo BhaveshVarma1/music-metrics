@@ -13,7 +13,7 @@ var SPOTIFY_REDIRECT_URL = "https://dev.musicmetrics.app/spotify-landing" // not
 var DEFAULT_ID_LENGTH = 32
 var SPOTIFY_CLIENT_ID = "8b99139c99794d4b9e89b8367b0ac3f4"
 var SEPARATOR = ";;"
-var verbose = false
+var verbose = true
 
 func generateID(length int) string {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
