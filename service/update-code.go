@@ -23,7 +23,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 	var response model.UpdateCodeResponse
 
 	// Request Access/Refresh Token from Spotify
-	PrintMessage("Getting access token from Spotify...")
+	PrintMessage("\nGetting access token from Spotify...")
 	accessToken, refreshToken, err := requestAccessToken(code)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
@@ -58,6 +58,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 
 	// If user does not exist, create user and auth token
 	if (existingUser == model.UserBean{}) {
+
 		PrintMessage("UserBean does not exist, creating user and auth token...")
 		currUser.Timestamp = time.Now().UnixMilli()
 		err = dal.CreateUser(tx, currUser)
@@ -79,6 +80,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
 		PrintMessage("Successfully created user and auth token")
+
 		// Add recent listens to DB for instant access
 		PrintMessage("Adding recent listens to DB...")
 		recentListens, err := getRecentlyPlayed(accessToken)
@@ -88,10 +90,13 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			}
 			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 		}
+
 		// Add all 50 recent listens to DB
 		loopThroughRecentListens(recentListens, tx, currUser, 0)
 		PrintMessage("Successfully added listens to DB")
+
 	} else {
+
 		// UserBean already exists, update them and get auth token
 		PrintMessage("UserBean already exists, updating user and getting auth token...")
 		currUser.Timestamp = existingUser.Timestamp
