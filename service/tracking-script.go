@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-func main() {
+func StartTracking() {
 
 	fmt.Println("STARTING TRACKING SCRIPT...")
 
