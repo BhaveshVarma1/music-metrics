@@ -189,7 +189,9 @@ export function Stats() {
 
     if (localStorage.getItem('username') !== 'prattnj') {
         return (
-            <SecondaryInfo text="This page is currently unavailable, but will become available once Spotify approves my app for public use."/>
+            <div className={'temp-message'}>
+                This page is currently unavailable, but will become available once Spotify approves my app for public use.
+            </div>
         )
     }
 
