@@ -253,3 +253,9 @@
     margin: 0 auto;
     padding: 10rem;
 }
+
+@media (orientation: portrait) {
+    .temp-message {
+        padding: 5rem;
+    }
+}
