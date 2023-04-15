@@ -1,12 +1,12 @@
-package main
+package service
 
 import (
+	"database/sql"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"music-metrics/dal"
 	"music-metrics/model"
-	"music-metrics/service"
 	"net/http"
 	"net/url"
 	"os"
@@ -20,6 +20,9 @@ func main() {
 	fmt.Println("STARTING TRACKING SCRIPT...")
 
 	for {
+
+		startTime := time.Now()
+
 		// Instantiate connection
 		tx, db, err := dal.BeginTX()
 		if err != nil {
@@ -37,15 +40,13 @@ func main() {
 
 		// For every user in the database
 		for _, user := range users {
-			startTime := time.Now()
+			startTimeUser := time.Now()
 			// Get new access token
 			newToken, err := refreshToken(user.Refresh)
 			if err != nil || newToken == "" {
 				fmt.Println("Error refreshing token for username: " + user.Username)
 				continue
 			}
-			//fmt.Println("New token: " + newToken)
-			newSongsCount := 0
 
 			// Use new access token to call /recently-played
 			recentlyPlayed, err := getRecentlyPlayed(newToken)
@@ -53,7 +54,6 @@ func main() {
 				fmt.Println("Error getting recently played for username: " + user.Username)
 				continue
 			}
-			//fmt.Println("Recently played: " + strconv.Itoa(len(recentlyPlayed)))
 
 			// Get most recent listen
 			mostRecentListen, err := dal.GetMostRecentListen(tx, user.Username)
@@ -69,71 +69,9 @@ func main() {
 			}
 
 			// Determine which listens are new and add them if they are
-			for _, rpObj := range recentlyPlayed {
-				if rpObj.Timestamp > oldTime {
-					// Add song to database if it isn't already there
-					newSongsCount++
-					song, err := dal.RetrieveSong(tx, rpObj.Song.Id)
-					if err != nil {
-						fmt.Println("Error retrieving song for username: " + user.Username)
-						fmt.Println(err)
-						continue
-					}
-					if (song == model.SongBean{}) {
-						err = dal.CreateSong(tx, &rpObj.Song)
-						if err != nil {
-							fmt.Println("Error creating song for username: " + user.Username)
-							continue
-						}
-					} else {
-						// Update song if it is already there
-						err = dal.UpdateSong(tx, &rpObj.Song)
-						if err != nil {
-							fmt.Println("Error updating song for username: " + user.Username)
-							continue
-						}
-					}
+			newSongsCount := loopThroughRecentListens(recentlyPlayed, tx, user, oldTime)
 
-					// Add album to database if it isn't already there
-					album, err := dal.RetrieveAlbum(tx, rpObj.Album.Id)
-					if err != nil {
-						fmt.Println("Error retrieving album for username: " + user.Username)
-						fmt.Println(err)
-						continue
-					}
-					if (album == model.AlbumBean{}) {
-						err = dal.CreateAlbum(tx, &rpObj.Album)
-						if err != nil {
-							fmt.Println("Error creating album for username: " + user.Username)
-							continue
-						}
-					} else {
-						// Update album if it is already there
-						err = dal.UpdateAlbum(tx, &rpObj.Album)
-						if err != nil {
-							fmt.Println("Error updating album for username: " + user.Username)
-							continue
-						}
-					}
-
-					// Add listen to database
-					newListen := model.ListenBean{
-						Username:  user.Username,
-						Timestamp: rpObj.Timestamp,
-						SongId:    rpObj.Song.Id,
-					}
-					err = dal.CreateListen(tx, newListen)
-					if err != nil {
-						fmt.Println("Error creating listen for username: " + user.Username)
-						fmt.Println(err)
-						continue
-					}
-				} else {
-					break
-				}
-			}
-
-			fmt.Println(user.Username + " listened to " + strconv.Itoa(newSongsCount) + " songs in the last 2 hours. (" + time.Since(startTime).String() + "), (" + time.Now().Format("2006-01-02 15:04:05 -0700 MST") + ")")
+			fmt.Println(user.Username + " listened to " + strconv.Itoa(newSongsCount) + " songs in the last 2 hours. (" + time.Since(startTimeUser).String() + "), (" + time.Now().Format("2006-01-02 15:04:05 -0700 MST") + ")")
 
 			// Sleep for a little bit to avoid rate limiting
 			time.Sleep(500 * time.Millisecond)
@@ -145,20 +83,88 @@ func main() {
 			return
 		}
 
-		// Sleep for 2 hours
-		time.Sleep(2 * time.Hour)
+		// Sleep for 2 hours - time it took to run the script
+		time.Sleep(2*time.Hour - time.Since(startTime))
 	}
 
 }
 
+func loopThroughRecentListens(listens []model.RecentlyPlayedObject, tx *sql.Tx, user model.UserBean, oldTime int64) int {
+	newSongsCount := 0
+	for _, rpObj := range listens {
+		if rpObj.Timestamp > oldTime {
+			// Add song to database if it isn't already there
+			newSongsCount++
+			song, err := dal.RetrieveSong(tx, rpObj.Song.Id)
+			if err != nil {
+				fmt.Println("Error retrieving song for username: " + user.Username)
+				fmt.Println(err)
+				continue
+			}
+			if (song == model.SongBean{}) {
+				err = dal.CreateSong(tx, &rpObj.Song)
+				if err != nil {
+					fmt.Println("Error creating song for username: " + user.Username)
+					continue
+				}
+			} else {
+				// Update song if it is already there
+				err = dal.UpdateSong(tx, &rpObj.Song)
+				if err != nil {
+					fmt.Println("Error updating song for username: " + user.Username)
+					continue
+				}
+			}
+
+			// Add album to database if it isn't already there
+			album, err := dal.RetrieveAlbum(tx, rpObj.Album.Id)
+			if err != nil {
+				fmt.Println("Error retrieving album for username: " + user.Username)
+				fmt.Println(err)
+				continue
+			}
+			if (album == model.AlbumBean{}) {
+				err = dal.CreateAlbum(tx, &rpObj.Album)
+				if err != nil {
+					fmt.Println("Error creating album for username: " + user.Username)
+					continue
+				}
+			} else {
+				// Update album if it is already there
+				err = dal.UpdateAlbum(tx, &rpObj.Album)
+				if err != nil {
+					fmt.Println("Error updating album for username: " + user.Username)
+					continue
+				}
+			}
+
+			// Add listen to database
+			newListen := model.ListenBean{
+				Username:  user.Username,
+				Timestamp: rpObj.Timestamp,
+				SongId:    rpObj.Song.Id,
+			}
+			err = dal.CreateListen(tx, newListen)
+			if err != nil {
+				fmt.Println("Error creating listen for username: " + user.Username)
+				fmt.Println(err)
+				continue
+			}
+		} else {
+			break
+		}
+	}
+	return newSongsCount
+}
+
 func refreshToken(refresh string) (string, error) {
 
-	uri := service.SPOTIFY_BASE_ACCOUNT + "/api/token"
+	uri := SPOTIFY_BASE_ACCOUNT + "/api/token"
 	secret := os.Getenv("SPOTIFY_CLIENT_SECRET")
 	if secret == "" {
 		return "", fmt.Errorf("secret is empty")
 	}
-	encodedSecret := base64.StdEncoding.EncodeToString([]byte(service.SPOTIFY_CLIENT_ID + ":" + secret))
+	encodedSecret := base64.StdEncoding.EncodeToString([]byte(SPOTIFY_CLIENT_ID + ":" + secret))
 
 	reqBody := url.Values{}
 	reqBody.Set("grant_type", "refresh_token")
@@ -195,7 +201,7 @@ func refreshToken(refresh string) (string, error) {
 
 func getRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 
-	uri := service.SPOTIFY_BASE_API + "/me/player/recently-played"
+	uri := SPOTIFY_BASE_API + "/me/player/recently-played"
 
 	params := url.Values{}
 	params.Add("before", strconv.FormatInt(time.Now().UnixMilli(), 10))
@@ -241,7 +247,7 @@ func getRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 			Id:          item.Track.Album.ID,
 			Name:        item.Track.Album.Name,
 			Artist:      artistsToString(item.Track.Album.Artists),
-			Genre:       strings.Join(item.Track.Album.Genres, service.SEPARATOR),
+			Genre:       strings.Join(item.Track.Album.Genres, SEPARATOR),
 			TotalTracks: item.Track.Album.TotalTracks,
 			Year:        yearFromReleaseDate(item.Track.Album.ReleaseDate),
 			Image:       item.Track.Album.Images[0].URL,
@@ -263,7 +269,7 @@ func artistsToString(artists []model.Artist) string {
 	for _, artist := range artists {
 		arr = append(arr, artist.Name)
 	}
-	return strings.Join(arr, service.SEPARATOR)
+	return strings.Join(arr, SEPARATOR)
 }
 
 func yearFromReleaseDate(date string) int {

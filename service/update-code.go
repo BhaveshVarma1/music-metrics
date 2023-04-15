@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -89,68 +88,11 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			}
 			return model.UpdateCodeResponse{Success: false, Message: err.Error()}
 		}
-		// Determine which listens are new and add them if they are
-		// todo: remove this duplication with tracking script
-		for _, rpObj := range recentListens {
-			// Add song to database if it isn't already there
-			song, err := dal.RetrieveSong(tx, rpObj.Song.Id)
-			if err != nil {
-				fmt.Println("Error retrieving song for username: " + currUser.Username)
-				fmt.Println(err)
-				continue
-			}
-			if (song == model.SongBean{}) {
-				err = dal.CreateSong(tx, &rpObj.Song)
-				if err != nil {
-					fmt.Println("Error creating song for username: " + currUser.Username)
-					continue
-				}
-			} else {
-				// Update song if it is already there
-				err = dal.UpdateSong(tx, &rpObj.Song)
-				if err != nil {
-					fmt.Println("Error updating song for username: " + currUser.Username)
-					continue
-				}
-			}
-
-			// Add album to database if it isn't already there
-			album, err := dal.RetrieveAlbum(tx, rpObj.Album.Id)
-			if err != nil {
-				fmt.Println("Error retrieving album for username: " + currUser.Username)
-				fmt.Println(err)
-				continue
-			}
-			if (album == model.AlbumBean{}) {
-				err = dal.CreateAlbum(tx, &rpObj.Album)
-				if err != nil {
-					fmt.Println("Error creating album for username: " + currUser.Username)
-					continue
-				}
-			} else {
-				// Update album if it is already there
-				err = dal.UpdateAlbum(tx, &rpObj.Album)
-				if err != nil {
-					fmt.Println("Error updating album for username: " + currUser.Username)
-					continue
-				}
-			}
-
-			// Add listen to database
-			newListen := model.ListenBean{
-				Username:  currUser.Username,
-				Timestamp: rpObj.Timestamp,
-				SongId:    rpObj.Song.Id,
-			}
-			err = dal.CreateListen(tx, newListen)
-			if err != nil {
-				fmt.Println("Error creating listen for username: " + currUser.Username)
-				fmt.Println(err)
-				continue
-			}
-		}
+		// Add all 50 recent listens to DB
+		loopThroughRecentListens(recentListens, tx, currUser, 0)
 		PrintMessage("Successfully added listens to DB")
-	} else { // UserBean already exists, update them and get auth token
+	} else {
+		// UserBean already exists, update them and get auth token
 		PrintMessage("UserBean already exists, updating user and getting auth token...")
 		currUser.Timestamp = existingUser.Timestamp
 		err = dal.UpdateUser(tx, currUser)
@@ -265,93 +207,4 @@ func requestUserInfo(access string) (model.UserBean, error) {
 		return model.UserBean{}, err
 	}
 	return model.UserBean{Username: getMeResponse.ID, DisplayName: getMeResponse.DisplayName, Email: getMeResponse.Email}, nil
-}
-
-func getRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
-
-	uri := SPOTIFY_BASE_API + "/me/player/recently-played"
-
-	params := url.Values{}
-	params.Add("before", strconv.FormatInt(time.Now().UnixMilli(), 10))
-	params.Add("limit", "50")
-	urlWithParams := fmt.Sprintf("%s?%s", uri, params.Encode())
-
-	req, err := http.NewRequest("GET", urlWithParams, nil)
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+token)
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-
-	var respBody model.GetRecentlyPlayedResponse
-	err = json.NewDecoder(resp.Body).Decode(&respBody)
-	if err != nil {
-		return nil, err
-	}
-
-	err = resp.Body.Close()
-	if err != nil {
-		return nil, err
-	}
-
-	var toReturn []model.RecentlyPlayedObject
-	for _, item := range respBody.Items {
-		song := model.SongBean{
-			Id:         item.Track.ID,
-			Name:       item.Track.Name,
-			Artist:     artistsToString(item.Track.Artists),
-			Album:      item.Track.Album.ID,
-			Explicit:   item.Track.Explicit,
-			Popularity: item.Track.Popularity,
-			Duration:   item.Track.DurationMs,
-		}
-		album := model.AlbumBean{
-			Id:          item.Track.Album.ID,
-			Name:        item.Track.Album.Name,
-			Artist:      artistsToString(item.Track.Album.Artists),
-			Genre:       strings.Join(item.Track.Album.Genres, SEPARATOR),
-			TotalTracks: item.Track.Album.TotalTracks,
-			Year:        yearFromReleaseDate(item.Track.Album.ReleaseDate),
-			Image:       item.Track.Album.Images[0].URL,
-			Popularity:  item.Track.Album.Popularity,
-		}
-		returnObj := model.RecentlyPlayedObject{
-			Song:      song,
-			Album:     album,
-			Timestamp: datetimeToUnixMilli(item.PlayedAt),
-		}
-		toReturn = append(toReturn, returnObj)
-	}
-
-	return toReturn, nil
-}
-
-func artistsToString(artists []model.Artist) string {
-	var arr []string
-	for _, artist := range artists {
-		arr = append(arr, artist.Name)
-	}
-	return strings.Join(arr, SEPARATOR)
-}
-
-func yearFromReleaseDate(date string) int {
-	i, err := strconv.Atoi(date[:4])
-	if err != nil {
-		return -1
-	}
-	return i
-}
-
-func datetimeToUnixMilli(datetime string) int64 {
-	t, err := time.Parse(time.RFC3339, datetime)
-	if err != nil {
-		return -1
-	}
-	return t.UnixMilli()
 }
