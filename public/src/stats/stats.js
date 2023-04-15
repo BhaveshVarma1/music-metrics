@@ -187,6 +187,12 @@ export function Stats() {
     }
     const [currentData, setCurrentData] = useState(<TopTable props={songCountProps}/>);
 
+    if (localStorage.getItem('username') !== 'prattnj') {
+        return (
+            <PrimaryInfo text="This page is currently unavailable, but will become available once Spotify approves my app for public use."/>
+        )
+    }
+
     if (getToken() == null || getToken() === 'undefined') {
         sessionStorage.setItem('route', 'stats')
         return (
