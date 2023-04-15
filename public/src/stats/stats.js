@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable,JSCheckFunctionSignatures
 
 import './stats.css';
-import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
+import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
 import {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 
@@ -189,7 +189,7 @@ export function Stats() {
 
     if (localStorage.getItem('username') !== 'prattnj') {
         return (
-            <PrimaryInfo text="This page is currently unavailable, but will become available once Spotify approves my app for public use."/>
+            <SecondaryInfo text="This page is currently unavailable, but will become available once Spotify approves my app for public use."/>
         )
     }
 
