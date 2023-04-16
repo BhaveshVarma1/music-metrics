@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 
 export function Home() {
     // todo remove this
-    if (localStorage.getItem('token') !== 'prattnj') {
+    if (localStorage.getItem('username') !== 'prattnj') {
         localStorage.clear()
     }
     return (
