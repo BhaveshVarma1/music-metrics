@@ -198,7 +198,7 @@ export function SecondaryInfo(props) {
 export function LoginButton(props) {
     return (
         <div className='login-button-wrapper'>
-            <div className='login-button' {/*onClick={() => authenticate()}*/}>
+            <div className='login-button' /*onClick={() => authenticate()}*/>
                 <b>{props.text}</b>
             </div>
         </div>
