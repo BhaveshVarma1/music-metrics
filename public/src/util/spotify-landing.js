@@ -41,6 +41,8 @@ function onload() {
                 // Internal Server Error
                 console.log("ERROR: " + error)
                 localStorage.removeItem('token')
+                // todo remove this line?
+                localStorage.clear()
                 sessionStorage.setItem('error', 'Internal Server Error')
                 window.location = BASE_URL_WEB
             })
