@@ -6,6 +6,10 @@ import {PrimaryInfo} from '../util/util';
 import {Link} from "react-router-dom";
 
 export function Home() {
+    // todo remove this
+    if (localStorage.getItem('token') !== 'prattnj') {
+        localStorage.clear()
+    }
     return (
         <div>
             <PrimaryInfo text="Visualize your music journey."/>
