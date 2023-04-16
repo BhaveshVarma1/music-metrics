@@ -28,19 +28,24 @@ type RecentlyPlayedObject struct {
 }
 
 type TopSong struct {
-	Song   string `json:"song"`
-	Artist string `json:"artist"`
-	Count  int    `json:"count"`
+	Song       string `json:"song"`
+	Artist     string `json:"artist"`
+	Count      int    `json:"count"`
+	SongLink   string `json:"songLink"`
+	ArtistLink string `json:"artistLink"`
 }
 
 type TopAlbum struct {
-	Album  string `json:"album"`
-	Artist string `json:"artist"`
-	Image  string `json:"image"`
-	Count  int    `json:"count"`
+	Album      string `json:"album"`
+	Artist     string `json:"artist"`
+	Image      string `json:"image"`
+	Count      int    `json:"count"`
+	AlbumLink  string `json:"albumLink"`
+	ArtistLink string `json:"artistLink"`
 }
 
 type TopArtist struct {
-	Artist string `json:"artist"`
-	Count  int    `json:"count"`
+	Artist     string `json:"artist"`
+	Count      int    `json:"count"`
+	ArtistLink string `json:"artistLink"`
 }

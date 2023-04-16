@@ -84,7 +84,7 @@ func StartTracking() {
 		}
 
 		// Sleep for 2 hours - time it took to run the script
-		time.Sleep(2*time.Hour - time.Since(startTime))
+		time.Sleep((2 * time.Hour) - time.Since(startTime))
 	}
 
 }
