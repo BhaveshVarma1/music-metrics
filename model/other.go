@@ -14,11 +14,14 @@ type PopularityObject struct {
 	Song       string `json:"song"`
 	Artist     string `json:"artist"`
 	Popularity int    `json:"popularity"`
+	SongLink   string `json:"songLink"`
+	ArtistLink string `json:"artistLink"`
 }
 
 type RawArtistTime struct {
-	Artist string
-	Millis int
+	Artist   string
+	Millis   int
+	ArtistId string
 }
 
 type RecentlyPlayedObject struct {

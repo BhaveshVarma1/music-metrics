@@ -238,6 +238,7 @@ func getRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 			Id:         item.Track.ID,
 			Name:       item.Track.Name,
 			Artist:     artistsToString(item.Track.Artists),
+			ArtistId:   artistIdsToString(item.Track.Artists),
 			Album:      item.Track.Album.ID,
 			Explicit:   item.Track.Explicit,
 			Popularity: item.Track.Popularity,
@@ -247,6 +248,7 @@ func getRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 			Id:          item.Track.Album.ID,
 			Name:        item.Track.Album.Name,
 			Artist:      artistsToString(item.Track.Album.Artists),
+			ArtistId:    artistIdsToString(item.Track.Album.Artists),
 			Genre:       strings.Join(item.Track.Album.Genres, SEPARATOR),
 			TotalTracks: item.Track.Album.TotalTracks,
 			Year:        yearFromReleaseDate(item.Track.Album.ReleaseDate),
@@ -268,6 +270,14 @@ func artistsToString(artists []model.Artist) string {
 	var arr []string
 	for _, artist := range artists {
 		arr = append(arr, artist.Name)
+	}
+	return strings.Join(arr, SEPARATOR)
+}
+
+func artistIdsToString(artists []model.Artist) string {
+	var arr []string
+	for _, artist := range artists {
+		arr = append(arr, artist.ID)
 	}
 	return strings.Join(arr, SEPARATOR)
 }

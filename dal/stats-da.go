@@ -33,7 +33,13 @@ func GetTopSongs(tx *sql.Tx, username string) ([]model.TopSong, error) {
 		if err != nil {
 			return nil, err
 		}
-		results = append(results, model.TopSong{Song: song, Artist: artist, Count: count})
+		results = append(results, model.TopSong{
+			Song:       song,
+			Artist:     artist,
+			Count:      count,
+			SongLink:   "",
+			ArtistLink: "",
+		})
 	}
 
 	return results, nil

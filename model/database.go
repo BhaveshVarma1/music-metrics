@@ -4,6 +4,7 @@ type AlbumBean struct {
 	Id          string `json:"id"`
 	Name        string `json:"name"`
 	Artist      string `json:"artist"`
+	ArtistId    string `json:"artistId"`
 	Genre       string `json:"genre"`
 	TotalTracks int    `json:"totalTracks"`
 	Year        int    `json:"year"`
@@ -24,15 +25,14 @@ type ListenBean struct {
 }
 
 type SongBean struct {
-	Id     string `json:"id"`
-	Name   string `json:"name"`
-	Artist string `json:"artist"`
-	Album  string `json:"album"`
-	//Genre      string `json:"genre"`
-	Explicit   bool `json:"explicit"`
-	Popularity int  `json:"popularity"`
-	Duration   int  `json:"duration"`
-	//Year       int    `json:"year"`
+	Id         string `json:"id"`
+	Name       string `json:"name"`
+	Artist     string `json:"artist"`
+	ArtistId   string `json:"artistId"`
+	Album      string `json:"album"`
+	Explicit   bool   `json:"explicit"`
+	Popularity int    `json:"popularity"`
+	Duration   int    `json:"duration"`
 }
 
 type UserBean struct {
