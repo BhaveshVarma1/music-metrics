@@ -44,7 +44,7 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
-                    <td><a href={OPEN_SPOTIFY + '/tracks/' + item.songId} target={"_blank"} className={'custom-link'}>{item.song}</a></td>
+                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} className={'table-link'}>{item.song}</a></td>
                     <td>{item.artist}</td>
                     <td style={{textAlign: 'right'}}>{item.count}</td>
                 </tr>

@@ -238,6 +238,11 @@
     border-bottom: .06rem solid #555555;
 }
 
+.table-link {
+    color: #cce2e6;
+    text-decoration: none;
+}
+
 .table-row {
     border-bottom: .06rem solid #555555;
 }
