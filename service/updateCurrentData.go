@@ -33,16 +33,17 @@ func UpdateCurrentData() {
 	songs, err := dal.RetrieveAllSongs(tx)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
-			fmt.Println(err.Error())
+			//fmt.Println(err.Error())
 			fmt.Println("Error committing transaction")
 			return
 		}
 	}
 
+	fmt.Println("Songs retrieved: " + fmt.Sprint(len(songs)) + " songs")
 	albums, err := dal.RetrieveAllAlbums(tx)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
-			//fmt.Println(err.Error())
+			fmt.Println(err.Error())
 			fmt.Println("Error committing transaction")
 			return
 		}
