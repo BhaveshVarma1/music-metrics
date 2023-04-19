@@ -587,6 +587,7 @@ function BasicPanel(props) {
 }
 
 function LinkedArtistList(props) {
+    console.log(props)
     const names = props.nameString.split(';;');
     const ids = props.idString.split(';;');
 
