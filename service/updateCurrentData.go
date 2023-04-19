@@ -33,17 +33,14 @@ func UpdateCurrentData() {
 	songs, err := dal.RetrieveAllSongs(tx)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
-			fmt.Println("36" + err.Error())
 			fmt.Println("Error committing transaction")
 			return
 		}
 	}
 
-	fmt.Println("Songs retrieved: " + fmt.Sprint(len(songs)) + " songs")
 	albums, err := dal.RetrieveAllAlbums(tx)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
-			fmt.Println(err.Error())
 			fmt.Println("Error committing transaction")
 			return
 		}
@@ -62,7 +59,7 @@ func UpdateCurrentData() {
 			Id:         track.ID,
 			Name:       track.Name,
 			Artist:     artistsToString(track.Artists),
-			ArtistId:   artistsToString(track.Artists),
+			ArtistId:   artistIdsToString(track.Artists),
 			Album:      track.Album.ID,
 			Explicit:   track.Explicit,
 			Popularity: track.Popularity,
@@ -132,8 +129,6 @@ func getSongData(token string, songID string) (model.Track, error) {
 	if err != nil {
 		return model.Track{}, err
 	}
-
-	fmt.Println("RESPONSE: " + resp.Status)
 
 	var respBody model.Track
 	err = json.NewDecoder(resp.Body).Decode(&respBody)

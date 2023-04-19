@@ -14,8 +14,8 @@ type PopularityObject struct {
 	Song       string `json:"song"`
 	Artist     string `json:"artist"`
 	Popularity int    `json:"popularity"`
-	SongLink   string `json:"songLink"`
-	ArtistLink string `json:"artistLink"`
+	SongId     string `json:"songId"`
+	ArtistId   string `json:"artistId"`
 }
 
 type RawArtistTime struct {
@@ -31,24 +31,24 @@ type RecentlyPlayedObject struct {
 }
 
 type TopSong struct {
-	Song       string `json:"song"`
-	Artist     string `json:"artist"`
-	Count      int    `json:"count"`
-	SongLink   string `json:"songLink"`
-	ArtistLink string `json:"artistLink"`
+	Song     string `json:"song"`
+	Artist   string `json:"artist"`
+	Count    int    `json:"count"`
+	SongId   string `json:"songId"`
+	ArtistId string `json:"artistId"`
 }
 
 type TopAlbum struct {
-	Album      string `json:"album"`
-	Artist     string `json:"artist"`
-	Image      string `json:"image"`
-	Count      int    `json:"count"`
-	AlbumLink  string `json:"albumLink"`
-	ArtistLink string `json:"artistLink"`
+	Album    string `json:"album"`
+	Artist   string `json:"artist"`
+	Image    string `json:"image"`
+	Count    int    `json:"count"`
+	AlbumId  string `json:"albumId"`
+	ArtistId string `json:"artistId"`
 }
 
 type TopArtist struct {
-	Artist     string `json:"artist"`
-	Count      int    `json:"count"`
-	ArtistLink string `json:"artistLink"`
+	Artist   string `json:"artist"`
+	Count    int    `json:"count"`
+	ArtistId string `json:"artistId"`
 }

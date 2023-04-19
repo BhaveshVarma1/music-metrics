@@ -8,8 +8,8 @@ import (
 
 func CreateSong(tx *sql.Tx, song *model.SongBean) error {
 
-	_, err := tx.Exec("INSERT INTO song (`id`, `name`, `artist`, `artistID`, `album`, `explicit`, `popularity`, `duration`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
-		song.Id, song.Name, song.Artist, song.ArtistId, song.Album, song.Explicit, song.Popularity, song.Duration)
+	_, err := tx.Exec("INSERT INTO song (`id`, `name`, `artist`, `album`, `explicit`, `popularity`, `duration`, `artistID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
+		song.Id, song.Name, song.Artist, song.Album, song.Explicit, song.Popularity, song.Duration, song.ArtistId)
 	if err != nil {
 		return err
 	}
@@ -29,7 +29,7 @@ func RetrieveSong(tx *sql.Tx, id string) (model.SongBean, error) {
 	}(rows)
 	var song model.SongBean
 	for rows.Next() {
-		err = rows.Scan(&song.Id, &song.Name, &song.Artist, &song.ArtistId, &song.Album, &song.Explicit, &song.Popularity, &song.Duration)
+		err = rows.Scan(&song.Id, &song.Name, &song.Artist, &song.Album, &song.Explicit, &song.Popularity, &song.Duration, &song.ArtistId)
 		if err != nil {
 			return model.SongBean{}, err
 		}
@@ -39,8 +39,8 @@ func RetrieveSong(tx *sql.Tx, id string) (model.SongBean, error) {
 }
 
 func UpdateSong(tx *sql.Tx, song *model.SongBean) error {
-	_, err := tx.Exec("UPDATE song SET name = ?, artist = ?, artistID = ?, album = ?, explicit = ?, popularity = ?, duration = ? WHERE id = ?;",
-		song.Name, song.Artist, song.ArtistId, song.Album, song.Explicit, song.Popularity, song.Duration, song.Id)
+	_, err := tx.Exec("UPDATE song SET name = ?, artist = ?, album = ?, explicit = ?, popularity = ?, duration = ?, artistID = ? WHERE id = ?;",
+		song.Name, song.Artist, song.Album, song.Explicit, song.Popularity, song.Duration, song.ArtistId, song.Id)
 	if err != nil {
 		return err
 	}
@@ -69,7 +69,7 @@ func RetrieveAllSongs(tx *sql.Tx) ([]model.SongBean, error) {
 	var songs []model.SongBean
 	for rows.Next() {
 		var song model.SongBean
-		err = rows.Scan(&song.Id, &song.Name, &song.Artist, &song.ArtistId, &song.Album, &song.Explicit, &song.Popularity, &song.Duration)
+		err = rows.Scan(&song.Id, &song.Name, &song.Artist, &song.Album, &song.Explicit, &song.Popularity, &song.Duration, &song.ArtistId)
 		if err != nil {
 			return nil, err
 		}

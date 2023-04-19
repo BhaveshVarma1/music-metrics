@@ -312,6 +312,16 @@ func (s TopArtistsService) ExecuteService(username string) model.StatsResponse {
 		return nil
 	}
 
+	// Map of artist name to artist id
+	artistsWithIds := make(map[string]string)
+	for _, rawArtist := range result {
+		artists := strings.Split(rawArtist.Artist, ";;")
+		ids := strings.Split(rawArtist.ArtistId, ";;")
+		for i, artist := range artists {
+			artistsWithIds[artist] = ids[i]
+		}
+	}
+
 	// Create a proper map of top artists and counts since they are stored with ';;' in the db
 	topArtists := make(map[string]int)
 	for _, rawArtist := range result {
@@ -328,7 +338,7 @@ func (s TopArtistsService) ExecuteService(username string) model.StatsResponse {
 	// Sort the map by descending count
 	sortedArtists := make([]model.TopArtist, 0)
 	for artist, count := range topArtists {
-		sortedArtists = append(sortedArtists, model.TopArtist{Artist: artist, Count: count})
+		sortedArtists = append(sortedArtists, model.TopArtist{Artist: artist, Count: count, ArtistId: artistsWithIds[artist]})
 	}
 	sort.Slice(sortedArtists, func(i, j int) bool {
 		return sortedArtists[i].Count > sortedArtists[j].Count
@@ -356,6 +366,16 @@ func (s TopArtistsTimeService) ExecuteService(username string) model.StatsRespon
 		return nil
 	}
 
+	// Map of artist name to artist id
+	artistsWithIds := make(map[string]string)
+	for _, rawArtist := range result {
+		artists := strings.Split(rawArtist.Artist, ";;")
+		ids := strings.Split(rawArtist.ArtistId, ";;")
+		for i, artist := range artists {
+			artistsWithIds[artist] = ids[i]
+		}
+	}
+
 	counts := make(map[string]int)
 	for _, rawArtist := range result {
 		artists := strings.Split(rawArtist.Artist, ";;")
@@ -370,7 +390,7 @@ func (s TopArtistsTimeService) ExecuteService(username string) model.StatsRespon
 
 	var toReturn []model.TopArtist
 	for k, v := range counts {
-		toReturn = append(toReturn, model.TopArtist{Artist: k, Count: v / 1000})
+		toReturn = append(toReturn, model.TopArtist{Artist: k, Count: v / 1000, ArtistId: artistsWithIds[k]})
 	}
 
 	sort.Slice(toReturn, func(i, j int) bool {
