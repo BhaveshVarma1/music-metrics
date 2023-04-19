@@ -587,6 +587,9 @@ function BasicPanel(props) {
 }
 
 function LinkedArtistList(props) {
+    if (props === undefined || props.nameString === undefined || props.idString === undefined) {
+        return null
+    }
     console.log(props)
     const names = props.nameString.split(';;');
     const ids = props.idString.split(';;');
