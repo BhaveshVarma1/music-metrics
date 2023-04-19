@@ -26,7 +26,7 @@ export function Stats() {
     const songCountProps = {
         initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
         url: '/api/v1/topSongs',
-        fixArtistNames: true,
+        fixArtistNames: false,
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
         tableStyle: 'table-all',
