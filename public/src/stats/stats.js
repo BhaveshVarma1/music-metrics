@@ -26,7 +26,6 @@ export function Stats() {
     const songCountProps = {
         initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
         url: '/api/v1/topSongs',
-        fixArtistNames: false,
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
         tableStyle: 'table-all',
@@ -54,7 +53,6 @@ export function Stats() {
     const songTimeProps = {
         initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
         url: '/api/v1/topSongsTime',
-        fixArtistNames: true,
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
         tableStyle: 'table-all',
@@ -72,8 +70,8 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
-                    <td>{item.song}</td>
-                    <td>{item.artist}</td>
+                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                     <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
                 </tr>
             )
@@ -82,7 +80,6 @@ export function Stats() {
     const artistCountProps = {
         initialState: [{"artist": "Loading...", "count": 0}],
         url: '/api/v1/topArtists',
-        fixArtistNames: false,
         defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
         tableStyle: 'table-all table-all-artist',
@@ -99,7 +96,7 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
-                    <td>{item.artist}</td>
+                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
                     <td style={{textAlign: 'right'}}>{item.count}</td>
                 </tr>
             )
@@ -108,7 +105,6 @@ export function Stats() {
     const artistTimeProps = {
         initialState: [{"artist": "Loading...", "count": 0}],
         url: '/api/v1/topArtistsTime',
-        fixArtistNames: false,
         defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
         tableStyle: 'table-all table-all-artist',
@@ -125,7 +121,7 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
-                    <td>{item.artist}</td>
+                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
                     <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
                 </tr>
             )
@@ -134,7 +130,6 @@ export function Stats() {
     const albumCountProps = {
         initialState: [{"album": "Loading...", "artist": "Loading...", "count": 0}],
         url: '/api/v1/topAlbums',
-        fixArtistNames: true,
         defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
         tableStyle: 'table-all',
@@ -152,8 +147,8 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
-                    <td>{item.album}</td>
-                    <td>{item.artist}</td>
+                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
+                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                     <td style={{textAlign: 'right'}}>{item.count}</td>
                 </tr>
             )
@@ -162,7 +157,6 @@ export function Stats() {
     const albumTimeProps = {
         initialState: [{"album": "Loading...", "artist": "Loading...", "count": 0}],
         url: '/api/v1/topAlbumsTime',
-        fixArtistNames: true,
         defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
         tableStyle: 'table-all',
@@ -180,8 +174,8 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
-                    <td>{item.album}</td>
-                    <td>{item.artist}</td>
+                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
+                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                     <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
                 </tr>
             )
@@ -297,7 +291,7 @@ function TopTable(props) {
     props = props.props
 
     // TO PASS IN AS PROPS:
-    // initialState, url, fixArtistNames, defaultCount, ddValues, tableStyle, thead, itemCallback
+    // initialState, url, defaultCount, ddValues, tableStyle, thead, itemCallback
 
     const [allItems, setAllItems] = useState(props.initialState)
     const [displayedItems, setDisplayedItems] = useState(props.initialState)
@@ -309,7 +303,6 @@ function TopTable(props) {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                if (props.fixArtistNames) fixArtistNames(data.items)
                 addRankColumn(data.items)
                 setAllItems(data.items)
                 setDisplayedItems(data.items.slice(0, props.defaultCount))
@@ -608,12 +601,6 @@ function LinkedArtistList(props) {
 }
 
 // HELPER FUNCTIONS
-function fixArtistNames(items) {
-    items.forEach(item => {
-        item.artist = item.artist.replaceAll(';;', ', ')
-    })
-}
-
 function addRankColumn(items) {
     let rank = 1
     items.forEach(item => {
