@@ -590,14 +590,13 @@ function LinkedArtistList(props) {
     if (props === undefined || props.nameString === undefined || props.idString === undefined) {
         return null
     }
-    console.log(props)
     const names = props.nameString.split(';;');
     const ids = props.idString.split(';;');
 
     return (
         <div>
             {names.map((name, index) => (
-                <a key={index} href={`https://open.spotify.com/artist/${ids[index]}`} target={"_blank"} rel={"noreferrer"}>
+                <a key={index} href={`https://open.spotify.com/artist/${ids[index]}`} target={"_blank"} rel={"noreferrer"} className={'table-link'}>
                     {name}
                 </a>
             ))}
