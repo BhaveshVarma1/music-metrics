@@ -2,7 +2,7 @@
 
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 
 const DEFAULT_SONG_COUNT_LIMIT = 100
@@ -596,9 +596,12 @@ function LinkedArtistList(props) {
     return (
         <div>
             {names.map((name, index) => (
-                <a key={index} href={`https://open.spotify.com/artist/${ids[index]}`} target={"_blank"} rel={"noreferrer"} className={'table-link'}>
-                    {name}
-                </a>
+                <React.Fragment key={index}>
+                    {index !== 0 && ', '}
+                    <a key={index} href={`https://open.spotify.com/artist/${ids[index]}`} target={"_blank"} rel={"noreferrer"} className={'table-link'}>
+                        {name}
+                    </a>
+                </React.Fragment>
             ))}
         </div>
     )
