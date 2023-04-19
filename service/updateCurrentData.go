@@ -33,7 +33,7 @@ func UpdateCurrentData() {
 	songs, err := dal.RetrieveAllSongs(tx)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
-			//fmt.Println(err.Error())
+			fmt.Println("36" + err.Error())
 			fmt.Println("Error committing transaction")
 			return
 		}
