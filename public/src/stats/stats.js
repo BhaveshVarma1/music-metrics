@@ -9,6 +9,8 @@ const DEFAULT_SONG_COUNT_LIMIT = 100
 const DEFAULT_ARTIST_COUNT_LIMIT = 50
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
 
+const OPEN_SPOTIFY = 'https://open.spotify.com'
+
 export function Stats() {
 
     const selectedStyle = 'selector-selected'
@@ -42,7 +44,7 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
-                    <td>{item.song}</td>
+                    <td><a href={OPEN_SPOTIFY + '/tracks/' + item.songId} target={"_blank"} className={'custom-link'}>{item.song}</a></td>
                     <td>{item.artist}</td>
                     <td style={{textAlign: 'right'}}>{item.count}</td>
                 </tr>
