@@ -44,7 +44,7 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
-                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={noreferrer} className={'table-link'}>{item.song}</a></td>
+                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
                     <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                     <td style={{textAlign: 'right'}}>{item.count}</td>
                 </tr>
@@ -593,7 +593,7 @@ function LinkedArtistList(props) {
     return (
         <div>
             {names.map((name, index) => (
-                <a key={index} href={`https://open.spotify.com/artist/${ids[index]}`} target={"_blank"} rel={noreferrer}>
+                <a key={index} href={`https://open.spotify.com/artist/${ids[index]}`} target={"_blank"} rel={"noreferrer"}>
                     {name}
                 </a>
             ))}
