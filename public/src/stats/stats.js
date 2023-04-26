@@ -453,7 +453,7 @@ function AllCharts() {
             <BasicPanel primary={"Average Year"} data={averageYear} commentary={"That was a good year."}/>
             <BasicPanel primary={"Average Song Length"} data={averageLength} commentary={"That's not very long."}/>
             <BasicPanel primary={"Median Year"} data={medianYear} commentary={"That was a better year."}/>
-            <BasicPanel primary={"Percent Explicit"} data={percentExplicit} commentary={"That's too high."}/>
+            {/*<BasicPanel primary={"Percent Explicit"} data={percentExplicit} commentary={"That's too high."}/>*/}
             <BasicPanel primary={"Total Songs"} data={totalSongs} commentary={"Looks like you spend too much time on Spotify."}/>
             <BasicPanel primary={"Unique Album Count"} data={uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
             <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} commentary={"Nice!"}/>
