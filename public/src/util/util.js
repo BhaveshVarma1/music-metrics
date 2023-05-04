@@ -161,18 +161,21 @@ export function ConnectionModal() {
         websocket.onmessage = (event) => {
             let numConn = findFirstInteger(event.data);
             if (numConn === 1) {
+                console.log(numConn + ' user online');
                 setMessage(numConn + ' user online');
             } else {
+                console.log(numConn + ' users online');
                 setMessage(numConn + ' users online');
             }
         }
     }, [])
 
     return (
-        <div className={'connection-modal'}>
+        /*<div className={'connection-modal'}>
             <div className={'connection-modal-circle ' + circleStyle}></div>
             <div>{message}</div>
-        </div>
+        </div>*/
+        {}
     )
 }
 
