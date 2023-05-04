@@ -50,7 +50,7 @@ root.render(
             <Route path="/spotify-landing" element={<SpotifyLanding />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
-        <ConnectionModal />
+        {/*<ConnectionModal />*/}
         <Footer />
     </BrowserRouter>
 
