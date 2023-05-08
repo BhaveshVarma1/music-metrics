@@ -200,6 +200,9 @@ export function Stats() {
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
             .then(data => {
+
+                console.log(data)
+
                 // ADD RANK COLUMN FOR RELEVANT ARRAYS
                 addRankColumn(data.topAlbums.items)
                 addRankColumn(data.topAlbumsTime.items)
