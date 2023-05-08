@@ -257,7 +257,7 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [])
+    })
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
@@ -380,7 +380,7 @@ function TopTable(props) {
     useEffect(() => {
         setDropdownValue(props.defaultCount)
         setDisplayedItems(allItems.slice(0, props.defaultCount))
-    }, [props])
+    }, [allItems])
 
     function Dropdown() {
         const [isOpen, setIsOpen] = useState(false);
