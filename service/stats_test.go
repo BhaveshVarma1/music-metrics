@@ -9,6 +9,13 @@ func GetUsername() string {
 	return "prattnj"
 }
 
+func TestAllStats(t *testing.T) {
+
+	var service AllStatsService
+	result := service.ExecuteService(GetUsername())
+	fmt.Println(result)
+}
+
 func TestAverageLength(t *testing.T) {
 
 	var service AverageLengthService

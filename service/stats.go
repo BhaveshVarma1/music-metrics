@@ -12,6 +12,8 @@ type StatsService interface {
 	ExecuteService(username string) model.StatsResponse
 }
 
+type AllStatsService struct{}
+
 type AverageLengthService struct{}
 
 type AveragePopularityService struct{}
@@ -49,6 +51,52 @@ type UniqueArtistsService struct{}
 type UniqueSongsService struct{}
 
 type WeekDayBreakdownService struct{}
+
+func (s AllStatsService) ExecuteService(username string) model.StatsResponse {
+
+	var avgLengthService AverageLengthService
+	var avgPopularityService AveragePopularityService
+	var avgYearService AverageYearService
+	var decadeBreakdownService DecadeBreakdownService
+	var hourBreakdownService HourBreakdownService
+	var medianYearService MedianYearService
+	var modeYearService ModeYearService
+	var percentExplicitService PercentExplicitService
+	var topAlbumService TopAlbumsService
+	var topAlbumTimeService TopAlbumsTimeService
+	var topArtistService TopArtistsService
+	var topArtistTimeService TopArtistsTimeService
+	var topSongService TopSongsService
+	var topSongTimeService TopSongsTimeService
+	var totalSongsService TotalSongsService
+	var uniqueAlbumsService UniqueAlbumsService
+	var uniqueArtistsService UniqueArtistsService
+	var uniqueSongsService UniqueSongsService
+	var weekDayBreakdownService WeekDayBreakdownService
+
+	return model.AllStatsResponse{
+		AverageLength:     avgLengthService.ExecuteService(username),
+		AveragePopularity: avgPopularityService.ExecuteService(username),
+		AverageYear:       avgYearService.ExecuteService(username),
+		DecadeBreakdown:   decadeBreakdownService.ExecuteService(username),
+		HourBreakdown:     hourBreakdownService.ExecuteService(username),
+		MedianYear:        medianYearService.ExecuteService(username),
+		ModeYear:          modeYearService.ExecuteService(username),
+		PercentExplicit:   percentExplicitService.ExecuteService(username),
+		TopAlbums:         topAlbumService.ExecuteService(username),
+		TopAlbumsTime:     topAlbumTimeService.ExecuteService(username),
+		TopArtists:        topArtistService.ExecuteService(username),
+		TopArtistsTime:    topArtistTimeService.ExecuteService(username),
+		TopSongs:          topSongService.ExecuteService(username),
+		TopSongsTime:      topSongTimeService.ExecuteService(username),
+		TotalSongs:        totalSongsService.ExecuteService(username),
+		UniqueAlbums:      uniqueAlbumsService.ExecuteService(username),
+		UniqueArtists:     uniqueArtistsService.ExecuteService(username),
+		UniqueSongs:       uniqueSongsService.ExecuteService(username),
+		WeekDayBreakdown:  weekDayBreakdownService.ExecuteService(username),
+	}
+
+}
 
 func (s AverageLengthService) ExecuteService(username string) model.StatsResponse {
 

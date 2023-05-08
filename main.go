@@ -22,6 +22,7 @@ func main() {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
 
+	var allStatsService service.AllStatsService
 	var avgLengthService service.AverageLengthService
 	var avgPopularityService service.AveragePopularityService
 	var avgYearService service.AverageYearService
@@ -44,6 +45,7 @@ func main() {
 
 	// API ENDPOINTS
 	e.POST("/api/v1/updateCode", handler.HandleUpdateCode)
+	e.GET("/api/v1/allStats/:username", handler.StatsHandler(allStatsService))
 	e.GET("/api/v1/averageLength/:username", handler.StatsHandler(avgLengthService))
 	e.GET("/api/v1/averagePopularity/:username", handler.StatsHandler(avgPopularityService))
 	e.GET("/api/v1/averageYear/:username", handler.StatsHandler(avgYearService))

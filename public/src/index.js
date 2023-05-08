@@ -4,7 +4,7 @@ import './index.css';
 import {Home} from './home/home';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import {ConnectionModal, Footer, Header} from "./util/util";
+import {Footer, Header} from "./util/util";
 import {NotFound} from "./404/404";
 import {Stats} from "./stats/stats";
 import {Privacy} from "./privacy/privacy";
@@ -25,14 +25,6 @@ websocket.onopen = () => {
 websocket.onmessage = (event) => {
     console.log('Websocket message received: ', event.data)
 }
-/*websocket.onerror = (error) => {
-    console.error('ERROR: Websocket connection failed', error)
-}
-websocket.onclose = (event) => {
-    console.warn('Websocket closed', event)
-    console.log('Websocket close code:', event.code)
-    console.log('Websocket close reason:', event.reason)
-}*/
 
 root.render(
     <BrowserRouter>
@@ -50,7 +42,6 @@ root.render(
             <Route path="/spotify-landing" element={<SpotifyLanding />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
-        {/*<ConnectionModal />*/}
         <Footer />
     </BrowserRouter>
 

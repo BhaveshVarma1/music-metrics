@@ -5,6 +5,7 @@ import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../ut
 import React, {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 
+// Default values for the dropdowns (must be in the array specified in the props)
 const DEFAULT_SONG_COUNT_LIMIT = 100
 const DEFAULT_ARTIST_COUNT_LIMIT = 50
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
@@ -13,6 +14,7 @@ const OPEN_SPOTIFY = 'https://open.spotify.com'
 
 export function Stats() {
 
+    // STYLING VARIABLES
     const selectedStyle = 'selector-selected'
     const unselectedStyle = 'selector-unselected'
     const [songStyle, setSongStyle] = useState(selectedStyle);
@@ -23,9 +25,30 @@ export function Stats() {
     const [countStyle, setCountStyle] = useState(selectedStyle);
     const [timeStyle, setTimeStyle] = useState(unselectedStyle);
 
+    // DATA VARIABLES (only fetched once, when the Stats component loads)
+    const [averageLength, setAverageLength] = useState(0);
+    const [averagePopularity, setAveragePopularity] = useState([]);
+    const [averageYear, setAverageYear] = useState(0);
+    const [decadeBreakdown, setDecadeBreakdown] = useState([]);
+    const [hourBreakdown, setHourBreakdown] = useState([]);
+    const [medianYear, setMedianYear] = useState(0);
+    const [modeYear, setModeYear] = useState(0);
+    const [percentExplicit, setPercentExplicit] = useState(0);
+    const [topAlbums, setTopAlbums] = useState([]);
+    const [topAlbumsTime, setTopAlbumsTime] = useState([]);
+    const [topArtists, setTopArtists] = useState([]);
+    const [topArtistsTime, setTopArtistsTime] = useState([]);
+    const [topSongs, setTopSongs] = useState([]);
+    const [topSongsTime, setTopSongsTime] = useState([]);
+    const [totalSongs, setTotalSongs] = useState(0);
+    const [uniqueAlbums, setUniqueAlbums] = useState(0);
+    const [uniqueArtists, setUniqueArtists] = useState(0);
+    const [uniqueSongs, setUniqueSongs] = useState(0);
+    const [weekDayBreakdown, setWeekDayBreakdown] = useState([]);
+
+    // OTHER
+    const [dataOrLoading, setDataOrLoading] = useState(<Loading/>)
     const songCountProps = {
-        initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
-        url: '/api/v1/topSongs',
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
         tableStyle: 'table-all',
@@ -51,8 +74,6 @@ export function Stats() {
         }
     }
     const songTimeProps = {
-        initialState: [{"song": "Loading...", "artist": "Loading...", "count": 0}],
-        url: '/api/v1/topSongsTime',
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
         tableStyle: 'table-all',
@@ -78,8 +99,6 @@ export function Stats() {
         }
     }
     const artistCountProps = {
-        initialState: [{"artist": "Loading...", "count": 0}],
-        url: '/api/v1/topArtists',
         defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
         tableStyle: 'table-all table-all-artist',
@@ -103,8 +122,6 @@ export function Stats() {
         }
     }
     const artistTimeProps = {
-        initialState: [{"artist": "Loading...", "count": 0}],
-        url: '/api/v1/topArtistsTime',
         defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
         tableStyle: 'table-all table-all-artist',
@@ -128,8 +145,6 @@ export function Stats() {
         }
     }
     const albumCountProps = {
-        initialState: [{"album": "Loading...", "artist": "Loading...", "count": 0}],
-        url: '/api/v1/topAlbums',
         defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
         tableStyle: 'table-all',
@@ -155,8 +170,6 @@ export function Stats() {
         }
     }
     const albumTimeProps = {
-        initialState: [{"album": "Loading...", "artist": "Loading...", "count": 0}],
-        url: '/api/v1/topAlbumsTime',
         defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
         ddValues: [10, 25, 50, 100],
         tableStyle: 'table-all',
@@ -183,6 +196,66 @@ export function Stats() {
     }
     const [currentData, setCurrentData] = useState(<TopTable props={songCountProps}/>);
 
+    useEffect(() => {
+        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('api/v1/allStats', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+                // ADD RANK COLUMN FOR RELEVANT ARRAYS
+                addRankColumn(data.topAlbums.items)
+                addRankColumn(data.topAlbumsTime.items)
+                addRankColumn(data.topArtists.items)
+                addRankColumn(data.topArtistsTime.items)
+                addRankColumn(data.topSongs.items)
+                addRankColumn(data.topSongsTime.items)
+
+                // DO CALCULATIONS FOR OTHER RELEVANT DATA
+                let minutes = Math.floor(data.value / 60)
+
+                // ASSIGN DATA TO RESPECTIVE STATES
+                setAverageLength(minutes + ":" + (data.averageLength.value - minutes * 60))
+                setAveragePopularity(data.averagePopularity.items)
+                setAverageYear(data.averageYear.value)
+                setDecadeBreakdown(data.decadeBreakdown.items)
+                setHourBreakdown(data.hourBreakdown.items)
+                setMedianYear(data.medianYear.value)
+                setModeYear(data.modeYear.items)
+                setPercentExplicit(data.percentExplicit.value + "%")
+                setTopAlbums(data.topAlbums.items)
+                setTopAlbumsTime(data.topAlbumsTime.items)
+                setTopArtists(data.topArtists.items)
+                setTopArtistsTime(data.topArtistsTime.items)
+                setTopSongs(data.topSongs.items)
+                setTopSongsTime(data.topSongsTime.items)
+                setTotalSongs(data.totalSongs.value)
+                setUniqueAlbums(data.uniqueAlbums.value)
+                setUniqueArtists(data.uniqueArtists.value)
+                setUniqueSongs(data.uniqueSongs.value)
+                setWeekDayBreakdown(data.weekDayBreakdown.items)
+
+                // REMOVING LOADING SCREEN AND SHOWS STATS
+                setDataOrLoading(
+                    <>
+                        <div className={'selector'}>
+                            <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+                            <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
+                            <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
+                            <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
+                        </div>
+                        {showSelector2 && (
+                            <div className={'selector'}>
+                                <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
+                                <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
+                            </div>
+                        )}
+                        {currentData}
+                    </>
+                )
+            }).catch(error => {
+                console.log("ERROR: " + error)
+            })
+    }, [])
+
+    // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
         sessionStorage.setItem('route', 'stats')
         return (
@@ -202,7 +275,7 @@ export function Stats() {
         setCountStyle(selectedStyle)
         setTimeStyle(unselectedStyle)
 
-        setCurrentData(<TopTable props={songCountProps}/>)
+        setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
     }
 
     function setToArtist() {
@@ -214,7 +287,7 @@ export function Stats() {
         setCountStyle(selectedStyle)
         setTimeStyle(unselectedStyle)
 
-        setCurrentData(<TopTable props={artistCountProps}/>)
+        setCurrentData(<TopTable items={topArtists} props={artistCountProps}/>)
     }
 
     function setToAlbum() {
@@ -226,7 +299,7 @@ export function Stats() {
         setCountStyle(selectedStyle)
         setTimeStyle(unselectedStyle)
 
-        setCurrentData(<TopTable props={albumCountProps}/>)
+        setCurrentData(<TopTable items={topAlbums} props={albumCountProps}/>)
     }
 
     function setToChart() {
@@ -236,7 +309,21 @@ export function Stats() {
         setChartStyle(selectedStyle)
         setShowSelector2(false)
 
-        setCurrentData(<AllCharts/>)
+        setCurrentData(<AllCharts
+            averageLength={averageLength}
+            averagePopularity={averagePopularity}
+            averageYear={averageYear}
+            decadeBreakdown={decadeBreakdown}
+            hourBreakdown={hourBreakdown}
+            medianYear={medianYear}
+            modeYear={modeYear}
+            percentExplicit={percentExplicit}
+            totalSongs={totalSongs}
+            uniqueAlbums={uniqueAlbums}
+            uniqueArtists={uniqueArtists}
+            uniqueSongs={uniqueSongs}
+            weekDayBreakdown={weekDayBreakdown}
+        />)
     }
 
     function setToCount() {
@@ -244,11 +331,11 @@ export function Stats() {
         setTimeStyle(unselectedStyle)
 
         if (songStyle === selectedStyle) {
-            setCurrentData(<TopTable props={songCountProps}/>)
+            setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
         } else if (artistStyle === selectedStyle) {
-            setCurrentData(<TopTable props={artistCountProps}/>)
+            setCurrentData(<TopTable items={topArtists} props={artistCountProps}/>)
         } else if (albumStyle === selectedStyle) {
-            setCurrentData(<TopTable props={albumCountProps}/>)
+            setCurrentData(<TopTable items={topAlbums} props={albumCountProps}/>)
         }
     }
 
@@ -257,30 +344,18 @@ export function Stats() {
         setTimeStyle(selectedStyle)
 
         if (songStyle === selectedStyle) {
-            setCurrentData(<TopTable props={songTimeProps}/>)
+            setCurrentData(<TopTable items={topSongsTime} props={songTimeProps}/>)
         } else if (artistStyle === selectedStyle) {
-            setCurrentData(<TopTable props={artistTimeProps}/>)
+            setCurrentData(<TopTable items={topArtistsTime} props={artistTimeProps}/>)
         } else if (albumStyle === selectedStyle) {
-            setCurrentData(<TopTable props={albumTimeProps}/>)
+            setCurrentData(<TopTable items={topAlbumsTime} props={albumTimeProps}/>)
         }
     }
 
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
-            <div className={'selector'}>
-                <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
-                <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
-                <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
-                <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
-            </div>
-            {showSelector2 && (
-                <div className={'selector'}>
-                    <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
-                    <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
-                </div>
-            )}
-            {currentData}
+            {dataOrLoading}
         </div>
     )
 
@@ -288,32 +363,23 @@ export function Stats() {
 
 // SECONDARY COMPONENTS
 function TopTable(props) {
+    let allItems = props.items
     props = props.props
 
     // TO PASS IN AS PROPS:
-    // initialState, url, defaultCount, ddValues, tableStyle, thead, itemCallback
+    // array of items
+    // defaultCount, ddValues, tableStyle, thead, itemCallback
 
-    const [allItems, setAllItems] = useState(props.initialState)
-    const [displayedItems, setDisplayedItems] = useState(props.initialState)
+    const [displayedItems, setDisplayedItems] = useState([])
     const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
 
     useEffect(() => {
         setDropdownValue(props.defaultCount)
-        fetch(BASE_URL_API + props.url + '/' + localStorage.getItem('username'), fetchInit(props.url, null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                addRankColumn(data.items)
-                setAllItems(data.items)
-                setDisplayedItems(data.items.slice(0, props.defaultCount))
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
+        setDisplayedItems(allItems.slice(0, props.defaultCount))
     }, [props])
 
     function Dropdown() {
         const [isOpen, setIsOpen] = useState(false);
-        //const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
 
         // Close the dropdown if the user clicks outside of it
         useEffect(() => {
@@ -352,7 +418,6 @@ function TopTable(props) {
                     </div>
                 </div>
             </div>
-
         );
     }
 
@@ -369,121 +434,37 @@ function TopTable(props) {
     )
 }
 
-function AllCharts() {
-    const [averageLength, setAverageLength] = useState('Calculating...');
-    const [averageYear, setAverageYear] = useState('Calculating...');
-    const [medianYear, setMedianYear] = useState('Calculating...');
-    const [percentExplicit, setPercentExplicit] = useState('Calculating...');
-    const [totalSongs, setTotalSongs] = useState('Calculating...');
-    const [uniqueAlbums, setUniqueAlbums] = useState('Calculating...');
-    const [uniqueArtists, setUniqueArtists] = useState('Calculating...');
-    const [uniqueSongs, setUniqueSongs] = useState('Calculating...');
+function Loading() {
+    return (
+        <div>Loading...</div>
+    )
+}
 
-    // Fetches ALL the data used in this component
-    useEffect(() => {
-        fetch(BASE_URL_API + '/api/v1/averageLength/' + localStorage.getItem('username'), fetchInit('/api/v1/averageLength', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                let minutes = Math.floor(data.value / 60)
-                setAverageLength(minutes + ":" + (data.value - minutes * 60))
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-        fetch(BASE_URL_API + '/api/v1/averageYear/' + localStorage.getItem('username'), fetchInit('/api/v1/averageYear', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setAverageYear(data.value)
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-        fetch(BASE_URL_API + '/api/v1/medianYear/' + localStorage.getItem('username'), fetchInit('/api/v1/medianYear', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setMedianYear(data.value)
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-        fetch(BASE_URL_API + '/api/v1/percentExplicit/' + localStorage.getItem('username'), fetchInit('/api/v1/percentExplicit', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setPercentExplicit(data.value + "%")
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-        fetch(BASE_URL_API + '/api/v1/totalSongs/' + localStorage.getItem('username'), fetchInit('/api/v1/totalSongs', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setTotalSongs(data.value)
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-        fetch(BASE_URL_API + '/api/v1/uniqueAlbums/' + localStorage.getItem('username'), fetchInit('/api/v1/uniqueAlbums', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setUniqueAlbums(data.value)
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-        fetch(BASE_URL_API + '/api/v1/uniqueArtists/' + localStorage.getItem('username'), fetchInit('/api/v1/uniqueArtists', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setUniqueArtists(data.value)
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-        fetch(BASE_URL_API + '/api/v1/uniqueSongs/' + localStorage.getItem('username'), fetchInit('/api/v1/uniqueSongs', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setUniqueSongs(data.value)
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-    }, [])
+function AllCharts(props) {
 
     return (
         <div className={'all-panels'}>
-            <BasicPanel primary={"Average Year"} data={averageYear} commentary={"That was a good year."}/>
-            <BasicPanel primary={"Average Song Length"} data={averageLength} commentary={"That's not very long."}/>
-            <BasicPanel primary={"Median Year"} data={medianYear} commentary={"That was a better year."}/>
-            {/*<BasicPanel primary={"Percent Explicit"} data={percentExplicit} commentary={"That's too high."}/>*/}
-            <BasicPanel primary={"Total Songs"} data={totalSongs} commentary={"Looks like you spend too much time on Spotify."}/>
-            <BasicPanel primary={"Unique Album Count"} data={uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
-            <BasicPanel primary={"Unique Artist Count"} data={uniqueArtists} commentary={"Nice!"}/>
-            <BasicPanel primary={"Unique Song Count"} data={uniqueSongs} commentary={"That's pretty ok."}/>
-            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart/>} commentary={"Looks like you need more diversity."}/>
-            <BasicPanel primary={"Breakdown by Hour"} data={<HourChart/>} last={true}/>
+            <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={"That was a good year."}/>
+            <BasicPanel primary={"Average Song Length"} data={props.averageLength} commentary={"That's not very long."}/>
+            <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={"That was a better year."}/>
+            <BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={"That's too high."}/>
+            <BasicPanel primary={"Total Songs"} data={props.totalSongs} commentary={"Looks like you spend too much time on Spotify."}/>
+            <BasicPanel primary={"Unique Album Count"} data={props.uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
+            <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={"Nice!"}/>
+            <BasicPanel primary={"Unique Song Count"} data={props.uniqueSongs} commentary={"That's pretty ok."}/>
+            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={"Looks like you need more diversity."}/>
+            <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
         </div>
     )
 }
 
-function DecadePieChart() {
-
-    const [chartData, setChartData] = useState([["Decade", "Count"]])
-
-    useEffect(() => {
-        fetch(BASE_URL_API + '/api/v1/decadeBreakdown/' + localStorage.getItem('username'), fetchInit('/api/v1/decadeBreakdown', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setChartData(convertDecadesToPieChartData(data.items))
-            }).catch(error => {
-                console.log("ERROR: " + error)
-            })
-    }, [])
+function DecadePieChart(props) {
 
     return (
         <div className={'decade-wrapper'}>
             <Chart
                 chartType="PieChart"
-                data={chartData}
+                data={convertDecadesToPieChartData(props.data)}
                 options={{
                     backgroundColor: 'transparent',
                     fontColor: '#cce2e6',
@@ -508,26 +489,13 @@ function DecadePieChart() {
 
 }
 
-function HourChart() {
-
-        const [chartData, setChartData] = useState([["Hour", "Count"]])
-
-        useEffect(() => {
-            fetch(BASE_URL_API + '/api/v1/hourBreakdown/' + localStorage.getItem('username'), fetchInit('/api/v1/hourBreakdown', null, getToken()))
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    setChartData(convertHoursToChartData(data.items))
-                }).catch(error => {
-                    console.log("ERROR: " + error)
-                })
-        }, [])
+function HourChart(props) {
 
         return (
             <div className={'hour-wrapper'}>
                 <Chart
                     chartType="BarChart"
-                    data={chartData}
+                    data={convertHoursToChartData(props.data)}
                     options={{
                         backgroundColor: 'transparent',
                         fontColor: '#cce2e6',
