@@ -215,7 +215,7 @@ export function Stats() {
                 {currentData}
             </>
         )
-    }, [currentData, setDataOrLoading, topSongs, songCountProps, songStyle, artistStyle, albumStyle, chartStyle, showSelector2, setToSong, setToArtist, setToAlbum, setToChart, setToCount, setToTime]);
+    }, [currentData, setDataOrLoading, topSongs, songCountProps, songStyle, artistStyle, albumStyle, chartStyle, countStyle, timeStyle, showSelector2, setToSong, setToArtist, setToAlbum, setToChart, setToCount, setToTime]);
 
 
     useEffect(() => {
