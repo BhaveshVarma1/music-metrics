@@ -2,7 +2,7 @@
 
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 
 // Default values for the dropdowns (must be in the array specified in the props)
