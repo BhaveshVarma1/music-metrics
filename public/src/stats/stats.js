@@ -262,7 +262,7 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [toggleLoading])
+    }, [])
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
