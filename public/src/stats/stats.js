@@ -2,7 +2,7 @@
 
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Chart} from "react-google-charts";
 
 // Default values for the dropdowns (must be in the array specified in the props)
@@ -48,31 +48,33 @@ export function Stats() {
 
     // OTHER
     const [isLoading, setIsLoading] = useState(true);
-    const songCountProps = {
-        defaultCount: DEFAULT_SONG_COUNT_LIMIT,
-        ddValues: [25, 50, 100, 250],
-        tableStyle: 'table-all',
-        thead: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th>Rank</th>
-                <th>Song name</th>
-                <th>Artist</th>
-                <th style={{textAlign: 'right'}}>Count</th>
-            </tr>
-            </thead>
-        ),
-        itemCallback: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td>{item.rank}</td>
-                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{item.count}</td>
+    const songCountProps = useMemo(() => {
+        return {
+            defaultCount: DEFAULT_SONG_COUNT_LIMIT,
+            ddValues: [25, 50, 100, 250],
+            tableStyle: 'table-all',
+            thead: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th>Rank</th>
+                    <th>Song name</th>
+                    <th>Artist</th>
+                    <th style={{textAlign: 'right'}}>Count</th>
                 </tr>
-            )
+                </thead>
+            ),
+            itemCallback: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td>{item.rank}</td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td style={{textAlign: 'right'}}>{item.count}</td>
+                    </tr>
+                )
+            }
         }
-    }
+    }, [])
     const songTimeProps = {
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
