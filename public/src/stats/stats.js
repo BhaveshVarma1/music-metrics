@@ -197,6 +197,7 @@ export function Stats() {
     const [currentData, setCurrentData] = useState();
 
     function toggleLoading() {
+        setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
         setDataOrLoading(
             <>
                 <div className={'selector'}>
@@ -256,7 +257,6 @@ export function Stats() {
                 setWeekDayBreakdown(data.weekDayBreakdown.items)
 
                 // REMOVING LOADING SCREEN AND SHOWS STATS
-                setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
                 toggleLoading()
 
             }).catch(error => {
