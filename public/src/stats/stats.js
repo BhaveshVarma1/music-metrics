@@ -243,7 +243,7 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [])
+    }, [songCountProps, topSongs])
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
