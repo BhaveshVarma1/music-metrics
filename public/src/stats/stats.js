@@ -196,6 +196,26 @@ export function Stats() {
     }
     const [currentData, setCurrentData] = useState();
 
+    function toggleLoading() {
+        setDataOrLoading(
+            <>
+                <div className={'selector'}>
+                    <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+                    <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
+                    <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
+                    <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
+                </div>
+                {showSelector2 && (
+                    <div className={'selector'}>
+                        <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
+                        <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
+                    </div>
+                )}
+                {currentData}
+            </>
+        )
+    }
+
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
@@ -237,23 +257,8 @@ export function Stats() {
 
                 // REMOVING LOADING SCREEN AND SHOWS STATS
                 setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
-                setDataOrLoading(
-                    <>
-                        <div className={'selector'}>
-                            <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
-                            <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
-                            <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
-                            <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
-                        </div>
-                        {showSelector2 && (
-                            <div className={'selector'}>
-                                <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
-                                <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
-                            </div>
-                        )}
-                        {currentData}
-                    </>
-                )
+                toggleLoading()
+
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
