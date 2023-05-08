@@ -257,7 +257,7 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    })
+    }, [])
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
