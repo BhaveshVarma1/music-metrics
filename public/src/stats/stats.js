@@ -194,7 +194,7 @@ export function Stats() {
             )
         }
     }
-    const [currentData, setCurrentData] = useState(<TopTable props={songCountProps}/>);
+    const [currentData, setCurrentData] = useState();
 
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
@@ -233,6 +233,7 @@ export function Stats() {
                 setWeekDayBreakdown(data.weekDayBreakdown.items)
 
                 // REMOVING LOADING SCREEN AND SHOWS STATS
+                setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
                 setDataOrLoading(
                     <>
                         <div className={'selector'}>
