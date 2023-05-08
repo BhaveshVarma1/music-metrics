@@ -2,7 +2,7 @@
 
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 
 // Default values for the dropdowns (must be in the array specified in the props)
@@ -196,7 +196,7 @@ export function Stats() {
     }
     const [currentData, setCurrentData] = useState();
 
-    function toggleLoading() {
+    const toggleLoading = useCallback(() => {
         setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
         setDataOrLoading(
             <>
@@ -215,7 +215,7 @@ export function Stats() {
                 {currentData}
             </>
         )
-    }
+    })
 
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
