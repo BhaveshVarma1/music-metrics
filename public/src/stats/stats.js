@@ -198,7 +198,6 @@ export function Stats() {
     }
     const [currentData, setCurrentData] = useState();
 
-
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
@@ -215,7 +214,7 @@ export function Stats() {
                 addRankColumn(data.topSongsTime.items)
 
                 // DO CALCULATIONS FOR OTHER RELEVANT DATA
-                let minutes = Math.floor(data.value / 60)
+                let minutes = Math.floor(data.averageLength.value / 60)
 
                 // ASSIGN DATA TO RESPECTIVE STATES
                 setAverageLength(minutes + ":" + (data.averageLength.value - minutes * 60))
