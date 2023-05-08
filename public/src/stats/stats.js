@@ -2,7 +2,7 @@
 
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 
 // Default values for the dropdowns (must be in the array specified in the props)
@@ -47,7 +47,7 @@ export function Stats() {
     const [weekDayBreakdown, setWeekDayBreakdown] = useState([]);
 
     // OTHER
-    const [dataOrLoading, setDataOrLoading] = useState(<Loading/>)
+    const [isLoading, setIsLoading] = useState(true);
     const songCountProps = {
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
@@ -196,27 +196,6 @@ export function Stats() {
     }
     const [currentData, setCurrentData] = useState();
 
-    const toggleLoading = useCallback(() => {
-        setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
-        setDataOrLoading(
-            <>
-                <div className={'selector'}>
-                    <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
-                    <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
-                    <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
-                    <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
-                </div>
-                {showSelector2 && (
-                    <div className={'selector'}>
-                        <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
-                        <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
-                    </div>
-                )}
-                {currentData}
-            </>
-        )
-    }, [currentData, setDataOrLoading, topSongs, songCountProps, songStyle, artistStyle, albumStyle, chartStyle, countStyle, timeStyle, showSelector2, setToSong, setToArtist, setToAlbum, setToChart, setToCount, setToTime]);
-
 
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
@@ -257,13 +236,14 @@ export function Stats() {
                 setUniqueSongs(data.uniqueSongs.value)
                 setWeekDayBreakdown(data.weekDayBreakdown.items)
 
-                // REMOVING LOADING SCREEN AND SHOWS STATS
-                toggleLoading()
+                // REMOVE LOADING SCREEN
+                setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
+                setIsLoading(false)
 
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [toggleLoading])
+    }, [])
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
@@ -365,7 +345,23 @@ export function Stats() {
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
-            {dataOrLoading}
+            {isLoading ? <Loading/> : (
+                <>
+                    <div className={'selector'}>
+                        <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+                        <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
+                        <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
+                        <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
+                    </div>
+                    {showSelector2 && (
+                        <div className={'selector'}>
+                            <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
+                            <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
+                        </div>
+                    )}
+                    {currentData}
+                </>
+            )}
         </div>
     )
 
@@ -446,7 +442,7 @@ function TopTable(props) {
 
 function Loading() {
     return (
-        <div>Loading...</div>
+        <div className={'default-text-color'}>Loading...</div>
     )
 }
 
