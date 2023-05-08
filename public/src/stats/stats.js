@@ -196,7 +196,7 @@ export function Stats() {
     }
     const [currentData, setCurrentData] = useState();
 
-    const toggleLoading = useCallback(() => {
+    const toggleLoading = () => {
         setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
         setDataOrLoading(
             <>
@@ -215,7 +215,7 @@ export function Stats() {
                 {currentData}
             </>
         )
-    })
+    }
 
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
