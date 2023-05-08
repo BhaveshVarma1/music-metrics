@@ -239,13 +239,13 @@ export function Stats() {
                 setWeekDayBreakdown(data.weekDayBreakdown.items)
 
                 // REMOVE LOADING SCREEN
-                setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
+                setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
                 setIsLoading(false)
 
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [songCountProps, topSongs])
+    }, [songCountProps])
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
