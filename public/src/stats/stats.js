@@ -197,7 +197,7 @@ export function Stats() {
     const [currentData, setCurrentData] = useState(<TopTable props={songCountProps}/>);
 
     useEffect(() => {
-        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('api/v1/allStats', null, getToken()))
+        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
             .then(data => {
                 // ADD RANK COLUMN FOR RELEVANT ARRAYS
