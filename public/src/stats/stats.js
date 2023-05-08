@@ -196,7 +196,7 @@ export function Stats() {
     }
     const [currentData, setCurrentData] = useState();
 
-    const toggleLoading = () => {
+    const toggleLoading = useCallback(() => {
         setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
         setDataOrLoading(
             <>
@@ -215,7 +215,8 @@ export function Stats() {
                 {currentData}
             </>
         )
-    }
+    }, [currentData, setDataOrLoading, topSongs, songCountProps, songStyle, artistStyle, albumStyle, chartStyle, showSelector2, setToSong, setToArtist, setToAlbum, setToChart, setToCount, setToTime]);
+
 
     useEffect(() => {
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
