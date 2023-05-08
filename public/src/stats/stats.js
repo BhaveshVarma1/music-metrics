@@ -380,7 +380,7 @@ function TopTable(props) {
     useEffect(() => {
         setDropdownValue(props.defaultCount)
         setDisplayedItems(allItems.slice(0, props.defaultCount))
-    }, [allItems])
+    }, [props, allItems])
 
     function Dropdown() {
         const [isOpen, setIsOpen] = useState(false);
