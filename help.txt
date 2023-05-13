@@ -1,0 +1,13 @@
+Adding a new endpoint (backend):
+
+main.go:
+add a new variable for the service
+declare a new /get endpoint passing in the new variable
+
+stats.go:
+declare a new struct {}
+define ExecuteService() for that struct (where the logic goes)
+add necessary steps inside allStats service
+
+stats-response.go:
+add return type to AllStatsResponse struct definition
