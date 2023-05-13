@@ -6,7 +6,7 @@
 
 * Name: `mm`
 * Type: MySQL
-* Host: `pratt@136.36.39.119:3306`
+* Host: `pratt@musicmetrics.app:3306`
 
 The database contains 4 tables that store user info, auth tokens, listening history, and song metadata.
 All inputs are sanitized before being stored in the database.
