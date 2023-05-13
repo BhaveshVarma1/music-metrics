@@ -199,6 +199,7 @@ export function Stats() {
     const [currentData, setCurrentData] = useState();
 
     useEffect(() => {
+        console.log("Stats component mounted.")
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
             .then(data => {

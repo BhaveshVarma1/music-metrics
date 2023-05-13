@@ -1,4 +1,6 @@
-Adding a new endpoint (backend):
+HOW TO ADD A NEW STATS ENDPOINT
+
+BACKEND:
 
 main.go:
 add a new variable for the service
@@ -11,3 +13,13 @@ add necessary steps inside allStats service
 
 stats-response.go:
 add return type to AllStatsResponse struct definition
+
+FRONTEND:
+
+stats.js
+add a new useState variable in the Stats component
+assign the new variable to its respective object in the fetch call
+
+util.js
+add endpoint to ENDPOINTS array with GET
+

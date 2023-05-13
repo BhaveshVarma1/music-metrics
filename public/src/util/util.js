@@ -8,8 +8,9 @@ import {websocket} from "../index";
 
 // GLOBAL CONSTANTS ----------------------------------------------------------------------------------------------------
 
-export const BASE_URL_API = 'https://dev.musicmetrics.app';
-export const BASE_URL_WEB = 'https://dev.musicmetrics.app';
+export const DOMAIN = 'dev.musicmetrics.app';
+export const BASE_URL_API = 'https://' + DOMAIN;
+export const BASE_URL_WEB = 'https://' + DOMAIN;
 const HTTP_METHODS = {
     '/api/v1/updateCode': 'POST',
     '/api/v1/allStats': 'GET',
@@ -147,36 +148,6 @@ export function Footer() {
     )
 }
 
-export function ConnectionModal() {
-    const [circleStyle, setCircleStyle] = useState('connection-modal-disconnected');
-    const [message, setMessage] = useState('Offline');
-
-    useEffect(() => {
-        websocket.onopen = () => {
-            setCircleStyle('connection-modal-connected');
-        }
-        websocket.onclose = () => {
-            setCircleStyle('connection-modal-disconnected');
-            setMessage('Offline');
-        }
-        websocket.onmessage = (event) => {
-            let numConn = findFirstInteger(event.data);
-            if (numConn === 1) {
-                setMessage(numConn + ' user online');
-            } else {
-                setMessage(numConn + ' users online');
-            }
-        }
-    }, [])
-
-    return (
-        <div className={'connection-modal'}>
-            <div className={'connection-modal-circle ' + circleStyle}></div>
-            <div>{message}</div>
-        </div>
-    )
-}
-
 export function PrimaryInfo(props) {
 
     return (
@@ -199,7 +170,7 @@ export function SecondaryInfo(props) {
 export function LoginButton(props) {
     return (
         <div className='login-button-wrapper'>
-            <div className='login-button' /*onClick={() => authenticate()}*/>
+            <div className='login-button' onClick={() => authenticate()}>
                 <b>{props.text}</b>
             </div>
         </div>
@@ -268,12 +239,4 @@ function clearStorage() {
 function logStorage() {
     console.log(localStorage);
     console.log(sessionStorage);
-}
-
-function findFirstInteger(str) {
-    const match = str.match(/\d+/);
-    if (match) {
-        return parseInt(match[0], 10);
-    }
-    return null;
 }

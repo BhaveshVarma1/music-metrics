@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import {Home} from './home/home';
-import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import {Footer, Header} from "./util/util";
+import {DOMAIN, Footer, Header} from "./util/util";
 import {NotFound} from "./404/404";
 import {Stats} from "./stats/stats";
 import {Privacy} from "./privacy/privacy";
@@ -18,13 +17,9 @@ import {SpotifyLanding} from "./util/spotify-landing";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-export const websocket = new WebSocket('wss://dev.musicmetrics.app/ws');
-websocket.onopen = () => {
-    console.log('Websocket connected')
-}
-websocket.onmessage = (event) => {
-    console.log('Websocket message received: ', event.data)
-}
+export const websocket = new WebSocket('wss://' + DOMAIN + '/ws');
+websocket.onopen = () => {console.log('Websocket connected')}
+websocket.onmessage = (event) => {console.log('Websocket message received: ', event.data)}
 
 root.render(
     <BrowserRouter>
@@ -44,11 +39,4 @@ root.render(
         </Routes>
         <Footer />
     </BrowserRouter>
-
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
-
