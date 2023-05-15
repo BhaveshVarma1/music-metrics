@@ -9,7 +9,7 @@ import (
 )
 
 type StatsService interface {
-	ExecuteService(username string) model.StatsResponse
+	ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse
 }
 
 type AllStatsService struct{}
@@ -52,7 +52,7 @@ type UniqueSongsService struct{}
 
 type WeekDayBreakdownService struct{}
 
-func (s AllStatsService) ExecuteService(username string) model.StatsResponse {
+func (s AllStatsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	var avgLengthService AverageLengthService
 	var avgPopularityService AveragePopularityService
@@ -74,38 +74,45 @@ func (s AllStatsService) ExecuteService(username string) model.StatsResponse {
 	var uniqueSongsService UniqueSongsService
 	var weekDayBreakdownService WeekDayBreakdownService
 
+	totalSongs := totalSongsService.ExecuteService(username, startTime, endTime)
+	if response, ok := totalSongs.(model.SingleIntResponse); ok {
+		if response.Value < 1 {
+			return "No songs found for this time period."
+		}
+	}
+
 	return model.AllStatsResponse{
-		AverageLength:     avgLengthService.ExecuteService(username),
-		AveragePopularity: avgPopularityService.ExecuteService(username),
-		AverageYear:       avgYearService.ExecuteService(username),
-		DecadeBreakdown:   decadeBreakdownService.ExecuteService(username),
-		HourBreakdown:     hourBreakdownService.ExecuteService(username),
-		MedianYear:        medianYearService.ExecuteService(username),
-		ModeYear:          modeYearService.ExecuteService(username),
-		PercentExplicit:   percentExplicitService.ExecuteService(username),
-		TopAlbums:         topAlbumService.ExecuteService(username),
-		TopAlbumsTime:     topAlbumTimeService.ExecuteService(username),
-		TopArtists:        topArtistService.ExecuteService(username),
-		TopArtistsTime:    topArtistTimeService.ExecuteService(username),
-		TopSongs:          topSongService.ExecuteService(username),
-		TopSongsTime:      topSongTimeService.ExecuteService(username),
-		TotalSongs:        totalSongsService.ExecuteService(username),
-		UniqueAlbums:      uniqueAlbumsService.ExecuteService(username),
-		UniqueArtists:     uniqueArtistsService.ExecuteService(username),
-		UniqueSongs:       uniqueSongsService.ExecuteService(username),
-		WeekDayBreakdown:  weekDayBreakdownService.ExecuteService(username),
+		AverageLength:     avgLengthService.ExecuteService(username, startTime, endTime),
+		AveragePopularity: avgPopularityService.ExecuteService(username, startTime, endTime),
+		AverageYear:       avgYearService.ExecuteService(username, startTime, endTime),
+		DecadeBreakdown:   decadeBreakdownService.ExecuteService(username, startTime, endTime),
+		HourBreakdown:     hourBreakdownService.ExecuteService(username, startTime, endTime),
+		MedianYear:        medianYearService.ExecuteService(username, startTime, endTime),
+		ModeYear:          modeYearService.ExecuteService(username, startTime, endTime),
+		PercentExplicit:   percentExplicitService.ExecuteService(username, startTime, endTime),
+		TopAlbums:         topAlbumService.ExecuteService(username, startTime, endTime),
+		TopAlbumsTime:     topAlbumTimeService.ExecuteService(username, startTime, endTime),
+		TopArtists:        topArtistService.ExecuteService(username, startTime, endTime),
+		TopArtistsTime:    topArtistTimeService.ExecuteService(username, startTime, endTime),
+		TopSongs:          topSongService.ExecuteService(username, startTime, endTime),
+		TopSongsTime:      topSongTimeService.ExecuteService(username, startTime, endTime),
+		TotalSongs:        totalSongsService.ExecuteService(username, startTime, endTime),
+		UniqueAlbums:      uniqueAlbumsService.ExecuteService(username, startTime, endTime),
+		UniqueArtists:     uniqueArtistsService.ExecuteService(username, startTime, endTime),
+		UniqueSongs:       uniqueSongsService.ExecuteService(username, startTime, endTime),
+		WeekDayBreakdown:  weekDayBreakdownService.ExecuteService(username, startTime, endTime),
 	}
 
 }
 
-func (s AverageLengthService) ExecuteService(username string) model.StatsResponse {
+func (s AverageLengthService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetAverageLength(tx, username)
+	result, err := dal.GetAverageLength(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -120,14 +127,14 @@ func (s AverageLengthService) ExecuteService(username string) model.StatsRespons
 	return model.SingleIntResponse{Value: result}
 }
 
-func (s AveragePopularityService) ExecuteService(username string) model.StatsResponse {
+func (s AveragePopularityService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetAveragePopularityWithSongs(tx, username)
+	result, err := dal.GetAveragePopularityWithSongs(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -146,14 +153,14 @@ func (s AveragePopularityService) ExecuteService(username string) model.StatsRes
 	return model.AveragePopularityResponse{Items: result}
 }
 
-func (s AverageYearService) ExecuteService(username string) model.StatsResponse {
+func (s AverageYearService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetAverageYear(tx, username)
+	result, err := dal.GetAverageYear(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -168,14 +175,14 @@ func (s AverageYearService) ExecuteService(username string) model.StatsResponse 
 	return model.SingleIntResponse{Value: result}
 }
 
-func (s DecadeBreakdownService) ExecuteService(username string) model.StatsResponse {
+func (s DecadeBreakdownService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetDecadeBreakdown(tx, username)
+	result, err := dal.GetDecadeBreakdown(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -190,14 +197,14 @@ func (s DecadeBreakdownService) ExecuteService(username string) model.StatsRespo
 	return model.DecadeBreakdownResponse{Items: result}
 }
 
-func (s HourBreakdownService) ExecuteService(username string) model.StatsResponse {
+func (s HourBreakdownService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawTimestamps(tx, username)
+	result, err := dal.GetRawTimestamps(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -218,14 +225,14 @@ func (s HourBreakdownService) ExecuteService(username string) model.StatsRespons
 	return model.HourBreakdownResponse{Items: hours}
 }
 
-func (s MedianYearService) ExecuteService(username string) model.StatsResponse {
+func (s MedianYearService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawYears(tx, username)
+	result, err := dal.GetRawYears(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -242,14 +249,14 @@ func (s MedianYearService) ExecuteService(username string) model.StatsResponse {
 	return model.SingleIntResponse{Value: medianYear}
 }
 
-func (s ModeYearService) ExecuteService(username string) model.StatsResponse {
+func (s ModeYearService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetModeYears(tx, username)
+	result, err := dal.GetModeYears(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -258,7 +265,7 @@ func (s ModeYearService) ExecuteService(username string) model.StatsResponse {
 	}
 
 	// Calculate percentages
-	total, err := dal.GetTotalSongs(tx, username)
+	total, err := dal.GetTotalSongs(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -278,14 +285,14 @@ func (s ModeYearService) ExecuteService(username string) model.StatsResponse {
 	return model.ModeYearResponse{Items: result}
 }
 
-func (s PercentExplicitService) ExecuteService(username string) model.StatsResponse {
+func (s PercentExplicitService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetPercentExplicit(tx, username)
+	result, err := dal.GetPercentExplicit(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -301,14 +308,14 @@ func (s PercentExplicitService) ExecuteService(username string) model.StatsRespo
 
 }
 
-func (s TopAlbumsService) ExecuteService(username string) model.StatsResponse {
+func (s TopAlbumsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTopAlbums(tx, username)
+	result, err := dal.GetTopAlbums(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -323,14 +330,14 @@ func (s TopAlbumsService) ExecuteService(username string) model.StatsResponse {
 	return model.TopAlbumsResponse{Items: result}
 }
 
-func (s TopAlbumsTimeService) ExecuteService(username string) model.StatsResponse {
+func (s TopAlbumsTimeService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTopAlbumsTime(tx, username)
+	result, err := dal.GetTopAlbumsTime(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -345,14 +352,14 @@ func (s TopAlbumsTimeService) ExecuteService(username string) model.StatsRespons
 	return model.TopAlbumsResponse{Items: result}
 }
 
-func (s TopArtistsService) ExecuteService(username string) model.StatsResponse {
+func (s TopArtistsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawArtists(tx, username)
+	result, err := dal.GetRawArtists(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -399,14 +406,14 @@ func (s TopArtistsService) ExecuteService(username string) model.StatsResponse {
 	return model.TopArtistsResponse{Items: sortedArtists}
 }
 
-func (s TopArtistsTimeService) ExecuteService(username string) model.StatsResponse {
+func (s TopArtistsTimeService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawArtists(tx, username)
+	result, err := dal.GetRawArtists(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -448,14 +455,14 @@ func (s TopArtistsTimeService) ExecuteService(username string) model.StatsRespon
 	return model.TopArtistsResponse{Items: toReturn}
 }
 
-func (s TopSongsService) ExecuteService(username string) model.StatsResponse {
+func (s TopSongsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTopSongs(tx, username)
+	result, err := dal.GetTopSongs(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -470,14 +477,14 @@ func (s TopSongsService) ExecuteService(username string) model.StatsResponse {
 	return model.TopSongsResponse{Items: result}
 }
 
-func (s TopSongsTimeService) ExecuteService(username string) model.StatsResponse {
+func (s TopSongsTimeService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTopSongsTime(tx, username)
+	result, err := dal.GetTopSongsTime(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -492,14 +499,14 @@ func (s TopSongsTimeService) ExecuteService(username string) model.StatsResponse
 	return model.TopSongsResponse{Items: result}
 }
 
-func (s TotalSongsService) ExecuteService(username string) model.StatsResponse {
+func (s TotalSongsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTotalSongs(tx, username)
+	result, err := dal.GetTotalSongs(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -514,14 +521,14 @@ func (s TotalSongsService) ExecuteService(username string) model.StatsResponse {
 	return model.SingleIntResponse{Value: result}
 }
 
-func (s UniqueAlbumsService) ExecuteService(username string) model.StatsResponse {
+func (s UniqueAlbumsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetUniqueAlbums(tx, username)
+	result, err := dal.GetUniqueAlbums(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -536,14 +543,14 @@ func (s UniqueAlbumsService) ExecuteService(username string) model.StatsResponse
 	return model.SingleIntResponse{Value: result}
 }
 
-func (s UniqueArtistsService) ExecuteService(username string) model.StatsResponse {
+func (s UniqueArtistsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawArtists(tx, username)
+	result, err := dal.GetRawArtists(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -566,14 +573,14 @@ func (s UniqueArtistsService) ExecuteService(username string) model.StatsRespons
 	return model.SingleIntResponse{Value: count}
 }
 
-func (s UniqueSongsService) ExecuteService(username string) model.StatsResponse {
+func (s UniqueSongsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetUniqueSongs(tx, username)
+	result, err := dal.GetUniqueSongs(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -588,14 +595,14 @@ func (s UniqueSongsService) ExecuteService(username string) model.StatsResponse 
 	return model.SingleIntResponse{Value: result}
 }
 
-func (s WeekDayBreakdownService) ExecuteService(username string) model.StatsResponse {
+func (s WeekDayBreakdownService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawTimestamps(tx, username)
+	result, err := dal.GetRawTimestamps(tx, username, startTime, endTime)
 	if err != nil {
 		if dal.CommitAndClose(tx, db, false) != nil {
 			return nil

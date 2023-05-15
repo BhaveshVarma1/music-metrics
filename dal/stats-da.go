@@ -7,14 +7,14 @@ import (
 	"music-metrics/model"
 )
 
-func GetTopSongs(tx *sql.Tx, username string) ([]model.TopSong, error) {
-	stmt, err := tx.Prepare("SELECT s.name, s.id, s.artist, s.artistID, COUNT(*) FROM song s JOIN listen l ON s.id = l.songID WHERE username = ? GROUP BY s.id ORDER BY COUNT(*) DESC;")
+func GetTopSongs(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.TopSong, error) {
+	stmt, err := tx.Prepare(SQL_TOP_SONGS)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []model.TopSong
-	rows, err := stmt.Query(username)
+	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -47,14 +47,14 @@ func GetTopSongs(tx *sql.Tx, username string) ([]model.TopSong, error) {
 	return results, nil
 }
 
-func GetTopSongsTime(tx *sql.Tx, username string) ([]model.TopSong, error) {
-	stmt, err := tx.Prepare("SELECT s.name, s.id, s.artist, s.artistID, ROUND(COUNT(*) * s.duration / 1000) AS time FROM listen l JOIN song s ON l.songID = s.id WHERE username = ? GROUP BY s.id ORDER BY time DESC LIMIT 1000;")
+func GetTopSongsTime(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.TopSong, error) {
+	stmt, err := tx.Prepare(SQL_TOP_SONGS_TIME)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []model.TopSong
-	rows, err := stmt.Query(username)
+	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -87,14 +87,14 @@ func GetTopSongsTime(tx *sql.Tx, username string) ([]model.TopSong, error) {
 	return results, nil
 }
 
-func GetRawArtists(tx *sql.Tx, username string) ([]model.RawArtistTime, error) {
-	stmt, err := tx.Prepare("SELECT s.artist, s.artistID, s.duration FROM song s JOIN listen l ON s.id = l.songID WHERE username = ?;")
+func GetRawArtists(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.RawArtistTime, error) {
+	stmt, err := tx.Prepare(SQL_RAW_ARTISTS)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []model.RawArtistTime
-	rows, err := stmt.Query(username)
+	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -123,14 +123,14 @@ func GetRawArtists(tx *sql.Tx, username string) ([]model.RawArtistTime, error) {
 	return results, nil
 }
 
-func GetTopAlbums(tx *sql.Tx, username string) ([]model.TopAlbum, error) {
-	stmt, err := tx.Prepare("SELECT a.name, a.id, a.artist, a.artistID, a.image, COUNT(*) FROM album a JOIN song s ON a.id = s.album JOIN listen l ON s.id = l.songID WHERE username = ? GROUP BY a.id ORDER BY COUNT(*) DESC;")
+func GetTopAlbums(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.TopAlbum, error) {
+	stmt, err := tx.Prepare(SQL_TOP_ALBUMS)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []model.TopAlbum
-	rows, err := stmt.Query(username)
+	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -165,14 +165,14 @@ func GetTopAlbums(tx *sql.Tx, username string) ([]model.TopAlbum, error) {
 	return results, nil
 }
 
-func GetTopAlbumsTime(tx *sql.Tx, username string) ([]model.TopAlbum, error) {
-	stmt, err := tx.Prepare("SELECT a.name, a.id, a.artist, a.artistID, a.image, ROUND(SUM(x.time) / 1000) FROM (SELECT s.album, (COUNT(*) * s.duration) AS time FROM listen l JOIN song s ON l.songID = s.id WHERE username = ? GROUP BY s.id ORDER BY time DESC) AS x JOIN album a ON x.album = a.id GROUP BY x.album ORDER BY SUM(x.time) DESC LIMIT 1000;")
+func GetTopAlbumsTime(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.TopAlbum, error) {
+	stmt, err := tx.Prepare(SQL_TOP_ALBUMS_TIME)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []model.TopAlbum
-	rows, err := stmt.Query(username)
+	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -207,14 +207,14 @@ func GetTopAlbumsTime(tx *sql.Tx, username string) ([]model.TopAlbum, error) {
 	return results, nil
 }
 
-func GetAverageYear(tx *sql.Tx, username string) (int, error) {
-	stmt, err := tx.Prepare("SELECT AVG(year) FROM listen l JOIN song s ON l.songID = s.id JOIN album a ON s.album = a.id WHERE username = ?;")
+func GetAverageYear(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
+	stmt, err := tx.Prepare(SQL_AVG_YEAR)
 	if err != nil {
 		return 0, err
 	}
 
 	var result float32
-	err = stmt.QueryRow(username).Scan(&result)
+	err = stmt.QueryRow(username, startTime, endTime).Scan(&result)
 	if err != nil {
 		return 0, err
 	}
@@ -226,14 +226,14 @@ func GetAverageYear(tx *sql.Tx, username string) (int, error) {
 	return int(math.Round(float64(result))), nil
 }
 
-func GetDecadeBreakdown(tx *sql.Tx, username string) ([]model.DecadeBreakdown, error) {
-	stmt, err := tx.Prepare("SELECT CONCAT(FLOOR(a.year / 10) * 10, 's') AS decade, COUNT(*) FROM listen l JOIN song s ON l.songID = s.id JOIN album a ON s.album = a.id WHERE username = ? GROUP BY decade ORDER BY COUNT(*) DESC;")
+func GetDecadeBreakdown(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.DecadeBreakdown, error) {
+	stmt, err := tx.Prepare(SQL_DECADE_BREAKDOWN)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []model.DecadeBreakdown
-	rows, err := stmt.Query(username)
+	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -257,14 +257,14 @@ func GetDecadeBreakdown(tx *sql.Tx, username string) ([]model.DecadeBreakdown, e
 	return results, nil
 }
 
-func GetAverageLength(tx *sql.Tx, username string) (int, error) {
-	stmt, err := tx.Prepare("SELECT ROUND(AVG(s.duration) / 1000, 0) FROM listen l JOIN song s ON l.songID = s.id WHERE username = ?;")
+func GetAverageLength(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
+	stmt, err := tx.Prepare(SQL_AVG_LENGTH)
 	if err != nil {
 		return 0, err
 	}
 
 	var result int
-	err = stmt.QueryRow(username).Scan(&result)
+	err = stmt.QueryRow(username, startTime, endTime).Scan(&result)
 	if err != nil {
 		return 0, err
 	}
@@ -276,14 +276,14 @@ func GetAverageLength(tx *sql.Tx, username string) (int, error) {
 	return result, nil
 }
 
-func GetPercentExplicit(tx *sql.Tx, username string) (int, error) {
-	stmt, err := tx.Prepare("SELECT ROUND(100 * AVG(s.explicit = 1), 0) FROM listen l JOIN song s ON l.songID = s.id WHERE l.username = ?;")
+func GetPercentExplicit(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
+	stmt, err := tx.Prepare(SQL_PERCENT_EXPLICIT)
 	if err != nil {
 		return 0, err
 	}
 
 	var result int
-	err = stmt.QueryRow(username).Scan(&result)
+	err = stmt.QueryRow(username, startTime, endTime).Scan(&result)
 	if err != nil {
 		return 0, err
 	}
@@ -295,14 +295,14 @@ func GetPercentExplicit(tx *sql.Tx, username string) (int, error) {
 	return result, nil
 }
 
-func GetTotalSongs(tx *sql.Tx, username string) (int, error) {
-	stmt, err := tx.Prepare("SELECT COUNT(*) FROM listen l WHERE username = ?;")
+func GetTotalSongs(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
+	stmt, err := tx.Prepare(SQL_TOTAL_SONGS)
 	if err != nil {
 		return 0, err
 	}
 
 	var result int
-	err = stmt.QueryRow(username).Scan(&result)
+	err = stmt.QueryRow(username, startTime, endTime).Scan(&result)
 	if err != nil {
 		return 0, err
 	}
@@ -314,14 +314,14 @@ func GetTotalSongs(tx *sql.Tx, username string) (int, error) {
 	return result, nil
 }
 
-func GetUniqueSongs(tx *sql.Tx, username string) (int, error) {
-	stmt, err := tx.Prepare("SELECT COUNT(DISTINCT s.id) FROM listen l JOIN song s ON l.songID = s.id WHERE username = ?;")
+func GetUniqueSongs(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
+	stmt, err := tx.Prepare(SQL_UNIQUE_SONGS)
 	if err != nil {
 		return 0, err
 	}
 
 	var result int
-	err = stmt.QueryRow(username).Scan(&result)
+	err = stmt.QueryRow(username, startTime, endTime).Scan(&result)
 	if err != nil {
 		return 0, err
 	}
@@ -333,14 +333,14 @@ func GetUniqueSongs(tx *sql.Tx, username string) (int, error) {
 	return result, nil
 }
 
-func GetUniqueAlbums(tx *sql.Tx, username string) (int, error) {
-	stmt, err := tx.Prepare("SELECT COUNT(DISTINCT a.id) FROM listen l JOIN song s ON l.songID = s.id JOIN album a ON s.album = a.id WHERE username = ?;")
+func GetUniqueAlbums(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
+	stmt, err := tx.Prepare(SQL_UNIQUE_ALBUMS)
 	if err != nil {
 		return 0, err
 	}
 
 	var result int
-	err = stmt.QueryRow(username).Scan(&result)
+	err = stmt.QueryRow(username, startTime, endTime).Scan(&result)
 	if err != nil {
 		return 0, err
 	}
@@ -352,14 +352,14 @@ func GetUniqueAlbums(tx *sql.Tx, username string) (int, error) {
 	return result, nil
 }
 
-func GetModeYears(tx *sql.Tx, username string) ([]model.ModeYear, error) {
-	stmt, err := tx.Prepare("SELECT a.year, COUNT(*) FROM listen l JOIN song s ON l.songID = s.id JOIN album a ON s.album = a.id WHERE username = ? GROUP BY year ORDER BY COUNT(*) DESC LIMIT 3;")
+func GetModeYears(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.ModeYear, error) {
+	stmt, err := tx.Prepare(SQL_MODE_YEARS)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []model.ModeYear
-	rows, err := stmt.Query(username)
+	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -384,14 +384,14 @@ func GetModeYears(tx *sql.Tx, username string) ([]model.ModeYear, error) {
 	return results, nil
 }
 
-func GetRawYears(tx *sql.Tx, username string) ([]int, error) {
-	stmt, err := tx.Prepare("SELECT a.year FROM listen l JOIN song s ON l.songID = s.id JOIN album a ON s.album = a.id WHERE username = ? ORDER BY a.year;")
+func GetRawYears(tx *sql.Tx, username string, startTime int64, endTime int64) ([]int, error) {
+	stmt, err := tx.Prepare(SQL_RAW_YEARS)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []int
-	rows, err := stmt.Query(username)
+	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -415,14 +415,14 @@ func GetRawYears(tx *sql.Tx, username string) ([]int, error) {
 	return results, nil
 }
 
-func GetRawTimestamps(tx *sql.Tx, username string) ([]int64, error) {
-	stmt, err := tx.Prepare("SELECT l.timestamp FROM listen l WHERE username = ? ORDER BY l.timestamp;")
+func GetRawTimestamps(tx *sql.Tx, username string, startTime int64, endTime int64) ([]int64, error) {
+	stmt, err := tx.Prepare(SQL_RAW_TIMESTAMPS)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []int64
-	rows, err := stmt.Query(username)
+	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -446,14 +446,14 @@ func GetRawTimestamps(tx *sql.Tx, username string) ([]int64, error) {
 	return results, nil
 }
 
-func GetAveragePopularityWithSongs(tx *sql.Tx, username string) ([]model.PopularityObject, error) {
-	stmt, err := tx.Prepare("SELECT s.name, s.id, s.artist, s.artistID, s.popularity FROM listen l JOIN song s ON l.songID = s.id WHERE l.username = ? AND s.popularity = ROUND((SELECT AVG(s.popularity) FROM listen l JOIN song s ON l.songID = s.id WHERE l.username = ?), 0) GROUP BY s.id LIMIT 3;")
+func GetAveragePopularityWithSongs(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.PopularityObject, error) {
+	stmt, err := tx.Prepare(SQL_AVG_POPULARITY)
 	if err != nil {
 		return nil, err
 	}
 
 	var results []model.PopularityObject
-	rows, err := stmt.Query(username, username)
+	rows, err := stmt.Query(username, username, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
