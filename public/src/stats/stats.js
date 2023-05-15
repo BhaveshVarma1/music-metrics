@@ -10,6 +10,9 @@ const DEFAULT_SONG_COUNT_LIMIT = 100
 const DEFAULT_ARTIST_COUNT_LIMIT = 50
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
 
+const DEFAULT_START_TIME = "0"
+const DEFAULT_END_TIME = "1684194119267"
+
 const OPEN_SPOTIFY = 'https://open.spotify.com'
 
 export function Stats() {
@@ -200,7 +203,7 @@ export function Stats() {
 
     useEffect(() => {
         console.log("Stats component mounted.")
-        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username'), fetchInit('/api/v1/allStats', null, getToken()))
+        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username') + '/' + DEFAULT_START_TIME + '-' + DEFAULT_END_TIME, fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
             .then(data => {
 
