@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"music-metrics/dal"
 	"music-metrics/model"
@@ -31,12 +32,14 @@ func StatsHandler(s service.StatsService) echo.HandlerFunc {
 			if dal.CommitAndClose(tx, db, false) != nil {
 				return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 			}
+			fmt.Println("A" + err.Error())
 			return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
 		}
 		if authtoken.Username != username {
 			if dal.CommitAndClose(tx, db, false) != nil {
 				return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 			}
+			fmt.Println("B" + err.Error())
 			return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
 		}
 
