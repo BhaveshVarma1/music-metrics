@@ -207,10 +207,8 @@ export function Stats() {
 
     useEffect(() => {
         console.log("Stats component mounted.")
-        sessionStorage.setItem('startTime', DEFAULT_START_TIME)
-        sessionStorage.setItem('endTime', DEFAULT_END_TIME)
         if (getToken() == null || getToken() === 'undefined') return
-        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username') + '/' + DEFAULT_START_TIME + '-' + DEFAULT_END_TIME, fetchInit('/api/v1/allStats', null, getToken()))
+        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username') + '/' + startTime + '-' + endTime, fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
             .then(data => {
 
@@ -255,7 +253,7 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [songCountProps])
+    }, [songCountProps, startTime, endTime])
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
@@ -354,6 +352,16 @@ export function Stats() {
         }
     }
 
+    function submitTimes() {
+        let potStartTime = document.getElementsByClassName('time-input')[0].value
+        let potEndTime = document.getElementsByClassName('time-input')[1].value
+        if (validateTimes(potStartTime, potEndTime)) {
+            setStartTime(potStartTime)
+            setEndTime(potEndTime)
+        }
+        // useEffect triggered when startTime / endTime change
+    }
+
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
@@ -362,6 +370,7 @@ export function Stats() {
                     <div className={'time-inputs'}>
                         <input type={'text'} className={'time-input'} placeholder={'Start time...'}/>
                         <input type={'text'} className={'time-input'} placeholder={'End time...'}/>
+                        <div className={'time-input-button'} onClick={submitTimes}>GO</div>
                     </div>
                     <div className={'selector'}>
                         <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
@@ -616,4 +625,13 @@ function convertHoursToChartData(data) {
         i++
     })
     return result
+}
+
+function validateTimes(startTime, endTime) {
+    startTime = +startTime
+    endTime = +endTime
+    if (isNaN(startTime) || isNaN(endTime)) return false
+    if (endTime < startTime) return false
+    if (endTime < 1145746800000) return false // The day Spotify was released
+    return true
 }
