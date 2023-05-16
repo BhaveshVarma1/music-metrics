@@ -139,6 +139,10 @@
     text-align: center;
 }
 
+.extra-bottom-margin {
+    margin-bottom: 1.5rem !important;
+}
+
 .hour-wrapper {
     padding: .7rem;
     width: 25rem;
@@ -237,7 +241,7 @@
 .selector {
     display: flex;
     cursor: pointer;
-    margin: 0 auto 2rem;
+    margin: 0 auto .5rem;
     width: 25rem;
     justify-content: center;
 }
