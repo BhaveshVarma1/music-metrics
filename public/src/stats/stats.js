@@ -441,14 +441,17 @@ export function Stats() {
         <div>
             <PrimaryInfo text="Stats central."/>
             <div className={'small-description'}>Showing stats from:</div>
-            <Dropdown/>
-            {usingCustomTimeRange && (
-                <div className={'time-inputs'}>
-                    <input type={'text'} className={'time-input'} placeholder={'Start time...'}/>
-                    <input type={'text'} className={'time-input'} placeholder={'End time...'}/>
-                    <div className={'time-input-button'} onClick={() => submitTimes(document.getElementsByClassName('time-input')[0].value, document.getElementsByClassName('time-input')[1].value)}>GO</div>
-                </div>
-            )}
+            <div className={'extra-bottom-margin'}>
+                <Dropdown/>
+                {usingCustomTimeRange && (
+                    <div className={'time-inputs'}>
+                        <input type={'text'} className={'time-input'} placeholder={'Start time...'}/>
+                        <input type={'text'} className={'time-input'} placeholder={'End time...'}/>
+                        <div className={'time-input-button'} onClick={() => submitTimes(document.getElementsByClassName('time-input')[0].value, document.getElementsByClassName('time-input')[1].value)}>GO</div>
+                    </div>
+                )}
+            </div>
+
             {isLoading ? <Loading/> : (
                 <>
                     <div className={'selector'}>
