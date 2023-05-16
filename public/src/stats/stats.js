@@ -367,6 +367,7 @@ export function Stats() {
     function Dropdown() {
 
         const [isOpen, setIsOpen] = useState(false);
+        const [displayedValue, setDisplayedValue] = useState('All time')
 
         // Close the dropdown if the user clicks outside of it
         useEffect(() => {
@@ -390,33 +391,38 @@ export function Stats() {
                                 <li onClick={() => {
                                     submitTimes(0, Date.now())
                                     toggle()
+                                    setDisplayedValue('All time')
                                 }}>All time</li>
                                 <li onClick={() => {
                                     let now = Date.now()
                                     submitTimes(now - (7 * 24 * 60 * 60 * 1000), now)
                                     toggle()
+                                    setDisplayedValue('Last 7 days')
                                 }}>Last 7 days</li>
                                 <li onClick={() => {
                                     const now = new Date()
                                     const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
                                     submitTimes(oneMonthAgo.getTime(), now.getMilliseconds())
                                     toggle()
+                                    setDisplayedValue('Last 30 days')
                                 }}>Last 30 days</li>
                                 <li onClick={() => {
                                     const now = new Date()
                                     const yearEpoch = new Date(now.getFullYear(), 0, 1);
                                     submitTimes(yearEpoch.getTime(), now.getMilliseconds())
                                     toggle()
+                                    setDisplayedValue('This year so far')
                                 }}>This year so far</li>
                                 <li onClick={() => {
                                     setUsingCustomTimeRange(true)
                                     toggle()
+                                    setDisplayedValue('Custom range...')
                                 }}>Custom range...</li>
                             </ul>
                         </div>
                     )}
                     <div className='dropdown-time-button' onClick={toggle}>
-                        Select table size... {dropdownValue}
+                        {displayedValue}
                     </div>
                 </div>
             </div>
