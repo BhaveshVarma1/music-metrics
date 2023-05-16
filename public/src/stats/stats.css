@@ -274,14 +274,14 @@
 }
 
 .time-input {
-    width: 5rem;
+    width: 10rem;
     margin: 0 .5rem;
     text-align: center;
     border: .1rem solid #cce2e6;
     border-radius: .25rem;
     background-color: #1a1e1f;
     color: #cce2e6;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 .time-inputs {

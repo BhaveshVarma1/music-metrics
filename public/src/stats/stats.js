@@ -355,7 +355,7 @@ export function Stats() {
                 <>
                     <div className={'time-inputs'}>
                         <input type={'text'} className={'time-input'} placeholder={'Start time...'}/>
-                        <input type={'text'} className={'time-input'} placeholder={'Start time...'}/>
+                        <input type={'text'} className={'time-input'} placeholder={'End time...'}/>
                     </div>
                     <div className={'selector'}>
                         <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
