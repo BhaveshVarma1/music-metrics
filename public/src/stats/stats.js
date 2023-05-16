@@ -254,8 +254,6 @@ export function Stats() {
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
         sessionStorage.setItem('route', 'stats')
-        console.log(getToken())
-        console.log("yo yo yo")
         return (
             <div>
                 <PrimaryInfo text="Log in to continue to stats..."/>
@@ -450,7 +448,7 @@ function TopTable(props) {
 
 function Loading() {
     return (
-        <div className={'default-text-color'}>Loading...</div>
+        <div className={'default-text-color loading'}>Loading...</div>
     )
 }
 
