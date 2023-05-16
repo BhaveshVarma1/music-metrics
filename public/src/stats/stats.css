@@ -88,7 +88,7 @@
 .dropdown-time {
     position: relative;
     display: inline-block;
-    margin: .6rem auto 5rem;
+    margin: .6rem auto;
 }
 
 @media (orientation: portrait) {
@@ -267,6 +267,13 @@
 .selector-unselected {
     background-color: #1a1e1f;
     color: #cce2e6;
+}
+
+.small-description {
+    font-size: .8rem;
+    color: #3de2ff;
+    margin: 0 auto 1rem;
+    width: 90%;
 }
 
 .table-all {

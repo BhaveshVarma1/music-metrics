@@ -354,12 +354,12 @@ export function Stats() {
     }
 
     function submitTimes(potStartTime, potEndTime) {
-        //let potStartTime = document.getElementsByClassName('time-input')[0].value
-        //let potEndTime = document.getElementsByClassName('time-input')[1].value
         if (validateTimes(potStartTime, potEndTime)) {
             setStartTime(potStartTime)
             setEndTime(potEndTime)
             setIsLoading(true)
+        } else {
+            console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
         }
         // useEffect triggered when startTime / endTime change
     }
@@ -432,7 +432,7 @@ export function Stats() {
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
-            <div style={{margin: "auto"}}>Showing stats from:</div>
+            <div className={'small-description'}>Showing stats from:</div>
             <Dropdown/>
             {usingCustomTimeRange && (
                 <div className={'time-inputs'}>
