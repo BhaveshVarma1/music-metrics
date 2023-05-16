@@ -207,6 +207,8 @@ export function Stats() {
         // LOGIN SCREEN
         if (getToken() == null || getToken() === 'undefined') {
             sessionStorage.setItem('route', 'stats')
+            console.log(getToken())
+            console.log("yo yo yo")
             return (
                 <div>
                     <PrimaryInfo text="Log in to continue to stats..."/>
