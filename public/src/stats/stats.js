@@ -402,14 +402,14 @@ export function Stats() {
                                 <li onClick={() => {
                                     const now = new Date()
                                     const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-                                    submitTimes(oneMonthAgo.getTime(), now.getMilliseconds())
+                                    submitTimes(oneMonthAgo.getTime(), Date.now())
                                     toggle()
                                     setDisplayedValue('Last 30 days')
                                 }}>Last 30 days</li>
                                 <li onClick={() => {
                                     const now = new Date()
                                     const yearEpoch = new Date(now.getFullYear(), 0, 1);
-                                    submitTimes(yearEpoch.getTime(), now.getMilliseconds())
+                                    submitTimes(yearEpoch.getTime(), Date.now())
                                     toggle()
                                     setDisplayedValue('This year so far')
                                 }}>This year so far</li>
