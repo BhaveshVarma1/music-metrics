@@ -2,3 +2,4 @@ METRICS TO ADD:
 
 Stats surrounding audio features
 Most listened to songs by artist
+Graphs of certain stats over time (like StatsForSpotify)
