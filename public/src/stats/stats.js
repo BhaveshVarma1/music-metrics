@@ -10,8 +10,8 @@ const DEFAULT_SONG_COUNT_LIMIT = 100
 const DEFAULT_ARTIST_COUNT_LIMIT = 50
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
 
-const DEFAULT_START_TIME = "1683525600000"
-const DEFAULT_END_TIME = "1684195457219"
+const DEFAULT_START_TIME = "0"
+const DEFAULT_END_TIME = Date.now().toString()
 
 const OPEN_SPOTIFY = 'https://open.spotify.com'
 
@@ -27,6 +27,10 @@ export function Stats() {
     const [showSelector2, setShowSelector2] = useState(true);
     const [countStyle, setCountStyle] = useState(selectedStyle);
     const [timeStyle, setTimeStyle] = useState(unselectedStyle);
+
+    // TIME VARIABLES
+    const [startTime, setStartTime] = useState(DEFAULT_START_TIME);
+    const [endTime, setEndTime] = useState(DEFAULT_END_TIME);
 
     // DATA VARIABLES (only fetched once, when the Stats component loads)
     const [averageLength, setAverageLength] = useState(0);
@@ -203,6 +207,8 @@ export function Stats() {
 
     useEffect(() => {
         console.log("Stats component mounted.")
+        sessionStorage.setItem('startTime', DEFAULT_START_TIME)
+        sessionStorage.setItem('endTime', DEFAULT_END_TIME)
         if (getToken() == null || getToken() === 'undefined') return
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username') + '/' + DEFAULT_START_TIME + '-' + DEFAULT_END_TIME, fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
