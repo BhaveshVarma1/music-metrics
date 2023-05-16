@@ -408,7 +408,7 @@ export function Stats() {
                                 }}>{DEFAULT_TIME_RANGES[1]}</li>
                                 <li onClick={() => {
                                     setUsingCustomTimeRange(false)
-                                    const now = new Date()
+                                    const now = Date.now()
                                     submitTimes(now - (30 * 24 * 60 * 60 * 1000), now)
                                     toggle()
                                     setDisplayedTimeRange(DEFAULT_TIME_RANGES[2])
