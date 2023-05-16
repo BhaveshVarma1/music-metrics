@@ -253,7 +253,7 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [songCountProps, startTime, endTime])
+    }, [songCountProps, isLoading])
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
@@ -358,8 +358,9 @@ export function Stats() {
         if (validateTimes(potStartTime, potEndTime)) {
             setStartTime(potStartTime)
             setEndTime(potEndTime)
+            setIsLoading(true)
         }
-        // useEffect triggered when startTime / endTime change
+        // useEffect triggered when isLoading changes
     }
 
     return (
