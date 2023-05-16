@@ -203,20 +203,7 @@ export function Stats() {
 
     useEffect(() => {
         console.log("Stats component mounted.")
-
-        // LOGIN SCREEN
-        if (getToken() == null || getToken() === 'undefined') {
-            sessionStorage.setItem('route', 'stats')
-            console.log(getToken())
-            console.log("yo yo yo")
-            return (
-                <div>
-                    <PrimaryInfo text="Log in to continue to stats..."/>
-                    <LoginButton text="LOGIN TO SPOTIFY"/>
-                </div>
-            )
-        }
-
+        if (getToken() == null || getToken() === 'undefined') return
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username') + '/' + DEFAULT_START_TIME + '-' + DEFAULT_END_TIME, fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
             .then(data => {
@@ -263,6 +250,19 @@ export function Stats() {
                 console.log("ERROR: " + error)
             })
     }, [songCountProps])
+
+    // LOGIN SCREEN
+    if (getToken() == null || getToken() === 'undefined') {
+        sessionStorage.setItem('route', 'stats')
+        console.log(getToken())
+        console.log("yo yo yo")
+        return (
+            <div>
+                <PrimaryInfo text="Log in to continue to stats..."/>
+                <LoginButton text="LOGIN TO SPOTIFY"/>
+            </div>
+        )
+    }
 
     function setToSong() {
         setSongStyle(selectedStyle)
