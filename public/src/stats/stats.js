@@ -10,6 +10,8 @@ const DEFAULT_SONG_COUNT_LIMIT = 100
 const DEFAULT_ARTIST_COUNT_LIMIT = 50
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
 
+const DEFAULT_TIME_RANGES = ['All time', 'Last 7 days', 'Last 30 days', 'This year so far', 'Custom range...']
+
 const DEFAULT_START_TIME = 0
 const DEFAULT_END_TIME = Date.now()
 
@@ -29,6 +31,7 @@ export function Stats() {
     const [timeStyle, setTimeStyle] = useState(unselectedStyle);
 
     // TIME VARIABLES
+    const [displayedTimeRange, setDisplayedTimeRange] = useState('All time');
     const [usingCustomTimeRange, setUsingCustomTimeRange] = useState(false);
     const [startTime, setStartTime] = useState(DEFAULT_START_TIME);
     const [endTime, setEndTime] = useState(DEFAULT_END_TIME);
@@ -247,6 +250,9 @@ export function Stats() {
                 setUniqueSongs(data.uniqueSongs.value)
                 setWeekDayBreakdown(data.weekDayBreakdown.items)
 
+                // UPDATE TIME RANGE DROPDOWN
+                //setDisplayedTimeRange()
+
                 // REMOVE LOADING SCREEN
                 setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
                 setIsLoading(false)
@@ -367,7 +373,6 @@ export function Stats() {
     function Dropdown() {
 
         const [isOpen, setIsOpen] = useState(false);
-        const [displayedValue, setDisplayedValue] = useState('All time')
 
         // Close the dropdown if the user clicks outside of it
         useEffect(() => {
@@ -389,40 +394,43 @@ export function Stats() {
                         <div className='dropdown-time-menu'>
                             <ul>
                                 <li onClick={() => {
+                                    setUsingCustomTimeRange(false)
                                     submitTimes(0, Date.now())
                                     toggle()
-                                    setDisplayedValue('All time')
-                                }}>All time</li>
+                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[0])
+                                }}>{DEFAULT_TIME_RANGES[0]}</li>
                                 <li onClick={() => {
-                                    let now = Date.now()
+                                    setUsingCustomTimeRange(false)
+                                    const now = Date.now()
                                     submitTimes(now - (7 * 24 * 60 * 60 * 1000), now)
                                     toggle()
-                                    setDisplayedValue('Last 7 days')
-                                }}>Last 7 days</li>
+                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[1])
+                                }}>{DEFAULT_TIME_RANGES[1]}</li>
                                 <li onClick={() => {
+                                    setUsingCustomTimeRange(false)
                                     const now = new Date()
-                                    const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
-                                    submitTimes(oneMonthAgo.getTime(), Date.now())
+                                    submitTimes(now - (30 * 24 * 60 * 60 * 1000), now)
                                     toggle()
-                                    setDisplayedValue('Last 30 days')
-                                }}>Last 30 days</li>
+                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[2])
+                                }}>{DEFAULT_TIME_RANGES[2]}</li>
                                 <li onClick={() => {
+                                    setUsingCustomTimeRange(false)
                                     const now = new Date()
                                     const yearEpoch = new Date(now.getFullYear(), 0, 1);
                                     submitTimes(yearEpoch.getTime(), Date.now())
                                     toggle()
-                                    setDisplayedValue('This year so far')
-                                }}>This year so far</li>
+                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[3])
+                                }}>{DEFAULT_TIME_RANGES[3]}</li>
                                 <li onClick={() => {
                                     setUsingCustomTimeRange(true)
                                     toggle()
-                                    setDisplayedValue('Custom range...')
-                                }}>Custom range...</li>
+                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[4])
+                                }}>{DEFAULT_TIME_RANGES[4]}</li>
                             </ul>
                         </div>
                     )}
                     <div className='dropdown-time-button' onClick={toggle}>
-                        {displayedValue}
+                        {displayedTimeRange}
                     </div>
                 </div>
             </div>

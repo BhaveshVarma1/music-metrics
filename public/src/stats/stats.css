@@ -276,8 +276,7 @@
 .small-description {
     font-size: .8rem;
     color: #3de2ff;
-    margin: 0 auto 1rem;
-    width: 90%;
+    margin: 0 auto .5rem;
 }
 
 .table-all {
