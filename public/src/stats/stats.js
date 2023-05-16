@@ -10,8 +10,8 @@ const DEFAULT_SONG_COUNT_LIMIT = 100
 const DEFAULT_ARTIST_COUNT_LIMIT = 50
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
 
-const DEFAULT_START_TIME = "0"
-const DEFAULT_END_TIME = Date.now().toString()
+const DEFAULT_START_TIME = 0
+const DEFAULT_END_TIME = Date.now()
 
 const OPEN_SPOTIFY = 'https://open.spotify.com'
 
@@ -29,6 +29,7 @@ export function Stats() {
     const [timeStyle, setTimeStyle] = useState(unselectedStyle);
 
     // TIME VARIABLES
+    const [usingCustomTimeRange, setUsingCustomTimeRange] = useState(false);
     const [startTime, setStartTime] = useState(DEFAULT_START_TIME);
     const [endTime, setEndTime] = useState(DEFAULT_END_TIME);
 
@@ -352,27 +353,90 @@ export function Stats() {
         }
     }
 
-    function submitTimes() {
-        let potStartTime = document.getElementsByClassName('time-input')[0].value
-        let potEndTime = document.getElementsByClassName('time-input')[1].value
+    function submitTimes(potStartTime, potEndTime) {
+        //let potStartTime = document.getElementsByClassName('time-input')[0].value
+        //let potEndTime = document.getElementsByClassName('time-input')[1].value
         if (validateTimes(potStartTime, potEndTime)) {
             setStartTime(potStartTime)
             setEndTime(potEndTime)
             setIsLoading(true)
         }
-        // useEffect triggered when isLoading changes
+        // useEffect triggered when startTime / endTime change
+    }
+
+    function Dropdown() {
+
+        const [isOpen, setIsOpen] = useState(false);
+
+        // Close the dropdown if the user clicks outside of it
+        useEffect(() => {
+            document.addEventListener('click', (event) => {
+                if (!event.target.classList.toString().includes('dropdown-time')) {
+                    setIsOpen(false);
+                }
+            })
+        }, [])
+
+        function toggle() {
+            setIsOpen(!isOpen);
+        }
+
+        return (
+            <div className={'dd-wrapper'}>
+                <div className='dropdown-time'>
+                    {isOpen && (
+                        <div className='dropdown-time-menu'>
+                            <ul>
+                                <li onClick={() => {
+                                    submitTimes(0, Date.now())
+                                    toggle()
+                                }}>All time</li>
+                                <li onClick={() => {
+                                    let now = Date.now()
+                                    submitTimes(now - (7 * 24 * 60 * 60 * 1000), now)
+                                    toggle()
+                                }}>Last 7 days</li>
+                                <li onClick={() => {
+                                    const now = new Date()
+                                    const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+                                    submitTimes(oneMonthAgo.getTime(), now.getMilliseconds())
+                                    toggle()
+                                }}>Last 30 days</li>
+                                <li onClick={() => {
+                                    const now = new Date()
+                                    const yearEpoch = new Date(now.getFullYear(), 0, 1);
+                                    submitTimes(yearEpoch.getTime(), now.getMilliseconds())
+                                    toggle()
+                                }}>This year so far</li>
+                                <li onClick={() => {
+                                    setUsingCustomTimeRange(true)
+                                    toggle()
+                                }}>Custom range...</li>
+                            </ul>
+                        </div>
+                    )}
+                    <div className='dropdown-time-button' onClick={toggle}>
+                        Select table size... {dropdownValue}
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
+            <div style={{margin: "auto"}}>Showing stats from:</div>
+            <Dropdown/>
+            {usingCustomTimeRange && (
+                <div className={'time-inputs'}>
+                    <input type={'text'} className={'time-input'} placeholder={'Start time...'}/>
+                    <input type={'text'} className={'time-input'} placeholder={'End time...'}/>
+                    <div className={'time-input-button'} onClick={() => submitTimes(document.getElementsByClassName('time-input')[0].value, document.getElementsByClassName('time-input')[1].value)}>GO</div>
+                </div>
+            )}
             {isLoading ? <Loading/> : (
                 <>
-                    <div className={'time-inputs'}>
-                        <input type={'text'} className={'time-input'} placeholder={'Start time...'}/>
-                        <input type={'text'} className={'time-input'} placeholder={'End time...'}/>
-                        <div className={'time-input-button'} onClick={submitTimes}>GO</div>
-                    </div>
                     <div className={'selector'}>
                         <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
                         <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
@@ -416,7 +480,7 @@ function TopTable(props) {
         // Close the dropdown if the user clicks outside of it
         useEffect(() => {
             document.addEventListener('click', (event) => {
-                if (!event.target.classList.toString().includes('dropdown')) {
+                if (!event.target.classList.toString().includes('dropdown-stats')) {
                     setIsOpen(false);
                 }
             })
@@ -434,9 +498,9 @@ function TopTable(props) {
 
         return (
             <div className={'dd-wrapper'}>
-                <div className='dropdown'>
+                <div className='dropdown-stats'>
                     {isOpen && (
-                        <div className='dropdown-menu'>
+                        <div className='dropdown-stats-menu'>
                             <ul>
                                 <li onClick={() => itemClicked(props.ddValues[0])}>{props.ddValues[0]}</li>
                                 <li onClick={() => itemClicked(props.ddValues[1])}>{props.ddValues[1]}</li>
@@ -445,7 +509,7 @@ function TopTable(props) {
                             </ul>
                         </div>
                     )}
-                    <div className='dropdown-button' onClick={toggle}>
+                    <div className='dropdown-stats-button' onClick={toggle}>
                         Select table size... {dropdownValue}
                     </div>
                 </div>
