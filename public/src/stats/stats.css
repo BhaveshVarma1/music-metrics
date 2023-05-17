@@ -154,6 +154,10 @@
     }
 }
 
+.hr-stats {
+    color: #3de2ff;
+}
+
 .loading {
     display: flex;
     flex-direction: column;
