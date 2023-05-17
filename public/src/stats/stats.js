@@ -453,7 +453,6 @@ export function Stats() {
             </div>
             {isLoading ? <Loading/> : (
                 <>
-                    <hr/>
                     <div className={'selector'}>
                         <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
                         <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
