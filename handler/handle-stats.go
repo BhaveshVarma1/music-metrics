@@ -20,7 +20,7 @@ func StatsHandler(s service.StatsService) echo.HandlerFunc {
 		timeRange := strings.Split(c.Param("range"), "-")
 		startTime, err := strconv.ParseInt(timeRange[0], 10, 64)
 		endTime, err := strconv.ParseInt(timeRange[1], 10, 64)
-		if err != nil || startTime >= endTime {
+		if err != nil || startTime > endTime {
 			return c.JSON(400, model.GenericResponse{Success: false, Message: "Bad time range"})
 		}
 
