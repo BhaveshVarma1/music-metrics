@@ -216,7 +216,7 @@ export function Stats() {
             .then(response => response.json())
             .then(data => {
 
-                console.log(data)
+                console.log(data.toString())
 
                 if (data.toString() === "No songs found for this time period.") {
                     setCurrentData(<SecondaryInfo message={"No listening history found for this time period."}/>)
