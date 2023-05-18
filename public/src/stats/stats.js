@@ -259,6 +259,8 @@ export function Stats() {
                 // REMOVE LOADING MESSAGE
                 setShowAllSelectors(true)
                 setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
+                setToSong()
+                setToCount()
 
             }).catch(error => {
                 console.log("ERROR: " + error)
@@ -364,12 +366,11 @@ export function Stats() {
 
     function submitTimes(potStartTime, potEndTime) {
         if (validateTimes(potStartTime, potEndTime)) {
+            if (potStartTime === startTime && potEndTime === endTime) return
             setStartTime(potStartTime)
             setEndTime(potEndTime)
-            if (potStartTime !== startTime || potEndTime !== endTime) {
-                setShowAllSelectors(false)
-                setCurrentData(<Info text="Loading..."/>)
-            }
+            setShowAllSelectors(false)
+            setCurrentData(<Info text="Loading..."/>)
         } else {
             console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
         }
