@@ -1,5 +1,4 @@
 // noinspection JSUnresolvedVariable,JSCheckFunctionSignatures
-// eslint-disable-next-line react-hooks/exhaustive-deps
 
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
@@ -259,7 +258,7 @@ export function Stats() {
 
                 // REMOVE LOADING MESSAGE
                 setShowAllSelectors(true)
-                setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
+                //setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
                 setToSong()
                 setToCount()
 
