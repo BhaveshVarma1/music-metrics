@@ -29,6 +29,7 @@ export function Stats() {
     const [showSelector2, setShowSelector2] = useState(true);
     const [countStyle, setCountStyle] = useState(selectedStyle);
     const [timeStyle, setTimeStyle] = useState(unselectedStyle);
+    const [showAllSelectors, setShowAllSelectors] = useState(true);
 
     // TIME VARIABLES
     const [displayedTimeRange, setDisplayedTimeRange] = useState('All time');
@@ -58,7 +59,6 @@ export function Stats() {
     const [weekDayBreakdown, setWeekDayBreakdown] = useState([]);
 
     // OTHER
-    const [isLoading, setIsLoading] = useState(true);
     const songCountProps = useMemo(() => {
         return {
             defaultCount: DEFAULT_SONG_COUNT_LIMIT,
@@ -219,13 +219,10 @@ export function Stats() {
                 console.log(data)
 
                 if (data === "No songs found for this time period.") {
-                    console.log("Here brother.")
-                    setCurrentData(<PrimaryInfo text="No listening history found for this time period."/>)
-                    setIsLoading(false)
+                    setShowAllSelectors(false)
+                    setCurrentData(<Info text="No listening history found for this time period."/>)
                     return
                 }
-
-                console.log("Here brother 2.")
 
                 // ADD RANK COLUMN FOR RELEVANT ARRAYS
                 addRankColumn(data.topAlbums.items)
@@ -259,9 +256,9 @@ export function Stats() {
                 setUniqueSongs(data.uniqueSongs.value)
                 setWeekDayBreakdown(data.weekDayBreakdown.items)
 
-                // REMOVE LOADING SCREEN
+                // REMOVE LOADING MESSAGE
+                setShowAllSelectors(true)
                 setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
-                setIsLoading(false)
 
             }).catch(error => {
                 console.log("ERROR: " + error)
@@ -369,7 +366,7 @@ export function Stats() {
         if (validateTimes(potStartTime, potEndTime)) {
             setStartTime(potStartTime)
             setEndTime(potEndTime)
-            setIsLoading(true)
+            setCurrentData(<Info text="Loading..."/>)
         } else {
             console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
         }
@@ -455,7 +452,7 @@ export function Stats() {
                     </div>
                 )}
             </div>
-            {isLoading ? <Loading/> : (
+            {showAllSelectors && (
                 <>
                     <div className={'selector'}>
                         <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
@@ -469,9 +466,9 @@ export function Stats() {
                             <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
                         </div>
                     )}
-                    {currentData}
                 </>
             )}
+            {currentData}
         </div>
     )
 
@@ -550,9 +547,9 @@ function TopTable(props) {
     )
 }
 
-function Loading() {
+function Info(props) {
     return (
-        <div className={'default-text-color loading'}>Loading...</div>
+        <div className={'default-text-color loading'}>{props.text}</div>
     )
 }
 
