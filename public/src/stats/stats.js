@@ -389,7 +389,7 @@ export function Stats() {
 
         function itemClicked(startTime, endTime, index) {
             setUsingCustomTimeRange(false)
-            submitTimes(startTime, endTime)
+            if (index !== DEFAULT_TIME_RANGES.length - 1) submitTimes(startTime, endTime)
             toggle()
             setDisplayedTimeRange(DEFAULT_TIME_RANGES[index])
         }
