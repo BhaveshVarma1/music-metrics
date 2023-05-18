@@ -225,6 +225,8 @@ export function Stats() {
                     return
                 }
 
+                console.log("Here brother 2.")
+
                 // ADD RANK COLUMN FOR RELEVANT ARRAYS
                 addRankColumn(data.topAlbums.items)
                 addRankColumn(data.topAlbumsTime.items)
