@@ -218,12 +218,13 @@ export function Stats() {
 
                 console.log(data)
 
-                /*if (data === "No songs found for this time period.") {
+                if (data === "No songs found for this time period.") {
                     console.log("Here brother.")
                     setCurrentData(<SecondaryInfo message={"No listening history found for this time period."}/>)
                     setIsLoading(false)
                     return
-                }*/
+                }
+
                 // ADD RANK COLUMN FOR RELEVANT ARRAYS
                 addRankColumn(data.topAlbums.items)
                 addRankColumn(data.topAlbumsTime.items)
@@ -257,11 +258,7 @@ export function Stats() {
                 setWeekDayBreakdown(data.weekDayBreakdown.items)
 
                 // REMOVE LOADING SCREEN
-                if (data !== "No songs found for this time period.") {
-                    setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
-                } else {
-                    setCurrentData(<SecondaryInfo message={"No listening history found for this time period."}/>)
-                }
+                setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
                 setIsLoading(false)
 
             }).catch(error => {
