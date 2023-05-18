@@ -728,6 +728,7 @@ function validateTimes(startTime, endTime) {
     startTime = +startTime
     endTime = +endTime
     if (isNaN(startTime) || isNaN(endTime)) return false
+    if (startTime < 0) return false
     if (endTime < startTime) return false
     if (endTime < 1145746800000) return false // The day Spotify was released
     return true
