@@ -382,6 +382,8 @@ export function Stats() {
             setCurrentData(<Info text="Loading..."/>)
         } else {
             console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
+            setShowAllSelectors(false)
+            setCurrentData(<Info text="Invalid time range, try again."/>)
         }
         // useEffect triggered when startTime / endTime change
     }
