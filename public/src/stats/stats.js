@@ -387,6 +387,13 @@ export function Stats() {
             setIsOpen(!isOpen);
         }
 
+        function itemClicked(startTime, endTime, index) {
+            setUsingCustomTimeRange(false)
+            submitTimes(startTime, endTime)
+            toggle()
+            setDisplayedTimeRange(DEFAULT_TIME_RANGES[index])
+        }
+
         return (
             <div className={'dd-wrapper'}>
                 <div className='dropdown-time'>
@@ -394,37 +401,23 @@ export function Stats() {
                         <div className='dropdown-time-menu'>
                             <ul>
                                 <li onClick={() => {
-                                    setUsingCustomTimeRange(false)
-                                    submitTimes(0, Date.now())
-                                    toggle()
-                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[0])
+                                    itemClicked(0, Date.now(), 0)
                                 }}>{DEFAULT_TIME_RANGES[0]}</li>
                                 <li onClick={() => {
-                                    setUsingCustomTimeRange(false)
                                     const now = Date.now()
-                                    submitTimes(now - (7 * 24 * 60 * 60 * 1000), now)
-                                    toggle()
-                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[1])
+                                    itemClicked(now - (7 * 24 * 60 * 60 * 1000), now, 1)
                                 }}>{DEFAULT_TIME_RANGES[1]}</li>
                                 <li onClick={() => {
-                                    setUsingCustomTimeRange(false)
                                     const now = Date.now()
-                                    submitTimes(now - (30 * 24 * 60 * 60 * 1000), now)
-                                    toggle()
-                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[2])
+                                    itemClicked(now - (30 * 24 * 60 * 60 * 1000), now, 2)
                                 }}>{DEFAULT_TIME_RANGES[2]}</li>
                                 <li onClick={() => {
-                                    setUsingCustomTimeRange(false)
                                     const now = new Date()
                                     const yearEpoch = new Date(now.getFullYear(), 0, 1);
-                                    submitTimes(yearEpoch.getTime(), Date.now())
-                                    toggle()
-                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[3])
+                                    itemClicked(yearEpoch.getTime(), Date.now(), 3)
                                 }}>{DEFAULT_TIME_RANGES[3]}</li>
                                 <li onClick={() => {
-                                    setUsingCustomTimeRange(true)
-                                    toggle()
-                                    setDisplayedTimeRange(DEFAULT_TIME_RANGES[4])
+                                    itemClicked(0, Date.now(), 4)
                                 }}>{DEFAULT_TIME_RANGES[4]}</li>
                             </ul>
                         </div>
