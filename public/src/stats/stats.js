@@ -366,6 +366,7 @@ export function Stats() {
         if (validateTimes(potStartTime, potEndTime)) {
             setStartTime(potStartTime)
             setEndTime(potEndTime)
+            setShowAllSelectors(false)
             setCurrentData(<Info text="Loading..."/>)
         } else {
             console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
