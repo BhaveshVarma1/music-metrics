@@ -259,7 +259,17 @@ export function Stats() {
                 // REMOVE LOADING MESSAGE
                 setShowAllSelectors(true)
                 setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
+
+                // RESET THE SELECTORS
                 setSongStyle(selectedStyle)
+                setArtistStyle(unselectedStyle)
+                setAlbumStyle(unselectedStyle)
+                setChartStyle(unselectedStyle)
+                setShowSelector2(true)
+                setCountStyle(selectedStyle)
+                setTimeStyle(unselectedStyle)
+                setCountStyle(selectedStyle)
+                setTimeStyle(unselectedStyle)
 
             }).catch(error => {
                 console.log("ERROR: " + error)
