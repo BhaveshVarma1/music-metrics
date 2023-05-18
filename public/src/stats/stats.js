@@ -29,7 +29,7 @@ export function Stats() {
     const [showSelector2, setShowSelector2] = useState(true);
     const [countStyle, setCountStyle] = useState(selectedStyle);
     const [timeStyle, setTimeStyle] = useState(unselectedStyle);
-    const [showAllSelectors, setShowAllSelectors] = useState(true);
+    const [showAllSelectors, setShowAllSelectors] = useState(false);
 
     // TIME VARIABLES
     const [displayedTimeRange, setDisplayedTimeRange] = useState('All time');
@@ -207,7 +207,7 @@ export function Stats() {
             )
         }
     }
-    const [currentData, setCurrentData] = useState();
+    const [currentData, setCurrentData] = useState(<Info text={"Loading..."}/>);
 
     useEffect(() => {
         console.log("Stats component mounted.")
