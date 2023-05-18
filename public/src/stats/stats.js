@@ -391,9 +391,9 @@ export function Stats() {
             // Assumes that custom time range is the last item in the array
             if (index !== DEFAULT_TIME_RANGES.length - 1) {
                 submitTimes(startTime, endTime)
-                setUsingCustomTimeRange(true)
-            } else {
                 setUsingCustomTimeRange(false)
+            } else {
+                setUsingCustomTimeRange(true)
             }
             toggle()
             setDisplayedTimeRange(DEFAULT_TIME_RANGES[index])
