@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable,JSCheckFunctionSignatures
 
 import './stats.css';
-import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
+import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
 import React, {useEffect, useMemo, useState} from "react";
 import {Chart} from "react-google-charts";
 
@@ -218,6 +218,11 @@ export function Stats() {
 
                 console.log(data)
 
+                if (data === "No songs found for this time period.") {
+                    setCurrentData(<SecondaryInfo message={"No listening history found for this time period."}/>)
+                    setIsLoading(false)
+                }
+
                 // ADD RANK COLUMN FOR RELEVANT ARRAYS
                 addRankColumn(data.topAlbums.items)
                 addRankColumn(data.topAlbumsTime.items)
@@ -249,9 +254,6 @@ export function Stats() {
                 setUniqueArtists(data.uniqueArtists.value)
                 setUniqueSongs(data.uniqueSongs.value)
                 setWeekDayBreakdown(data.weekDayBreakdown.items)
-
-                // UPDATE TIME RANGE DROPDOWN
-                //setDisplayedTimeRange()
 
                 // REMOVE LOADING SCREEN
                 setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
