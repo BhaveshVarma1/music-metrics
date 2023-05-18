@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable,JSCheckFunctionSignatures
 
 import './stats.css';
-import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
+import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
 import React, {useEffect, useMemo, useState} from "react";
 import {Chart} from "react-google-charts";
 
@@ -220,7 +220,7 @@ export function Stats() {
 
                 if (data === "No songs found for this time period.") {
                     console.log("Here brother.")
-                    setCurrentData(<SecondaryInfo message={"No listening history found for this time period."}/>)
+                    setCurrentData(<PrimaryInfo text="No listening history found for this time period."/>)
                     setIsLoading(false)
                     return
                 }
