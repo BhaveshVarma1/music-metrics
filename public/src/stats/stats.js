@@ -219,6 +219,7 @@ export function Stats() {
                 console.log(data.toString())
 
                 if (data.toString() === "No songs found for this time period.") {
+                    console.log("Here brother.")
                     setCurrentData(<SecondaryInfo message={"No listening history found for this time period."}/>)
                     setIsLoading(false)
                     return
