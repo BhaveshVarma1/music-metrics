@@ -265,7 +265,7 @@ export function Stats() {
             }).catch(error => {
                 console.log("ERROR: " + error)
             })
-    }, [songCountProps, startTime, endTime])
+    }, [songCountProps, startTime, endTime, setToCount, setToSong])
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
