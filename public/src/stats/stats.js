@@ -364,6 +364,7 @@ export function Stats() {
 
     function submitTimes(potStartTime, potEndTime) {
         if (validateTimes(potStartTime, potEndTime)) {
+            potEndTime++
             setStartTime(potStartTime)
             setEndTime(potEndTime)
             setShowAllSelectors(false)
