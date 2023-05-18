@@ -364,11 +364,12 @@ export function Stats() {
 
     function submitTimes(potStartTime, potEndTime) {
         if (validateTimes(potStartTime, potEndTime)) {
-            potEndTime++
             setStartTime(potStartTime)
             setEndTime(potEndTime)
-            setShowAllSelectors(false)
-            setCurrentData(<Info text="Loading..."/>)
+            if (potStartTime !== startTime || potEndTime !== endTime) {
+                setShowAllSelectors(false)
+                setCurrentData(<Info text="Loading..."/>)
+            }
         } else {
             console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
         }
