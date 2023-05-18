@@ -388,8 +388,13 @@ export function Stats() {
         }
 
         function itemClicked(startTime, endTime, index) {
-            setUsingCustomTimeRange(false)
-            if (index !== DEFAULT_TIME_RANGES.length - 1) submitTimes(startTime, endTime)
+            // Assumes that custom time range is the last item in the array
+            if (index !== DEFAULT_TIME_RANGES.length - 1) {
+                submitTimes(startTime, endTime)
+                setUsingCustomTimeRange(true)
+            } else {
+                setUsingCustomTimeRange(false)
+            }
             toggle()
             setDisplayedTimeRange(DEFAULT_TIME_RANGES[index])
         }
