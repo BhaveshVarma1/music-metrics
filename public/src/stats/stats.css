@@ -27,7 +27,7 @@
 
 .custom-time {
     position: relative;
-    display: inline-block;
+    display: flex;
 }
 
 .custom-time-wrapper {
@@ -369,6 +369,13 @@
     font-size: 1rem;
     cursor: pointer;
     z-index: 1;
+}
+
+.time-input-button-wrapper {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .time-input-wrapper {
