@@ -25,9 +25,15 @@
     border-right: .1rem solid #cce2e6;
 }
 
-.custom-time-wrapper {
+.custom-time {
     position: relative;
     display: inline-block;
+}
+
+.custom-time-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .decade-wrapper {

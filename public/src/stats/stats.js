@@ -465,16 +465,19 @@ export function Stats() {
                 <Dropdown/>
                 {usingCustomTimeRange && (
                     <div className={'custom-time-wrapper'}>
-                        <div className={'time-inputs'}>
-                            <div className={'time-input-wrapper'}>
-                                <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) => setSelectedStartDate(date)}/>
+                        <div className={'custom-time'}>
+                            <div className={'time-inputs'}>
+                                <div className={'time-input-wrapper'}>
+                                    <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) => setSelectedStartDate(date)}/>
+                                </div>
+                                <div className={'time-input-wrapper'}>
+                                    <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => setSelectedEndDate(date)}/>
+                                </div>
                             </div>
-                            <div className={'time-input-wrapper'}>
-                                <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => setSelectedEndDate(date)}/>
-                            </div>
+                            <div className={'time-input-button'} onClick={() => submitTimes(dateToUnixMillis(selectedStartDate), dateToUnixMillis(selectedEndDate) + 86399999)}>GO</div>
                         </div>
-                        <div className={'time-input-button'} onClick={() => submitTimes(dateToUnixMillis(selectedStartDate), dateToUnixMillis(selectedEndDate) + 86399999)}>GO</div>
                     </div>
+
                 )}
             </div>
             {showAllSelectors && (
