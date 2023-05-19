@@ -465,8 +465,8 @@ export function Stats() {
                 <Dropdown/>
                 {usingCustomTimeRange && (
                     <div className={'time-inputs'}>
-                        <DatePicker customInput={<CustomDateInput/>} selected={selectedStartDate} onChange={(date) => setSelectedStartDate(date)}/>
-                        <DatePicker customInput={<CustomDateInput/>} selected={selectedEndDate} onChange={(date) => setSelectedEndDate(date)}/>
+                        <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) => setSelectedStartDate(date)}/>
+                        <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => setSelectedEndDate(date)}/>
                         <div className={'time-input-button'} onClick={() => submitTimes(dateToUnixMillis(selectedStartDate), dateToUnixMillis(selectedEndDate) + 86399999)}>GO</div>
                     </div>
                 )}
@@ -700,11 +700,11 @@ function LinkedArtistList(props) {
     )
 }
 
-function CustomDateInput() {
+/*function CustomDateInput() {
     return (
         <input type={'text'} className={'time-input'}/>
     )
-}
+}*/
 
 // HELPER FUNCTIONS
 function addRankColumn(items) {
