@@ -4,6 +4,7 @@ import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
 import React, {useEffect, useMemo, useState} from "react";
 import {Chart} from "react-google-charts";
+import DatePicker from "react-datepicker";
 
 // Default values for the dropdowns (must be in the array specified in the props)
 const DEFAULT_SONG_COUNT_LIMIT = 100
@@ -36,6 +37,8 @@ export function Stats() {
     const [usingCustomTimeRange, setUsingCustomTimeRange] = useState(false);
     const [startTime, setStartTime] = useState(DEFAULT_START_TIME);
     const [endTime, setEndTime] = useState(DEFAULT_END_TIME);
+    const [tempStartTime, setTempStartTime] = useState(new Date());
+    const [tempEndTime, setTempEndTime] = useState(new Date());
 
     // DATA VARIABLES (only fetched once, when the Stats component loads)
     const [averageLength, setAverageLength] = useState(0);
@@ -207,7 +210,7 @@ export function Stats() {
             )
         }
     }
-    const [currentData, setCurrentData] = useState(<Info text={"Loading..."}/>);
+    const [currentData, setCurrentData] = useState(<StatsInfo text={"Loading..."}/>);
 
     useEffect(() => {
         console.log("Stats component mounted.")
@@ -220,7 +223,7 @@ export function Stats() {
 
                 if (data === "No songs found for this time period.") {
                     setShowAllSelectors(false)
-                    setCurrentData(<Info text="No listening history found for this time period."/>)
+                    setCurrentData(<StatsInfo text="No listening history found for this time period."/>)
                     return
                 }
 
@@ -379,11 +382,11 @@ export function Stats() {
             setStartTime(potStartTime)
             setEndTime(potEndTime)
             setShowAllSelectors(false)
-            setCurrentData(<Info text="Loading..."/>)
+            setCurrentData(<StatsInfo text="Loading..."/>)
         } else {
             console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
             setShowAllSelectors(false)
-            setCurrentData(<Info text="Invalid time range, try again."/>)
+            setCurrentData(<StatsInfo text="Invalid time range, try again."/>)
         }
         // useEffect triggered when startTime / endTime change
     }
@@ -461,9 +464,9 @@ export function Stats() {
                 <Dropdown/>
                 {usingCustomTimeRange && (
                     <div className={'time-inputs'}>
-                        <input type={'text'} className={'time-input'} placeholder={'Start time...'}/>
-                        <input type={'text'} className={'time-input'} placeholder={'End time...'}/>
-                        <div className={'time-input-button'} onClick={() => submitTimes(document.getElementsByClassName('time-input')[0].value, document.getElementsByClassName('time-input')[1].value)}>GO</div>
+                        <DatePicker selected={tempStartTime} onChange={(date) => setTempStartTime(date)}/>
+                        <DatePicker selected={tempEndTime} onChange={(date) => setTempEndTime(date)}/>
+                        <div className={'time-input-button'} onClick={() => submitTimes(dateToUnixMillis(tempStartTime), dateToUnixMillis(tempEndTime))}>GO</div>
                     </div>
                 )}
             </div>
@@ -562,7 +565,7 @@ function TopTable(props) {
     )
 }
 
-function Info(props) {
+function StatsInfo(props) {
     return (
         <div className={'default-text-color loading'}>{props.text}</div>
     )
@@ -732,4 +735,8 @@ function validateTimes(startTime, endTime) {
     if (endTime < startTime) return false
     if (endTime < 1145746800000) return false // The day Spotify was released
     return true
+}
+
+function dateToUnixMillis(date) {
+    return new Date(date).getTime()
 }
