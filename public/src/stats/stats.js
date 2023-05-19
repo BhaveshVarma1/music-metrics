@@ -37,8 +37,8 @@ export function Stats() {
     const [usingCustomTimeRange, setUsingCustomTimeRange] = useState(false);
     const [startTime, setStartTime] = useState(DEFAULT_START_TIME);
     const [endTime, setEndTime] = useState(DEFAULT_END_TIME);
-    const [tempStartTime, setTempStartTime] = useState(new Date());
-    const [tempEndTime, setTempEndTime] = useState(new Date());
+    const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+    const [selectedEndDate, setSelectedEndDate] = useState(new Date());
 
     // DATA VARIABLES (only fetched once, when the Stats component loads)
     const [averageLength, setAverageLength] = useState(0);
@@ -463,10 +463,10 @@ export function Stats() {
             <div className={'extra-bottom-margin'}>
                 <Dropdown/>
                 {usingCustomTimeRange && (
-                    <div className={'time-inputs'}>
-                        <DatePicker selected={tempStartTime} onChange={(date) => setTempStartTime(date)}/>
-                        <DatePicker selected={tempEndTime} onChange={(date) => setTempEndTime(date)}/>
-                        <div className={'time-input-button'} onClick={() => submitTimes(dateToUnixMillis(tempStartTime), dateToUnixMillis(tempEndTime))}>GO</div>
+                    <div>
+                        <DatePicker selected={selectedStartDate} onChange={(date) => setSelectedStartDate(date)}/>
+                        <DatePicker selected={selectedEndDate} onChange={(date) => setSelectedEndDate(date)}/>
+                        <div className={'time-input-button'} onClick={() => submitTimes(dateToUnixMillis(selectedStartDate), dateToUnixMillis(selectedEndDate))}>GO</div>
                     </div>
                 )}
             </div>
