@@ -25,6 +25,11 @@
     border-right: .1rem solid #cce2e6;
 }
 
+.custom-time-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
 .decade-wrapper {
     padding: .7rem;
     width: 15rem;
