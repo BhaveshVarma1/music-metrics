@@ -5,6 +5,7 @@ import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../ut
 import React, {useEffect, useMemo, useState} from "react";
 import {Chart} from "react-google-charts";
 import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css'
 
 // Default values for the dropdowns (must be in the array specified in the props)
 const DEFAULT_SONG_COUNT_LIMIT = 100
@@ -463,7 +464,7 @@ export function Stats() {
             <div className={'extra-bottom-margin'}>
                 <Dropdown/>
                 {usingCustomTimeRange && (
-                    <div>
+                    <div className={'time-inputs'}>
                         <DatePicker selected={selectedStartDate} onChange={(date) => setSelectedStartDate(date)}/>
                         <DatePicker selected={selectedEndDate} onChange={(date) => setSelectedEndDate(date)}/>
                         <div className={'time-input-button'} onClick={() => submitTimes(dateToUnixMillis(selectedStartDate), dateToUnixMillis(selectedEndDate))}>GO</div>

@@ -357,7 +357,6 @@
     cursor: pointer;
 }
 
-/*
 .time-inputs {
     display: flex;
     flex-direction: row;
@@ -365,4 +364,4 @@
     align-items: center;
     margin: 0 auto;
     width: 25rem;
-}*/
+}
