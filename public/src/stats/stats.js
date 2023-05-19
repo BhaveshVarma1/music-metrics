@@ -700,12 +700,6 @@ function LinkedArtistList(props) {
     )
 }
 
-/*function CustomDateInput() {
-    return (
-        <input type={'text'} className={'time-input'}/>
-    )
-}*/
-
 // HELPER FUNCTIONS
 function addRankColumn(items) {
     let rank = 1
