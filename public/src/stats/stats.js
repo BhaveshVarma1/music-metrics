@@ -472,12 +472,12 @@ export function Stats() {
                                     setSelectedStartDate(date)
                                 }}/>
                             </div>
-                            <div className={'time-input-wrapper'}>
+                            {/*<div className={'time-input-wrapper'}>
                                 <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => {
                                     submitTimes(dateToMillis(selectedStartDate), dateToMillis(date))
                                     setSelectedEndDate(date)
                                 }}/>
-                            </div>
+                            </div>*/}
                             {/*<div className={'time-input-button-wrapper'}>
                                 <div className={'time-input-button'} onClick={() => submitTimes(dateToUnixMillis(selectedStartDate), dateToUnixMillis(selectedEndDate) + 86399999)}>GO</div>
                             </div>*/}
