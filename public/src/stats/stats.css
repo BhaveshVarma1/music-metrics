@@ -403,5 +403,6 @@
 
 .time-input-wrapper > div > div.react-datepicker__input-container
 .time-input-wrapper > div > div.react-datepicker__input-container input {
+    display: flex;
     width: 100%;
 }
