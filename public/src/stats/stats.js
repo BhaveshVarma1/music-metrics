@@ -480,7 +480,6 @@ export function Stats() {
                             </div>
                         </div>
                     </div>
-
                 )}
             </div>
             {showAllSelectors && (
@@ -751,5 +750,6 @@ function validateTimes(startTime, endTime) {
 }
 
 function dateToMillis(date) {
-    return new Date(date).getTime()
+    const beginningOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    return beginningOfDay.getTime();
 }
