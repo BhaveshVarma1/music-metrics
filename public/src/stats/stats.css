@@ -381,14 +381,6 @@
     width: 7rem;
     margin: 0 .5rem;
     display: flex;
-
-
-    text-align: center;
-    border: .1rem solid #cce2e6;
-    border-radius: .25rem;
-    background-color: #1a1e1f;
-    color: #cce2e6;
-    font-size: 1rem;
 }
 
 .time-inputs {
@@ -396,9 +388,6 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-}
-.test {
-    width: 100%;
 }
 
 .time-input-wrapper > div > div.react-datepicker__input-container,
