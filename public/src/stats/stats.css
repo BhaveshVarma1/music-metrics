@@ -380,6 +380,7 @@
 .time-input-wrapper {
     width: 7rem;
     margin: 0 .5rem;
+    display: flex;
 }
 
 .time-inputs {
