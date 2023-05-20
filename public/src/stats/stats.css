@@ -400,3 +400,8 @@
 .test {
     width: 100%;
 }
+
+.time-input-wrapper > div > div.react-datepicker__input-container
+.time-input-wrapper > div > div.react-datepicker__input-container input {
+    width: 100%;
+}
