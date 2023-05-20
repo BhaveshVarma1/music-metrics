@@ -467,7 +467,7 @@ export function Stats() {
                     <div className={'custom-time-wrapper'}>
                         <div className={'custom-time'}>
                             <div className={'time-input-wrapper'}>
-                                <DatePicker selected={selectedStartDate} onChange={(date) => {
+                                <DatePicker className={'test'} selected={selectedStartDate} onChange={(date) => {
                                     submitTimes(dateToMillis(date), dateToMillis(selectedEndDate))
                                     setSelectedStartDate(date)
                                 }}/>
