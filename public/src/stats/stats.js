@@ -467,14 +467,16 @@ export function Stats() {
                     <div className={'custom-time-wrapper'}>
                         <div className={'custom-time'}>
                             <div className={'time-input-wrapper'}>
-                                <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) => setSelectedStartDate(date)}/>
+                                <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) =>
+                                    submitTimes(dateToMillis(date), dateToMillis(selectedEndDate))}/>
                             </div>
                             <div className={'time-input-wrapper'}>
-                                <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => setSelectedEndDate(date)}/>
+                                <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) =>
+                                    submitTimes(dateToMillis(selectedStartDate), dateToMillis(date))}/>
                             </div>
-                            <div className={'time-input-button-wrapper'}>
+                            {/*<div className={'time-input-button-wrapper'}>
                                 <div className={'time-input-button'} onClick={() => submitTimes(dateToUnixMillis(selectedStartDate), dateToUnixMillis(selectedEndDate) + 86399999)}>GO</div>
-                            </div>
+                            </div>*/}
                         </div>
                     </div>
 
@@ -747,6 +749,6 @@ function validateTimes(startTime, endTime) {
     return true
 }
 
-function dateToUnixMillis(date) {
+function dateToMillis(date) {
     return new Date(date).getTime()
 }
