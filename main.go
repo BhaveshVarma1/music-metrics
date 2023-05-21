@@ -37,6 +37,7 @@ func main() {
 	var topArtistTimeService service.TopArtistsTimeService
 	var topSongService service.TopSongsService
 	var topSongTimeService service.TopSongsTimeService
+	var totalMinutesService service.TotalMinutesService
 	var totalSongsService service.TotalSongsService
 	var uniqueAlbumsService service.UniqueAlbumsService
 	var uniqueArtistsService service.UniqueArtistsService
@@ -61,6 +62,7 @@ func main() {
 	e.GET("/api/v1/topSongs/:username", handler.StatsHandler(topSongService))
 	e.GET("/api/v1/topSongsTime/:username", handler.StatsHandler(topSongTimeService))
 	e.GET("/api/v1/totalSongs/:username", handler.StatsHandler(totalSongsService))
+	e.GET("/api/v1/totalMinutes/:username", handler.StatsHandler(totalMinutesService))
 	e.GET("/api/v1/uniqueAlbums/:username", handler.StatsHandler(uniqueAlbumsService))
 	e.GET("/api/v1/uniqueArtists/:username", handler.StatsHandler(uniqueArtistsService))
 	e.GET("/api/v1/uniqueSongs/:username", handler.StatsHandler(uniqueSongsService))

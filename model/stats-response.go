@@ -18,6 +18,7 @@ type AllStatsResponse struct {
 	TopArtistsTime    StatsResponse `json:"topArtistsTime,omitempty"`
 	TopSongs          StatsResponse `json:"topSongs,omitempty"`
 	TopSongsTime      StatsResponse `json:"topSongsTime,omitempty"`
+	TotalMinutes      StatsResponse `json:"totalMinutes,omitempty"`
 	TotalSongs        StatsResponse `json:"totalSongs,omitempty"`
 	UniqueAlbums      StatsResponse `json:"uniqueAlbums,omitempty"`
 	UniqueArtists     StatsResponse `json:"uniqueArtists,omitempty"`

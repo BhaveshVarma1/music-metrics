@@ -18,3 +18,4 @@ const SQL_MODE_YEARS = "SELECT a.year, COUNT(*) FROM " + SQL_BASIC_JOIN + " JOIN
 const SQL_RAW_YEARS = "SELECT a.year FROM " + SQL_BASIC_JOIN + " JOIN album a ON s.album = a.id WHERE username = ? AND timestamp >= ? AND timestamp <= ? ORDER BY a.year;"
 const SQL_RAW_TIMESTAMPS = "SELECT l.timestamp FROM listen l WHERE username = ? AND timestamp >= ? AND timestamp <= ? ORDER BY l.timestamp;"
 const SQL_AVG_POPULARITY = "SELECT s.name, s.id, s.artist, s.artistID, s.popularity FROM " + SQL_BASIC_JOIN + " WHERE l.username = ? AND s.popularity = ROUND((SELECT AVG(s.popularity) FROM " + SQL_BASIC_JOIN + " WHERE l.username = ? AND timestamp >= ? AND timestamp <= ?), 0) GROUP BY s.id LIMIT 3;"
+const SQL_TOTAL_MINUTES = "SELECT ROUND(SUM(s.duration) / 60000) FROM " + SQL_BASIC_JOIN + " WHERE username = ? AND timestamp >= ? AND timestamp <= ?;"

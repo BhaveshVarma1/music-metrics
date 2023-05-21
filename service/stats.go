@@ -42,6 +42,8 @@ type TopSongsService struct{}
 
 type TopSongsTimeService struct{}
 
+type TotalMinutesService struct{}
+
 type TotalSongsService struct{}
 
 type UniqueAlbumsService struct{}
@@ -68,6 +70,7 @@ func (s AllStatsService) ExecuteService(username string, startTime int64, endTim
 	var topArtistTimeService TopArtistsTimeService
 	var topSongService TopSongsService
 	var topSongTimeService TopSongsTimeService
+	var totalMinutesService TotalMinutesService
 	var totalSongsService TotalSongsService
 	var uniqueAlbumsService UniqueAlbumsService
 	var uniqueArtistsService UniqueArtistsService
@@ -96,6 +99,7 @@ func (s AllStatsService) ExecuteService(username string, startTime int64, endTim
 		TopArtistsTime:    topArtistTimeService.ExecuteService(username, startTime, endTime),
 		TopSongs:          topSongService.ExecuteService(username, startTime, endTime),
 		TopSongsTime:      topSongTimeService.ExecuteService(username, startTime, endTime),
+		TotalMinutes:      totalMinutesService.ExecuteService(username, startTime, endTime),
 		TotalSongs:        totalSongsService.ExecuteService(username, startTime, endTime),
 		UniqueAlbums:      uniqueAlbumsService.ExecuteService(username, startTime, endTime),
 		UniqueArtists:     uniqueArtistsService.ExecuteService(username, startTime, endTime),
@@ -521,6 +525,28 @@ func (s TotalSongsService) ExecuteService(username string, startTime int64, endT
 	return model.SingleIntResponse{Value: result}
 }
 
+func (s TotalMinutesService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
+
+	tx, db, err := dal.BeginTX()
+	if err != nil {
+		return nil
+	}
+
+	result, err := dal.GetTotalMinutes(tx, username, startTime, endTime)
+	if err != nil {
+		if dal.CommitAndClose(tx, db, false) != nil {
+			return nil
+		}
+		return nil
+	}
+
+	if dal.CommitAndClose(tx, db, true) != nil {
+		return nil
+	}
+
+	return model.SingleIntResponse{Value: result}
+}
+
 func (s UniqueAlbumsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := dal.BeginTX()
@@ -568,6 +594,10 @@ func (s UniqueArtistsService) ExecuteService(username string, startTime int64, e
 				count++
 			}
 		}
+	}
+
+	if dal.CommitAndClose(tx, db, true) != nil {
+		return nil
 	}
 
 	return model.SingleIntResponse{Value: count}

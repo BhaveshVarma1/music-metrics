@@ -486,3 +486,22 @@ func GetAveragePopularityWithSongs(tx *sql.Tx, username string, startTime int64,
 
 	return results, nil
 }
+
+func GetTotalMinutes(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
+	stmt, err := tx.Prepare(SQL_TOTAL_MINUTES)
+	if err != nil {
+		return 0, err
+	}
+
+	var result int
+	err = stmt.QueryRow(username, startTime, endTime).Scan(&result)
+	if err != nil {
+		return 0, err
+	}
+
+	err = stmt.Close()
+	if err != nil {
+		return 0, err
+	}
+	return result, nil
+}
