@@ -28,6 +28,7 @@ func Db() *sql.DB {
 }
 
 func DbClose(db *sql.DB) error {
+	fmt.Println("Closing database")
 	err := db.Close()
 	if err != nil {
 		return err
