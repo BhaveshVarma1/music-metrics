@@ -456,6 +456,10 @@ func (s TopArtistsTimeService) ExecuteService(username string, startTime int64, 
 		return toReturn[i].Count > toReturn[j].Count
 	})
 
+	if dal.CommitAndClose(tx, db, true) != nil {
+		return nil
+	}
+
 	return model.TopArtistsResponse{Items: toReturn}
 }
 

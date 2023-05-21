@@ -15,7 +15,7 @@ func GetStartTime() int64 {
 	// April 1st, 2023 (Utah): 1680328800000
 	// May 1st, 2023 (Utah): 1682920800000
 
-	return 1682920800000
+	return 0
 }
 
 func GetEndTime() int64 {
