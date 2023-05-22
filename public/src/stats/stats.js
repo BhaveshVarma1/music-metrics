@@ -255,12 +255,12 @@ export function Stats() {
                 setTopArtistsTime(data.topArtistsTime.items)
                 setTopSongs(data.topSongs.items)
                 setTopSongsTime(data.topSongsTime.items)
-                setTotalMinutes(data.totalMinutes.value)
-                setTotalSongs(data.totalSongs.value)
-                setUniqueAlbums(data.uniqueAlbums.value)
-                setUniqueArtists(data.uniqueArtists.value)
-                setUniqueSongs(data.uniqueSongs.value)
-                setWeekDayBreakdown(data.weekDayBreakdown.items)
+                setTotalMinutes(addCommaToNumber(data.totalMinutes.value))
+                setTotalSongs(addCommaToNumber(data.totalSongs.value))
+                setUniqueAlbums(addCommaToNumber(data.uniqueAlbums.value))
+                setUniqueArtists(addCommaToNumber(data.uniqueArtists.value))
+                setUniqueSongs(addCommaToNumber(data.uniqueSongs.value))
+                setWeekDayBreakdown(addCommaToNumber(data.weekDayBreakdown.items))
 
                 // REMOVE LOADING MESSAGE
                 setShowAllSelectors(true)
@@ -756,4 +756,8 @@ function validateTimes(startTime, endTime) {
 function dateToMillis(date) {
     const beginningOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     return beginningOfDay.getTime();
+}
+
+function addCommaToNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
