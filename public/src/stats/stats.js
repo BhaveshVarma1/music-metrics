@@ -767,5 +767,6 @@ function findMax(data) {
     data.forEach(item => {
         if (item.count > max) max = item.count
     })
+    console.log(max)
     return max
 }
