@@ -21,6 +21,17 @@ const OPEN_SPOTIFY = 'https://open.spotify.com'
 
 export function Stats() {
 
+    // LOGIN SCREEN
+    if (getToken() == null || getToken() === 'undefined') {
+        sessionStorage.setItem('route', 'stats')
+        return (
+            <div>
+                <PrimaryInfo text="Log in to continue to stats..."/>
+                <LoginButton text="LOGIN TO SPOTIFY"/>
+            </div>
+        )
+    }
+
     // STYLING VARIABLES
     const selectedStyle = 'selector-selected'
     const unselectedStyle = 'selector-unselected'
@@ -282,17 +293,6 @@ export function Stats() {
             })
     }, [songCountProps, startTime, endTime])
 
-    // LOGIN SCREEN
-    if (getToken() == null || getToken() === 'undefined') {
-        sessionStorage.setItem('route', 'stats')
-        return (
-            <div>
-                <PrimaryInfo text="Log in to continue to stats..."/>
-                <LoginButton text="LOGIN TO SPOTIFY"/>
-            </div>
-        )
-    }
-
     function setToSong() {
         setSongStyle(selectedStyle)
         setArtistStyle(unselectedStyle)
@@ -304,7 +304,6 @@ export function Stats() {
 
         setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
     }
-
     function setToArtist() {
         setSongStyle(unselectedStyle)
         setArtistStyle(selectedStyle)
@@ -316,7 +315,6 @@ export function Stats() {
 
         setCurrentData(<TopTable items={topArtists} props={artistCountProps}/>)
     }
-
     function setToAlbum() {
         setSongStyle(unselectedStyle)
         setArtistStyle(unselectedStyle)
@@ -328,7 +326,6 @@ export function Stats() {
 
         setCurrentData(<TopTable items={topAlbums} props={albumCountProps}/>)
     }
-
     function setToChart() {
         setSongStyle(unselectedStyle)
         setArtistStyle(unselectedStyle)
@@ -353,7 +350,6 @@ export function Stats() {
             weekDayBreakdown={weekDayBreakdown}
         />)
     }
-
     function setToCount() {
         setCountStyle(selectedStyle)
         setTimeStyle(unselectedStyle)
@@ -366,7 +362,6 @@ export function Stats() {
             setCurrentData(<TopTable items={topAlbums} props={albumCountProps}/>)
         }
     }
-
     function setToTime() {
         setCountStyle(unselectedStyle)
         setTimeStyle(selectedStyle)
@@ -504,7 +499,6 @@ export function Stats() {
             {currentData}
         </div>
     )
-
 }
 
 // SECONDARY COMPONENTS
@@ -769,11 +763,9 @@ function addCommaToNumber(num) {
 }
 
 function findMax(data) {
-    console.log(data)
     let max = 0
     data.forEach(item => {
         if (item > max) max = item
     })
-    console.log(max)
     return max
 }

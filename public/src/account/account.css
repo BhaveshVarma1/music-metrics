@@ -1,0 +1,17 @@
+.upload-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: #1db954;
+    color: #1a1e1f;
+    margin: 1rem auto;
+}
+
+.upload-files {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem auto;
+}
