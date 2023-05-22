@@ -661,7 +661,7 @@ function HourChart(props) {
                             },
                             viewWindow: {
                                 min: 0,
-                                max: 150
+                                max: findMax(props.data)
                             }
                         },
                         chartArea: {
@@ -760,4 +760,12 @@ function dateToMillis(date) {
 
 function addCommaToNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function findMax(data) {
+    let max = 0
+    data.forEach(item => {
+        if (item.count > max) max = item.count
+    })
+    return max
 }
