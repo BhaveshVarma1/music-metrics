@@ -650,14 +650,18 @@ function HourChart(props) {
                         orientation: 'horizontal',
                         hAxis: {
                             title: 'Hour',
-                            color: '#cce2e6',
+                            titleTextStyle: {
+                                color: '#cce2e6',
+                            },
                             textStyle: {
                                 color: '#cce2e6',
                             }
                         },
                         vAxis: {
                             title: 'Count',
-                            color: '#cce2e6',
+                            titleTextStyle: {
+                                color: '#cce2e6',
+                            },
                             textStyle: {
                                 color: '#cce2e6',
                             },
