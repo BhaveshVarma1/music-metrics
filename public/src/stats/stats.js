@@ -21,17 +21,6 @@ const OPEN_SPOTIFY = 'https://open.spotify.com'
 
 export function Stats() {
 
-    // LOGIN SCREEN
-    if (getToken() == null || getToken() === 'undefined') {
-        sessionStorage.setItem('route', 'stats')
-        return (
-            <div>
-                <PrimaryInfo text="Log in to continue to stats..."/>
-                <LoginButton text="LOGIN TO SPOTIFY"/>
-            </div>
-        )
-    }
-
     // STYLING VARIABLES
     const selectedStyle = 'selector-selected'
     const unselectedStyle = 'selector-unselected'
@@ -292,6 +281,17 @@ export function Stats() {
                 console.log("ERROR: " + error)
             })
     }, [songCountProps, startTime, endTime])
+
+    // LOGIN SCREEN
+    if (getToken() == null || getToken() === 'undefined') {
+        sessionStorage.setItem('route', 'stats')
+        return (
+            <div>
+                <PrimaryInfo text="Log in to continue to stats..."/>
+                <LoginButton text="LOGIN TO SPOTIFY"/>
+            </div>
+        )
+    }
 
     function setToSong() {
         setSongStyle(selectedStyle)
