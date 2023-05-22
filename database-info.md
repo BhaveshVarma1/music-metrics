@@ -56,19 +56,21 @@ Table name: `song`
 | explicit    | tinyint(1)    | NO    |     | Boolean representing whether or not the song is marked as explicit |
 | popularity  | int           | NO    |     | The song's popularity on a scale of 0 to 100 as rated by Spotify   |
 | duration    | int           | NO    |     | The song's duration in milliseconds                                |
+| artistID    | varchar(1023) | NO    |     | The Spotify ID of the song's artist(s) separated by `;;`           |
 
 ## 💽 Album Metadata Table
 
 Table name: `album`  
 *Note: `genre` and `popularity` are currently not supported by the Spotify API*
 
-| Column Name | Data Type     | Null? | Key | Description                                         |
-|-------------|---------------|-------|-----|-----------------------------------------------------|
-| id          | varchar(255)  | NO    | PRI | The album's Spotify ID                              |
-| name        | varchar(255)  | NO    |     | The album's name                                    |
-| artist      | varchar(1023) | NO    |     | The album's artist(s) as a string separated by `;;` |
-| genre       | varchar(1023) | YES   |     | The album's genre(s) as a string separated by `;;`  |
-| totalTracks | int           | NO    |     | The number of tracks on the album                   |
-| year        | int           | NO    |     | The year the album was released                     |
-| image       | varchar(1023) | NO    |     | The URL of the album's highest resolution cover art |
-| popularity  | int           | YES   |     | The album's popularity on a scale of 0 to 100       |
+| Column Name | Data Type     | Null? | Key | Description                                               |
+|-------------|---------------|-------|-----|-----------------------------------------------------------|
+| id          | varchar(255)  | NO    | PRI | The album's Spotify ID                                    |
+| name        | varchar(255)  | NO    |     | The album's name                                          |
+| artist      | varchar(1023) | NO    |     | The album's artist(s) as a string separated by `;;`       |
+| genre       | varchar(1023) | YES   |     | The album's genre(s) as a string separated by `;;`        |
+| totalTracks | int           | NO    |     | The number of tracks on the album                         |
+| year        | int           | NO    |     | The year the album was released                           |
+| image       | varchar(1023) | NO    |     | The URL of the album's highest resolution cover art       |
+| popularity  | int           | YES   |     | The album's popularity on a scale of 0 to 100             |
+| artistID    | varchar(1023) | NO    |     | The Spotify ID of the album's artist(s) separated by `;;` |
