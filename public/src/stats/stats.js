@@ -763,6 +763,7 @@ function addCommaToNumber(num) {
 }
 
 function findMax(data) {
+    console.log(data)
     let max = 0
     data.forEach(item => {
         if (item.count > max) max = item.count
