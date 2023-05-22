@@ -102,12 +102,6 @@
     margin: .6rem auto;
 }
 
-/*@media (orientation: portrait) {
-    .dropdown-time {
-        margin: .6rem auto 5rem;
-    }
-}*/
-
 .dropdown-time-button {
     display: flex;
     align-items: center;
