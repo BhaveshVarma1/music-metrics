@@ -56,6 +56,7 @@ export function Stats() {
     const [topArtistsTime, setTopArtistsTime] = useState([]);
     const [topSongs, setTopSongs] = useState([]);
     const [topSongsTime, setTopSongsTime] = useState([]);
+    const [totalMinutes, setTotalMinutes] = useState(0);
     const [totalSongs, setTotalSongs] = useState(0);
     const [uniqueAlbums, setUniqueAlbums] = useState(0);
     const [uniqueArtists, setUniqueArtists] = useState(0);
@@ -254,6 +255,7 @@ export function Stats() {
                 setTopArtistsTime(data.topArtistsTime.items)
                 setTopSongs(data.topSongs.items)
                 setTopSongsTime(data.topSongsTime.items)
+                setTotalMinutes(data.totalMinutes.value)
                 setTotalSongs(data.totalSongs.value)
                 setUniqueAlbums(data.uniqueAlbums.value)
                 setUniqueArtists(data.uniqueArtists.value)
@@ -343,6 +345,7 @@ export function Stats() {
             medianYear={medianYear}
             modeYear={modeYear}
             percentExplicit={percentExplicit}
+            totalMinutes={totalMinutes}
             totalSongs={totalSongs}
             uniqueAlbums={uniqueAlbums}
             uniqueArtists={uniqueArtists}
@@ -587,6 +590,7 @@ function AllCharts(props) {
 
     return (
         <div className={'all-panels'}>
+            <BasicPanel primary={"Total Minutes"} data={props.totalMinutes} commentary={"Rookie numbers."}/>
             <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={"That was a good year."}/>
             <BasicPanel primary={"Average Song Length"} data={props.averageLength} commentary={"That's not very long."}/>
             <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={"That was a better year."}/>

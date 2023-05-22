@@ -127,6 +127,13 @@ func TestTopSongsTime(t *testing.T) {
 	fmt.Println(result)
 }
 
+func TestTotalMinutes(t *testing.T) {
+
+	var service TotalMinutesService
+	result := service.ExecuteService(GetUsername(), GetStartTime(), GetEndTime())
+	fmt.Println(result)
+}
+
 func TestTotalSongs(t *testing.T) {
 
 	var service TotalSongsService
