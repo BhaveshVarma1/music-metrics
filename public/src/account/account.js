@@ -29,7 +29,7 @@ export function Account() {
                 </div>
                 <div className={'table-row-acct'}>
                     <div>Display Name</div>
-                    <div>{localStorage.getItem('display_name')}</div>
+                    <div>{/*{localStorage.getItem('display_name')}*/}mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm</div>
                 </div>
                 <div className={'table-row-acct'}>
                     <div>Email</div>
