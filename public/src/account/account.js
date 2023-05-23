@@ -63,7 +63,13 @@ function Dropzone() {
     function submit() {
         //console.log(files)
         files.forEach(file => {
-            console.log(JSON.stringify(file))
+            const reader = new FileReader()
+            reader.onload = (event) => {
+                const fileContent = event.target.result;
+                const jsonString = JSON.stringify(fileContent);
+                console.log(jsonString);
+            }
+            reader.readAsText(file)
         })
     }
 
