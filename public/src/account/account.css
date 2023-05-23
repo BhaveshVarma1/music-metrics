@@ -45,7 +45,10 @@
     right: 0;
     border: .1rem solid #1a1e1f;
     border-radius: 50%;
-    width: .8rem;
-    height: .8rem;
+    width: .6rem;
+    height: .6rem;
     font-size: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
