@@ -3,7 +3,8 @@ import {getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
 import React, {useCallback, useState} from "react";
 import {useDropzone} from "react-dropzone";
 
-const maxFileSize = 10000000
+const maxFileSize = 20000000
+const maxFiles = 15
 
 export function Account() {
 
@@ -25,7 +26,6 @@ export function Account() {
             <SecondaryInfo text={"Display Name: " + localStorage.getItem('display_name')}/>
             <SecondaryInfo text={"Email: " + localStorage.getItem('email')}/>
             <SecondaryInfo text={"Account Created: " + unixMillisToString(localStorage.getItem('timestamp'))}/>
-            {/*<Dropzone onDrop={handleDrop} multiple={true} maxSize={maxFileSize}>{() => { return (<div> <p>Drop file here</p></div> );}}</Dropzone>*/}
             <Dropzone/>
         </div>
     )
@@ -36,7 +36,10 @@ function Dropzone() {
     const [files, setFiles] = useState([])
 
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-        if (acceptedFiles?.length) setFiles(previousFiles => [...previousFiles, ...acceptedFiles.filter(file => !previousFiles.includes(file))])
+        if (acceptedFiles?.length) {
+            if (files.length + acceptedFiles.length > maxFiles) return
+            setFiles(previousFiles => [...previousFiles, ...acceptedFiles.filter(file => !previousFiles.some(previousFile => previousFile.name === file.name))])
+        }
         if (rejectedFiles?.length) console.log(rejectedFiles)
     }, [])
 
