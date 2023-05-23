@@ -59,6 +59,10 @@ function Dropzone() {
         setFiles(files.filter(file => file.path !== item.path))
     }
 
+    function submit() {
+        console.log(files)
+    }
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: {
@@ -81,7 +85,7 @@ function Dropzone() {
             </div>
             <div className={'dropzone-error-and-submit'}>
                 {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
-                <div className={'login-button'}>SUBMIT</div>
+                {files.length !== 0 && <div className={'login-button dropzone-submit'} onClick={submit}><b>SUBMIT</b></div>}
             </div>
 
             <ul>

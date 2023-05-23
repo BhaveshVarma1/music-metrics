@@ -103,7 +103,6 @@
 }
 
 .header-all {
-    /*width: 100%;*/
     z-index: 1;
     top: 0;
     left: 0;
@@ -119,7 +118,7 @@
     padding: .6rem;
     border-radius: .6rem;
     display: inline-block;
-    color: #cce2e6;
+    color: #1a1e1f;
     margin: .6rem;
 }
 

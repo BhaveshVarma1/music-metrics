@@ -60,5 +60,5 @@
 }
 
 .dropzone-submit {
-
+    justify-self: flex-end;
 }
