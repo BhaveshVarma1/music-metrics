@@ -34,13 +34,19 @@ export function Account() {
 function Dropzone() {
 
     const [files, setFiles] = useState([])
+    const [errorMessage, setErrorMessage] = useState('')
+    //const [errorIsShown, setErrorIsShown] = useState(false)
 
     function onDrop(acceptedFiles, rejectedFiles) {
         if (acceptedFiles?.length) {
-            //if (files.length + acceptedFiles.length > maxFiles) return
+            if (files.length + acceptedFiles.length > maxFiles) {
+                setErrorMessage('Too many files')
+                return
+            }
+            setErrorMessage('')
             setFiles(previousFiles => [...previousFiles, ...acceptedFiles])
         }
-        if (rejectedFiles?.length) console.log(rejectedFiles)
+        if (rejectedFiles?.length) setErrorMessage('Only .json files under 20MB are accepted')
     }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -64,7 +70,7 @@ function Dropzone() {
                     <p>Drag and drop the files here, or click to select files</p>
                 )}
             </div>
-
+            {errorMessage === '' && <p className={'dropzone-error'}>{errorMessage}</p>}
             <ul>
                 {files.map(file => (
                     <li key={file.name}>
