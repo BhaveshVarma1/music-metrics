@@ -56,4 +56,7 @@
 
 .dropzone-submit {
     margin: 0 auto !important;
+    display: flex;
+    justify-content: center;
+    width: 8rem;
 }
