@@ -44,7 +44,8 @@ function Dropzone() {
                 return
             }
             setErrorMessage('')
-            setFiles(previousFiles => [...previousFiles, ...acceptedFiles.some(file => previousFiles.includes(file)) ? [] : acceptedFiles])
+            const uniqueFiles = acceptedFiles.filter(file => !files.some(f => f.name === file.name))
+            setFiles(previousFiles => [...previousFiles, ...uniqueFiles])
         }
         if (rejectedFiles?.length) setErrorMessage('Only .json files under 20MB are accepted')
     }
