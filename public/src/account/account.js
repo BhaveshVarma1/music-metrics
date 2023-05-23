@@ -18,37 +18,6 @@ export function Account() {
         )
     }
 
-    /*function UploadFiles() {
-
-        const [file1, setFile1] = useState(null)
-
-        function handleFileChange(event) {
-            setFile1(event.target.files[0])
-        }
-
-        function doUpload() {
-            const reader = new FileReader()
-            console.log(file1)
-            reader.onload = function (event) {
-                const data = event.target.result
-                console.log("string: " + JSON.stringify(data))
-            }
-            reader.readAsText(file1)
-        }
-
-        return (
-            <div className={'upload-files'}>
-                <input type={"file"} onChange={handleFileChange} />
-                <div className={'upload-button'} onClick={doUpload}>UPLOAD</div>
-            </div>
-        )
-    }
-
-    function handleDrop(files, rejectedFiles) {
-        console.log(files)
-        console.log(rejectedFiles)
-    }*/
-
     return (
         <div>
             <PrimaryInfo text="Account Information"/>
@@ -70,10 +39,15 @@ function Dropzone() {
         if (acceptedFiles?.length) setFiles(previousFiles => [...previousFiles, ...acceptedFiles])
     }, [])
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop,
+        accept: {
+            'text/json': ['.json'],
+        }
+    })
 
     return (
-        <form>
+        <div>
             <div {...getRootProps({
                 className: 'dropzone'
             })}>
@@ -90,7 +64,7 @@ function Dropzone() {
                     <li key={file.name}>{file.name}</li>
                 ))}
             </ul>
-        </form>
+        </div>
     )
 }
 
