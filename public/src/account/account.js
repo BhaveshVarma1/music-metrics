@@ -35,7 +35,6 @@ function Dropzone() {
 
     const [files, setFiles] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
-    //const [errorIsShown, setErrorIsShown] = useState(false)
 
     function onDrop(acceptedFiles, rejectedFiles) {
         if (acceptedFiles?.length) {
@@ -55,7 +54,6 @@ function Dropzone() {
         accept: {
             'text/json': ['.json'],
         },
-        maxFiles: maxFiles,
         maxSize: maxFileSize,
     })
 
