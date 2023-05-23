@@ -47,7 +47,7 @@ function Dropzone() {
     })
 
     return (
-        <div>
+        <div className={'dropzone-all'}>
             <div {...getRootProps({
                 className: 'dropzone'
             })}>
