@@ -1,9 +1,9 @@
 import './account.css';
 import {getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
-import React from "react";
-import Dropzone from "react-dropzone";
+import React, {useCallback} from "react";
+import {useDropzone} from "react-dropzone";
 
-const maxFileSize = 10000000
+//const maxFileSize = 10000000
 
 export function Account() {
 
@@ -42,12 +42,12 @@ export function Account() {
                 <div className={'upload-button'} onClick={doUpload}>UPLOAD</div>
             </div>
         )
-    }*/
+    }
 
     function handleDrop(files, rejectedFiles) {
         console.log(files)
         console.log(rejectedFiles)
-    }
+    }*/
 
     return (
         <div>
@@ -56,8 +56,31 @@ export function Account() {
             <SecondaryInfo text={"Display Name: " + localStorage.getItem('display_name')}/>
             <SecondaryInfo text={"Email: " + localStorage.getItem('email')}/>
             <SecondaryInfo text={"Account Created: " + unixMillisToString(localStorage.getItem('timestamp'))}/>
-            <Dropzone onDrop={handleDrop} multiple={true} maxSize={maxFileSize}>{() => { return (<div> <p>Drop file here</p></div> );}}</Dropzone>
+            {/*<Dropzone onDrop={handleDrop} multiple={true} maxSize={maxFileSize}>{() => { return (<div> <p>Drop file here</p></div> );}}</Dropzone>*/}
+            <Dropzone/>
         </div>
+    )
+}
+
+function Dropzone() {
+
+    const onDrop = useCallback(acceptedFiles => {
+        console.log(acceptedFiles)
+    }, [])
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+    return (
+        <form>
+            <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                    <p>Drop the files here ...</p>
+                ) : (
+                    <p>Drag and drop the files here, or click to select files</p>
+                )}
+            </div>
+        </form>
     )
 }
 
