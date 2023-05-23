@@ -1,10 +1,10 @@
 import './account.css';
 import {getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
-import React, {useCallback, useState} from "react";
+import React, {useState} from "react";
 import {useDropzone} from "react-dropzone";
 
 const maxFileSize = 20000000
-const maxFiles = 15
+const maxFiles = 5
 
 export function Account() {
 
@@ -35,20 +35,20 @@ function Dropzone() {
 
     const [files, setFiles] = useState([])
 
-    const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+    function onDrop(acceptedFiles, rejectedFiles) {
         if (acceptedFiles?.length) {
-            if (files.length + acceptedFiles.length > maxFiles) return
+            //if (files.length + acceptedFiles.length > maxFiles) return
             setFiles(previousFiles => [...previousFiles, ...acceptedFiles.filter(file => !previousFiles.some(previousFile => previousFile.name === file.name))])
         }
         if (rejectedFiles?.length) console.log(rejectedFiles)
-    }, [])
+    }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: {
             'text/json': ['.json'],
         },
-        maxFiles: 10,
+        maxFiles: maxFiles,
         maxSize: maxFileSize,
     })
 
