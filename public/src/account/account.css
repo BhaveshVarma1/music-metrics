@@ -31,6 +31,10 @@
     margin: .5rem 0;
 }
 
+.dropzone-info {
+    font-size: .5rem;
+}
+
 .dropzone-item {
     border: .1rem solid #cce2e6;
     border-radius: .25rem;
