@@ -61,7 +61,10 @@ function Dropzone() {
     }
 
     function submit() {
-        console.log(files)
+        //console.log(files)
+        files.forEach(file => {
+            console.log(JSON.stringify(file))
+        })
     }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
