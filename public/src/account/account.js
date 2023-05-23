@@ -1,5 +1,5 @@
 import './account.css';
-import {getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
+import {getToken, LoginButton, PrimaryInfo} from "../util/util";
 import React, {useState} from "react";
 import {useDropzone} from "react-dropzone";
 
@@ -22,10 +22,22 @@ export function Account() {
     return (
         <div>
             <PrimaryInfo text="Account Information"/>
-            <SecondaryInfo text={"Username: " + localStorage.getItem('username')}/>
-            <SecondaryInfo text={"Display Name: " + localStorage.getItem('display_name')}/>
-            <SecondaryInfo text={"Email: " + localStorage.getItem('email')}/>
-            <SecondaryInfo text={"Account Created: " + unixMillisToString(localStorage.getItem('timestamp'))}/>
+            <div className={'table-row-acct'}>
+                <div>Username</div>
+                <div>{localStorage.getItem('username')}</div>
+            </div>
+            <div className={'table-row-acct'}>
+                <div>Display Name</div>
+                <div>{localStorage.getItem('display_name')}</div>
+            </div>
+            <div className={'table-row-acct'}>
+                <div>Email</div>
+                <div>{localStorage.getItem('email')}</div>
+            </div>
+            <div className={'table-row-acct'}>
+                <div>Account Created</div>
+                <div>{unixMillisToString(localStorage.getItem('timestamp'))}</div>
+            </div>
             <Dropzone/>
         </div>
     )

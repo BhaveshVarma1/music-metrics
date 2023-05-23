@@ -69,3 +69,9 @@
     justify-content: center;
     width: 100%;
 }
+
+.table-row-acct {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
