@@ -45,6 +45,7 @@
     right: 0;
     border: .1rem solid #1a1e1f;
     border-radius: 50%;
-    width: .5rem;
-    height: .5rem;
+    width: .8rem;
+    height: .8rem;
+    font-size: .5rem;
 }
