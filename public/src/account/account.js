@@ -44,7 +44,7 @@ function Dropzone() {
                 return
             }
             setErrorMessage('')
-            setFiles(previousFiles => [...previousFiles, ...acceptedFiles])
+            setFiles(previousFiles => [...previousFiles, ...acceptedFiles.some(file => previousFiles.includes(file)) ? [] : acceptedFiles])
         }
         if (rejectedFiles?.length) setErrorMessage('Only .json files under 20MB are accepted')
     }
@@ -70,7 +70,7 @@ function Dropzone() {
                     <p>Drag and drop the files here, or click to select files</p>
                 )}
             </div>
-            {errorMessage === '' && <p className={'dropzone-error'}>{errorMessage}</p>}
+            {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
             <ul>
                 {files.map(file => (
                     <li key={file.name}>
