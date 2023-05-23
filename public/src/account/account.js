@@ -50,6 +50,7 @@ function Dropzone() {
     }
 
     function removeItem(item) {
+        if (errorMessage === 'Too many files') setErrorMessage('')
         setFiles(files.filter(file => file.path !== item.path))
     }
 
