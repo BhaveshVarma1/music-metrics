@@ -1,3 +1,17 @@
+.dropzone {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    border: 2px dashed #1db954;
+    border-radius: 5px;
+    margin: 1rem auto;
+    color: #cce2e6;
+}
+
+
+/*
 .upload-button {
     display: flex;
     justify-content: center;
@@ -14,4 +28,4 @@
     justify-content: center;
     align-items: center;
     margin: 1rem auto;
-}
+}*/
