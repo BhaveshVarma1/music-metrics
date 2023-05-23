@@ -26,3 +26,7 @@
 .dropzone-all li {
     padding: .5rem;
 }
+.dropzone-input {
+    display: none;
+    width: 100%;
+}

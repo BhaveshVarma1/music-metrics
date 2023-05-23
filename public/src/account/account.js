@@ -52,7 +52,9 @@ function Dropzone() {
             <div {...getRootProps({
                 className: 'dropzone'
             })}>
-                <input {...getInputProps()} />
+                <input {...getInputProps({
+                    className: 'dropzone-input'
+                })} />
                 {isDragActive ? (
                     <p>Drop the files here ...</p>
                 ) : (
