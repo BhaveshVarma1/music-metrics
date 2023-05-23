@@ -49,6 +49,10 @@ function Dropzone() {
         if (rejectedFiles?.length) setErrorMessage('Only .json files under 20MB are accepted')
     }
 
+    function removeItem(item) {
+        setFiles(files.filter(file => file.path !== item.path))
+    }
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: {
@@ -72,7 +76,7 @@ function Dropzone() {
             {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
             <ul>
                 {files.map(file => (
-                    <li key={file.name}>
+                    <li key={file.name} onClick={() => removeItem(file)}>
                         <div className={'dropzone-item'}>{file.name}</div>
                     </li>
                 ))}
