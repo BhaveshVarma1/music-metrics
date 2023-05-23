@@ -23,24 +23,13 @@
     justify-content: flex-start;
     padding: 0;
     gap: .5rem;
+    margin: .5rem auto;
 }
-
-/*.dropzone-below {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}*/
 
 .dropzone-error {
     color: #e24646;
     margin: .5rem 0;
 }
-
-/*.dropzone-error-and-submit {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}*/
 
 .dropzone-item {
     border: .1rem solid #cce2e6;
@@ -66,4 +55,5 @@
 }
 
 .dropzone-submit {
+    margin: 0 auto;
 }

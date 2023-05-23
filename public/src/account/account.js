@@ -38,6 +38,7 @@ function Dropzone() {
     const [hoveredIndex, setHoveredIndex] = useState(-1)
 
     function onDrop(acceptedFiles, rejectedFiles) {
+        setHoveredIndex(-1)
         if (acceptedFiles?.length) {
             if (files.length + acceptedFiles.length > maxFiles) {
                 setErrorMessage('Too many files')
@@ -80,7 +81,7 @@ function Dropzone() {
                 {isDragActive ? (
                     <p>Drop the files here ...</p>
                 ) : (
-                    <p>Drag and drop the files here, or click to select files</p>
+                    <p>Drag and drop .json files here, or click to select files</p>
                 )}
             </div>
             {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
