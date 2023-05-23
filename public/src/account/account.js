@@ -4,16 +4,16 @@ import React, {useState} from "react";
 import {useDropzone} from "react-dropzone";
 
 const maxFileSize = 20000000
-const maxFiles = 5
+const maxFiles = 15
 
 export function Account() {
 
     // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
-        sessionStorage.setItem('route', 'stats')
+        sessionStorage.setItem('route', 'account')
         return (
             <div>
-                <PrimaryInfo text="Log in to continue to stats..."/>
+                <PrimaryInfo text="Log in see account info..."/>
                 <LoginButton text="LOGIN TO SPOTIFY"/>
             </div>
         )
@@ -79,7 +79,11 @@ function Dropzone() {
                     <p>Drag and drop the files here, or click to select files</p>
                 )}
             </div>
-            {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
+            <div className={'dropzone-error-and-submit'}>
+                {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
+                <div className={'login-button'}>SUBMIT</div>
+            </div>
+
             <ul>
                 {files.map((file, index) => (
                     <li key={file.name} style={{position: "relative"}}>
