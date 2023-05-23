@@ -22,10 +22,8 @@
     flex-flow: row wrap;
 }
 
-.dropzone-all li {
+.dropzone-item {
+    border: .1rem solid #cce2e6;
+    border-radius: .25rem;
     padding: .5rem;
 }
-/*.dropzone-input {
-    display: none;
-    width: 100%;
-}*/
