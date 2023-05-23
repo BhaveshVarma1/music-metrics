@@ -20,11 +20,11 @@ export function Account() {
 
         function handleFileChange(event) {
             setFile1(event.target.files[0])
-            console.log(file1)
         }
 
         function doUpload() {
             const reader = new FileReader()
+            console.log(file1)
             reader.onload = function (event) {
                 const data = event.target.result
                 console.log(JSON.stringify(data))
