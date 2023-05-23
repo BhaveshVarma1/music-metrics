@@ -1,9 +1,13 @@
 import './account.css';
 import {getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
 import React, {useState} from "react";
+import Dropzone from "react-dropzone";
+
+const maxFileSize = 10000000
 
 export function Account() {
 
+    // LOGIN SCREEN
     if (getToken() == null || getToken() === 'undefined') {
         sessionStorage.setItem('route', 'stats')
         return (
@@ -14,7 +18,7 @@ export function Account() {
         )
     }
 
-    function UploadFiles() {
+    /*function UploadFiles() {
 
         const [file1, setFile1] = useState(null)
 
@@ -38,6 +42,11 @@ export function Account() {
                 <div className={'upload-button'} onClick={doUpload}>UPLOAD</div>
             </div>
         )
+    }*/
+
+    function handleDrop(files, rejectedFiles) {
+        console.log(files)
+        console.log(rejectedFiles)
     }
 
     return (
@@ -47,7 +56,7 @@ export function Account() {
             <SecondaryInfo text={"Display Name: " + localStorage.getItem('display_name')}/>
             <SecondaryInfo text={"Email: " + localStorage.getItem('email')}/>
             <SecondaryInfo text={"Account Created: " + unixMillisToString(localStorage.getItem('timestamp'))}/>
-            <UploadFiles/>
+            <Dropzone onDrop={handleDrop} multiple={true} maxSize={maxFileSize}>DROP FILES HERE</Dropzone>
         </div>
     )
 }
