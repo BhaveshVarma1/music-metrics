@@ -22,21 +22,23 @@ export function Account() {
     return (
         <div>
             <PrimaryInfo text="Account Information"/>
-            <div className={'table-row-acct'}>
-                <div>Username</div>
-                <div>{localStorage.getItem('username')}</div>
-            </div>
-            <div className={'table-row-acct'}>
-                <div>Display Name</div>
-                <div>{localStorage.getItem('display_name')}</div>
-            </div>
-            <div className={'table-row-acct'}>
-                <div>Email</div>
-                <div>{localStorage.getItem('email')}</div>
-            </div>
-            <div className={'table-row-acct'}>
-                <div>Account Created</div>
-                <div>{unixMillisToString(localStorage.getItem('timestamp'))}</div>
+            <div className={'table-acct'}>
+                <div className={'table-row-acct'}>
+                    <div>Username</div>
+                    <div>{localStorage.getItem('username')}</div>
+                </div>
+                <div className={'table-row-acct'}>
+                    <div>Display Name</div>
+                    <div>{localStorage.getItem('display_name')}</div>
+                </div>
+                <div className={'table-row-acct'}>
+                    <div>Email</div>
+                    <div>{localStorage.getItem('email')}</div>
+                </div>
+                <div className={'table-row-acct'}>
+                    <div>Account Created</div>
+                    <div>{unixMillisToString(localStorage.getItem('timestamp'))}</div>
+                </div>
             </div>
             <Dropzone/>
         </div>

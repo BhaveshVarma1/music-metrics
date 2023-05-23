@@ -70,6 +70,16 @@
     width: 100%;
 }
 
+.table-acct {
+    color: #cce2e6;
+    margin: 2rem auto;
+    width: 60%;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
 .table-row-acct {
     display: flex;
     flex-direction: row;
