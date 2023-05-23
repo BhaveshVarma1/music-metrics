@@ -67,7 +67,7 @@ function Dropzone() {
             reader.onload = (event) => {
                 const fileContent = event.target.result;
                 const jsonString = JSON.stringify(fileContent);
-                console.log(jsonString);
+                console.log(jsonString.length);
             }
             reader.readAsText(file)
         })
