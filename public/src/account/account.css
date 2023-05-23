@@ -18,8 +18,9 @@
 }
 
 .dropzone-all ul {
+    list-style: none;
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
 }
 
 .dropzone-all li {
