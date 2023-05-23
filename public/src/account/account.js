@@ -27,7 +27,7 @@ export function Account() {
             console.log(file1)
             reader.onload = function (event) {
                 const data = event.target.result
-                console.log(JSON.stringify(data))
+                console.log("string: " + JSON.stringify(data))
             }
         }
 
