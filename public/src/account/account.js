@@ -20,11 +20,15 @@ export function Account() {
 
         function handleFileChange(event) {
             setFile1(event.target.files[0])
-            console.log("File 1: " + file1)
+            console.log(file1)
         }
 
         function doUpload() {
-            console.log(JSON.stringify(file1))
+            const reader = new FileReader()
+            reader.onload = function (event) {
+                const data = event.target.result
+                console.log(JSON.stringify(data))
+            }
         }
 
         return (
