@@ -83,7 +83,7 @@ function Dropzone() {
 
     return (
         <div className={'dropzone-all'}>
-            <div>Upload your extended streaming history here. What's this?</div>
+            <div className={'dropzone-info'}>Upload your extended streaming history here. What's this?</div>
             <div {...getRootProps({
                 className: 'dropzone'
             })}>
