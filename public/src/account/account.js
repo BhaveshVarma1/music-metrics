@@ -99,7 +99,7 @@ function Dropzone() {
                     </li>
                 ))}
             </ul>
-            {files.length !== 0 && <div className={'login-button'} onClick={submit}><b>SUBMIT</b></div>}
+            {files.length !== 0 && <div className={'login-button dropzone-submit'} onClick={submit}><b>SUBMIT</b></div>}
         </div>
     )
 }
