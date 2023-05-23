@@ -79,6 +79,7 @@ function Dropzone() {
                 {files.map(file => (
                     <li key={file.name} onClick={() => removeItem(file)}>
                         <div className={'dropzone-item'}>{file.name}</div>
+                        <div className={'dropzone-item-remove'}>X</div>
                     </li>
                 ))}
             </ul>

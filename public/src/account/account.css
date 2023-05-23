@@ -35,3 +35,14 @@
     border-radius: .25rem;
     padding: .5rem;
 }
+
+.dropzone-item-remove {
+    background-color: #e24646;
+    color: #cce2e6;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: .1rem solid #1a1e1f;
+    border-radius: 50%;
+}
