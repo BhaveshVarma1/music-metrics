@@ -90,7 +90,7 @@ function Dropzone() {
                         >
                             {file.name}
                         </div>
-                        {hoveredIndex === index && <div className={'dropzone-item-remove'} onClick={() => removeItem(file)}></div>}
+                        {hoveredIndex === index && <div className={'dropzone-item-remove'} onClick={() => removeItem(file)} onMouseEnter={() => handleHover(index)}></div>}
                     </li>
                 ))}
             </ul>
