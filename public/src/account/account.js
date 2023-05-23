@@ -35,6 +35,7 @@ function Dropzone() {
 
     const [files, setFiles] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
+    const [hoveredIndex, setHoveredIndex] = useState(null)
 
     function onDrop(acceptedFiles, rejectedFiles) {
         if (acceptedFiles?.length) {
@@ -47,6 +48,10 @@ function Dropzone() {
             setFiles(previousFiles => [...previousFiles, ...uniqueFiles])
         }
         if (rejectedFiles?.length) setErrorMessage('Only .json files under 20MB are accepted')
+    }
+
+    function handleHover(index) {
+        setHoveredIndex(index)
     }
 
     function removeItem(item) {
@@ -76,10 +81,16 @@ function Dropzone() {
             </div>
             {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
             <ul>
-                {files.map(file => (
+                {files.map((file, index) => (
                     <li key={file.name} style={{position: "relative"}}>
-                        <div className={'dropzone-item'}>{file.name}</div>
-                        <div className={'dropzone-item-remove'} onClick={() => removeItem(file)}><b>X</b></div>
+                        <div
+                            className={'dropzone-item'}
+                            onMouseEnter={() => handleHover(index)}
+                            onMouseLeave={() => handleHover(null)}
+                        >
+                            {file.name}
+                        </div>
+                        {hoveredIndex === index && <div className={'dropzone-item-remove'} onClick={() => removeItem(file)}></div>}
                     </li>
                 ))}
             </ul>
