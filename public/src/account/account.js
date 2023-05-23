@@ -38,7 +38,7 @@ function Dropzone() {
     function onDrop(acceptedFiles, rejectedFiles) {
         if (acceptedFiles?.length) {
             //if (files.length + acceptedFiles.length > maxFiles) return
-            setFiles(previousFiles => [...previousFiles, ...acceptedFiles.filter(file => !previousFiles.some(previousFile => previousFile.name === file.name))])
+            setFiles(previousFiles => [...previousFiles, ...acceptedFiles])
         }
         if (rejectedFiles?.length) console.log(rejectedFiles)
     }
