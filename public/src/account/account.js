@@ -29,6 +29,7 @@ export function Account() {
                 const data = event.target.result
                 console.log("string: " + JSON.stringify(data))
             }
+            reader.readAsText(file1)
         }
 
         return (
