@@ -37,6 +37,7 @@ function Dropzone() {
 
     const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
         if (acceptedFiles?.length) setFiles(previousFiles => [...previousFiles, ...acceptedFiles])
+        if (rejectedFiles?.length) console.log(rejectedFiles)
     }, [])
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
