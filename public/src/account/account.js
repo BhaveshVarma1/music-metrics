@@ -77,7 +77,7 @@ function Dropzone() {
             {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
             <ul>
                 {files.map(file => (
-                    <li key={file.name}>
+                    <li key={file.name} style={{position: "relative"}}>
                         <div className={'dropzone-item'}>{file.name}</div>
                         <div className={'dropzone-item-remove'} onClick={() => removeItem(file)}>X</div>
                     </li>
