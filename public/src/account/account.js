@@ -35,7 +35,7 @@ function Dropzone() {
 
     const [files, setFiles] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
-    const [hoveredIndex, setHoveredIndex] = useState(null)
+    const [hoveredIndex, setHoveredIndex] = useState(-1)
 
     function onDrop(acceptedFiles, rejectedFiles) {
         if (acceptedFiles?.length) {
