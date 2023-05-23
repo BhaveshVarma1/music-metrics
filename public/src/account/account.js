@@ -1,6 +1,6 @@
 import './account.css';
 import {getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
-import React, {useCallback} from "react";
+import React, {useCallback, useState} from "react";
 import {useDropzone} from "react-dropzone";
 
 //const maxFileSize = 10000000
@@ -64,8 +64,10 @@ export function Account() {
 
 function Dropzone() {
 
-    const onDrop = useCallback(acceptedFiles => {
-        console.log(acceptedFiles)
+    const [files, setFiles] = useState([])
+
+    const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+        if (acceptedFiles?.length) setFiles(previousFiles => [...previousFiles, ...acceptedFiles])
     }, [])
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
@@ -82,6 +84,12 @@ function Dropzone() {
                     <p>Drag and drop the files here, or click to select files</p>
                 )}
             </div>
+
+            <ul>
+                {files.map(file => (
+                    <li key={file.name}>{file.name}</li>
+                ))}
+            </ul>
         </form>
     )
 }
