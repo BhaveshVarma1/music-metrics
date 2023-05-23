@@ -41,8 +41,8 @@
     color: #1a1e1f;
     cursor: pointer;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: .1rem;
+    right: .1rem;
     border: .1rem solid #1a1e1f;
     border-radius: 50%;
     width: .6rem;
