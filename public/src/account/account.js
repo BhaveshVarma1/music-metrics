@@ -83,11 +83,7 @@ function Dropzone() {
                     <p>Drag and drop the files here, or click to select files</p>
                 )}
             </div>
-            <div className={'dropzone-error-and-submit'}>
-                {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
-                {files.length !== 0 && <div className={'login-button dropzone-submit'} onClick={submit}><b>SUBMIT</b></div>}
-            </div>
-
+            {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
             <ul>
                 {files.map((file, index) => (
                     <li key={file.name} style={{position: "relative"}}>
@@ -102,6 +98,7 @@ function Dropzone() {
                     </li>
                 ))}
             </ul>
+            {files.length !== 0 && <div className={'login-button'} onClick={submit}><b>SUBMIT</b></div>}
         </div>
     )
 }
