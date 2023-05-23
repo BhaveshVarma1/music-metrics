@@ -1,6 +1,6 @@
 import './account.css';
 import {getToken, LoginButton, PrimaryInfo, SecondaryInfo} from "../util/util";
-import React, {useState} from "react";
+import React from "react";
 import Dropzone from "react-dropzone";
 
 const maxFileSize = 10000000
@@ -56,7 +56,7 @@ export function Account() {
             <SecondaryInfo text={"Display Name: " + localStorage.getItem('display_name')}/>
             <SecondaryInfo text={"Email: " + localStorage.getItem('email')}/>
             <SecondaryInfo text={"Account Created: " + unixMillisToString(localStorage.getItem('timestamp'))}/>
-            <Dropzone onDrop={handleDrop} multiple={true} maxSize={maxFileSize}>DROP FILES HERE</Dropzone>
+            <Dropzone onDrop={handleDrop} multiple={true} maxSize={maxFileSize}>{() => { return (<div> <p>Drop file here</p></div> );}}</Dropzone>
         </div>
     )
 }
