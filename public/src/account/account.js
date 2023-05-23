@@ -21,10 +21,10 @@ export function Account() {
     return (
         <div>
             <PrimaryInfo text="Account Information"/>
-            <SecondaryInfo text={"Username: " + localStorage.getItem('username')}/>
+            {/*<SecondaryInfo text={"Username: " + localStorage.getItem('username')}/>
             <SecondaryInfo text={"Display Name: " + localStorage.getItem('display_name')}/>
             <SecondaryInfo text={"Email: " + localStorage.getItem('email')}/>
-            <SecondaryInfo text={"Account Created: " + unixMillisToString(localStorage.getItem('timestamp'))}/>
+            <SecondaryInfo text={"Account Created: " + unixMillisToString(localStorage.getItem('timestamp'))}/>*/}
             {/*<Dropzone onDrop={handleDrop} multiple={true} maxSize={maxFileSize}>{() => { return (<div> <p>Drop file here</p></div> );}}</Dropzone>*/}
             <Dropzone/>
         </div>
