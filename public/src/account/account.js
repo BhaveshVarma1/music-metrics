@@ -136,7 +136,7 @@ function Dropzone() {
                 <div className={'popup-container'}>
                     <div className={'popup-content'}>
                         <div>
-                            <h1>Extended Streaming History</h1>
+                            <h1 className={'popup-ok'}>Extended Streaming History</h1>
                             <div>To obtain your extended streaming history, visit your <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}><u>Privacy Settings</u></a> on Spotify.</div>
                             <div>Select 'Extended streaming history' and click 'Request data'. It will be sent to you within 30 days.</div>
                             <div>Once you receive the data as a .zip, download and extract it. Then upload the endsong_x.json files here.</div>
