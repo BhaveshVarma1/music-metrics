@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"bytes"
 	"encoding/json"
 	"github.com/labstack/echo/v4"
+	"io/ioutil"
 	"music-metrics/dal"
 	"music-metrics/model"
 	"music-metrics/service"
@@ -35,9 +37,19 @@ func HandleLoad(c echo.Context) error {
 		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 	}
 
+	// DELETE THIS BLOCK
+	bodyBytes, err := ioutil.ReadAll(c.Request().Body)
+	if err != nil {
+		return c.JSON(400, model.GenericResponse{Success: false, Message: "Error: improperly formatted request. Details: " + err.Error()})
+	}
+	c.Request().Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+	bodyString := string(bodyBytes)
+	// DELETE THIS BLOCK
+
 	// decode request body
 	req := model.ExtendedStreamingHistory{}
-	err = json.NewDecoder(c.Request().Body).Decode(&req.StreamingHistory)
+	//err = json.NewDecoder(c.Request().Body).Decode(&req.StreamingHistory)
+	err = json.Unmarshal([]byte(bodyString), &req.StreamingHistory)
 	if err != nil {
 		return c.JSON(400, model.GenericResponse{Success: false, Message: "Error: improperly formatted request. Details: " + err.Error()})
 	}
