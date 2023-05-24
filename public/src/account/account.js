@@ -51,6 +51,7 @@ function Dropzone() {
     const [errorMessage, setErrorMessage] = useState('')
     const [hoveredIndex, setHoveredIndex] = useState(-1)
     const [popupVisible, setPopupVisible] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     function onDrop(acceptedFiles, rejectedFiles) {
         setHoveredIndex(-1)
@@ -72,6 +73,7 @@ function Dropzone() {
     }
 
     function submit() {
+        setIsLoading(true)
         files.forEach(file => {
             const reader = new FileReader()
             reader.onload = (event) => {
@@ -79,14 +81,18 @@ function Dropzone() {
                     .then(response => response.json())
                     .then(data => {
                         console.log(data)
+                        setIsLoading(false)
+                        setErrorMessage('Success!')
                         // Success! You will be able to view your updated stats within 24 hours.
                     }).catch(error => {
                         console.error(error)
-                        // There seems to be a problem with the files you uploaded. Make sure they are the correct files and try again.
+                        setIsLoading(false)
+                        setErrorMessage('There seems to be a problem with the files you uploaded. Make sure they are the correct files and try again.')
                     })
             }
             reader.readAsText(file)
         })
+        setErrorMessage('')
         setFiles([])
     }
 
@@ -114,6 +120,7 @@ function Dropzone() {
                     <p>Drag and drop .json files here, or click to select files</p>
                 )}
             </div>
+            {isLoading && <div className={'loading-acct'}>Loading...</div>}
             {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
             <ul>
                 {files.map((file, index) => (

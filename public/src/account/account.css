@@ -70,6 +70,12 @@
     width: 100%;
 }
 
+.loading-acct {
+    color: #3de2ff;
+    width: 100%;
+    text-align: center;
+}
+
 .popup-container {
     position: fixed;
     top: 0;
