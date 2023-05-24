@@ -25,11 +25,11 @@ export function Account() {
             <div className={'table-acct'}>
                 <div className={'table-row-acct'}>
                     <div>Username</div>
-                    <div>{localStorage.getItem('username')}</div>
+                    <div>{truncateStr(localStorage.getItem('username'))}</div>
                 </div>
                 <div className={'table-row-acct'}>
                     <div>Display Name</div>
-                    <div>{/*{localStorage.getItem('display_name')}*/}mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm</div>
+                    <div>{truncateStr(localStorage.getItem('display_name'))}</div>
                 </div>
                 <div className={'table-row-acct'}>
                     <div>Email</div>
@@ -135,4 +135,10 @@ function Dropzone() {
 function unixMillisToString(unixMillis) {
     const date = new Date(+unixMillis)
     return date.toLocaleString()
+}
+
+function truncateStr(str) {
+    let num = 25
+    if (str.length <= num) return str
+    return str.slice(0, num) + '...'
 }
