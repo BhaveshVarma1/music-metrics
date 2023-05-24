@@ -83,7 +83,10 @@ function Dropzone() {
 
             const promise = new Promise((resolve, reject) => {
                 reader.onload = (event) => {
-                    if (!isFormattedCorrectly(event.target.result)) reject('Incorrect format')
+                    if (!isFormattedCorrectly(event.target.result)) {
+                        reject('Incorrect format')
+                        return
+                    }
                     fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
                         .then(response => response.json())
                         .then(data => {
@@ -187,6 +190,7 @@ function truncateStr(str) {
 
 function isFormattedCorrectly(file) {
     if (!Array.isArray(file)) {
+        console.log('Not an array')
         return false;
     }
 
