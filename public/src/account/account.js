@@ -85,6 +85,7 @@ function Dropzone() {
             }
             reader.readAsText(file)
         })
+        setFiles([])
     }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
