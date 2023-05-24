@@ -189,6 +189,7 @@ function truncateStr(str) {
 }
 
 function isFormattedCorrectly(file) {
+    file = JSON.parse(file)
     if (!Array.isArray(file)) {
         console.log(file)
         console.log('Not an array')
