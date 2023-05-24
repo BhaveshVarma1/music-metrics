@@ -94,6 +94,12 @@
     text-align: center;
 }
 
+@media (orientation: portrait) {
+    .popup-content {
+        width: 90%;
+    }
+}
+
 .popup-content h1 {
     margin: 0 auto 1rem;
 }
