@@ -76,12 +76,14 @@ function Dropzone() {
     function submit() {
         setLoadingMessage('Loading...')
         setErrorMessage('')
+
         const uploadPromises = []
         files.forEach(file => {
             const reader = new FileReader()
 
             const promise = new Promise((resolve, reject) => {
                 reader.onload = (event) => {
+                    if (!isFormattedCorrectly(event.target.result)) reject('Incorrect format')
                     fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
                         .then(response => response.json())
                         .then(data => {
@@ -100,7 +102,7 @@ function Dropzone() {
         // Wait for all promises to resolve
         Promise.all(uploadPromises).then(() => {
             setFiles([])
-            setLoadingMessage('Success! You will be able to view your updated stats within 24 hours')
+            setLoadingMessage('Success! You will be able to view your updated stats within 24 hours.')
         }).catch(error => {
             console.error(error)
             setLoadingMessage('')
@@ -181,4 +183,43 @@ function truncateStr(str) {
     let num = 25
     if (str.length <= num) return str
     return str.slice(0, num) + '...'
+}
+
+function isFormattedCorrectly(file) {
+    if (!Array.isArray(file)) {
+        return false;
+    }
+
+    for (let i = 0; i < file.length; i++) {
+        const item = file[i];
+
+        if (
+            typeof item !== 'object' ||
+            !item.hasOwnProperty('ts') ||
+            !item.hasOwnProperty('username') ||
+            !item.hasOwnProperty('platform') ||
+            !item.hasOwnProperty('ms_played') ||
+            !item.hasOwnProperty('conn_country') ||
+            !item.hasOwnProperty('ip_addr_decrypted') ||
+            !item.hasOwnProperty('user_agent_decrypted') ||
+            !item.hasOwnProperty('master_metadata_track_name') ||
+            !item.hasOwnProperty('master_metadata_album_artist_name') ||
+            !item.hasOwnProperty('master_metadata_album_album_name') ||
+            !item.hasOwnProperty('spotify_track_uri') ||
+            !item.hasOwnProperty('episode_name') ||
+            !item.hasOwnProperty('episode_show_name') ||
+            !item.hasOwnProperty('spotify_episode_uri') ||
+            !item.hasOwnProperty('reason_start') ||
+            !item.hasOwnProperty('reason_end') ||
+            !item.hasOwnProperty('shuffle') ||
+            !item.hasOwnProperty('skipped') ||
+            !item.hasOwnProperty('offline') ||
+            !item.hasOwnProperty('offline_timestamp') ||
+            !item.hasOwnProperty('incognito_mode')
+        ) {
+            return false;
+        }
+    }
+
+    return true;
 }
