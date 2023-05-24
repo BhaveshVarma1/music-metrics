@@ -135,7 +135,7 @@ function Dropzone() {
             {popupVisible && (
                 <div className={'popup-container'}>
                     <div className={'popup-content'}>
-                        <div>
+                        <div style={{width: "100%"}}>
                             <h1>Extended Streaming History</h1>
                             <div>To obtain your extended streaming history, visit your
                                 <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}> <u>Privacy Settings</u></a> on Spotify.
