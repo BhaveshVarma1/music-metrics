@@ -79,7 +79,7 @@ function Dropzone() {
                 const jsonString = JSON.stringify(fileContent);
                 //console.log(file.name, jsonString);
                 console.log("File content:", fileContent);
-                fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', {streaming_history: fileContent}, getToken()))
+                fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', {streaming_history: JSON.parse(jsonString)}, getToken()))
                     .then(response => response.json())
                     .then(data => {
                         console.log(data)
