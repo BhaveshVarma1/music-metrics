@@ -74,25 +74,37 @@ function Dropzone() {
 
     function submit() {
         setIsLoading(true)
+        setErrorMessage('')
+        const uploadPromises = []
         files.forEach(file => {
             const reader = new FileReader()
-            reader.onload = (event) => {
-                fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        setIsLoading(false)
-                        alert('Success! You will be able to view your updated stats within 24 hours')
-                    }).catch(error => {
-                        console.error(error)
-                        setIsLoading(false)
-                        setErrorMessage('There seems to be a problem with the files you uploaded. Make sure they are the correct files and try again.')
-                    })
-            }
-            reader.readAsText(file)
+
+            const promise = new Promise((resolve, reject) => {
+                reader.onload = (event) => {
+                    fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            resolve(data);
+                        }).catch(error => {
+                            console.error(error)
+                            reject(error)
+                        })
+                }
+                reader.readAsText(file)
+            })
+            uploadPromises.push(promise)
         })
-        setErrorMessage('')
-        setFiles([])
+
+        // Wait for all promises to resolve
+        Promise.all(uploadPromises).then(() => {
+            setFiles([])
+            console.log('All files uploaded successfully')
+            alert('Success! You will be able to view your updated stats within 24 hours')
+        }).catch(error => {
+            console.error(error)
+            setErrorMessage('There seems to be a problem with the files you uploaded. Make sure they are the correct files and try again.')
+        })
     }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
