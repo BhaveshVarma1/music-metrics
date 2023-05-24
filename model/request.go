@@ -34,6 +34,6 @@ type ExtendedStreamingObject struct {
 	IncognitoMode    bool   `json:"incognito_mode"`
 }
 
-type ExtendedStreamingHistory struct {
+/*type ExtendedStreamingHistory struct {
 	StreamingHistory []ExtendedStreamingObject `json:"streaming_history"`
-}
+}*/

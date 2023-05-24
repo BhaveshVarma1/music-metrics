@@ -15,8 +15,8 @@ func TestLoad(t *testing.T) {
 		t.Errorf("Error opening file: %v", err)
 	}
 
-	req := model.ExtendedStreamingHistory{}
-	err = json.NewDecoder(fileReader).Decode(&req.StreamingHistory)
+	var req []model.ExtendedStreamingObject
+	err = json.NewDecoder(fileReader).Decode(&req)
 	if err != nil {
 		t.Errorf("Error decoding json: %v", err)
 	}

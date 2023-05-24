@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-func Load(history model.ExtendedStreamingHistory, username string) {
+func Load(history []model.ExtendedStreamingObject, username string) {
 	// todo
 	time.Sleep(30 * time.Second)
-	fmt.Println("Received history for user " + username + " with " + fmt.Sprint(len(history.StreamingHistory)) + " entries")
+	fmt.Println("Received history for user " + username + " with " + fmt.Sprint(len(history)) + " entries")
 }
