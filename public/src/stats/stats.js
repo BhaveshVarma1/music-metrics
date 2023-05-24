@@ -278,7 +278,7 @@ export function Stats() {
                 setTimeStyle(unselectedStyle)
 
             }).catch(error => {
-                console.log("ERROR: " + error)
+                console.error(error)
             })
     }, [songCountProps, startTime, endTime])
 

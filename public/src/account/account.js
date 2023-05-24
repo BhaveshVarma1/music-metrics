@@ -1,5 +1,5 @@
 import './account.css';
-import {getToken, LoginButton, PrimaryInfo} from "../util/util";
+import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
 import React, {useState} from "react";
 import {useDropzone} from "react-dropzone";
 
@@ -66,23 +66,25 @@ function Dropzone() {
         if (rejectedFiles?.length) setErrorMessage('Only .json files under 20MB are accepted')
     }
 
-    /*function handleHover(index) {
-        setHoveredIndex(index)
-    }*/
-
     function removeItem(item) {
         if (errorMessage === 'Too many files') setErrorMessage('')
         setFiles(files.filter(file => file.path !== item.path))
     }
 
     function submit() {
-        //console.log(files)
         files.forEach(file => {
             const reader = new FileReader()
             reader.onload = (event) => {
                 const fileContent = event.target.result;
                 const jsonString = JSON.stringify(fileContent);
                 console.log(file.name, jsonString.length);
+                fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', jsonString, getToken()))
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                    }).catch(error => {
+                        console.error(error)
+                    })
             }
             reader.readAsText(file)
         })

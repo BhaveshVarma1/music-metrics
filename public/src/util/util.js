@@ -14,25 +14,7 @@ export const BASE_URL_WEB = 'https://' + DOMAIN;
 const HTTP_METHODS = {
     '/api/v1/updateCode': 'POST',
     '/api/v1/allStats': 'GET',
-    '/api/v1/averageLength': 'GET',
-    '/api/v1/averagePopularity': 'GET',
-    '/api/v1/averageYear': 'GET',
-    '/api/v1/decadeBreakdown': 'GET',
-    '/api/v1/hourBreakdown': 'GET',
-    '/api/v1/medianYear': 'GET',
-    '/api/v1/modeYear': 'GET',
-    '/api/v1/percentExplicit': 'GET',
-    '/api/v1/topAlbums': 'GET',
-    '/api/v1/topAlbumsTime': 'GET',
-    '/api/v1/topArtists': 'GET',
-    '/api/v1/topArtistsTime': 'GET',
-    '/api/v1/topSongs': 'GET',
-    '/api/v1/topSongsTime': 'GET',
-    '/api/v1/totalSongs': 'GET',
-    '/api/v1/uniqueAlbums': 'GET',
-    '/api/v1/uniqueArtists': 'GET',
-    '/api/v1/uniqueSongs': 'GET',
-    '/api/v1/weekDayBreakdown': 'GET',
+    '/api/v1/load': 'POST',
 }
 
 // ELEMENTS COMMON TO EVERY PAGE ---------------------------------------------------------------------------------------
