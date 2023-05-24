@@ -135,8 +135,13 @@ function Dropzone() {
             {popupVisible && (
                 <div className={'popup-container'}>
                     <div className={'popup-content'}>
-                        <div>Some Data</div>
-                        <div className={'login-button'} onClick={() => setPopupVisible(false)}>OK</div>
+                        <div>
+                            <h1>Extended Streaming History</h1>
+                            <div>To obtain your extended streaming history, visit your Privacy Settings on Spotify.</div>
+                            <div>Select 'Extended streaming history' and click 'Request data'. It will be sent to you within 30 days.</div>
+                            <div>Once you receive the data as a .zip, download and extract it. Then upload the endsong_x.json files here.</div>
+                        </div>
+                        <div className={'login-button'} onClick={() => setPopupVisible(false)}><b>OK</b></div>
                     </div>
                 </div>
             )}

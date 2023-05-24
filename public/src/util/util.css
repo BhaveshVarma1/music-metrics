@@ -120,6 +120,7 @@
     display: inline-block;
     color: #1a1e1f;
     margin: .6rem;
+    text-align: center;
 }
 
 .login-button:hover {

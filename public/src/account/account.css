@@ -85,9 +85,9 @@
 
 .popup-content {
     background-color: #2a2e2f;
-    padding: 4rem;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    border-radius: .5rem;
+    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);*/
     color: #cce2e6;
     display: flex;
     flex-direction: column;
