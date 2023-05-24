@@ -85,13 +85,20 @@
 
 .popup-content {
     background-color: #2a2e2f;
-    padding: 2rem;
+    padding: 1rem;
     border-radius: .5rem;
     /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);*/
     color: #cce2e6;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
+
+/*.popup-data {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}*/
 
 .table-acct {
     color: #cce2e6;

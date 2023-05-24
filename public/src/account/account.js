@@ -141,7 +141,7 @@ function Dropzone() {
                             <div>Select 'Extended streaming history' and click 'Request data'. It will be sent to you within 30 days.</div>
                             <div>Once you receive the data as a .zip, download and extract it. Then upload the endsong_x.json files here.</div>
                         </div>
-                        <div className={'login-button'} onClick={() => setPopupVisible(false)}><b>OK</b></div>
+                        <div className={'login-button dropzone-submit'} onClick={() => setPopupVisible(false)}><b>OK</b></div>
                     </div>
                 </div>
             )}
