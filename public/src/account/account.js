@@ -50,6 +50,7 @@ function Dropzone() {
     const [files, setFiles] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
     const [hoveredIndex, setHoveredIndex] = useState(-1)
+    const [popupVisible, setPopupVisible] = useState(false)
 
     function onDrop(acceptedFiles, rejectedFiles) {
         setHoveredIndex(-1)
@@ -65,9 +66,9 @@ function Dropzone() {
         if (rejectedFiles?.length) setErrorMessage('Only .json files under 20MB are accepted')
     }
 
-    function handleHover(index) {
+    /*function handleHover(index) {
         setHoveredIndex(index)
-    }
+    }*/
 
     function removeItem(item) {
         if (errorMessage === 'Too many files') setErrorMessage('')
@@ -97,7 +98,10 @@ function Dropzone() {
 
     return (
         <div className={'dropzone-all'}>
-            <div className={'dropzone-info'}>Upload your extended streaming history here. <span className={'whats-this'}><u>What's this?</u></span></div>
+            <div className={'dropzone-info'}>
+                Upload your extended streaming history here.
+                <span className={'whats-this'} onClick={() => setPopupVisible(true)}><u>What's this?</u></span>
+            </div>
             <div {...getRootProps({
                 className: 'dropzone'
             })}>
@@ -114,18 +118,24 @@ function Dropzone() {
                     <li key={file.name} style={{position: "relative"}}>
                         <div
                             className={'dropzone-item'}
-                            onMouseEnter={() => handleHover(index)}
-                            onMouseLeave={() => handleHover(null)}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
                         >
                             {file.name}
                         </div>
-                        {hoveredIndex === index && <div className={'dropzone-item-remove'} onClick={() => removeItem(file)} onMouseEnter={() => handleHover(index)}></div>}
+                        {hoveredIndex === index && <div className={'dropzone-item-remove'} onClick={() => removeItem(file)} onMouseEnter={() => setHoveredIndex(index)}></div>}
                     </li>
                 ))}
             </ul>
             {files.length !== 0 && (
                 <div className={'dropdown-submit-wrapper'}>
                     <div className={'login-button dropzone-submit'} onClick={submit}><b>SUBMIT</b></div>
+                </div>
+            )}
+            {popupVisible && (
+                <div className={'popup-container'}>
+                    <div className={'popup-content'}>Some data</div>
+                    <div className={'login-button'} onClick={() => setPopupVisible(false)}>OK</div>
                 </div>
             )}
         </div>
