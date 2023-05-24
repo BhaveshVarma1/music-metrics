@@ -190,6 +190,7 @@ function truncateStr(str) {
 
 function isFormattedCorrectly(file) {
     if (!Array.isArray(file)) {
+        console.log(file)
         console.log('Not an array')
         return false;
     }
