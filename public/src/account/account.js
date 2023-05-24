@@ -137,9 +137,11 @@ function Dropzone() {
                     <div className={'popup-content'}>
                         <div>
                             <h1>Extended Streaming History</h1>
-                            <div>To obtain your extended streaming history, visit your <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}><u>Privacy Settings</u></a> on Spotify.</div>
-                            <div>Select 'Extended streaming history' and click 'Request data'. It will be sent to you within 30 days.</div>
-                            <div>Once you receive the data as a .zip, download and extract it. Then upload the endsong_x.json files here.</div>
+                            <div>To obtain your extended streaming history, visit your
+                                <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}> <u>Privacy Settings</u></a> on Spotify.
+                             Select 'Extended streaming history' and click 'Request data'. It will be sent to you within 30 days.
+                             Once you receive the data as a .zip, download and extract it. Then upload the endsong_x.json files here.
+                            </div>
                         </div>
                         <div className={'login-button popup-ok'} onClick={() => setPopupVisible(false)}><b>OK</b></div>
                     </div>
@@ -151,7 +153,7 @@ function Dropzone() {
 
 function unixMillisToString(unixMillis) {
     const date = new Date(+unixMillis)
-    return date.toLocaleString()
+    return date.toLocaleDateString()
 }
 
 function truncateStr(str) {
