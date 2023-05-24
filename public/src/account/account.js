@@ -82,8 +82,7 @@ function Dropzone() {
                     .then(data => {
                         console.log(data)
                         setIsLoading(false)
-                        setErrorMessage('Success!')
-                        // Success! You will be able to view your updated stats within 24 hours.
+                        alert('Success! You will be able to view your updated stats within 24 hours')
                     }).catch(error => {
                         console.error(error)
                         setIsLoading(false)
