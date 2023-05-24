@@ -28,7 +28,7 @@ function onload() {
             console.log("ERROR: code is null")
             window.location = BASE_URL_WEB
         }
-        fetch(BASE_URL_API + '/api/v1/updateCode', fetchInit('/api/v1/updateCode', {code: code}, null))
+        fetch(BASE_URL_API + '/api/v1/updateCode', fetchInit('/api/v1/updateCode', JSON.stringify({code: code}), null))
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('token', data.token)

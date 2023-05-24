@@ -75,12 +75,7 @@ function Dropzone() {
         files.forEach(file => {
             const reader = new FileReader()
             reader.onload = (event) => {
-                const fileContent = event.target.result;
-                const jsonString = JSON.stringify(fileContent);
-                //console.log(file.name, jsonString);
-                console.log("File content:", fileContent.length);
-                console.log("parsed:", JSON.parse(jsonString).length);
-                fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', fileContent, getToken()))
+                fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
                     .then(response => response.json())
                     .then(data => {
                         console.log(data)
