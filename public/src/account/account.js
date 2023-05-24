@@ -79,8 +79,10 @@ function Dropzone() {
                     .then(response => response.json())
                     .then(data => {
                         console.log(data)
+                        // Success! You will be able to view your updated stats within 24 hours.
                     }).catch(error => {
                         console.error(error)
+                        // There seems to be a problem with the files you uploaded. Make sure they are the correct files and try again.
                     })
             }
             reader.readAsText(file)
