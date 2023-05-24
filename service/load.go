@@ -8,6 +8,6 @@ import (
 
 func Load(history []model.ExtendedStreamingObject, username string) {
 	// todo
-	time.Sleep(30 * time.Second)
+	time.Sleep(10 * time.Second)
 	fmt.Println("Received history for user " + username + " with " + fmt.Sprint(len(history)) + " entries")
 }
