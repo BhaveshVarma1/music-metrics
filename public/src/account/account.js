@@ -100,7 +100,7 @@ function Dropzone() {
         <div className={'dropzone-all'}>
             <div className={'dropzone-info'}>
                 Upload your extended streaming history here.
-                <span className={'whats-this'} onClick={() => setPopupVisible(true)}> <u>What's this?</u></span>
+                <span className={'custom-link whats-this'} onClick={() => setPopupVisible(true)}> <u>What's this?</u></span>
             </div>
             <div {...getRootProps({
                 className: 'dropzone'
