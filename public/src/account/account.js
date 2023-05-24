@@ -51,9 +51,10 @@ function Dropzone() {
     const [errorMessage, setErrorMessage] = useState('')
     const [hoveredIndex, setHoveredIndex] = useState(-1)
     const [popupVisible, setPopupVisible] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+    const [loadingMessage, setLoadingMessage] = useState('')
 
     function onDrop(acceptedFiles, rejectedFiles) {
+        setLoadingMessage('')
         setHoveredIndex(-1)
         if (acceptedFiles?.length) {
             if (files.length + acceptedFiles.length > maxFiles) {
@@ -73,7 +74,7 @@ function Dropzone() {
     }
 
     function submit() {
-        setIsLoading(true)
+        setLoadingMessage('Loading...')
         setErrorMessage('')
         const uploadPromises = []
         files.forEach(file => {
@@ -99,10 +100,10 @@ function Dropzone() {
         // Wait for all promises to resolve
         Promise.all(uploadPromises).then(() => {
             setFiles([])
-            console.log('All files uploaded successfully')
-            alert('Success! You will be able to view your updated stats within 24 hours')
+            setLoadingMessage('Success! You will be able to view your updated stats within 24 hours')
         }).catch(error => {
             console.error(error)
+            setLoadingMessage('')
             setErrorMessage('There seems to be a problem with the files you uploaded. Make sure they are the correct files and try again.')
         })
     }
@@ -131,7 +132,7 @@ function Dropzone() {
                     <p>Drag and drop .json files here, or click to select files</p>
                 )}
             </div>
-            {isLoading && <div className={'loading-acct'}>Loading...</div>}
+            {loadingMessage !== '' && <div className={'loading-acct'}>{loadingMessage}</div>}
             {errorMessage !== '' && <p className={'dropzone-error'}>{errorMessage}</p>}
             <ul>
                 {files.map((file, index) => (
