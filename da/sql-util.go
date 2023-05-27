@@ -1,4 +1,4 @@
-package dal
+package da
 
 const SQL_BASIC_JOIN = "song s JOIN listen l ON s.id = l.songID"
 

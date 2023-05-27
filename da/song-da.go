@@ -1,4 +1,4 @@
-package dal
+package da
 
 import (
 	"database/sql"
@@ -7,7 +7,6 @@ import (
 )
 
 func CreateSong(tx *sql.Tx, song *model.SongBean) error {
-
 	_, err := tx.Exec("INSERT INTO song (`id`, `name`, `artist`, `album`, `explicit`, `popularity`, `duration`, `artistID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
 		song.Id, song.Name, song.Artist, song.Album, song.Explicit, song.Popularity, song.Duration, song.ArtistId)
 	if err != nil {

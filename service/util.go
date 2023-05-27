@@ -3,6 +3,9 @@ package service
 import (
 	"fmt"
 	"math/rand"
+	"music-metrics/model"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -13,9 +16,33 @@ var SPOTIFY_REDIRECT_URL = "https://dev.musicmetrics.app/spotify-landing" // not
 var DEFAULT_ID_LENGTH = 32
 var SPOTIFY_CLIENT_ID = "8b99139c99794d4b9e89b8367b0ac3f4"
 var SEPARATOR = ";;"
-var verbose = true
+var verbose = false
 
-func generateID(length int) string {
+func ArtistIdsToString(artists []model.Artist) string {
+	var arr []string
+	for _, artist := range artists {
+		arr = append(arr, artist.ID)
+	}
+	return strings.Join(arr, SEPARATOR)
+}
+
+func ArtistsToString(artists []model.Artist) string {
+	var arr []string
+	for _, artist := range artists {
+		arr = append(arr, artist.Name)
+	}
+	return strings.Join(arr, SEPARATOR)
+}
+
+func DatetimeToUnixMilli(datetime string) int64 {
+	t, err := time.Parse(time.RFC3339, datetime)
+	if err != nil {
+		return -1
+	}
+	return t.UnixMilli()
+}
+
+func GenerateID(length int) string {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	result := make([]byte, length)
@@ -31,6 +58,15 @@ func PrintMessage(message string) {
 	}
 }
 
+func SliceContainsInt64(slice []int64, i int64) bool {
+	for _, s := range slice {
+		if s == i {
+			return true
+		}
+	}
+	return false
+}
+
 func SliceContainsString(slice []string, str string) bool {
 	for _, s := range slice {
 		if s == str {
@@ -38,4 +74,12 @@ func SliceContainsString(slice []string, str string) bool {
 		}
 	}
 	return false
+}
+
+func YearFromReleaseDate(date string) int {
+	i, err := strconv.Atoi(date[:4])
+	if err != nil {
+		return -1
+	}
+	return i
 }

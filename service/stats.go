@@ -1,7 +1,7 @@
 package service
 
 import (
-	"music-metrics/dal"
+	"music-metrics/da"
 	"music-metrics/model"
 	"sort"
 	"strings"
@@ -111,20 +111,20 @@ func (s AllStatsService) ExecuteService(username string, startTime int64, endTim
 
 func (s AverageLengthService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetAverageLength(tx, username, startTime, endTime)
+	result, err := da.GetAverageLength(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -133,14 +133,14 @@ func (s AverageLengthService) ExecuteService(username string, startTime int64, e
 
 func (s AveragePopularityService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetAveragePopularityWithSongs(tx, username, startTime, endTime)
+	result, err := da.GetAveragePopularityWithSongs(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
@@ -150,7 +150,7 @@ func (s AveragePopularityService) ExecuteService(username string, startTime int6
 		return "No songs found"
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -159,20 +159,20 @@ func (s AveragePopularityService) ExecuteService(username string, startTime int6
 
 func (s AverageYearService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetAverageYear(tx, username, startTime, endTime)
+	result, err := da.GetAverageYear(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -181,20 +181,20 @@ func (s AverageYearService) ExecuteService(username string, startTime int64, end
 
 func (s DecadeBreakdownService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetDecadeBreakdown(tx, username, startTime, endTime)
+	result, err := da.GetDecadeBreakdown(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -203,14 +203,14 @@ func (s DecadeBreakdownService) ExecuteService(username string, startTime int64,
 
 func (s HourBreakdownService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawTimestamps(tx, username, startTime, endTime)
+	result, err := da.GetRawTimestamps(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
@@ -222,7 +222,7 @@ func (s HourBreakdownService) ExecuteService(username string, startTime int64, e
 		hours[timeObj.Hour()]++
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -231,14 +231,14 @@ func (s HourBreakdownService) ExecuteService(username string, startTime int64, e
 
 func (s MedianYearService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawYears(tx, username, startTime, endTime)
+	result, err := da.GetRawYears(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
@@ -246,7 +246,7 @@ func (s MedianYearService) ExecuteService(username string, startTime int64, endT
 
 	medianYear := result[len(result)/2]
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -255,23 +255,23 @@ func (s MedianYearService) ExecuteService(username string, startTime int64, endT
 
 func (s ModeYearService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetModeYears(tx, username, startTime, endTime)
+	result, err := da.GetModeYears(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
 	// Calculate percentages
-	total, err := dal.GetTotalSongs(tx, username, startTime, endTime)
+	total, err := da.GetTotalSongs(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
@@ -282,7 +282,7 @@ func (s ModeYearService) ExecuteService(username string, startTime int64, endTim
 		result[i].Count = int(percent)
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -291,20 +291,20 @@ func (s ModeYearService) ExecuteService(username string, startTime int64, endTim
 
 func (s PercentExplicitService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetPercentExplicit(tx, username, startTime, endTime)
+	result, err := da.GetPercentExplicit(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -314,20 +314,20 @@ func (s PercentExplicitService) ExecuteService(username string, startTime int64,
 
 func (s TopAlbumsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTopAlbums(tx, username, startTime, endTime)
+	result, err := da.GetTopAlbums(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -336,20 +336,20 @@ func (s TopAlbumsService) ExecuteService(username string, startTime int64, endTi
 
 func (s TopAlbumsTimeService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTopAlbumsTime(tx, username, startTime, endTime)
+	result, err := da.GetTopAlbumsTime(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -358,14 +358,14 @@ func (s TopAlbumsTimeService) ExecuteService(username string, startTime int64, e
 
 func (s TopArtistsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawArtists(tx, username, startTime, endTime)
+	result, err := da.GetRawArtists(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
@@ -403,7 +403,7 @@ func (s TopArtistsService) ExecuteService(username string, startTime int64, endT
 		return sortedArtists[i].Count > sortedArtists[j].Count
 	})
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -412,14 +412,14 @@ func (s TopArtistsService) ExecuteService(username string, startTime int64, endT
 
 func (s TopArtistsTimeService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawArtists(tx, username, startTime, endTime)
+	result, err := da.GetRawArtists(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
@@ -456,7 +456,7 @@ func (s TopArtistsTimeService) ExecuteService(username string, startTime int64, 
 		return toReturn[i].Count > toReturn[j].Count
 	})
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -465,20 +465,20 @@ func (s TopArtistsTimeService) ExecuteService(username string, startTime int64, 
 
 func (s TopSongsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTopSongs(tx, username, startTime, endTime)
+	result, err := da.GetTopSongs(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -487,20 +487,20 @@ func (s TopSongsService) ExecuteService(username string, startTime int64, endTim
 
 func (s TopSongsTimeService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTopSongsTime(tx, username, startTime, endTime)
+	result, err := da.GetTopSongsTime(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -509,20 +509,20 @@ func (s TopSongsTimeService) ExecuteService(username string, startTime int64, en
 
 func (s TotalSongsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTotalSongs(tx, username, startTime, endTime)
+	result, err := da.GetTotalSongs(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -531,20 +531,20 @@ func (s TotalSongsService) ExecuteService(username string, startTime int64, endT
 
 func (s TotalMinutesService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetTotalMinutes(tx, username, startTime, endTime)
+	result, err := da.GetTotalMinutes(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -553,20 +553,20 @@ func (s TotalMinutesService) ExecuteService(username string, startTime int64, en
 
 func (s UniqueAlbumsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetUniqueAlbums(tx, username, startTime, endTime)
+	result, err := da.GetUniqueAlbums(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -575,14 +575,14 @@ func (s UniqueAlbumsService) ExecuteService(username string, startTime int64, en
 
 func (s UniqueArtistsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawArtists(tx, username, startTime, endTime)
+	result, err := da.GetRawArtists(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
@@ -600,7 +600,7 @@ func (s UniqueArtistsService) ExecuteService(username string, startTime int64, e
 		}
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -609,20 +609,20 @@ func (s UniqueArtistsService) ExecuteService(username string, startTime int64, e
 
 func (s UniqueSongsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetUniqueSongs(tx, username, startTime, endTime)
+	result, err := da.GetUniqueSongs(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 
@@ -631,14 +631,14 @@ func (s UniqueSongsService) ExecuteService(username string, startTime int64, end
 
 func (s WeekDayBreakdownService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := dal.GetRawTimestamps(tx, username, startTime, endTime)
+	result, err := da.GetRawTimestamps(tx, username, startTime, endTime)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
 		}
 		return nil
@@ -650,7 +650,7 @@ func (s WeekDayBreakdownService) ExecuteService(username string, startTime int64
 		days[timeObj.Weekday()]++
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
 	}
 

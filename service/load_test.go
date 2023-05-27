@@ -2,7 +2,6 @@ package service
 
 import (
 	"encoding/json"
-	"fmt"
 	"music-metrics/model"
 	"os"
 	"testing"
@@ -21,5 +20,5 @@ func TestLoad(t *testing.T) {
 		t.Errorf("Error decoding json: %v", err)
 	}
 
-	fmt.Println("made it this far")
+	Load(req, GetUsername())
 }

@@ -3,35 +3,35 @@ package handler
 import (
 	"encoding/json"
 	"github.com/labstack/echo/v4"
-	"music-metrics/dal"
+	"music-metrics/da"
 	"music-metrics/model"
 	"music-metrics/service"
 )
 
 func HandleLoad(c echo.Context) error {
 
-	tx, db, err := dal.BeginTX()
+	tx, db, err := da.BeginTX()
 	if err != nil {
 		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 	}
 
 	username := c.Param("username")
 	token := c.Request().Header.Get("Authorization")
-	authtoken, err := dal.RetrieveAuthToken(tx, token)
+	authtoken, err := da.RetrieveAuthToken(tx, token)
 	if err != nil {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 		}
 		return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
 	}
 	if authtoken.Username != username {
-		if dal.CommitAndClose(tx, db, false) != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
 			return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 		}
 		return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
 	}
 
-	if dal.CommitAndClose(tx, db, true) != nil {
+	if da.CommitAndClose(tx, db, true) != nil {
 		return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 	}
 
