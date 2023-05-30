@@ -84,15 +84,16 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 	}
 
 	// Add song and album metadata to DB
-	for _, song := range songs {
-		if da.CreateSong(tx, &song) != nil {
-			// There's a good chance the song already exists, so ignore the error
-			continue
-		}
-	}
+	// Add albums first due to foreign key constraints
 	for _, album := range albums {
 		if da.CreateAlbum(tx, &album) != nil {
 			// There's a good chance the album already exists, so ignore the error
+			continue
+		}
+	}
+	for _, song := range songs {
+		if da.CreateSong(tx, &song) != nil {
+			// There's a good chance the song already exists, so ignore the error
 			continue
 		}
 	}

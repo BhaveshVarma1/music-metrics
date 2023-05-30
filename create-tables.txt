@@ -28,7 +28,8 @@ CREATE TABLE song (
 	popularity int not null,
 	duration int not null,
 	artistID varchar(1023) not null,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FOREIGN KEY (album) REFERENCES album(id)
 );
 CREATE TABLE listen (
 	username varchar(255) not null,

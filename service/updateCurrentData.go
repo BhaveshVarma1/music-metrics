@@ -104,6 +104,7 @@ func UpdateCurrentData() {
 			continue
 		}
 
+		// Sleep to avoid rate limiting
 		time.Sleep(100 * time.Millisecond)
 		iteration++
 	}

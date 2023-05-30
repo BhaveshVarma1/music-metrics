@@ -87,6 +87,29 @@ func loopThroughRecentListens(listens []model.RecentlyPlayedObject, tx *sql.Tx, 
 	newSongsCount := 0
 	for _, rpObj := range listens {
 		if rpObj.Timestamp > oldTime {
+			// Add album to database if it isn't already there
+			// Do this before adding song because of foreign key constraint
+			album, err := da.RetrieveAlbum(tx, rpObj.Album.Id)
+			if err != nil {
+				fmt.Println("Error retrieving album for username: " + user.Username)
+				fmt.Println(err)
+				continue
+			}
+			if (album == model.AlbumBean{}) {
+				err = da.CreateAlbum(tx, &rpObj.Album)
+				if err != nil {
+					fmt.Println("Error creating album for username: " + user.Username)
+					continue
+				}
+			} else {
+				// Update album if it is already there
+				err = da.UpdateAlbum(tx, &rpObj.Album)
+				if err != nil {
+					fmt.Println("Error updating album for username: " + user.Username)
+					continue
+				}
+			}
+
 			// Add song to database if it isn't already there
 			newSongsCount++
 			song, err := da.RetrieveSong(tx, rpObj.Song.Id)
@@ -106,28 +129,6 @@ func loopThroughRecentListens(listens []model.RecentlyPlayedObject, tx *sql.Tx, 
 				err = da.UpdateSong(tx, &rpObj.Song)
 				if err != nil {
 					fmt.Println("Error updating song for username: " + user.Username)
-					continue
-				}
-			}
-
-			// Add album to database if it isn't already there
-			album, err := da.RetrieveAlbum(tx, rpObj.Album.Id)
-			if err != nil {
-				fmt.Println("Error retrieving album for username: " + user.Username)
-				fmt.Println(err)
-				continue
-			}
-			if (album == model.AlbumBean{}) {
-				err = da.CreateAlbum(tx, &rpObj.Album)
-				if err != nil {
-					fmt.Println("Error creating album for username: " + user.Username)
-					continue
-				}
-			} else {
-				// Update album if it is already there
-				err = da.UpdateAlbum(tx, &rpObj.Album)
-				if err != nil {
-					fmt.Println("Error updating album for username: " + user.Username)
 					continue
 				}
 			}

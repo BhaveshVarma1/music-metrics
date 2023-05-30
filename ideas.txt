@@ -1,6 +1,0 @@
-METRICS TO ADD:
-
-Day(s) with the most minutes listened
-Stats surrounding audio features
-Most listened to songs by artist
-Graphs of certain stats over time (like StatsForSpotify)

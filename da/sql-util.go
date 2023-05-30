@@ -2,10 +2,10 @@ package da
 
 const SQL_BASIC_JOIN = "song s JOIN listen l ON s.id = l.songID"
 
-const SQL_TOP_SONGS = "SELECT s.name, s.id, s.artist, s.artistID, COUNT(*) FROM " + SQL_BASIC_JOIN + " WHERE username = ? AND timestamp >= ? AND timestamp <= ? GROUP BY s.id ORDER BY COUNT(*) DESC;"
+const SQL_TOP_SONGS = "SELECT s.name, s.id, s.artist, s.artistID, COUNT(*) FROM " + SQL_BASIC_JOIN + " WHERE username = ? AND timestamp >= ? AND timestamp <= ? GROUP BY s.id ORDER BY COUNT(*) DESC LIMIT 1000;"
 const SQL_TOP_SONGS_TIME = "SELECT s.name, s.id, s.artist, s.artistID, ROUND(COUNT(*) * s.duration / 1000) AS time FROM " + SQL_BASIC_JOIN + " WHERE username = ? AND timestamp >= ? AND timestamp <= ? GROUP BY s.id ORDER BY time DESC LIMIT 1000;"
 const SQL_RAW_ARTISTS = "SELECT s.artist, s.artistID, s.duration FROM " + SQL_BASIC_JOIN + " WHERE username = ? AND timestamp >= ? AND timestamp <= ?;"
-const SQL_TOP_ALBUMS = "SELECT a.name, a.id, a.artist, a.artistID, a.image, COUNT(*) FROM " + SQL_BASIC_JOIN + " JOIN album a ON s.album = a.id WHERE username = ? AND timestamp >= ? AND timestamp <= ? GROUP BY a.id ORDER BY COUNT(*) DESC;"
+const SQL_TOP_ALBUMS = "SELECT a.name, a.id, a.artist, a.artistID, a.image, COUNT(*) FROM " + SQL_BASIC_JOIN + " JOIN album a ON s.album = a.id WHERE username = ? AND timestamp >= ? AND timestamp <= ? GROUP BY a.id ORDER BY COUNT(*) DESC LIMIT 1000;"
 const SQL_TOP_ALBUMS_TIME = "SELECT a.name, a.id, a.artist, a.artistID, a.image, ROUND(SUM(x.time) / 1000) FROM (SELECT s.album, (COUNT(*) * s.duration) AS time FROM " + SQL_BASIC_JOIN + " WHERE username = ? AND timestamp >= ? AND timestamp <= ? GROUP BY s.id ORDER BY time DESC) AS x JOIN album a ON x.album = a.id GROUP BY x.album ORDER BY SUM(x.time) DESC LIMIT 1000;"
 const SQL_AVG_YEAR = "SELECT AVG(year) FROM " + SQL_BASIC_JOIN + " JOIN album a ON s.album = a.id WHERE username = ? AND timestamp >= ? AND timestamp <= ?;"
 const SQL_DECADE_BREAKDOWN = "SELECT CONCAT(FLOOR(a.year / 10) * 10, 's') AS decade, COUNT(*) FROM " + SQL_BASIC_JOIN + " JOIN album a ON s.album = a.id WHERE username = ? AND timestamp >= ? AND timestamp <= ? GROUP BY decade ORDER BY COUNT(*) DESC;"

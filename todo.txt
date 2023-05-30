@@ -1,0 +1,32 @@
+METRICS TO ADD: --------------------------------------------------------------------------------------------------------
+First song listened to (with date)
+Day(s) with the most minutes listened
+Stats surrounding audio features
+Most listened to songs by artist
+Graphs of certain stats over time (like StatsForSpotify)
+Artists by song diversity
+
+FRONTEND FEATURES TO ADD: ----------------------------------------------------------------------------------------------
+Finish current endpoints (mode year, avg popularity)
+Custom descriptions for Other
+Playlist builder
+Images for songs, albums
+
+BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
+DB log
+
+IMPROVEMENTS TO MAKE: --------------------------------------------------------------------------------------------------
+Loading screen
+Optimization for mobile
+Time zone issue
+
+BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
+Manual date input
+Minutes rendering (4:0)
+
+OTHER: -----------------------------------------------------------------------------------------------------------------
+Get dad to send data
+Add Spotify logo
+Submit Extended Quota Request
+Figure out how to make money
+Update database.md to reflect fk in song table
