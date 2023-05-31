@@ -69,7 +69,7 @@ func SliceContainsInt64(slice []int64, i int64) bool {
 
 func SliceContainsListen(slice []model.ListenBean, listen model.ListenBean) bool {
 	for _, s := range slice {
-		if s == listen {
+		if s.Timestamp == listen.Timestamp {
 			return true
 		}
 	}

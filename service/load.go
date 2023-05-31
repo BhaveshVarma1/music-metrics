@@ -60,7 +60,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 						Timestamp: millis,
 						SongId:    trackID,
 					}
-					if !SliceContainsInt64(dbTimestamps, millis) {
+					if !SliceContainsInt64(dbTimestamps, millis) && !SliceContainsListen(listensToAdd, listen) {
 						listensToAdd = append(listensToAdd, listen)
 					}
 				}
@@ -143,8 +143,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 	// Finally, we add the listensToAdd to the DB
 	for _, listen := range listensToAdd {
 		if da.CreateListen(tx, listen) != nil {
-			// Listen could already exist if the user already submitted this history
-			continue
+			continue // This should never be reached
 		}
 	}
 
