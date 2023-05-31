@@ -99,9 +99,11 @@ function Dropzone() {
             uploadPromises.push(promise)
         })
 
+        console.log("here")
         // Wait for all promises to resolve
         Promise.all(uploadPromises).then(() => {
             const fetchPromises = []
+            console.log("here2")
             bodies.forEach(body => {
                 const fetchPromise = new Promise((resolve, reject) => {
                     fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', body, getToken()))
