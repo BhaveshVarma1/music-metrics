@@ -54,18 +54,39 @@ function Dropzone() {
     const [loadingMessage, setLoadingMessage] = useState('')
 
     function onDrop(acceptedFiles, rejectedFiles) {
-        setLoadingMessage('')
+        setLoadingMessage('Loading...')
         setHoveredIndex(-1)
+
         if (acceptedFiles?.length) {
             if (files.length + acceptedFiles.length > maxFiles) {
                 setErrorMessage('Too many files')
                 return
             }
             setErrorMessage('')
-            const uniqueFiles = acceptedFiles.filter(file => !files.some(f => f.path === file.path))
-            setFiles(previousFiles => [...previousFiles, ...uniqueFiles])
         }
-        if (rejectedFiles?.length) setErrorMessage('Only .json files under 20MB are accepted')
+        if (rejectedFiles?.length) {
+            setErrorMessage('Only .json files under 20MB are accepted')
+            return
+        }
+
+        const newFiles = []
+        const promises = []
+        acceptedFiles.forEach(file => {
+            const reader = new FileReader()
+            const promise = new Promise(() => {
+                reader.onload = (event) => {
+                    if (isFormattedCorrectly(event.target.result)) newFiles.push(file)
+                }
+                reader.readAsText(file)
+            })
+            promises.push(promise)
+        })
+
+        Promise.all(promises).then(() => {
+            const uniqueFiles = newFiles.filter(file => !files.some(f => f.path === file.path))
+            setFiles(previousFiles => [...previousFiles, ...uniqueFiles])
+        })
+
     }
 
     function removeItem(item) {
@@ -73,42 +94,17 @@ function Dropzone() {
         setFiles(files.filter(file => file.path !== item.path))
     }
 
-    /**
-     * Processes each file, and if all are formatted correctly, submits them to the server.
-     */
     function submit() {
         setLoadingMessage('Loading...')
         setErrorMessage('')
         console.log(files)
 
         const uploadPromises = []
-        const bodies = []
         files.forEach(file => {
             const reader = new FileReader()
-
             const promise = new Promise((resolve, reject) => {
-                console.log("here3")
                 reader.onload = (event) => {
-                    if (!isFormattedCorrectly(event.target.result)) {
-                        reject('Incorrect format')
-                        return
-                    }
-                    console.log("here4")
-                    bodies.push(event.target.result)
-                }
-                reader.readAsText(file)
-            })
-            uploadPromises.push(promise)
-        })
-
-        console.log("here")
-        // Wait for all promises to resolve
-        Promise.all(uploadPromises).then(() => {
-            const fetchPromises = []
-            console.log("here2")
-            bodies.forEach(body => {
-                const fetchPromise = new Promise((resolve, reject) => {
-                    fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', body, getToken()))
+                    fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
                         .then(response => response.json())
                         .then(data => {
                             console.log(data)
@@ -117,17 +113,16 @@ function Dropzone() {
                             console.error(error)
                             reject(error)
                         })
-                })
-                fetchPromises.push(fetchPromise)
+                }
+                reader.readAsText(file)
             })
-            Promise.all(fetchPromises).then(() => {
-                setFiles([])
-                setLoadingMessage('Success! You will be able to view your updated stats within 24 hours.')
-            }).catch(error => {
-                console.error(error)
-                setLoadingMessage('')
-                setErrorMessage('There was an error on our part uploading your files. Please try again later.')
-            })
+            uploadPromises.push(promise)
+        })
+
+        // Wait for all promises to resolve
+        Promise.all(uploadPromises).then(() => {
+            setFiles([])
+            setLoadingMessage('Success! You will be able to view your updated stats within an hour.')
         }).catch(error => {
             console.error(error)
             setLoadingMessage('')
