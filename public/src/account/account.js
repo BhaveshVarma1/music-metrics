@@ -79,6 +79,7 @@ function Dropzone() {
     function submit() {
         setLoadingMessage('Loading...')
         setErrorMessage('')
+        console.log(files)
 
         const uploadPromises = []
         const bodies = []
@@ -102,7 +103,6 @@ function Dropzone() {
         Promise.all(uploadPromises).then(() => {
             const fetchPromises = []
             bodies.forEach(body => {
-                console.log("here")
                 const fetchPromise = new Promise((resolve, reject) => {
                     fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', body, getToken()))
                         .then(response => response.json())
