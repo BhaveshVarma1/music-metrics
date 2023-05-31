@@ -85,6 +85,8 @@ function Dropzone() {
             promises.push(promise)
         })
 
+        console.log(promises)
+        console.log(newFiles)
         Promise.all(promises).then(() => {
             setLoadingMessage('')
             const uniqueFiles = newFiles.filter(file => !files.some(f => f.path === file.path))
