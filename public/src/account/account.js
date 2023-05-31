@@ -87,6 +87,7 @@ function Dropzone() {
             const reader = new FileReader()
 
             const promise = new Promise((resolve, reject) => {
+                console.log("here3")
                 reader.onload = (event) => {
                     if (!isFormattedCorrectly(event.target.result)) {
                         reject('Incorrect format')
