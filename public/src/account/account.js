@@ -73,11 +73,15 @@ function Dropzone() {
         setFiles(files.filter(file => file.path !== item.path))
     }
 
+    /**
+     * Processes each file, and if all are formatted correctly, submits them to the server.
+     */
     function submit() {
         setLoadingMessage('Loading...')
         setErrorMessage('')
 
         const uploadPromises = []
+        const bodies = []
         files.forEach(file => {
             const reader = new FileReader()
 
@@ -87,15 +91,7 @@ function Dropzone() {
                         reject('Incorrect format')
                         return
                     }
-                    fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data)
-                            resolve(data);
-                        }).catch(error => {
-                            console.error(error)
-                            reject(error)
-                        })
+                    bodies.push(event.target.result)
                 }
                 reader.readAsText(file)
             })
@@ -104,8 +100,29 @@ function Dropzone() {
 
         // Wait for all promises to resolve
         Promise.all(uploadPromises).then(() => {
-            setFiles([])
-            setLoadingMessage('Success! You will be able to view your updated stats within 24 hours.')
+            const fetchPromises = []
+            bodies.forEach(body => {
+                const fetchPromise = new Promise((resolve, reject) => {
+                    fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', body, getToken()))
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            resolve(data)
+                        }).catch(error => {
+                            console.error(error)
+                            reject(error)
+                        })
+                })
+                fetchPromises.push(fetchPromise)
+            })
+            Promise.all(fetchPromises).then(() => {
+                setFiles([])
+                setLoadingMessage('Success! You will be able to view your updated stats within 24 hours.')
+            }).catch(error => {
+                console.error(error)
+                setLoadingMessage('')
+                setErrorMessage('There was an error on our part uploading your files. Please try again later.')
+            })
         }).catch(error => {
             console.error(error)
             setLoadingMessage('')

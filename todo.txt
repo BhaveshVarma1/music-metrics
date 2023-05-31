@@ -14,6 +14,7 @@ Images for songs, albums
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
 DB log
+Ability to delete data for a user
 
 IMPROVEMENTS TO MAKE: --------------------------------------------------------------------------------------------------
 Loading screen
