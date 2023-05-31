@@ -93,6 +93,7 @@ function Dropzone() {
                         reject('Incorrect format')
                         return
                     }
+                    console.log("here4")
                     bodies.push(event.target.result)
                 }
                 reader.readAsText(file)
