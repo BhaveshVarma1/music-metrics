@@ -86,9 +86,9 @@ function Dropzone() {
         })
 
         Promise.all(promises).then(() => {
+            setLoadingMessage('')
             const uniqueFiles = newFiles.filter(file => !files.some(f => f.path === file.path))
             setFiles(previousFiles => [...previousFiles, ...uniqueFiles])
-            setLoadingMessage('')
             if (badFilesExist) setErrorMessage('One or more of the files you uploaded are not formatted correctly. Make sure they are the correct files and try again.')
         })
 
@@ -213,7 +213,6 @@ function truncateStr(str) {
 function isFormattedCorrectly(file) {
     file = JSON.parse(file)
     if (!Array.isArray(file)) {
-        console.log('Not an array')
         return false;
     }
 
