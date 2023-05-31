@@ -55,6 +55,7 @@ function Dropzone() {
 
     function onDrop(acceptedFiles, rejectedFiles) {
         setLoadingMessage('Loading...')
+        setErrorMessage('')
         setHoveredIndex(-1)
 
         if (acceptedFiles?.length) {
@@ -71,11 +72,13 @@ function Dropzone() {
 
         const newFiles = []
         const promises = []
+        let badFilesExist = false
         acceptedFiles.forEach(file => {
             const reader = new FileReader()
             const promise = new Promise(() => {
                 reader.onload = (event) => {
                     if (isFormattedCorrectly(event.target.result)) newFiles.push(file)
+                    else badFilesExist = true
                 }
                 reader.readAsText(file)
             })
@@ -85,6 +88,8 @@ function Dropzone() {
         Promise.all(promises).then(() => {
             const uniqueFiles = newFiles.filter(file => !files.some(f => f.path === file.path))
             setFiles(previousFiles => [...previousFiles, ...uniqueFiles])
+            setLoadingMessage('')
+            if (badFilesExist) setErrorMessage('One or more of the files you uploaded are not formatted correctly. Make sure they are the correct files and try again.')
         })
 
     }
