@@ -17,7 +17,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		return
 	}
 
-	// Get authtoken and timestamp of account creation
+	// Get authtoken (for obtaining spotify data) and timestamp of account creation
 	user, err := da.RetrieveUser(tx, username)
 	if err != nil {
 		fmt.Println("Error retrieving user in load service: ", err)
@@ -29,6 +29,12 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		return
 	}
 	endTime := user.Timestamp
+
+	dbListens, err := da.RetrieveAllListensForUser(tx, username)
+	if err != nil {
+		fmt.Println("Error retrieving listens in load service: ", err)
+		return
+	}
 
 	// Filter out bad data and build slice of unique track IDs
 	var filteredHistory []model.ExtendedStreamingObject
@@ -49,35 +55,73 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 						if !SliceContainsString(uniqueTrackIDs, trackID) {
 							uniqueTrackIDs = append(uniqueTrackIDs, trackID)
 						}
-						// Create listen object
+						// Create listen object and add it to the slice that will be added to the DB
 						listen := model.ListenBean{
 							Username:  username,
 							Timestamp: millis,
 							SongId:    trackID,
 						}
-						listens = append(listens, listen)
+						if !SliceContainsListen(dbListens, listen) {
+							listens = append(listens, listen)
+						}
 					}
 				}
 			}
 		}
 	}
+	if listens == nil {
+		// User has already submitted this file
+		fmt.Println("No new listens to add.")
+		return
+	}
 
 	// The listening history has now been filtered and sorted and the listen beans have been created
 	// Because of foreign key constraints, the listens cannot be added to the DB until song/album metadata is added
 
-	// Obtain song and album metadata
-	songs, err := getAllSongData(token, uniqueTrackIDs)
+	// We only want to get data from Spotify for songs and albums that aren't already in the DB to save time
+	var newSongIDs []string
+	var dbSongIDs []string
+	dbSongs, err := da.RetrieveAllSongs(tx)
+	if err != nil {
+		fmt.Println("Error retrieving songs in load service: ", err)
+		return
+	}
+	for _, song := range dbSongs {
+		dbSongIDs = append(dbSongIDs, song.Id)
+	}
+	for _, song := range uniqueTrackIDs {
+		if !SliceContainsString(dbSongIDs, song) {
+			newSongIDs = append(newSongIDs, song)
+		}
+	}
+
+	// Obtain song metadata for new songs
+	songs, err := getAllSongData(token, newSongIDs)
 	if err != nil {
 		fmt.Println("Error getting song data in load service: ", err)
 		return
 	}
-	var uniqueAlbumIDs []string
+
+	// Using the song metadata, obtain album metadata for new albums only
+	var dbAlbumIDs []string
+	dbAlbums, err := da.RetrieveAllAlbums(tx)
+	if err != nil {
+		fmt.Println("Error retrieving albums in load service: ", err)
+		return
+	}
+	for _, album := range dbAlbums {
+		dbAlbumIDs = append(dbAlbumIDs, album.Id)
+	}
+	var newUniqueAlbumIDs []string
 	for _, song := range songs {
-		if !SliceContainsString(uniqueAlbumIDs, song.Album) {
-			uniqueAlbumIDs = append(uniqueAlbumIDs, song.Album)
+		if !SliceContainsString(dbAlbumIDs, song.Album) {
+			if !SliceContainsString(newUniqueAlbumIDs, song.Album) {
+				newUniqueAlbumIDs = append(newUniqueAlbumIDs, song.Album)
+			}
 		}
 	}
-	albums, err := getAllAlbumData(token, uniqueAlbumIDs)
+
+	albums, err := getAllAlbumData(token, newUniqueAlbumIDs)
 	if err != nil {
 		fmt.Println("Error getting album data in load service: ", err)
 		return
@@ -99,7 +143,6 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 	}
 
 	// Finally, we add the listens to the DB
-	fmt.Println("Adding listens to DB: ", len(listens))
 	for _, listen := range listens {
 		if da.CreateListen(tx, listen) != nil {
 			// Listen could already exist if the user already submitted this history
@@ -110,6 +153,8 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 	if da.CommitAndClose(tx, db, true) != nil {
 		fmt.Println("Error committing and closing transaction in load service: ", err)
 	}
+
+	fmt.Println(len(listens), " listens added to the database")
 }
 
 func getAllSongData(token string, trackIDs []string) ([]model.SongBean, error) {

@@ -67,6 +67,15 @@ func SliceContainsInt64(slice []int64, i int64) bool {
 	return false
 }
 
+func SliceContainsListen(slice []model.ListenBean, listen model.ListenBean) bool {
+	for _, s := range slice {
+		if s == listen {
+			return true
+		}
+	}
+	return false
+}
+
 func SliceContainsString(slice []string, str string) bool {
 	for _, s := range slice {
 		if s == str {

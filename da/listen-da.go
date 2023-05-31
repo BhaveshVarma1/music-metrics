@@ -36,6 +36,29 @@ func RetrieveListen(tx *sql.Tx, username string, timestamp int64) (model.ListenB
 	return model.ListenBean{}, nil
 }
 
+func RetrieveAllListensForUser(tx *sql.Tx, username string) ([]model.ListenBean, error) {
+	rows, err := tx.Query("SELECT * FROM listen WHERE username = ?;", username)
+	if err != nil {
+		return nil, err
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			fmt.Println("Error closing rows:", err)
+		}
+	}(rows)
+	var listens []model.ListenBean
+	for rows.Next() {
+		var listen model.ListenBean
+		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.SongId)
+		if err != nil {
+			return nil, err
+		}
+		listens = append(listens, listen)
+	}
+	return listens, nil
+}
+
 func DeleteListen(tx *sql.Tx, username string, timestamp int64) error {
 	_, err := tx.Exec("DELETE FROM listen WHERE username = ? AND timestamp = ?;", username, timestamp)
 	if err != nil {

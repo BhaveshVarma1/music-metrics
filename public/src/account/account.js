@@ -93,7 +93,6 @@ function Dropzone() {
             setLoadingMessage('')
             const uniqueFiles = newFiles.filter(file => !files.some(f => f.path === file.path))
             setFiles(previousFiles => [...previousFiles, ...uniqueFiles])
-            //if (badFilesExist) setErrorMessage('One or more of the files you uploaded are not formatted correctly. Make sure they are the correct files and try again.')
         }).catch(() => {
             setLoadingMessage('')
             setErrorMessage('One or more of the files you uploaded are not formatted correctly. Make sure they are the correct files and try again.')
