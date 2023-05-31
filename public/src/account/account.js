@@ -66,6 +66,7 @@ function Dropzone() {
             setErrorMessage('')
         }
         if (rejectedFiles?.length) {
+            setLoadingMessage('')
             setErrorMessage('Only .json files under 20MB are accepted')
             return
         }
