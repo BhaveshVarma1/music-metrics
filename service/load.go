@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"music-metrics/da"
 	"music-metrics/model"
-	"strconv"
 	"strings"
 )
 
@@ -30,53 +29,52 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 	}
 	endTime := user.Timestamp
 
-	dbListens, err := da.RetrieveAllListensForUser(tx, username)
+	/*dbListens, err := da.RetrieveAllListensForUser(tx, username)
 	if err != nil {
-		fmt.Println("Error retrieving listens in load service: ", err)
+		fmt.Println("Error retrieving listensToAdd in load service: ", err)
+		return
+	}*/
+	dbTimestamps, err := da.RetrieveAllTimestampsForUser(tx, username)
+	if err != nil {
+		fmt.Println("Error retrieving timestamps in load service: ", err)
 		return
 	}
 
 	// Filter out bad data and build slice of unique track IDs
-	var filteredHistory []model.ExtendedStreamingObject
 	var uniqueTrackIDs []string
-	var listens []model.ListenBean
-	var timestamps []int64
+	var listensToAdd []model.ListenBean
 	for _, item := range history {
 		if item.TrackName != "" && item.MsPlayed > 29999 {
 			millis := DatetimeToUnixMilli(item.Timestamp)
 			if millis != -1 {
-				item.Timestamp = strconv.FormatInt(millis, 10)
+				//item.Timestamp = strconv.FormatInt(millis, 10)
 				if millis < endTime {
-					if !SliceContainsInt64(timestamps, millis) {
-						// At this point, item is a unique listen of at least 30 seconds that occurred before the account was created
-						timestamps = append(timestamps, millis)
-						filteredHistory = append(filteredHistory, item)
-						trackID := item.TrackURI[strings.LastIndex(item.TrackURI, ":")+1:]
-						if !SliceContainsString(uniqueTrackIDs, trackID) {
-							uniqueTrackIDs = append(uniqueTrackIDs, trackID)
-						}
-						// Create listen object and add it to the slice that will be added to the DB
-						listen := model.ListenBean{
-							Username:  username,
-							Timestamp: millis,
-							SongId:    trackID,
-						}
-						if !SliceContainsListen(dbListens, listen) {
-							listens = append(listens, listen)
-						}
+					// At this point, item is a listen of at least 30 seconds that occurred before the account was created
+					trackID := item.TrackURI[strings.LastIndex(item.TrackURI, ":")+1:]
+					if !SliceContainsString(uniqueTrackIDs, trackID) {
+						uniqueTrackIDs = append(uniqueTrackIDs, trackID)
+					}
+					// Create listen object and add it to the slice that will be added to the DB
+					listen := model.ListenBean{
+						Username:  username,
+						Timestamp: millis,
+						SongId:    trackID,
+					}
+					if !SliceContainsInt64(dbTimestamps, millis) {
+						listensToAdd = append(listensToAdd, listen)
 					}
 				}
 			}
 		}
 	}
-	if listens == nil {
+	if listensToAdd == nil {
 		// User has already submitted this file
-		fmt.Println("No new listens to add.")
+		fmt.Println("No new listensToAdd to add.")
 		return
 	}
 
 	// The listening history has now been filtered and sorted and the listen beans have been created
-	// Because of foreign key constraints, the listens cannot be added to the DB until song/album metadata is added
+	// Because of foreign key constraints, the listensToAdd cannot be added to the DB until song/album metadata is added
 
 	// We only want to get data from Spotify for songs and albums that aren't already in the DB to save time
 	var newSongIDs []string
@@ -142,8 +140,8 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		}
 	}
 
-	// Finally, we add the listens to the DB
-	for _, listen := range listens {
+	// Finally, we add the listensToAdd to the DB
+	for _, listen := range listensToAdd {
 		if da.CreateListen(tx, listen) != nil {
 			// Listen could already exist if the user already submitted this history
 			continue
@@ -154,7 +152,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		fmt.Println("Error committing and closing transaction in load service: ", err)
 	}
 
-	fmt.Println(len(listens), " listens added to the database")
+	fmt.Println(len(listensToAdd), " listensToAdd added to the database")
 }
 
 func getAllSongData(token string, trackIDs []string) ([]model.SongBean, error) {
