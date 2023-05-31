@@ -102,6 +102,7 @@ function Dropzone() {
         Promise.all(uploadPromises).then(() => {
             const fetchPromises = []
             bodies.forEach(body => {
+                console.log("here")
                 const fetchPromise = new Promise((resolve, reject) => {
                     fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', body, getToken()))
                         .then(response => response.json())
@@ -208,7 +209,6 @@ function truncateStr(str) {
 function isFormattedCorrectly(file) {
     file = JSON.parse(file)
     if (!Array.isArray(file)) {
-        console.log(file)
         console.log('Not an array')
         return false;
     }
