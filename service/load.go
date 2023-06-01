@@ -7,13 +7,7 @@ import (
 	"strings"
 )
 
-func Load(history [][]model.ExtendedStreamingObject, username string) {
-
-	// Combine all history into one slice
-	var allHistory []model.ExtendedStreamingObject
-	for _, historySlice := range history {
-		allHistory = append(allHistory, historySlice...)
-	}
+func Load(history []model.ExtendedStreamingObject, username string) {
 
 	// Instantiate DB connection
 	tx, db, err := da.BeginTX()
@@ -50,7 +44,7 @@ func Load(history [][]model.ExtendedStreamingObject, username string) {
 	var uniqueTrackIDs []string
 	//var uniqueTimestamps []int64
 	var listensToAdd []model.ListenBean
-	for _, item := range allHistory {
+	for _, item := range history {
 		if item.TrackName != "" && item.MsPlayed > 29999 {
 			millis := DatetimeToUnixMilli(item.Timestamp)
 			if millis != -1 {

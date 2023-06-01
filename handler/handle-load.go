@@ -5,6 +5,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"music-metrics/da"
 	"music-metrics/model"
+	"music-metrics/service"
 )
 
 func HandleLoad(c echo.Context) error {
@@ -35,14 +36,14 @@ func HandleLoad(c echo.Context) error {
 	}
 
 	// decode request body
-	var req [][]model.ExtendedStreamingObject
+	var req []model.ExtendedStreamingObject
 	err = json.NewDecoder(c.Request().Body).Decode(&req)
 	if err != nil {
 		return c.JSON(400, model.GenericResponse{Success: false, Message: "Error: improperly formatted request. Details: " + err.Error()})
 	}
 
 	// call service asynchronously
-	//go service.Load(req, username)
+	go service.Load(req, username)
 
 	return c.JSON(200, model.GenericResponse{Success: true, Message: "Load request received"})
 }
