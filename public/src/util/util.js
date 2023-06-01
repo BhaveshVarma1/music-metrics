@@ -181,7 +181,7 @@ export function fetchInit(endpoint, requestBody, token) {
                 'Content-Type': 'application/json',
                 'Authorization': token
             },
-            body: JSON.parse(requestBody)
+            body: requestBody
         }
     }
 }

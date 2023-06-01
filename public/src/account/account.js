@@ -112,13 +112,20 @@ function Dropzone() {
         console.log(files)
 
         const uploadPromises = []
-        const allFiles = []
         files.forEach(file => {
             const reader = new FileReader()
             const promise = new Promise((resolve, reject) => {
                 reader.onload = (event) => {
-                    allFiles.push(event.target.result)
-                    resolve()
+                    console.log(event.target.result)
+                    fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            resolve(data)
+                        }).catch(error => {
+                            console.error(error)
+                            reject(error)
+                        })
                 }
                 reader.readAsText(file)
             })
@@ -127,19 +134,8 @@ function Dropzone() {
 
         // Wait for all promises to resolve
         Promise.all(uploadPromises).then(() => {
-            // Call the load endpoint with all the files
-            console.log(allFiles)
-            fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', JSON.stringify(allFiles), getToken()))
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    setFiles([])
-                    setLoadingMessage('Success! You will be able to view your updated stats within an hour.')
-                }).catch(error => {
-                    console.error(error)
-                    setLoadingMessage('')
-                    setErrorMessage('There seems to be a problem with the files you uploaded. Make sure they are the correct files and try again.')
-                })
+            setFiles([])
+            setLoadingMessage('Success! You will be able to view your updated stats within an hour.')
         }).catch(error => {
             console.error(error)
             setLoadingMessage('')

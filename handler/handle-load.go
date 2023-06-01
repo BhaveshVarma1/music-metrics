@@ -5,7 +5,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"music-metrics/da"
 	"music-metrics/model"
-	"music-metrics/service"
 )
 
 func HandleLoad(c echo.Context) error {
@@ -43,7 +42,7 @@ func HandleLoad(c echo.Context) error {
 	}
 
 	// call service asynchronously
-	go service.Load(req, username)
+	//go service.Load(req, username)
 
 	return c.JSON(200, model.GenericResponse{Success: true, Message: "Load request received"})
 }
