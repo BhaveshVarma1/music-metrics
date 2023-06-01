@@ -15,6 +15,7 @@ Images for songs, albums todo
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
 DB log
 Ability to delete data for a user
+Write a script to automatically back up the database todo
 
 IMPROVEMENTS TO MAKE: --------------------------------------------------------------------------------------------------
 Loading screen
@@ -23,7 +24,7 @@ Time zone issue
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
 Manual date input
-Minutes rendering (4:0)
+Minutes rendering (4:0) todo
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
 Get dad to send data todo

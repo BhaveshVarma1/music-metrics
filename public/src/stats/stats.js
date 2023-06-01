@@ -241,7 +241,7 @@ export function Stats() {
                 let minutes = Math.floor(data.averageLength.value / 60)
 
                 // ASSIGN DATA TO RESPECTIVE STATES
-                setAverageLength(minutes + ":" + (data.averageLength.value - minutes * 60))
+                setAverageLength(minutes + ":" + makeIntDoubleDigit(data.averageLength.value - minutes * 60))
                 setAveragePopularity(data.averagePopularity.items)
                 setAverageYear(data.averageYear.value)
                 setDecadeBreakdown(data.decadeBreakdown.items)
@@ -741,6 +741,13 @@ function convertHoursToChartData(data) {
         i++
     })
     return result
+}
+
+function makeIntDoubleDigit(num) {
+    if (num < 10) {
+        return '0' + num
+    }
+    return num
 }
 
 function validateTimes(startTime, endTime) {
