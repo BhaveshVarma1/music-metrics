@@ -10,7 +10,7 @@ FRONTEND FEATURES TO ADD: ------------------------------------------------------
 Finish current endpoints (mode year, avg popularity)
 Custom descriptions for Other
 Playlist builder
-Images for songs, albums
+Images for songs, albums todo
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
 DB log
@@ -22,7 +22,6 @@ Optimization for mobile
 Time zone issue
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
-Weird bug with load
 Manual date input
 Minutes rendering (4:0)
 
