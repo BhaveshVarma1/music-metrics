@@ -127,3 +127,20 @@ func ClearListen(tx *sql.Tx) error {
 	}
 	return nil
 }
+
+func HasTimestamp(tx *sql.Tx, username string, timestamp int64) (bool, error) {
+	rows, err := tx.Query("SELECT * FROM listen WHERE username = ? AND timestamp = ?;", username, timestamp)
+	if err != nil {
+		return false, err
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			fmt.Println("Error closing rows:", err)
+		}
+	}(rows)
+	for rows.Next() {
+		return true, nil
+	}
+	return false, nil
+}
