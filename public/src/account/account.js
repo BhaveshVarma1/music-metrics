@@ -112,19 +112,12 @@ function Dropzone() {
         console.log(files)
 
         const uploadPromises = []
+        const allFiles = []
         files.forEach(file => {
             const reader = new FileReader()
-            const promise = new Promise((resolve, reject) => {
+            const promise = new Promise(() => {
                 reader.onload = (event) => {
-                    fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data)
-                            resolve(data)
-                        }).catch(error => {
-                            console.error(error)
-                            reject(error)
-                        })
+                    allFiles.push(event.target.result)
                 }
                 reader.readAsText(file)
             })
@@ -133,8 +126,18 @@ function Dropzone() {
 
         // Wait for all promises to resolve
         Promise.all(uploadPromises).then(() => {
-            setFiles([])
-            setLoadingMessage('Success! You will be able to view your updated stats within an hour.')
+            // Call the load endpoint with all the files
+            fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', allFiles, getToken()))
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    setFiles([])
+                    setLoadingMessage('Success! You will be able to view your updated stats within an hour.')
+                }).catch(error => {
+                    console.error(error)
+                    setLoadingMessage('')
+                    setErrorMessage('There seems to be a problem with the files you uploaded. Make sure they are the correct files and try again.')
+                })
         }).catch(error => {
             console.error(error)
             setLoadingMessage('')

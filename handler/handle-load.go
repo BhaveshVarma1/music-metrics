@@ -36,7 +36,7 @@ func HandleLoad(c echo.Context) error {
 	}
 
 	// decode request body
-	var req []model.ExtendedStreamingObject
+	var req [][]model.ExtendedStreamingObject
 	err = json.NewDecoder(c.Request().Body).Decode(&req)
 	if err != nil {
 		return c.JSON(400, model.GenericResponse{Success: false, Message: "Error: improperly formatted request. Details: " + err.Error()})
