@@ -34,15 +34,15 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		fmt.Println("Error retrieving listensToAdd in load service: ", err)
 		return
 	}*/
-	dbTimestamps, err := da.RetrieveAllTimestampsForUser(tx, username)
+	/*dbTimestamps, err := da.RetrieveAllTimestampsForUser(tx, username)
 	if err != nil {
 		fmt.Println("Error retrieving timestamps in load service: ", err)
 		return
-	}
+	}*/
 
 	// Filter out bad data and build slice of unique track IDs
 	var uniqueTrackIDs []string
-	var uniqueTimestamps []int64
+	//var uniqueTimestamps []int64
 	var listensToAdd []model.ListenBean
 	for _, item := range history {
 		if item.TrackName != "" && item.MsPlayed > 29999 {
@@ -61,9 +61,9 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 						Timestamp: millis,
 						SongId:    trackID,
 					}
-					if !SliceContainsInt64(dbTimestamps, millis) && !SliceContainsInt64(uniqueTimestamps, millis) {
-						listensToAdd = append(listensToAdd, listen)
-					}
+					//if !SliceContainsInt64(dbTimestamps, millis) && !SliceContainsInt64(uniqueTimestamps, millis) {
+					listensToAdd = append(listensToAdd, listen)
+					//}
 				}
 			}
 		}
@@ -74,7 +74,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		return
 	}
 
-	// The listening history has now been filtered and sorted and the listen beans have been created
+	// The listening history has now been filtered and the listen beans have been created
 	// Because of foreign key constraints, the listensToAdd cannot be added to the DB until song/album metadata is added
 
 	// We only want to get data from Spotify for songs and albums that aren't already in the DB to save time
@@ -144,17 +144,10 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 	// Finally, we add the listensToAdd to the DB
 	counter := 0
 	for _, listen := range listensToAdd {
-		exists, err := da.HasTimestamp(tx, listen.Username, listen.Timestamp)
-		if err != nil {
-			fmt.Println("Error checking if timestamp exists in load service: ", err)
+		counter++
+		if da.CreateListen(tx, listen) != nil {
+			counter--
 			continue
-		}
-		if !exists {
-			counter++
-			if da.CreateListen(tx, listen) != nil {
-				counter--
-				continue // This should never be reached
-			}
 		}
 	}
 
@@ -162,7 +155,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		fmt.Println("Error committing and closing transaction in load service: ", err)
 	}
 
-	fmt.Println(counter, "listens added to the database")
+	fmt.Println(counter, "/", len(listensToAdd), "listens added to the database")
 }
 
 func getAllSongData(token string, trackIDs []string) ([]model.SongBean, error) {

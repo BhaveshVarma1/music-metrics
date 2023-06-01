@@ -35,7 +35,7 @@ CREATE TABLE listen (
 	username varchar(255) not null,
 	timestamp bigint not null,
 	songID varchar(255) not null,
-	PRIMARY KEY (username, timestamp),
+	PRIMARY KEY (username, timestamp, songID),
 	FOREIGN KEY (username) REFERENCES user(username),
 	FOREIGN KEY (songID) REFERENCES song(id)
 );

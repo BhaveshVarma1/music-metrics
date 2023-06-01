@@ -22,7 +22,7 @@ Optimization for mobile
 Time zone issue
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
-todo weird bug with load
+Weird bug with load
 Manual date input
 Minutes rendering (4:0)
 
@@ -31,5 +31,5 @@ Get dad to send data
 Add Spotify logo
 Submit Extended Quota Request
 Figure out how to make money
-Update database.md to reflect fk in song table
+Update database.md to reflect fk in song table and pk in listen table
 Stronger password on server
