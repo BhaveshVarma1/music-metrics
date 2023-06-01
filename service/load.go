@@ -142,6 +142,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 	}
 
 	// Finally, we add the listensToAdd to the DB
+	counter := 0
 	for _, listen := range listensToAdd {
 		exists, err := da.HasTimestamp(tx, listen.Username, listen.Timestamp)
 		if err != nil {
@@ -149,7 +150,9 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 			continue
 		}
 		if !exists {
+			counter++
 			if da.CreateListen(tx, listen) != nil {
+				counter--
 				continue // This should never be reached
 			}
 		}
@@ -159,7 +162,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		fmt.Println("Error committing and closing transaction in load service: ", err)
 	}
 
-	fmt.Println(len(listensToAdd), "listens added to the database")
+	fmt.Println(counter, "listens added to the database")
 }
 
 func getAllSongData(token string, trackIDs []string) ([]model.SongBean, error) {
