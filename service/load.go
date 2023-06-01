@@ -31,20 +31,8 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		}
 		endTime := user.Timestamp
 
-		/*dbListens, err := da.RetrieveAllListensForUser(tx, username)
-		if err != nil {
-			fmt.Println("Error retrieving listensToAdd in load service: ", err)
-			return
-		}*/
-		/*dbTimestamps, err := da.RetrieveAllTimestampsForUser(tx, username)
-		if err != nil {
-			fmt.Println("Error retrieving timestamps in load service: ", err)
-			return
-		}*/
-
 		// Filter out bad data and build slice of unique track IDs
 		var uniqueTrackIDs []string
-		//var uniqueTimestamps []int64
 		var listensToAdd []model.ListenBean
 		for _, item := range history {
 			if item.TrackName != "" && item.MsPlayed > 29999 {
@@ -63,9 +51,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 							Timestamp: millis,
 							SongId:    trackID,
 						}
-						//if !SliceContainsInt64(dbTimestamps, millis) && !SliceContainsInt64(uniqueTimestamps, millis) {
 						listensToAdd = append(listensToAdd, listen)
-						//}
 					}
 				}
 			}
