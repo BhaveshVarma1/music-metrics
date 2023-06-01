@@ -115,9 +115,10 @@ function Dropzone() {
         const allFiles = []
         files.forEach(file => {
             const reader = new FileReader()
-            const promise = new Promise(() => {
+            const promise = new Promise((resolve, reject) => {
                 reader.onload = (event) => {
                     allFiles.push(event.target.result)
+                    resolve()
                 }
                 reader.readAsText(file)
             })
