@@ -128,6 +128,7 @@ function Dropzone() {
         // Wait for all promises to resolve
         Promise.all(uploadPromises).then(() => {
             // Call the load endpoint with all the files
+            console.log(allFiles)
             fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', allFiles, getToken()))
                 .then(response => response.json())
                 .then(data => {
