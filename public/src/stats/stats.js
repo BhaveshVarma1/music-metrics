@@ -72,11 +72,11 @@ export function Stats() {
             thead: (
                 <thead>
                 <tr className={"table-column-names"}>
-                    <th>Rank</th>
-                    <th></th>
-                    <th>Song name</th>
-                    <th>Artist</th>
-                    <th style={{textAlign: 'right'}}>Count</th>
+                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "40%"}}>Song name</th>
+                    <th style={{width: "45%"}}>Artist</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Count</th>
                 </tr>
                 </thead>
             ),
