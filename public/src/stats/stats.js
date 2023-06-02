@@ -177,7 +177,7 @@ export function Stats() {
                 <th></th>
                 <th>Album name</th>
                 <th>Artist</th>
-                <th style={{textAlign: 'right'}}>Count</th>
+                <th style={{textAlign: 'right'}}>Minutes</th>
             </tr>
             </thead>
         ),
