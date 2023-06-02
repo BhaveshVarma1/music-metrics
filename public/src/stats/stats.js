@@ -101,6 +101,7 @@ export function Stats() {
             <thead>
             <tr className={"table-column-names"}>
                 <th>Rank</th>
+                <th></th>
                 <th>Song name</th>
                 <th>Artist</th>
                 <th style={{textAlign: 'right'}}>Minutes</th>
@@ -111,6 +112,7 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
+                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
                     <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                     <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
@@ -172,6 +174,7 @@ export function Stats() {
             <thead>
             <tr className={"table-column-names"}>
                 <th>Rank</th>
+                <th></th>
                 <th>Album name</th>
                 <th>Artist</th>
                 <th style={{textAlign: 'right'}}>Count</th>
@@ -182,6 +185,7 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
+                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
                     <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                     <td style={{textAlign: 'right'}}>{item.count}</td>
@@ -197,6 +201,7 @@ export function Stats() {
             <thead>
             <tr className={"table-column-names"}>
                 <th>Rank</th>
+                <th></th>
                 <th>Album name</th>
                 <th>Artist</th>
                 <th style={{textAlign: 'right'}}>Minutes</th>
@@ -207,6 +212,7 @@ export function Stats() {
             return (
                 <tr className={"table-row"}>
                     <td>{item.rank}</td>
+                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
                     <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                     <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>

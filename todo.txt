@@ -23,7 +23,8 @@ Optimization for mobile
 Time zone issue
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
-Manual date input
+Manual date input todo
+Spacing on the tables todo
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
 Get dad to send data todo
