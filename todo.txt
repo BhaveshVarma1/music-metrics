@@ -24,12 +24,10 @@ Time zone issue
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
 Manual date input
-Minutes rendering (4:0) todo
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
 Get dad to send data todo
 Add Spotify logo todo
 Submit Extended Quota Request
 Figure out how to make money
-Update database.md to reflect fk in song table and pk in listen table todo
 Stronger password on server

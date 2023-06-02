@@ -41,7 +41,7 @@ Table name: `listen`
 |-------------|--------------|-------|----------|---------------------------------------------------------------|
 | username    | varchar(255) | NO    | PK1, MUL | The username of the user that this listen belongs to          |
 | timestamp   | bigint       | NO    | PK2      | The timestamp of the listen, in Unix milliseconds as a string |
-| songID      | varchar(255) | NO    | MUL      | The ID of the song that was listened to                       |
+| songID      | varchar(255) | NO    | PK3, MUL | The ID of the song that was listened to                       |
 
 ## 🎵 Song Metadata Table
 
@@ -52,7 +52,7 @@ Table name: `song`
 | id          | varchar(255)  | NO    | PRI | The song's Spotify ID                                              |
 | name        | varchar(255)  | NO    |     | The song's name                                                    |
 | artist      | varchar(1023) | NO    |     | The song's artist(s) as a string separated by `;;`                 |
-| album       | varchar(255)  | NO    |     | The name of the album containing the song                          |
+| album       | varchar(255)  | NO    | MUL | The name of the album containing the song                          |
 | explicit    | tinyint(1)    | NO    |     | Boolean representing whether or not the song is marked as explicit |
 | popularity  | int           | NO    |     | The song's popularity on a scale of 0 to 100 as rated by Spotify   |
 | duration    | int           | NO    |     | The song's duration in milliseconds                                |

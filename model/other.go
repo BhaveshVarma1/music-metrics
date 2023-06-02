@@ -36,6 +36,7 @@ type TopSong struct {
 	Count    int    `json:"count"`
 	SongId   string `json:"songId"`
 	ArtistId string `json:"artistId"`
+	Image    string `json:"image"`
 }
 
 type TopAlbum struct {

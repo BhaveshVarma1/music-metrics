@@ -30,8 +30,9 @@ func GetTopSongs(tx *sql.Tx, username string, startTime int64, endTime int64) ([
 		var songId string
 		var artist string
 		var artistId string
+		var image string
 		var count int
-		err = rows.Scan(&song, &songId, &artist, &artistId, &count)
+		err = rows.Scan(&song, &songId, &artist, &artistId, &image, &count)
 		if err != nil {
 			return nil, err
 		}
@@ -41,6 +42,7 @@ func GetTopSongs(tx *sql.Tx, username string, startTime int64, endTime int64) ([
 			Count:    count,
 			SongId:   songId,
 			ArtistId: artistId,
+			Image:    image,
 		})
 	}
 
@@ -70,8 +72,9 @@ func GetTopSongsTime(tx *sql.Tx, username string, startTime int64, endTime int64
 		var songId string
 		var artist string
 		var artistId string
+		var image string
 		var count int
-		err = rows.Scan(&song, &songId, &artist, &artistId, &count)
+		err = rows.Scan(&song, &songId, &artist, &artistId, &image, &count)
 		if err != nil {
 			return nil, err
 		}
@@ -81,6 +84,7 @@ func GetTopSongsTime(tx *sql.Tx, username string, startTime int64, endTime int64
 			Count:    count,
 			SongId:   songId,
 			ArtistId: artistId,
+			Image:    image,
 		})
 	}
 
