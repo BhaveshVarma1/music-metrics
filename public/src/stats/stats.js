@@ -72,22 +72,22 @@ export function Stats() {
             thead: (
                 <thead>
                 <tr className={"table-column-names"}>
-                    <th>Rank</th>
-                    <th></th>
-                    <th>Song name</th>
-                    <th>Artist</th>
-                    <th style={{textAlign: 'right'}}>Listens</th>
+                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "40%"}}>Song name</th>
+                    <th style={{width: "45%"}}>Artist</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
                 </thead>
             ),
             itemCallback: (item) => {
                 return (
                     <tr className={"table-row"}>
-                        <td style={{width: "5%"}}>{item.rank}</td>
-                        <td style={{width: "5%"}}><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                        <td style={{width: "40%"}}><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                        <td style={{width: "45%"}}><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                        <td style={{textAlign: 'right', width: "5%"}}>{item.count}</td>
+                        <td>{item.rank}</td>
+                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td style={{textAlign: 'right'}}>{item.count}</td>
                     </tr>
                 )
             }
@@ -127,9 +127,9 @@ export function Stats() {
         thead: (
             <thead>
             <tr className={"table-column-names"}>
-                <th>Rank</th>
-                <th>Artist name</th>
-                <th style={{textAlign: 'right'}}>Count</th>
+                <th style={{width: "5%"}}>Rank</th>
+                <th style={{width: "90%"}}>Artist name</th>
+                <th style={{textAlign: 'right', width: "5%"}}>Count</th>
             </tr>
             </thead>
         ),
@@ -150,9 +150,9 @@ export function Stats() {
         thead: (
             <thead>
             <tr className={"table-column-names"}>
-                <th>Rank</th>
-                <th>Artist name</th>
-                <th style={{textAlign: 'right'}}>Minutes</th>
+                <th style={{width: "5%"}}>Rank</th>
+                <th style={{width: "90%"}}>Artist name</th>
+                <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
             </tr>
             </thead>
         ),
@@ -173,22 +173,22 @@ export function Stats() {
         thead: (
             <thead>
             <tr className={"table-column-names"}>
-                <th>Rank</th>
-                <th></th>
-                <th>Album name</th>
-                <th>Artist</th>
-                <th style={{textAlign: 'right'}}>Listens</th>
+                <th style={{width: "5%"}}>Rank</th>
+                <th style={{width: "5%"}}></th>
+                <th style={{width: "40%"}}>Album name</th>
+                <th style={{width: "45%"}}>Artist</th>
+                <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
             </tr>
             </thead>
         ),
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
-                    <td style={{width: "5%"}}>{item.rank}</td>
-                    <td style={{width: "5%"}}><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td style={{width: "40%"}}><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
-                    <td style={{width: "45%"}}><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right', width: "5%"}}>{item.count}</td>
+                    <td>{item.rank}</td>
+                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
+                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                    <td style={{textAlign: 'right'}}>{item.count}</td>
                 </tr>
             )
         }
@@ -200,22 +200,22 @@ export function Stats() {
         thead: (
             <thead>
             <tr className={"table-column-names"}>
-                <th>Rank</th>
-                <th></th>
-                <th>Album name</th>
-                <th>Artist</th>
-                <th style={{textAlign: 'right'}}>Minutes</th>
+                <th style={{width: "5%"}}>Rank</th>
+                <th style={{width: "5%"}}></th>
+                <th style={{width: "40%"}}>Album name</th>
+                <th style={{width: "45%"}}>Artist</th>
+                <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
             </tr>
             </thead>
         ),
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
-                    <td style={{width: "5%"}}>{item.rank}</td>
-                    <td style={{width: "5%"}}><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td style={{width: "40%"}}><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
-                    <td style={{width: "45%"}}><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right', width: "5%"}}>{Math.round(item.count/60)}</td>
+                    <td>{item.rank}</td>
+                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
+                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                    <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
                 </tr>
             )
         }
