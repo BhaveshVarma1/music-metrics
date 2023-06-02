@@ -76,7 +76,7 @@ export function Stats() {
                     <th style={{width: "5%"}}></th>
                     <th style={{width: "40%"}}>Song name</th>
                     <th style={{width: "45%"}}>Artist</th>
-                    <th style={{textAlign: 'right', width: "5%"}}>Count</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
                 </thead>
             ),
