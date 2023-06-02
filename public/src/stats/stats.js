@@ -100,11 +100,11 @@ export function Stats() {
         thead: (
             <thead>
             <tr className={"table-column-names"}>
-                <th>Rank</th>
-                <th></th>
-                <th>Song name</th>
-                <th>Artist</th>
-                <th style={{textAlign: 'right'}}>Minutes</th>
+                <th style={{width: "5%"}}>Rank</th>
+                <th style={{width: "5%"}}></th>
+                <th style={{width: "40%"}}>Song name</th>
+                <th style={{width: "45%"}}>Artist</th>
+                <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
             </tr>
             </thead>
         ),
@@ -115,7 +115,7 @@ export function Stats() {
                     <td style={{width: "5%"}}><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td style={{width: "40%"}}><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
                     <td style={{width: "45%"}}><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
+                    <td style={{textAlign: 'right', width: "5%"}}>{Math.round(item.count/60)}</td>
                 </tr>
             )
         }
