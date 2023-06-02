@@ -32,3 +32,4 @@ Add Spotify logo todo
 Submit Extended Quota Request
 Figure out how to make money
 Stronger password on server
+Figure out proper way to build productions

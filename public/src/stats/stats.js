@@ -86,7 +86,7 @@ export function Stats() {
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td colSpan={2}><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                         <td style={{textAlign: 'right'}}>{item.count}</td>
                     </tr>
                 )
