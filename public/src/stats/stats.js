@@ -127,8 +127,8 @@ export function Stats() {
         thead: (
             <thead>
             <tr className={"table-column-names"}>
-                <th style={{width: "8%"}}>Rank</th>
-                <th style={{width: "87%"}}>Artist name</th>
+                <th style={{width: "15%"}}>Rank</th>
+                <th style={{width: "80%"}}>Artist name</th>
                 <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
             </tr>
             </thead>
@@ -150,8 +150,8 @@ export function Stats() {
         thead: (
             <thead>
             <tr className={"table-column-names"}>
-                <th style={{width: "8%"}}>Rank</th>
-                <th style={{width: "87%"}}>Artist name</th>
+                <th style={{width: "15%"}}>Rank</th>
+                <th style={{width: "80%"}}>Artist name</th>
                 <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
             </tr>
             </thead>
