@@ -9,7 +9,7 @@ func TestUpdateCode(t *testing.T) {
 
 	code := "AQDyLB6xTxF1GwXfog9FkR5F3aiN7xd9NnX_BaVbkn0T658kIlfDX2XZhJ_-OE4Ig_n9JNBgLrTPY1lmQYg85DcVdH-3pw4u9JD1ESFvFt3i1ZqgwQJlShgkeyOsXXg19xdo_Qwak9igtApzgNJLdRee-vMQvK45SCsicjQT2ENHdTfUh4uqmuAKu7WEhc3vBc90aszbmjATYPLo3jvLJxd-vpZkSKc0VNHusnDxmdYNOS058BDQGHJ5TZ4OUAT7NR16N74_tAZyT9z8D9gd0AS4w8ZffWMB5in9gVuhm6HF3uCvp_K3WyS5jlsptK91LZp3RjM95ACelPAVK64JdTR9LZ8lM6ycxKqrLviKcvhs9RR_kCcHskkr4BqSRMgjcp-cebcQDO6cGdRm68K7P2B7JncZKaN3EVwmCuv-SzECiyntJJOvgXItdtuZJOVKHcmMHobyoOOdfczBTPMVdlG55XcyALgxE1qH0fcDTjh6PG_mPt2_I-zzqPETjfWutHdoSqlOfoJQSeg"
 
-	resp := UpdateCode(code)
+	resp := UpdateCode(code, "test")
 	fmt.Print(resp)
 
 }

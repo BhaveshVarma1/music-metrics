@@ -9,27 +9,28 @@ import (
 
 func Load(history []model.ExtendedStreamingObject, username string) {
 
+	// Instantiate DB connection
+	tx, db, err := da.BeginTX()
+	if err != nil {
+		fmt.Println("Error beginning transaction in load service: ", err)
+		return
+	}
+
+	// Get authtoken (for obtaining spotify data) and timestamp of account creation
+	user, err := da.RetrieveUser(tx, username)
+	if err != nil {
+		fmt.Println("Error retrieving user in load service: ", err)
+		return
+	}
+	token, err := RefreshToken(user.Refresh)
+	if err != nil {
+		fmt.Println("Error refreshing token in load service: ", err)
+		return
+	}
+	endTime := user.Timestamp
+
+	// Loop necessary to fix a weird bug. Due to primary key constraints, listens will not be duplicated.
 	for {
-
-		// Instantiate DB connection
-		tx, db, err := da.BeginTX()
-		if err != nil {
-			fmt.Println("Error beginning transaction in load service: ", err)
-			return
-		}
-
-		// Get authtoken (for obtaining spotify data) and timestamp of account creation
-		user, err := da.RetrieveUser(tx, username)
-		if err != nil {
-			fmt.Println("Error retrieving user in load service: ", err)
-			return
-		}
-		token, err := RefreshToken(user.Refresh)
-		if err != nil {
-			fmt.Println("Error refreshing token in load service: ", err)
-			return
-		}
-		endTime := user.Timestamp
 
 		// Filter out bad data and build slice of unique track IDs
 		var uniqueTrackIDs []string
@@ -139,16 +140,16 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 			}
 		}
 
-		if da.CommitAndClose(tx, db, true) != nil {
-			fmt.Println("Error committing and closing transaction in load service: ", err)
-		}
-
 		fmt.Println(counter, "/", len(listensToAdd), "listens added to the database")
 
 		if counter == 0 {
 			break
 		}
 
+	}
+
+	if da.CommitAndClose(tx, db, true) != nil {
+		fmt.Println("Error committing and closing transaction in load service: ", err)
 	}
 }
 

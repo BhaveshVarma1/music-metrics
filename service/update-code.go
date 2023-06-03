@@ -1,13 +1,15 @@
 package service
 
 import (
+	"fmt"
 	"music-metrics/da"
 	"music-metrics/model"
 	"time"
 )
 
-func UpdateCode(code string) model.UpdateCodeResponse {
+func UpdateCode(code string, ip string) model.UpdateCodeResponse {
 
+	// Begin database transaction
 	tx, db, err := da.BeginTX()
 	if err != nil {
 		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
@@ -48,6 +50,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 	}
 
 	var token model.AuthTokenBean
+	logMessage := "updateCode, failure"
 
 	// If user does not exist, create user and auth token
 	if (existingUser == model.UserBean{}) {
@@ -88,6 +91,8 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		loopThroughRecentListens(recentListens, tx, currUser, 0)
 		PrintMessage("Successfully added listens to DB")
 
+		logMessage = "updateCode, new user successfully created"
+
 	} else {
 
 		// UserBean already exists, update them and get auth token
@@ -115,6 +120,19 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 			return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}
 		}
 		PrintMessage("Successfully updated user and got auth token")
+
+		logMessage = "updateCode, existing user successfully updated"
+	}
+
+	// Add log to DB
+	PrintMessage("Adding log to DB...")
+	if da.CreateLog(tx, &model.LogBean{
+		Username:  currUser.Username,
+		Timestamp: time.Now().UnixMilli(),
+		Action:    logMessage,
+		IP:        ip,
+	}) != nil {
+		fmt.Println("Error adding log to DB in update code: ", err.Error())
 	}
 
 	response = model.UpdateCodeResponse{
@@ -126,6 +144,7 @@ func UpdateCode(code string) model.UpdateCodeResponse {
 		Timestamp:   currUser.Timestamp,
 	}
 
+	// Commit to DB
 	PrintMessage("Committing to DB...")
 	if da.CommitAndClose(tx, db, true) != nil {
 		return model.UpdateCodeResponse{Success: false, Message: serverErrorStr}

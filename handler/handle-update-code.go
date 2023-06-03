@@ -9,14 +9,15 @@ import (
 
 func HandleUpdateCode(c echo.Context) error {
 
+	// Decode request
 	var req model.UpdateCodeRequest
 	err := json.NewDecoder(c.Request().Body).Decode(&req)
 	if err != nil {
 		return c.JSON(400, model.GenericResponse{Success: false, Message: "Error: improperly formatted request. Details: " + err.Error()})
 	}
 
-	resp := service.UpdateCode(req.Code)
-
+	// Call service
+	resp := service.UpdateCode(req.Code, c.RealIP())
 	if resp.Success {
 		return c.JSON(200, resp)
 	} else {

@@ -42,3 +42,10 @@ type UserBean struct {
 	Refresh     string `json:"refresh,omitempty"`
 	Timestamp   int64  `json:"timestamp,omitempty"`
 }
+
+type LogBean struct {
+	Username  string `json:"username"`
+	Timestamp int64  `json:"timestamp"`
+	Action    string `json:"action"`
+	IP        string `json:"ip"`
+}

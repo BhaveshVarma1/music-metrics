@@ -1,9 +1,3 @@
-DROP TABLE IF EXISTS listen;
-DROP TABLE IF EXISTS song;
-DROP TABLE IF EXISTS authtoken;
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS log;
-
 CREATE TABLE user (
 	username varchar(255) not null,
 	displayName varchar(255) not null,
@@ -16,8 +10,7 @@ CREATE TABLE authtoken (
 	token varchar(255) not null,
 	username varchar(255) not null,
 	expiration varchar(255),
-	PRIMARY KEY (token),
-	FOREIGN KEY (username) REFERENCES user(username)
+	PRIMARY KEY (token)
 );
 CREATE TABLE song (
 	id varchar(255) not null,
@@ -36,7 +29,6 @@ CREATE TABLE listen (
 	timestamp bigint not null,
 	songID varchar(255) not null,
 	PRIMARY KEY (username, timestamp, songID),
-	FOREIGN KEY (username) REFERENCES user(username),
 	FOREIGN KEY (songID) REFERENCES song(id)
 );
 CREATE TABLE album (
@@ -50,4 +42,11 @@ CREATE TABLE album (
     popularity int,
 	artistID varchar(1023) not null,
     PRIMARY KEY (id)
+);
+CREATE TABLE log (
+    username varchar(255) not null,
+    timestamp bigint not null,
+    action varchar(255) not null,
+    ip varchar(255) not null,
+    PRIMARY KEY (username, timestamp)
 );
