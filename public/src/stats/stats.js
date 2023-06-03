@@ -90,7 +90,7 @@ export function Stats() {
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
                         <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                         <td style={{textAlign: 'right'}}>{item.count}</td>
-                        <td><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></td>
+                        <td><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem", textAlign: "right"}}/></td>
                     </tr>
                 )
             }
