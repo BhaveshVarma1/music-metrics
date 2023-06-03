@@ -28,6 +28,7 @@ func main() {
 	e.POST("/api/v1/updateCode", handler.HandleUpdateCode)
 	e.GET("/api/v1/allStats/:username/:range", handler.StatsHandler(allStatsService))
 	e.POST("/api/v1/load/:username", handler.HandleLoad)
+	e.POST("api/v1/delete/:username", handler.HandleDelete)
 
 	// STATIC / REACT FILES
 	e.GET("/static/*", func(c echo.Context) error {

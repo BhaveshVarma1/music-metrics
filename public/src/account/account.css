@@ -16,6 +16,12 @@
     margin: 0 auto 5rem;
 }
 
+@media (orientation: portrait) {
+    .dropzone-all {
+        width: 90%;
+    }
+}
+
 .dropzone-all ul {
     list-style: none;
     display: flex;
