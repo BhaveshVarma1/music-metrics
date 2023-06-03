@@ -6,6 +6,7 @@ import React, {useEffect, useMemo, useState} from "react";
 import {Chart} from "react-google-charts";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
+import spotifyLogo from './spotify_logo.png'
 
 // Default values for the dropdowns (must be in the array specified in the props)
 const DEFAULT_SONG_COUNT_LIMIT = 100
@@ -89,7 +90,7 @@ export function Stats() {
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
                         <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                         <td style={{textAlign: 'right'}}>{item.count}</td>
-                        <td><img src={"spotify-icon.png"} alt={"Unavailable"} style={{width: "1.5rem"}}/></td>
+                        <td><img src={spotifyLogo} alt={"Unavailable"} style={{width: "1.5rem"}}/></td>
                     </tr>
                 )
             }
