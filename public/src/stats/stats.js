@@ -90,7 +90,7 @@ export function Stats() {
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
                         <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                        <td style={{textAlign: 'right'}}>{item.count}</td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
                     </tr>
                 )
             }
@@ -120,7 +120,7 @@ export function Stats() {
                     <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
                     <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
+                    <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
                 </tr>
             )
         }
@@ -145,7 +145,7 @@ export function Stats() {
                     <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                     <td>{item.rank}</td>
                     <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
-                    <td style={{textAlign: 'right'}}>{item.count}</td>
+                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
                 </tr>
             )
         }
@@ -170,7 +170,7 @@ export function Stats() {
                     <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                     <td>{item.rank}</td>
                     <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
-                    <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
+                    <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
                 </tr>
             )
         }
@@ -199,7 +199,7 @@ export function Stats() {
                     <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
                     <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{item.count}</td>
+                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
                 </tr>
             )
         }
@@ -228,7 +228,7 @@ export function Stats() {
                     <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
                     <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
+                    <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
                 </tr>
             )
         }
