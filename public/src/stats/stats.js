@@ -85,7 +85,7 @@ export function Stats() {
             itemCallback: (item) => {
                 return (
                     <tr className={"table-row"}>
-                        <td><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
@@ -115,7 +115,7 @@ export function Stats() {
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
-                    <td><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></td>
+                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                     <td>{item.rank}</td>
                     <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
@@ -142,7 +142,7 @@ export function Stats() {
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
-                    <td><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></td>
+                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                     <td>{item.rank}</td>
                     <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
                     <td style={{textAlign: 'right'}}>{item.count}</td>
@@ -167,7 +167,7 @@ export function Stats() {
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
-                    <td><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></td>
+                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                     <td>{item.rank}</td>
                     <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
                     <td style={{textAlign: 'right'}}>{Math.round(item.count/60)}</td>
@@ -194,7 +194,7 @@ export function Stats() {
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
-                    <td><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></td>
+                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                     <td>{item.rank}</td>
                     <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
@@ -223,7 +223,7 @@ export function Stats() {
         itemCallback: (item) => {
             return (
                 <tr className={"table-row"}>
-                    <td><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></td>
+                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                     <td>{item.rank}</td>
                     <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                     <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
