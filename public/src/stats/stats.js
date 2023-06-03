@@ -75,8 +75,9 @@ export function Stats() {
                     <th style={{width: "5%"}}>Rank</th>
                     <th style={{width: "5%"}}></th>
                     <th style={{width: "40%"}}>Song name</th>
-                    <th style={{width: "45%"}}>Artist</th>
+                    <th style={{width: "40%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
+                    <th style={{width: "5%"}}></th>
                 </tr>
                 </thead>
             ),
@@ -88,6 +89,7 @@ export function Stats() {
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
                         <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                         <td style={{textAlign: 'right'}}>{item.count}</td>
+                        <td><img src={"spotify-icon.svg"} alt={"Unavailable"}/></td>
                     </tr>
                 )
             }

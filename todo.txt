@@ -2,7 +2,7 @@ METRICS TO ADD: ----------------------------------------------------------------
 First song listened to (with date)
 Day(s) with the most minutes listened
 Stats surrounding audio features
-Most listened to songs by artist
+Most popular song per artist - to put in top artist table
 Graphs of certain stats over time (like StatsForSpotify)
 Artists by song diversity
 
@@ -10,7 +10,6 @@ FRONTEND FEATURES TO ADD: ------------------------------------------------------
 Finish current endpoints (mode year, avg popularity)
 Custom descriptions for Other
 Playlist builder
-Images for songs, albums todo
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
 DB log
@@ -24,7 +23,6 @@ Time zone issue
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
 Manual date input todo
-Spacing on the tables todo
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
 Get dad to send data todo
