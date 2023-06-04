@@ -134,6 +134,7 @@
 @media (orientation: portrait) {
     .table-acct {
         width: 90%;
+        font-size: .7rem;
     }
 }
 

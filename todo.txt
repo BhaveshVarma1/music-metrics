@@ -11,11 +11,9 @@ Finish current endpoints (mode year, avg popularity)
 Custom descriptions for Other
 Playlist builder
 Contact us / about page
-Add delete account button todo
+Add logout / delete account button todo
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
-Ability to delete data for a user todo
-Write a script to automatically back up the database todo
 Write better test cases
 
 IMPROVEMENTS TO MAKE: --------------------------------------------------------------------------------------------------
