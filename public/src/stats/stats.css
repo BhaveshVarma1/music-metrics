@@ -292,6 +292,12 @@
     border-collapse: collapse;
 }
 
+@media (orientation: portrait) {
+    .table-all {
+        width: 100%;
+    }
+}
+
 .table-all-artist {
     width: 40rem !important;
 }
@@ -323,6 +329,12 @@
 
 .table-row td {
     padding: .62rem .5rem;
+}
+
+@media (orientation: portrait) {
+    .table-row td {
+        padding: .62rem .25rem;
+    }
 }
 
 .temp-message {

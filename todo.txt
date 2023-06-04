@@ -18,7 +18,7 @@ Write better test cases
 
 IMPROVEMENTS TO MAKE: --------------------------------------------------------------------------------------------------
 Loading screen
-Optimization for mobile
+Optimization for mobile todo
 Time zone issue
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
