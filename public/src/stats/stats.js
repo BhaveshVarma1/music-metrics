@@ -2,7 +2,7 @@
 
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
@@ -65,37 +65,333 @@ export function Stats() {
     const [weekDayBreakdown, setWeekDayBreakdown] = useState([]);
 
     // OTHER
-    const songCountProps = useMemo(() => {
-        return {
-            defaultCount: DEFAULT_SONG_COUNT_LIMIT,
-            ddValues: [25, 50, 100, 250],
-            tableStyle: 'table-all',
-            thead: (
-                <thead>
-                <tr className={"table-column-names"}>
-                    <th style={{width: "5%"}}></th>
-                    <th style={{width: "5%"}}>Rank</th>
-                    <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Song name</th>
-                    <th style={{width: "40%"}}>Artist</th>
-                    <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
-                </tr>
-                </thead>
-            ),
-            itemCallback: (item) => {
-                return (
-                    <tr className={"table-row"}>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                        <td>{item.rank}</td>
-                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                        <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
-                    </tr>
-                )
-            }
+    const [currentData, setCurrentData] = useState(<StatsInfo text={"Loading..."}/>);
+
+    useEffect(() => {
+        console.log("Stats component mounted.")
+        if (getToken() == null || getToken() === 'undefined') return
+        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username') + '/' + startTime + '-' + endTime, fetchInit('/api/v1/allStats', null, getToken()))
+            .then(response => response.json())
+            .then(data => {
+
+                console.log(data)
+
+                if (data === "No songs found for this time period.") {
+                    setShowAllSelectors(false)
+                    setCurrentData(<StatsInfo text="No listening history found for this time period."/>)
+                    return
+                }
+
+                // ADD RANK COLUMN FOR RELEVANT ARRAYS
+                addRankColumn(data.topAlbums.items)
+                addRankColumn(data.topAlbumsTime.items)
+                addRankColumn(data.topArtists.items)
+                addRankColumn(data.topArtistsTime.items)
+                addRankColumn(data.topSongs.items)
+                addRankColumn(data.topSongsTime.items)
+
+                // DO CALCULATIONS FOR OTHER RELEVANT DATA
+                let minutes = Math.floor(data.averageLength.value / 60)
+
+                // ASSIGN DATA TO RESPECTIVE STATES
+                setAverageLength(minutes + ":" + makeIntDoubleDigit(data.averageLength.value - minutes * 60))
+                setAveragePopularity(data.averagePopularity.items)
+                setAverageYear(data.averageYear.value)
+                setDecadeBreakdown(data.decadeBreakdown.items)
+                setHourBreakdown(data.hourBreakdown.items)
+                setMedianYear(data.medianYear.value)
+                setModeYear(data.modeYear.items)
+                setPercentExplicit(data.percentExplicit.value + "%")
+                setTopAlbums(data.topAlbums.items)
+                setTopAlbumsTime(data.topAlbumsTime.items)
+                setTopArtists(data.topArtists.items)
+                setTopArtistsTime(data.topArtistsTime.items)
+                setTopSongs(data.topSongs.items)
+                setTopSongsTime(data.topSongsTime.items)
+                setTotalMinutes(addCommaToNumber(data.totalMinutes.value))
+                setTotalSongs(addCommaToNumber(data.totalSongs.value))
+                setUniqueAlbums(addCommaToNumber(data.uniqueAlbums.value))
+                setUniqueArtists(addCommaToNumber(data.uniqueArtists.value))
+                setUniqueSongs(addCommaToNumber(data.uniqueSongs.value))
+                setWeekDayBreakdown(addCommaToNumber(data.weekDayBreakdown.items))
+
+                // REMOVE LOADING MESSAGE
+                setShowAllSelectors(true)
+                setCurrentData(<TopTable items={data.topSongs.items} type={'songCount'}/>)
+
+                // RESET THE SELECTORS
+                setSongStyle(selectedStyle)
+                setArtistStyle(unselectedStyle)
+                setAlbumStyle(unselectedStyle)
+                setChartStyle(unselectedStyle)
+                setShowSelector2(true)
+                setCountStyle(selectedStyle)
+                setTimeStyle(unselectedStyle)
+                setCountStyle(selectedStyle)
+                setTimeStyle(unselectedStyle)
+
+            }).catch(error => {
+                console.error(error)
+            })
+    }, [startTime, endTime])
+
+    // LOGIN SCREEN
+    if (getToken() == null || getToken() === 'undefined') {
+        sessionStorage.setItem('route', 'stats')
+        return (
+            <div>
+                <PrimaryInfo text="Log in to continue to stats..."/>
+                <LoginButton text="LOGIN TO SPOTIFY"/>
+            </div>
+        )
+    }
+
+    function setToSong() {
+        setSongStyle(selectedStyle)
+        setArtistStyle(unselectedStyle)
+        setAlbumStyle(unselectedStyle)
+        setChartStyle(unselectedStyle)
+        setShowSelector2(true)
+        setCountStyle(selectedStyle)
+        setTimeStyle(unselectedStyle)
+
+        setCurrentData(<TopTable items={topSongs} type={'songCount'}/>)
+    }
+    function setToArtist() {
+        setSongStyle(unselectedStyle)
+        setArtistStyle(selectedStyle)
+        setAlbumStyle(unselectedStyle)
+        setChartStyle(unselectedStyle)
+        setShowSelector2(true)
+        setCountStyle(selectedStyle)
+        setTimeStyle(unselectedStyle)
+
+        setCurrentData(<TopTable items={topArtists} type={'artistCount'}/>)
+    }
+    function setToAlbum() {
+        setSongStyle(unselectedStyle)
+        setArtistStyle(unselectedStyle)
+        setAlbumStyle(selectedStyle)
+        setChartStyle(unselectedStyle)
+        setShowSelector2(true)
+        setCountStyle(selectedStyle)
+        setTimeStyle(unselectedStyle)
+
+        setCurrentData(<TopTable items={topAlbums} type={'albumCount'}/>)
+    }
+    function setToChart() {
+        setSongStyle(unselectedStyle)
+        setArtistStyle(unselectedStyle)
+        setAlbumStyle(unselectedStyle)
+        setChartStyle(selectedStyle)
+        setShowSelector2(false)
+
+        setCurrentData(<AllCharts
+            averageLength={averageLength}
+            averagePopularity={averagePopularity}
+            averageYear={averageYear}
+            decadeBreakdown={decadeBreakdown}
+            hourBreakdown={hourBreakdown}
+            medianYear={medianYear}
+            modeYear={modeYear}
+            percentExplicit={percentExplicit}
+            totalMinutes={totalMinutes}
+            totalSongs={totalSongs}
+            uniqueAlbums={uniqueAlbums}
+            uniqueArtists={uniqueArtists}
+            uniqueSongs={uniqueSongs}
+            weekDayBreakdown={weekDayBreakdown}
+        />)
+    }
+    function setToCount() {
+        setCountStyle(selectedStyle)
+        setTimeStyle(unselectedStyle)
+
+        if (songStyle === selectedStyle) {
+            setCurrentData(<TopTable items={topSongs} type={'songCount'}/>)
+        } else if (artistStyle === selectedStyle) {
+            setCurrentData(<TopTable items={topArtists} type={'artistCount'}/>)
+        } else if (albumStyle === selectedStyle) {
+            setCurrentData(<TopTable items={topAlbums} type={'albumCount'}/>)
         }
-    }, [])
+    }
+    function setToTime() {
+        setCountStyle(unselectedStyle)
+        setTimeStyle(selectedStyle)
+
+        if (songStyle === selectedStyle) {
+            setCurrentData(<TopTable items={topSongsTime} type={'songTime'}/>)
+        } else if (artistStyle === selectedStyle) {
+            setCurrentData(<TopTable items={topArtistsTime} type={'artistTime'}/>)
+        } else if (albumStyle === selectedStyle) {
+            setCurrentData(<TopTable items={topAlbumsTime} type={'albumTime'}/>)
+        }
+    }
+
+    function submitTimes(potStartTime, potEndTime) {
+        if (validateTimes(potStartTime, potEndTime)) {
+            if (potStartTime === startTime && potEndTime === endTime) return
+            setStartTime(potStartTime)
+            setEndTime(potEndTime)
+            setShowAllSelectors(false)
+            setCurrentData(<StatsInfo text="Loading..."/>)
+        } else {
+            console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
+            setShowAllSelectors(false)
+            setCurrentData(<StatsInfo text="Invalid time range, try again."/>)
+        }
+        // useEffect triggered when startTime / endTime change
+    }
+
+    function Dropdown() {
+
+        const [isOpen, setIsOpen] = useState(false);
+
+        // Close the dropdown if the user clicks outside of it
+        useEffect(() => {
+            document.addEventListener('click', (event) => {
+                if (!event.target.classList.toString().includes('dropdown-time')) {
+                    setIsOpen(false);
+                }
+            })
+        }, [])
+
+        function toggle() {
+            setIsOpen(!isOpen);
+        }
+
+        function itemClicked(startTime, endTime, index) {
+            // Assumes that custom time range is the last item in the array
+            if (index !== DEFAULT_TIME_RANGES.length - 1) {
+                submitTimes(startTime, endTime)
+                setUsingCustomTimeRange(false)
+            } else {
+                setUsingCustomTimeRange(true)
+            }
+            toggle()
+            setDisplayedTimeRange(DEFAULT_TIME_RANGES[index])
+        }
+
+        return (
+            <div className={'dd-wrapper'}>
+                <div className='dropdown-time'>
+                    {isOpen && (
+                        <div className='dropdown-time-menu'>
+                            <ul>
+                                <li onClick={() => {
+                                    itemClicked(0, Date.now(), 0)
+                                }}>{DEFAULT_TIME_RANGES[0]}</li>
+                                <li onClick={() => {
+                                    const now = Date.now()
+                                    itemClicked(now - (7 * 24 * 60 * 60 * 1000), now, 1)
+                                }}>{DEFAULT_TIME_RANGES[1]}</li>
+                                <li onClick={() => {
+                                    const now = Date.now()
+                                    itemClicked(now - (30 * 24 * 60 * 60 * 1000), now, 2)
+                                }}>{DEFAULT_TIME_RANGES[2]}</li>
+                                <li onClick={() => {
+                                    const now = new Date()
+                                    const yearEpoch = new Date(now.getFullYear(), 0, 1);
+                                    itemClicked(yearEpoch.getTime(), Date.now(), 3)
+                                }}>{DEFAULT_TIME_RANGES[3]}</li>
+                                <li onClick={() => {
+                                    itemClicked(0, Date.now(), 4)
+                                }}>{DEFAULT_TIME_RANGES[4]}</li>
+                            </ul>
+                        </div>
+                    )}
+                    <div className='dropdown-time-button' onClick={toggle}>
+                        {displayedTimeRange}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div>
+            <PrimaryInfo text="Stats central."/>
+            <div className={'small-description'}>Showing stats from:</div>
+            <div className={'extra-bottom-margin'}>
+                <Dropdown/>
+                {usingCustomTimeRange && (
+                    <div className={'custom-time-wrapper'}>
+                        <div className={'custom-time'}>
+                            <div className={'time-input-wrapper'}>
+                                <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) => {
+                                    submitTimes(dateToMillis(date), dateToMillis(selectedEndDate) + 86399999)
+                                    setSelectedStartDate(date)
+                                }}/>
+                            </div>
+                            <div className={'time-input-wrapper'}>
+                                <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => {
+                                    submitTimes(dateToMillis(selectedStartDate), dateToMillis(date) + 86399999)
+                                    setSelectedEndDate(date)
+                                }}/>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+            {showAllSelectors && (
+                <>
+                    <div className={'selector'}>
+                        <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+                        <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
+                        <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
+                        <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
+                    </div>
+                    {showSelector2 && (
+                        <div className={'selector extra-bottom-margin'}>
+                            <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
+                            <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
+                        </div>
+                    )}
+                </>
+            )}
+            {currentData}
+        </div>
+    )
+}
+
+// SECONDARY COMPONENTS
+function TopTable(props) {
+
+    let allItems = props.items
+    let type = props.type
+
+    // TO PASS IN AS PROPS:
+    // array of items
+    // defaultCount, ddValues, tableStyle, thead, itemCallback
+    const songCountProps = {
+        defaultCount: DEFAULT_SONG_COUNT_LIMIT,
+        ddValues: [25, 50, 100, 250],
+        tableStyle: 'table-all',
+        thead: (
+            <thead>
+            <tr className={"table-column-names"}>
+                <th style={{width: "5%"}}></th>
+                <th style={{width: "5%"}}>Rank</th>
+                <th style={{width: "5%"}}></th>
+                <th style={{width: "40%"}}>Song name</th>
+                <th style={{width: "40%"}}>Artist</th>
+                <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
+            </tr>
+            </thead>
+        ),
+        itemCallback: (item) => {
+            return (
+                <tr className={"table-row"}>
+                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                    <td>{item.rank}</td>
+                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                </tr>
+            )
+        }
+    }
     const songTimeProps = {
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
@@ -233,303 +529,29 @@ export function Stats() {
             )
         }
     }
-    const [currentData, setCurrentData] = useState(<StatsInfo text={"Loading..."}/>);
 
-    useEffect(() => {
-        console.log("Stats component mounted.")
-        if (getToken() == null || getToken() === 'undefined') return
-        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username') + '/' + startTime + '-' + endTime, fetchInit('/api/v1/allStats', null, getToken()))
-            .then(response => response.json())
-            .then(data => {
-
-                console.log(data)
-
-                if (data === "No songs found for this time period.") {
-                    setShowAllSelectors(false)
-                    setCurrentData(<StatsInfo text="No listening history found for this time period."/>)
-                    return
-                }
-
-                // ADD RANK COLUMN FOR RELEVANT ARRAYS
-                addRankColumn(data.topAlbums.items)
-                addRankColumn(data.topAlbumsTime.items)
-                addRankColumn(data.topArtists.items)
-                addRankColumn(data.topArtistsTime.items)
-                addRankColumn(data.topSongs.items)
-                addRankColumn(data.topSongsTime.items)
-
-                // DO CALCULATIONS FOR OTHER RELEVANT DATA
-                let minutes = Math.floor(data.averageLength.value / 60)
-
-                // ASSIGN DATA TO RESPECTIVE STATES
-                setAverageLength(minutes + ":" + makeIntDoubleDigit(data.averageLength.value - minutes * 60))
-                setAveragePopularity(data.averagePopularity.items)
-                setAverageYear(data.averageYear.value)
-                setDecadeBreakdown(data.decadeBreakdown.items)
-                setHourBreakdown(data.hourBreakdown.items)
-                setMedianYear(data.medianYear.value)
-                setModeYear(data.modeYear.items)
-                setPercentExplicit(data.percentExplicit.value + "%")
-                setTopAlbums(data.topAlbums.items)
-                setTopAlbumsTime(data.topAlbumsTime.items)
-                setTopArtists(data.topArtists.items)
-                setTopArtistsTime(data.topArtistsTime.items)
-                setTopSongs(data.topSongs.items)
-                setTopSongsTime(data.topSongsTime.items)
-                setTotalMinutes(addCommaToNumber(data.totalMinutes.value))
-                setTotalSongs(addCommaToNumber(data.totalSongs.value))
-                setUniqueAlbums(addCommaToNumber(data.uniqueAlbums.value))
-                setUniqueArtists(addCommaToNumber(data.uniqueArtists.value))
-                setUniqueSongs(addCommaToNumber(data.uniqueSongs.value))
-                setWeekDayBreakdown(addCommaToNumber(data.weekDayBreakdown.items))
-
-                // REMOVE LOADING MESSAGE
-                setShowAllSelectors(true)
-                setCurrentData(<TopTable items={data.topSongs.items} props={songCountProps}/>)
-
-                // RESET THE SELECTORS
-                setSongStyle(selectedStyle)
-                setArtistStyle(unselectedStyle)
-                setAlbumStyle(unselectedStyle)
-                setChartStyle(unselectedStyle)
-                setShowSelector2(true)
-                setCountStyle(selectedStyle)
-                setTimeStyle(unselectedStyle)
-                setCountStyle(selectedStyle)
-                setTimeStyle(unselectedStyle)
-
-            }).catch(error => {
-                console.error(error)
-            })
-    }, [songCountProps, startTime, endTime])
-
-    // LOGIN SCREEN
-    if (getToken() == null || getToken() === 'undefined') {
-        sessionStorage.setItem('route', 'stats')
-        return (
-            <div>
-                <PrimaryInfo text="Log in to continue to stats..."/>
-                <LoginButton text="LOGIN TO SPOTIFY"/>
-            </div>
-        )
+    switch (type) {
+        case 'songCount':
+            props = songCountProps
+            break
+        case 'songTime':
+            props = songTimeProps
+            break
+        case 'artistCount':
+            props = artistCountProps
+            break
+        case 'artistTime':
+            props = artistTimeProps
+            break
+        case 'albumCount':
+            props = albumCountProps
+            break
+        case 'albumTime':
+            props = albumTimeProps
+            break
+        default:
+            props = songCountProps
     }
-
-    function setToSong() {
-        setSongStyle(selectedStyle)
-        setArtistStyle(unselectedStyle)
-        setAlbumStyle(unselectedStyle)
-        setChartStyle(unselectedStyle)
-        setShowSelector2(true)
-        setCountStyle(selectedStyle)
-        setTimeStyle(unselectedStyle)
-
-        setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
-    }
-    function setToArtist() {
-        setSongStyle(unselectedStyle)
-        setArtistStyle(selectedStyle)
-        setAlbumStyle(unselectedStyle)
-        setChartStyle(unselectedStyle)
-        setShowSelector2(true)
-        setCountStyle(selectedStyle)
-        setTimeStyle(unselectedStyle)
-
-        setCurrentData(<TopTable items={topArtists} props={artistCountProps}/>)
-    }
-    function setToAlbum() {
-        setSongStyle(unselectedStyle)
-        setArtistStyle(unselectedStyle)
-        setAlbumStyle(selectedStyle)
-        setChartStyle(unselectedStyle)
-        setShowSelector2(true)
-        setCountStyle(selectedStyle)
-        setTimeStyle(unselectedStyle)
-
-        setCurrentData(<TopTable items={topAlbums} props={albumCountProps}/>)
-    }
-    function setToChart() {
-        setSongStyle(unselectedStyle)
-        setArtistStyle(unselectedStyle)
-        setAlbumStyle(unselectedStyle)
-        setChartStyle(selectedStyle)
-        setShowSelector2(false)
-
-        setCurrentData(<AllCharts
-            averageLength={averageLength}
-            averagePopularity={averagePopularity}
-            averageYear={averageYear}
-            decadeBreakdown={decadeBreakdown}
-            hourBreakdown={hourBreakdown}
-            medianYear={medianYear}
-            modeYear={modeYear}
-            percentExplicit={percentExplicit}
-            totalMinutes={totalMinutes}
-            totalSongs={totalSongs}
-            uniqueAlbums={uniqueAlbums}
-            uniqueArtists={uniqueArtists}
-            uniqueSongs={uniqueSongs}
-            weekDayBreakdown={weekDayBreakdown}
-        />)
-    }
-    function setToCount() {
-        setCountStyle(selectedStyle)
-        setTimeStyle(unselectedStyle)
-
-        if (songStyle === selectedStyle) {
-            setCurrentData(<TopTable items={topSongs} props={songCountProps}/>)
-        } else if (artistStyle === selectedStyle) {
-            setCurrentData(<TopTable items={topArtists} props={artistCountProps}/>)
-        } else if (albumStyle === selectedStyle) {
-            setCurrentData(<TopTable items={topAlbums} props={albumCountProps}/>)
-        }
-    }
-    function setToTime() {
-        setCountStyle(unselectedStyle)
-        setTimeStyle(selectedStyle)
-
-        if (songStyle === selectedStyle) {
-            setCurrentData(<TopTable items={topSongsTime} props={songTimeProps}/>)
-        } else if (artistStyle === selectedStyle) {
-            setCurrentData(<TopTable items={topArtistsTime} props={artistTimeProps}/>)
-        } else if (albumStyle === selectedStyle) {
-            setCurrentData(<TopTable items={topAlbumsTime} props={albumTimeProps}/>)
-        }
-    }
-
-    function submitTimes(potStartTime, potEndTime) {
-        if (validateTimes(potStartTime, potEndTime)) {
-            if (potStartTime === startTime && potEndTime === endTime) return
-            setStartTime(potStartTime)
-            setEndTime(potEndTime)
-            setShowAllSelectors(false)
-            setCurrentData(<StatsInfo text="Loading..."/>)
-        } else {
-            console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
-            setShowAllSelectors(false)
-            setCurrentData(<StatsInfo text="Invalid time range, try again."/>)
-        }
-        // useEffect triggered when startTime / endTime change
-    }
-
-    function Dropdown() {
-
-        const [isOpen, setIsOpen] = useState(false);
-
-        // Close the dropdown if the user clicks outside of it
-        useEffect(() => {
-            document.addEventListener('click', (event) => {
-                if (!event.target.classList.toString().includes('dropdown-time')) {
-                    setIsOpen(false);
-                }
-            })
-        }, [])
-
-        function toggle() {
-            setIsOpen(!isOpen);
-        }
-
-        function itemClicked(startTime, endTime, index) {
-            // Assumes that custom time range is the last item in the array
-            if (index !== DEFAULT_TIME_RANGES.length - 1) {
-                submitTimes(startTime, endTime)
-                setUsingCustomTimeRange(false)
-            } else {
-                setUsingCustomTimeRange(true)
-            }
-            toggle()
-            setDisplayedTimeRange(DEFAULT_TIME_RANGES[index])
-        }
-
-        return (
-            <div className={'dd-wrapper'}>
-                <div className='dropdown-time'>
-                    {isOpen && (
-                        <div className='dropdown-time-menu'>
-                            <ul>
-                                <li onClick={() => {
-                                    itemClicked(0, Date.now(), 0)
-                                }}>{DEFAULT_TIME_RANGES[0]}</li>
-                                <li onClick={() => {
-                                    const now = Date.now()
-                                    itemClicked(now - (7 * 24 * 60 * 60 * 1000), now, 1)
-                                }}>{DEFAULT_TIME_RANGES[1]}</li>
-                                <li onClick={() => {
-                                    const now = Date.now()
-                                    itemClicked(now - (30 * 24 * 60 * 60 * 1000), now, 2)
-                                }}>{DEFAULT_TIME_RANGES[2]}</li>
-                                <li onClick={() => {
-                                    const now = new Date()
-                                    const yearEpoch = new Date(now.getFullYear(), 0, 1);
-                                    itemClicked(yearEpoch.getTime(), Date.now(), 3)
-                                }}>{DEFAULT_TIME_RANGES[3]}</li>
-                                <li onClick={() => {
-                                    itemClicked(0, Date.now(), 4)
-                                }}>{DEFAULT_TIME_RANGES[4]}</li>
-                            </ul>
-                        </div>
-                    )}
-                    <div className='dropdown-time-button' onClick={toggle}>
-                        {displayedTimeRange}
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
-    return (
-        <div>
-            <PrimaryInfo text="Stats central."/>
-            <div className={'small-description'}>Showing stats from:</div>
-            <div className={'extra-bottom-margin'}>
-                <Dropdown/>
-                {usingCustomTimeRange && (
-                    <div className={'custom-time-wrapper'}>
-                        <div className={'custom-time'}>
-                            <div className={'time-input-wrapper'}>
-                                <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) => {
-                                    submitTimes(dateToMillis(date), dateToMillis(selectedEndDate) + 86399999)
-                                    setSelectedStartDate(date)
-                                }}/>
-                            </div>
-                            <div className={'time-input-wrapper'}>
-                                <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => {
-                                    submitTimes(dateToMillis(selectedStartDate), dateToMillis(date) + 86399999)
-                                    setSelectedEndDate(date)
-                                }}/>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
-            {showAllSelectors && (
-                <>
-                    <div className={'selector'}>
-                        <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
-                        <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
-                        <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
-                        <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
-                    </div>
-                    {showSelector2 && (
-                        <div className={'selector extra-bottom-margin'}>
-                            <div className={countStyle + ' selector-option corner-rounded-left'} onClick={setToCount}>By Count</div>
-                            <div className={timeStyle + ' selector-option corner-rounded-right'} onClick={setToTime}>By Time</div>
-                        </div>
-                    )}
-                </>
-            )}
-            {currentData}
-        </div>
-    )
-}
-
-// SECONDARY COMPONENTS
-function TopTable(props) {
-    let allItems = props.items
-    props = props.props
-
-    // TO PASS IN AS PROPS:
-    // array of items
-    // defaultCount, ddValues, tableStyle, thead, itemCallback
 
     const [displayedItems, setDisplayedItems] = useState([])
     const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
