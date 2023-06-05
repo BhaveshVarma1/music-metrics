@@ -402,8 +402,6 @@ function TopTable(props) {
                 </thead>
             ),
             row_horiz: (item) => {
-                console.log("Item: " + item)
-                if (item == null) return
                 return (
                     <tr className={"table-row"}>
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
@@ -704,14 +702,10 @@ function TopTable(props) {
             default:
                 currentProps = songCountProps
         }
-        console.log("Type: " + type)
         setDropdownValue(currentProps.defaultCount)
         setDisplayedItems(allItems.slice(0, currentProps.defaultCount))
         setTableStyle(currentProps.tableStyle)
         setDropdown(<Dropdown values={currentProps.ddValues} />)
-
-        console.log("current props")
-        console.log(currentProps)
 
         const mediaQuery = window.matchMedia('(orientation: portrait)');
         setCurrentHeader(mediaQuery.matches ? currentProps.head_vert : currentProps.head_horiz)
