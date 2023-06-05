@@ -365,11 +365,12 @@ function TopTable(props) {
     const [currentHeader, setCurrentHeader] = useState(null)
     const [currentRow, setCurrentRow] = useState(null)
     const [displayedItems, setDisplayedItems] = useState([])
+    const [allItems, setAllItems] = useState([])
     const [dropdownValue, setDropdownValue] = useState(0)
 
     useEffect(() => {
 
-        let allItems = props.items
+        setAllItems(props.items)
         let type = props.type
 
         const songCountProps = {
