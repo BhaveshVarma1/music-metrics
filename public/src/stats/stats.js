@@ -364,7 +364,6 @@ function TopTable(props) {
     const [currentHeader, setCurrentHeader] = useState(null)
     const [currentRow, setCurrentRow] = useState(null)
     const [displayedItems, setDisplayedItems] = useState([])
-    //const [allItems, setAllItems] = useState([])
     const [dropdownValue, setDropdownValue] = useState(0)
     const [tableStyle, setTableStyle] = useState('table-all')
     const [dropdown, setDropdown] = useState(null)
@@ -372,7 +371,6 @@ function TopTable(props) {
 
     useEffect(() => {
 
-        //setAllItems(props.items)
         let type = props.type
 
         let currentProps = null
@@ -777,7 +775,6 @@ function TopTable(props) {
 
     return (
         <div>
-            <div style={{color: "white"}} onClick={() => console.log("current row: ", currentRow)}>DELETE ME</div>
             <table className={tableStyle}>
                 {currentHeader}
                 <tbody>
