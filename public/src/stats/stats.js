@@ -1,4 +1,4 @@
-// noinspection JSUnresolvedVariable,JSCheckFunctionSignatures
+// noinspection JSUnresolvedVariable,JSCheckFunctionSignatures,JSUnusedGlobalSymbols
 
 import './stats.css';
 import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
@@ -416,6 +416,7 @@ function TopTable(props) {
             )
         }
     }
+    // noinspection JSUnusedGlobalSymbols
     const songTimeProps = {
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
@@ -798,6 +799,7 @@ function AllCharts(props) {
 
 function DecadePieChart(props) {
 
+    // noinspection JSValidateTypes
     return (
         <div className={'decade-wrapper'}>
             <Chart
@@ -829,6 +831,7 @@ function DecadePieChart(props) {
 
 function HourChart(props) {
 
+        // noinspection JSValidateTypes
         return (
             <div className={'hour-wrapper'}>
                 <Chart
