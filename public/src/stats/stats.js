@@ -405,6 +405,7 @@ function TopTable(props) {
         ),
         row_horiz: (item) => {
             console.log("Item: " + item)
+            console.log("Current Row: " + currentRow)
             if (item == null) return
             return (
                 <tr className={"table-row"}>
