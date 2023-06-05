@@ -404,6 +404,7 @@ function TopTable(props) {
         ),
         row_horiz: (item) => {
             console.log("Item: " + item)
+            if (item == null) return
             return (
                 <tr className={"table-row"}>
                     <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
