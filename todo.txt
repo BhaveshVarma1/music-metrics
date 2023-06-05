@@ -11,7 +11,8 @@ Finish current endpoints (mode year, avg popularity)
 Custom descriptions for Other
 Playlist builder
 Contact us / about page
-Add logout / delete account button todo
+Logout / delete account button todo
+Fancy scroll bar?
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
 Write better test cases
