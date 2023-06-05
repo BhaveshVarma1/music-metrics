@@ -421,7 +421,7 @@ function TopTable(props) {
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                         <td>
                             <div style={{display: "flex", flexDirection: "column"}}>
-                                <a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a>
+                                <a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}><b>{item.song}</b></a>
                                 <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
                             </div>
                         </td>
