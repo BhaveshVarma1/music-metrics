@@ -360,8 +360,6 @@ function TopTable(props) {
     // TO PASS IN AS PROPS:
     // array of items
     // string representing type of item (songCount, artistTime, ...)
-    let allItems = props.items
-    let type = props.type
 
     const [currentProps, setCurrentProps] = useState(null)
     const [currentHeader, setCurrentHeader] = useState(null)
@@ -370,6 +368,10 @@ function TopTable(props) {
     const [dropdownValue, setDropdownValue] = useState(0)
 
     useEffect(() => {
+
+        let allItems = props.items
+        let type = props.type
+
         const songCountProps = {
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
