@@ -377,64 +377,63 @@ function TopTable(props) {
 
         let currentProps = null
         const songCountProps = {
-        defaultCount: DEFAULT_SONG_COUNT_LIMIT,
-        ddValues: [25, 50, 100, 250],
-        tableStyle: 'table-all',
-        head_horiz: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "5%"}}>Rank</th>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "40%"}}>Song name</th>
-                <th style={{width: "40%"}}>Artist</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
-            </tr>
-            </thead>
-        ),
-        head_vert: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{}}></th>
-                <th style={{}}>Rank</th>
-                <th style={{}}></th>
-                <th style={{}}>Song</th>
-                <th style={{textAlign: 'right'}}>Listens</th>
-            </tr>
-            </thead>
-        ),
-        row_horiz: (item) => {
-            console.log("Item: " + item)
-            console.log("Current Row: " + currentRow)
-            if (item == null) return
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+            defaultCount: DEFAULT_SONG_COUNT_LIMIT,
+            ddValues: [25, 50, 100, 250],
+            tableStyle: 'table-all',
+            head_horiz: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "40%"}}>Song name</th>
+                    <th style={{width: "40%"}}>Artist</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
-            )
-        },
-        row_vert: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td>
-                        <div style={{display: "flex", flexDirection: "column"}}>
-                            <a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a>
-                            <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
-                        </div>
-                    </td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                </thead>
+            ),
+            head_vert: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{}}></th>
+                    <th style={{}}>Rank</th>
+                    <th style={{}}></th>
+                    <th style={{}}>Song</th>
+                    <th style={{textAlign: 'right'}}>Listens</th>
                 </tr>
-            )
+                </thead>
+            ),
+            row_horiz: (item) => {
+                console.log("Item: " + item)
+                if (item == null) return
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                    </tr>
+                )
+            },
+            row_vert: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                        <td>
+                            <div style={{display: "flex", flexDirection: "column"}}>
+                                <a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a>
+                                <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
+                            </div>
+                        </td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                    </tr>
+                )
+            }
         }
-    }
         const songTimeProps = {
             defaultCount: DEFAULT_SONG_COUNT_LIMIT,
             ddValues: [25, 50, 100, 250],
