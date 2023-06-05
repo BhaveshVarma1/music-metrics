@@ -722,7 +722,7 @@ function TopTable(props) {
         return () => {
             mediaQuery.removeEventListener('change', handleOrientationChange);
         };
-    }, [props, currentProps, allItems])
+    }, [props, allItems])
 
     function Dropdown(props) {
 
