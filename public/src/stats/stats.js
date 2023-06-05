@@ -712,9 +712,10 @@ function TopTable(props) {
         setTableStyle(currentProps.tableStyle)
         setDropdown(<Dropdown values={currentProps.ddValues} />)
 
+        console.log("Current props: " + currentProps)
+
         const mediaQuery = window.matchMedia('(orientation: portrait)');
         setCurrentHeader(mediaQuery.matches ? currentProps.head_vert : currentProps.head_horiz)
-        console.log("test", currentProps.row_horiz())
         setCurrentRow(mediaQuery.matches ? currentProps.row_vert : currentProps.row_horiz)
 
         const handleOrientationChange = (event) => {
