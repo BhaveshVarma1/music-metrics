@@ -775,6 +775,7 @@ function TopTable(props) {
 
     return (
         <div>
+            <div style={{color: "white"}} onClick={() => console.log("current row: ", currentRow)}>DELETE ME</div>
             <table className={tableStyle}>
                 {currentHeader}
                 <tbody>
