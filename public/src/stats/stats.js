@@ -361,19 +361,21 @@ function TopTable(props) {
     // array of items
     // string representing type of item (songCount, artistTime, ...)
 
-    const [currentProps, setCurrentProps] = useState(null)
+    //const [currentProps, setCurrentProps] = useState(null)
     const [currentHeader, setCurrentHeader] = useState(null)
     const [currentRow, setCurrentRow] = useState(null)
     const [displayedItems, setDisplayedItems] = useState([])
     const [allItems, setAllItems] = useState([])
     const [dropdownValue, setDropdownValue] = useState(0)
     const [tableStyle, setTableStyle] = useState('table-all')
+    const [dropdown, setDropdown] = useState(null)
 
     useEffect(() => {
 
         setAllItems(props.items)
         let type = props.type
 
+        let currentProps = null
         const songCountProps = {
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
@@ -682,29 +684,30 @@ function TopTable(props) {
 
         switch (type) {
             case 'songCount':
-                setCurrentProps(songCountProps)
+                currentProps = songCountProps
                 break
             case 'songTime':
-                setCurrentProps(songTimeProps)
+                currentProps = songTimeProps
                 break
             case 'artistCount':
-                setCurrentProps(artistCountProps)
+                currentProps = artistCountProps
                 break
             case 'artistTime':
-                setCurrentProps(artistTimeProps)
+                currentProps = artistTimeProps
                 break
             case 'albumCount':
-                setCurrentProps(albumCountProps)
+                currentProps = albumCountProps
                 break
             case 'albumTime':
-                setCurrentProps(albumTimeProps)
+                currentProps = albumTimeProps
                 break
             default:
-                setCurrentProps(songCountProps)
+                currentProps = songCountProps
         }
         setDropdownValue(currentProps.defaultCount)
         setDisplayedItems(allItems.slice(0, currentProps.defaultCount))
         setTableStyle(currentProps.tableStyle)
+        setDropdown(<Dropdown values={currentProps.ddValues} />)
 
         const mediaQuery = window.matchMedia('(orientation: portrait)');
         setCurrentHeader(mediaQuery.matches ? currentProps.head_vert : currentProps.head_horiz)
@@ -721,7 +724,9 @@ function TopTable(props) {
         };
     }, [props, currentProps, allItems])
 
-    function Dropdown() {
+    function Dropdown(props) {
+
+        const ddValues = props.values
         const [isOpen, setIsOpen] = useState(false);
 
         // Close the dropdown if the user clicks outside of it
@@ -749,10 +754,10 @@ function TopTable(props) {
                     {isOpen && (
                         <div className='dropdown-stats-menu'>
                             <ul>
-                                <li onClick={() => itemClicked(currentProps.ddValues[0])}>{currentProps.ddValues[0]}</li>
-                                <li onClick={() => itemClicked(currentProps.ddValues[1])}>{currentProps.ddValues[1]}</li>
-                                <li onClick={() => itemClicked(currentProps.ddValues[2])}>{currentProps.ddValues[2]}</li>
-                                <li onClick={() => itemClicked(currentProps.ddValues[3])}>{currentProps.ddValues[3]}</li>
+                                <li onClick={() => itemClicked(ddValues[0])}>{ddValues[0]}</li>
+                                <li onClick={() => itemClicked(ddValues[1])}>{ddValues[1]}</li>
+                                <li onClick={() => itemClicked(ddValues[2])}>{ddValues[2]}</li>
+                                <li onClick={() => itemClicked(ddValues[3])}>{ddValues[3]}</li>
                             </ul>
                         </div>
                     )}
@@ -772,7 +777,7 @@ function TopTable(props) {
                 {(displayedItems != null && currentRow != null) && displayedItems.map(currentRow)}
                 </tbody>
             </table>
-            <Dropdown/>
+            {dropdown}
         </div>
     )
 }
