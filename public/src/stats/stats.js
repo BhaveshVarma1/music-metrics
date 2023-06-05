@@ -717,11 +717,11 @@ function TopTable(props) {
 
         const mediaQuery = window.matchMedia('(orientation: portrait)');
         setCurrentHeader(mediaQuery.matches ? currentProps.head_vert : currentProps.head_horiz)
-        setCurrentRow(mediaQuery.matches ? currentProps.row_vert : currentProps.row_horiz)
+        setCurrentRow(mediaQuery.matches ? () => currentProps.row_vert : () => currentProps.row_horiz)
 
         const handleOrientationChange = (event) => {
             setCurrentHeader(event.matches ? currentProps.head_vert : currentProps.head_horiz)
-            setCurrentRow(event.matches ? currentProps.row_vert : currentProps.row_horiz)
+            setCurrentRow(event.matches ? () => currentProps.row_vert : () => currentProps.row_horiz)
         };
 
         mediaQuery.addEventListener('change', handleOrientationChange);
