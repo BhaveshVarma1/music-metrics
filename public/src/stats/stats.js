@@ -359,11 +359,18 @@ function TopTable(props) {
 
     // TO PASS IN AS PROPS:
     // array of items
-    // string representing type of item (song, artist, album)
+    // string representing type of item (songCount, artistTime, ...)
     let allItems = props.items
     let type = props.type
 
-    const songCountProps = {
+    const [currentProps, setCurrentProps] = useState(null)
+    const [currentHeader, setCurrentHeader] = useState(null)
+    const [currentRow, setCurrentRow] = useState(null)
+    const [displayedItems, setDisplayedItems] = useState([])
+    const [dropdownValue, setDropdownValue] = useState(0)
+
+    useEffect(() => {
+        const songCountProps = {
         defaultCount: DEFAULT_SONG_COUNT_LIMIT,
         ddValues: [25, 50, 100, 250],
         tableStyle: 'table-all',
@@ -419,304 +426,295 @@ function TopTable(props) {
             )
         }
     }
-    const songTimeProps = {
-        defaultCount: DEFAULT_SONG_COUNT_LIMIT,
-        ddValues: [25, 50, 100, 250],
-        tableStyle: 'table-all',
-        head_horiz: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "5%"}}>Rank</th>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "40%"}}>Song name</th>
-                <th style={{width: "40%"}}>Artist</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
-            </tr>
-            </thead>
-        ),
-        head_vert: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "5%"}}>Rank</th>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "40%"}}>Song name</th>
-                <th style={{width: "40%"}}>Artist</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
-            </tr>
-            </thead>
-        ),
-        row_horiz: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+        const songTimeProps = {
+            defaultCount: DEFAULT_SONG_COUNT_LIMIT,
+            ddValues: [25, 50, 100, 250],
+            tableStyle: 'table-all',
+            head_horiz: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "40%"}}>Song name</th>
+                    <th style={{width: "40%"}}>Artist</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
-            )
-        },
-        row_vert: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+                </thead>
+            ),
+            head_vert: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "40%"}}>Song name</th>
+                    <th style={{width: "40%"}}>Artist</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
-            )
+                </thead>
+            ),
+            row_horiz: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+                    </tr>
+                )
+            },
+            row_vert: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+                    </tr>
+                )
+            }
         }
-    }
-    const artistCountProps = {
-        defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
-        ddValues: [10, 25, 50, 100],
-        tableStyle: 'table-all table-all-artist',
-        head_horiz: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "15%"}}>Rank</th>
-                <th style={{width: "75%"}}>Artist name</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
-            </tr>
-            </thead>
-        ),
-        head_vert: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "15%"}}>Rank</th>
-                <th style={{width: "75%"}}>Artist name</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
-            </tr>
-            </thead>
-        ),
-        row_horiz: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+        const artistCountProps = {
+            defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
+            ddValues: [10, 25, 50, 100],
+            tableStyle: 'table-all table-all-artist',
+            head_horiz: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "15%"}}>Rank</th>
+                    <th style={{width: "75%"}}>Artist name</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
-            )
-        },
-        row_vert: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                </thead>
+            ),
+            head_vert: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "15%"}}>Rank</th>
+                    <th style={{width: "75%"}}>Artist name</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
-            )
+                </thead>
+            ),
+            row_horiz: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                    </tr>
+                )
+            },
+            row_vert: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                    </tr>
+                )
+            }
         }
-    }
-    const artistTimeProps = {
-        defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
-        ddValues: [10, 25, 50, 100],
-        tableStyle: 'table-all table-all-artist',
-        head_horiz: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "15%"}}>Rank</th>
-                <th style={{width: "75%"}}>Artist name</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
-            </tr>
-            </thead>
-        ),
-        head_vert: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "15%"}}>Rank</th>
-                <th style={{width: "75%"}}>Artist name</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
-            </tr>
-            </thead>
-        ),
-        row_horiz: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+        const artistTimeProps = {
+            defaultCount: DEFAULT_ARTIST_COUNT_LIMIT,
+            ddValues: [10, 25, 50, 100],
+            tableStyle: 'table-all table-all-artist',
+            head_horiz: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "15%"}}>Rank</th>
+                    <th style={{width: "75%"}}>Artist name</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
-            )
-        },
-        row_vert: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+                </thead>
+            ),
+            head_vert: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "15%"}}>Rank</th>
+                    <th style={{width: "75%"}}>Artist name</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
-            )
+                </thead>
+            ),
+            row_horiz: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+                    </tr>
+                )
+            },
+            row_vert: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><a href={OPEN_SPOTIFY + '/artist/' + item.artistId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.artist}</a></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+                    </tr>
+                )
+            }
         }
-    }
-    const albumCountProps = {
-        defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
-        ddValues: [10, 25, 50, 100],
-        tableStyle: 'table-all',
-        head_horiz: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "5%"}}>Rank</th>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "40%"}}>Album name</th>
-                <th style={{width: "40%"}}>Artist</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
-            </tr>
-            </thead>
-        ),
-        head_vert: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "5%"}}>Rank</th>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "40%"}}>Album name</th>
-                <th style={{width: "40%"}}>Artist</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
-            </tr>
-            </thead>
-        ),
-        row_horiz: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
-                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+        const albumCountProps = {
+            defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
+            ddValues: [10, 25, 50, 100],
+            tableStyle: 'table-all',
+            head_horiz: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "40%"}}>Album name</th>
+                    <th style={{width: "40%"}}>Artist</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
-            )
-        },
-        row_vert: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
-                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                </thead>
+            ),
+            head_vert: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "40%"}}>Album name</th>
+                    <th style={{width: "40%"}}>Artist</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
-            )
+                </thead>
+            ),
+            row_horiz: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                    </tr>
+                )
+            },
+            row_vert: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                    </tr>
+                )
+            }
         }
-    }
-    const albumTimeProps = {
-        defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
-        ddValues: [10, 25, 50, 100],
-        tableStyle: 'table-all',
-        head_horiz: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "5%"}}>Rank</th>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "40%"}}>Album name</th>
-                <th style={{width: "40%"}}>Artist</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
-            </tr>
-            </thead>
-        ),
-        head_vert: (
-            <thead>
-            <tr className={"table-column-names"}>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "5%"}}>Rank</th>
-                <th style={{width: "5%"}}></th>
-                <th style={{width: "40%"}}>Album name</th>
-                <th style={{width: "40%"}}>Artist</th>
-                <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
-            </tr>
-            </thead>
-        ),
-        row_horiz: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
-                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+        const albumTimeProps = {
+            defaultCount: DEFAULT_ALBUM_COUNT_LIMIT,
+            ddValues: [10, 25, 50, 100],
+            tableStyle: 'table-all',
+            head_horiz: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "40%"}}>Album name</th>
+                    <th style={{width: "40%"}}>Artist</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
-            )
-        },
-        row_vert: (item) => {
-            return (
-                <tr className={"table-row"}>
-                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                    <td>{item.rank}</td>
-                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                    <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
-                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                    <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+                </thead>
+            ),
+            head_vert: (
+                <thead>
+                <tr className={"table-column-names"}>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}></th>
+                    <th style={{width: "40%"}}>Album name</th>
+                    <th style={{width: "40%"}}>Artist</th>
+                    <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
-            )
+                </thead>
+            ),
+            row_horiz: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+                    </tr>
+                )
+            },
+            row_vert: (item) => {
+                return (
+                    <tr className={"table-row"}>
+                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td>{item.rank}</td>
+                        <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
+                    </tr>
+                )
+            }
         }
-    }
 
-    switch (type) {
-        case 'songCount':
-            props = songCountProps
-            break
-        case 'songTime':
-            props = songTimeProps
-            break
-        case 'artistCount':
-            props = artistCountProps
-            break
-        case 'artistTime':
-            props = artistTimeProps
-            break
-        case 'albumCount':
-            props = albumCountProps
-            break
-        case 'albumTime':
-            props = albumTimeProps
-            break
-        default:
-            props = songCountProps
-    }
+        switch (type) {
+            case 'songCount':
+                setCurrentProps(songCountProps)
+                break
+            case 'songTime':
+                setCurrentProps(songTimeProps)
+                break
+            case 'artistCount':
+                setCurrentProps(artistCountProps)
+                break
+            case 'artistTime':
+                setCurrentProps(artistTimeProps)
+                break
+            case 'albumCount':
+                setCurrentProps(albumCountProps)
+                break
+            case 'albumTime':
+                setCurrentProps(albumTimeProps)
+                break
+            default:
+                setCurrentProps(songCountProps)
+        }
+        setDropdownValue(currentProps.defaultCount)
+        setDisplayedItems(allItems.slice(0, currentProps.defaultCount))
 
-    const [currentHeader, setCurrentHeader] = useState(null)
-    const [currentRow, setCurrentRow] = useState(null)
-    const [displayedItems, setDisplayedItems] = useState([])
-    const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
-
-    useEffect(() => {
-        setDropdownValue(props.defaultCount)
-        setDisplayedItems(allItems.slice(0, props.defaultCount))
-    }, [props, allItems])
-
-    useEffect(() => {
         const mediaQuery = window.matchMedia('(orientation: portrait)');
-        setCurrentHeader(mediaQuery.matches ? props.head_vert : props.head_horiz)
-        setCurrentRow(mediaQuery.matches ? props.row_vert : props.row_horiz)
+        setCurrentHeader(mediaQuery.matches ? currentProps.head_vert : currentProps.head_horiz)
+        setCurrentRow(mediaQuery.matches ? currentProps.row_vert : currentProps.row_horiz)
 
         const handleOrientationChange = (event) => {
-            setCurrentHeader(event.matches ? props.head_vert : props.head_horiz)
-            setCurrentRow(event.matches ? props.row_vert : props.row_horiz)
+            setCurrentHeader(event.matches ? currentProps.head_vert : currentProps.head_horiz)
+            setCurrentRow(event.matches ? currentProps.row_vert : currentProps.row_horiz)
         };
 
         mediaQuery.addEventListener('change', handleOrientationChange);
         return () => {
             mediaQuery.removeEventListener('change', handleOrientationChange);
         };
-    }, [props])
+    }, [currentProps, allItems])
 
     function Dropdown() {
         const [isOpen, setIsOpen] = useState(false);
@@ -746,10 +744,10 @@ function TopTable(props) {
                     {isOpen && (
                         <div className='dropdown-stats-menu'>
                             <ul>
-                                <li onClick={() => itemClicked(props.ddValues[0])}>{props.ddValues[0]}</li>
-                                <li onClick={() => itemClicked(props.ddValues[1])}>{props.ddValues[1]}</li>
-                                <li onClick={() => itemClicked(props.ddValues[2])}>{props.ddValues[2]}</li>
-                                <li onClick={() => itemClicked(props.ddValues[3])}>{props.ddValues[3]}</li>
+                                <li onClick={() => itemClicked(currentProps.ddValues[0])}>{currentProps.ddValues[0]}</li>
+                                <li onClick={() => itemClicked(currentProps.ddValues[1])}>{currentProps.ddValues[1]}</li>
+                                <li onClick={() => itemClicked(currentProps.ddValues[2])}>{currentProps.ddValues[2]}</li>
+                                <li onClick={() => itemClicked(currentProps.ddValues[3])}>{currentProps.ddValues[3]}</li>
                             </ul>
                         </div>
                     )}
@@ -763,7 +761,7 @@ function TopTable(props) {
 
     return (
         <div>
-            <table className={props.tableStyle}>
+            <table className={currentProps.tableStyle}>
                 {currentHeader}
                 <tbody>
                 {(displayedItems != null && currentRow != null) && displayedItems.map(currentRow)}
