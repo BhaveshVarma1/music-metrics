@@ -692,8 +692,8 @@ function TopTable(props) {
             props = songCountProps
     }
 
-    const [currentHeader, setCurrentHeader] = useState()
-    const [currentRow, setCurrentRow] = useState()
+    const [currentHeader, setCurrentHeader] = useState(null)
+    const [currentRow, setCurrentRow] = useState(null)
     const [displayedItems, setDisplayedItems] = useState([])
     const [dropdownValue, setDropdownValue] = useState(props.defaultCount)
 
@@ -766,7 +766,7 @@ function TopTable(props) {
             <table className={props.tableStyle}>
                 {currentHeader}
                 <tbody>
-                {displayedItems != null && displayedItems.map(currentRow)}
+                {(displayedItems != null && currentRow != null) && displayedItems.map(currentRow)}
                 </tbody>
             </table>
             <Dropdown/>
