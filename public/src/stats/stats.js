@@ -364,14 +364,15 @@ function TopTable(props) {
     const [currentHeader, setCurrentHeader] = useState(null)
     const [currentRow, setCurrentRow] = useState(null)
     const [displayedItems, setDisplayedItems] = useState([])
-    const [allItems, setAllItems] = useState([])
+    //const [allItems, setAllItems] = useState([])
     const [dropdownValue, setDropdownValue] = useState(0)
     const [tableStyle, setTableStyle] = useState('table-all')
     const [dropdown, setDropdown] = useState(null)
+    const allItems = props.items
 
     useEffect(() => {
 
-        setAllItems(props.items)
+        //setAllItems(props.items)
         let type = props.type
 
         let currentProps = null
