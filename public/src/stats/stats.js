@@ -367,6 +367,7 @@ function TopTable(props) {
     const [displayedItems, setDisplayedItems] = useState([])
     const [allItems, setAllItems] = useState([])
     const [dropdownValue, setDropdownValue] = useState(0)
+    const [tableStyle, setTableStyle] = useState('table-all')
 
     useEffect(() => {
 
@@ -703,6 +704,7 @@ function TopTable(props) {
         }
         setDropdownValue(currentProps.defaultCount)
         setDisplayedItems(allItems.slice(0, currentProps.defaultCount))
+        setTableStyle(currentProps.tableStyle)
 
         const mediaQuery = window.matchMedia('(orientation: portrait)');
         setCurrentHeader(mediaQuery.matches ? currentProps.head_vert : currentProps.head_horiz)
@@ -764,7 +766,7 @@ function TopTable(props) {
 
     return (
         <div>
-            <table className={currentProps.tableStyle}>
+            <table className={tableStyle}>
                 {currentHeader}
                 <tbody>
                 {(displayedItems != null && currentRow != null) && displayedItems.map(currentRow)}
