@@ -706,6 +706,7 @@ function TopTable(props) {
             default:
                 currentProps = songCountProps
         }
+        console.log("Type: " + type)
         setDropdownValue(currentProps.defaultCount)
         setDisplayedItems(allItems.slice(0, currentProps.defaultCount))
         setTableStyle(currentProps.tableStyle)
