@@ -382,7 +382,7 @@ function TopTable(props) {
                 <thead>
                 <tr className={"table-column-names"}>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}>#</th>
                     <th style={{width: "5%"}}></th>
                     <th style={{width: "40%"}}>Song name</th>
                     <th style={{width: "40%"}}>Artist</th>
@@ -394,7 +394,7 @@ function TopTable(props) {
                 <thead>
                 <tr className={"table-column-names"}>
                     <th style={{}}></th>
-                    <th style={{}}>Rank</th>
+                    <th style={{}}>#</th>
                     <th style={{}}></th>
                     <th style={{}}>Song</th>
                     <th style={{textAlign: 'right'}}>Listens</th>
