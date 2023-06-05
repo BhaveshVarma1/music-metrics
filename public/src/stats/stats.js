@@ -402,16 +402,19 @@ function TopTable(props) {
             </tr>
             </thead>
         ),
-        row_horiz: (
-            <tr className={"table-row"}>
-                <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
-                <td>{item.rank}</td>
-                <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
-                <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
-            </tr>
-        ),
+        row_horiz: (item) => {
+            console.log("Item: " + item)
+            return (
+                <tr className={"table-row"}>
+                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                    <td>{item.rank}</td>
+                    <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
+                    <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                    <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                    <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
+                </tr>
+            )
+        },
         row_vert: (item) => {
             return (
                 <tr className={"table-row"}>
@@ -771,9 +774,7 @@ function TopTable(props) {
             <table className={tableStyle}>
                 {currentHeader}
                 <tbody>
-                {(displayedItems != null && currentRow != null) && displayedItems.map((item) => {
-                    return currentRow
-                })}
+                {(displayedItems != null && currentRow != null) && displayedItems.map(currentRow)}
                 </tbody>
             </table>
             {dropdown}
