@@ -213,7 +213,7 @@ export function authenticate() {
     window.location = url;
 }
 
-function clearStorage() {
+export function clearStorage() {
     localStorage.clear();
     sessionStorage.clear();
 }

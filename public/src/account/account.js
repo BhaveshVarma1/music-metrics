@@ -1,7 +1,8 @@
 import './account.css';
-import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
+import {BASE_URL_API, clearStorage, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
 import React, {useState} from "react";
 import {useDropzone} from "react-dropzone";
+import {Link} from "react-router-dom";
 
 const maxFileSize = 20000000
 const maxFiles = 15
@@ -39,6 +40,10 @@ export function Account() {
                     <div>Account Created</div>
                     <div>{unixMillisToString(localStorage.getItem('timestamp'))}</div>
                 </div>
+                <div className={'table-row-acct'}>
+                    <div></div>
+                    <Link to={"/"} onClick={() => clearStorage()}>Logout</Link>
+                </div>
             </div>
             <Dropzone/>
         </div>
@@ -73,7 +78,6 @@ function Dropzone() {
 
         const newFiles = []
         const promises = []
-        //let badFilesExist = false
         acceptedFiles.forEach(file => {
             const reader = new FileReader()
             const promise = new Promise((resolve, reject) => {
