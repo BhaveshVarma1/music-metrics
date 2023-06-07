@@ -463,12 +463,8 @@ function TopTable(props) {
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                        <td>
-                            <div>
-                                <a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a>
-                                <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
-                            </div>
-                        </td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                         <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
                     </tr>
                 )
@@ -479,8 +475,12 @@ function TopTable(props) {
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td>
+                            <div>
+                                <a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a>
+                                <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
+                            </div>
+                        </td>
                         <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
                     </tr>
                 )
