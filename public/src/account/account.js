@@ -42,7 +42,7 @@ export function Account() {
                 </div>
                 <div className={'table-row-acct'}>
                     <div></div>
-                    <Link to={"/"} onClick={() => clearStorage()}>Logout</Link>
+                    <Link to={"/"} className={'custom-link'} onClick={() => clearStorage()}>Logout</Link>
                 </div>
             </div>
             <Dropzone/>
