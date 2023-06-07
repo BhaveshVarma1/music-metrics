@@ -449,12 +449,11 @@ function TopTable(props) {
             head_vert: (
                 <thead>
                 <tr className={"table-column-names"}>
-                    <th style={{width: "5%"}}></th>
-                    <th style={{width: "5%"}}>Rank</th>
-                    <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Song name</th>
-                    <th style={{width: "40%"}}>Artist</th>
-                    <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
+                    <th style={{}}></th>
+                    <th style={{}}>#</th>
+                    <th style={{}}></th>
+                    <th style={{}}>Song</th>
+                    <th style={{textAlign: 'right'}}>Minutes</th>
                 </tr>
                 </thead>
             ),
@@ -464,8 +463,12 @@ function TopTable(props) {
                         <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
-                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td>
+                            <div>
+                                <a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a>
+                                <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
+                            </div>
+                        </td>
                         <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
                     </tr>
                 )
@@ -592,12 +595,11 @@ function TopTable(props) {
             head_vert: (
                 <thead>
                 <tr className={"table-column-names"}>
-                    <th style={{width: "5%"}}></th>
-                    <th style={{width: "5%"}}>Rank</th>
-                    <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Album name</th>
-                    <th style={{width: "40%"}}>Artist</th>
-                    <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
+                    <th style={{}}></th>
+                    <th style={{}}>#</th>
+                    <th style={{}}></th>
+                    <th style={{}}>Album</th>
+                    <th style={{textAlign: 'right'}}>Listens</th>
                 </tr>
                 </thead>
             ),
@@ -619,8 +621,12 @@ function TopTable(props) {
                         <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
-                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td>
+                            <div>
+                                <a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a>
+                                <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
+                            </div>
+                        </td>
                         <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
                     </tr>
                 )
@@ -645,12 +651,11 @@ function TopTable(props) {
             head_vert: (
                 <thead>
                 <tr className={"table-column-names"}>
-                    <th style={{width: "5%"}}></th>
-                    <th style={{width: "5%"}}>Rank</th>
-                    <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Album name</th>
-                    <th style={{width: "40%"}}>Artist</th>
-                    <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
+                    <th style={{}}></th>
+                    <th style={{}}>#</th>
+                    <th style={{}}></th>
+                    <th style={{}}>Album</th>
+                    <th style={{textAlign: 'right'}}>Minutes</th>
                 </tr>
                 </thead>
             ),
@@ -672,8 +677,12 @@ function TopTable(props) {
                         <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                        <td><a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a></td>
-                        <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
+                        <td>
+                            <div>
+                                <a href={OPEN_SPOTIFY + '/album/' + item.albumId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.album}</a>
+                                <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
+                            </div>
+                        </td>
                         <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
                     </tr>
                 )
