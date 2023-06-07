@@ -194,6 +194,8 @@ export function authenticate() {
     let scope = 'user-read-playback-state ' +
         'playlist-read-private ' +
         'playlist-read-collaborative ' +
+        'playlist-modify-private ' +
+        'playlist-modify-public ' +
         'user-follow-read ' +
         'user-read-currently-playing ' +
         'user-read-playback-position ' +
