@@ -41,8 +41,8 @@ export function Account() {
                     <div>{unixMillisToString(localStorage.getItem('timestamp'))}</div>
                 </div>
                 <div className={'table-row-acct'}>
-                    <div></div>
                     <Link to={"/"} className={'custom-link'} onClick={() => clearStorage()}>Logout</Link>
+                    <div></div>
                 </div>
             </div>
             <Dropzone/>
