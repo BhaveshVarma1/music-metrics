@@ -384,7 +384,7 @@ function TopTable(props) {
                     <th style={{width: "5%"}}></th>
                     <th style={{width: "5%"}}>#</th>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Song name</th>
+                    <th style={{width: "40%"}}>Song</th>
                     <th style={{width: "40%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
@@ -438,9 +438,9 @@ function TopTable(props) {
                 <thead>
                 <tr className={"table-column-names"}>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}>#</th>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Song name</th>
+                    <th style={{width: "40%"}}>Song</th>
                     <th style={{width: "40%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
@@ -494,8 +494,8 @@ function TopTable(props) {
                 <thead>
                 <tr className={"table-column-names"}>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "15%"}}>Rank</th>
-                    <th style={{width: "75%"}}>Artist name</th>
+                    <th style={{width: "15%"}}>#</th>
+                    <th style={{width: "75%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
                 </thead>
@@ -504,8 +504,8 @@ function TopTable(props) {
                 <thead>
                 <tr className={"table-column-names"}>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "15%"}}>Rank</th>
-                    <th style={{width: "75%"}}>Artist name</th>
+                    <th style={{width: "15%"}}>#</th>
+                    <th style={{width: "75%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
                 </thead>
@@ -539,8 +539,8 @@ function TopTable(props) {
                 <thead>
                 <tr className={"table-column-names"}>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "15%"}}>Rank</th>
-                    <th style={{width: "75%"}}>Artist name</th>
+                    <th style={{width: "15%"}}>#</th>
+                    <th style={{width: "75%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
                 </thead>
@@ -549,8 +549,8 @@ function TopTable(props) {
                 <thead>
                 <tr className={"table-column-names"}>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "15%"}}>Rank</th>
-                    <th style={{width: "75%"}}>Artist name</th>
+                    <th style={{width: "15%"}}>#</th>
+                    <th style={{width: "75%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
                 </thead>
@@ -584,9 +584,9 @@ function TopTable(props) {
                 <thead>
                 <tr className={"table-column-names"}>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}>#</th>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Album name</th>
+                    <th style={{width: "40%"}}>Album</th>
                     <th style={{width: "40%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
@@ -640,9 +640,9 @@ function TopTable(props) {
                 <thead>
                 <tr className={"table-column-names"}>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "5%"}}>Rank</th>
+                    <th style={{width: "5%"}}>#</th>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Album name</th>
+                    <th style={{width: "40%"}}>Album</th>
                     <th style={{width: "40%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
