@@ -203,10 +203,12 @@ export function authenticate() {
         'user-read-private ' +
         'user-library-read'
 
+    let show_dialog = 'true'
     let url = 'https://accounts.spotify.com/authorize'
     url += '?response_type=code'
     url += '&client_id=' + encodeURIComponent(client_id)
     url += '&scope=' + encodeURIComponent(scope)
+    url += '&show_dialog=' + encodeURIComponent(show_dialog)
     url += '&redirect_uri=' + encodeURIComponent(redirect_uri)
     url += '&state=' + encodeURIComponent(state)
 

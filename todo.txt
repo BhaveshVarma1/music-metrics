@@ -33,3 +33,5 @@ Stronger password on server
 Figure out proper way to build productions
 Update database.md todo
 Update api-guide.md
+
+BEFORE SUBMITTING REQUEST:
