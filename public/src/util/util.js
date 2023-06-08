@@ -124,7 +124,6 @@ export function Footer() {
                 <Link to={"/terms"} className='custom-link'> Terms of Service</Link> <span className={'text-color-white'}>&#8226;</span>
                 <Link to={"/about"} className='custom-link'> About</Link> <span className={'text-color-white'}>&#8226;</span>
                 <Link to={"/contact"} className='custom-link'> Contact Us</Link> <span className={'text-color-white'}>&#8226;</span>
-                <a href="https://github.com/prattnj/music-metrics" target='_blank' rel='noreferrer' className='custom-link'> GitHub</a>
             </p>
         </footer>
     )

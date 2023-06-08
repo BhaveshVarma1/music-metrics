@@ -8,9 +8,10 @@ Artists by song diversity
 
 FRONTEND FEATURES TO ADD: ----------------------------------------------------------------------------------------------
 Finish current endpoints (mode year, avg popularity)
-Custom descriptions for Other
+Custom descriptions for Other todo
 Playlist builder
-Contact us / about page
+Contact page todo
+About page
 Fancy scroll bar?
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
@@ -22,13 +23,13 @@ Optimization for mobile todo
 Time zone issue
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
-Manual date input todo
+[]
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
 Get dad to send data todo
 Submit Extended Quota Request
 Figure out how to make money
-Stronger password on server
+Stronger password on server todo
 Set up proper way to build productions todo
 Update api-guide.md
 
