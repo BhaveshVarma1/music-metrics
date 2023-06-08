@@ -293,7 +293,7 @@
     color: #1a1e1f;
     background-color: #1db954;
     cursor: pointer;
-    padding: .5rem;
+    padding: .1rem .5rem;
     border-radius: .3rem;
     text-align: center;
 }
