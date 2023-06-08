@@ -21,6 +21,13 @@ func Delete(username string) {
 		return
 	}
 
+	// Delete user's tokens
+	err = da.DeleteTokensForUser(tx, username)
+	if err != nil {
+		fmt.Println("Error deleting tokens in delete service: ", err)
+		return
+	}
+
 	// Commit changes and close the connection
 	if da.CommitAndClose(tx, db, true) != nil {
 		fmt.Println("Error committing and closing in delete service: ", err)

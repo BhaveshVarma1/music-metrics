@@ -58,6 +58,14 @@ func RetrieveAuthTokenByUsername(tx *sql.Tx, username string) (model.AuthTokenBe
 	return model.AuthTokenBean{}, nil
 }
 
+func DeleteTokensForUser(tx *sql.Tx, username string) error {
+	_, err := tx.Exec("DELETE FROM authtoken WHERE username = ?;", username)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func DeleteAuthToken(tx *sql.Tx, token string) error {
 	_, err := tx.Exec("DELETE FROM authtoken WHERE token = ?;", token)
 	if err != nil {
