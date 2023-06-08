@@ -28,6 +28,7 @@
 .custom-time {
     position: relative;
     display: flex;
+    align-items: center;
 }
 
 .custom-time-wrapper {
@@ -283,6 +284,12 @@
     color: #3de2ff;
     margin: 0 auto;
     text-align: center;
+}
+
+.submit-times {
+    position: absolute;
+    left: 100%;
+    top: 0;
 }
 
 .table-all {

@@ -11,7 +11,6 @@ Finish current endpoints (mode year, avg popularity)
 Custom descriptions for Other
 Playlist builder
 Contact us / about page
-Logout / delete account button todo
 Fancy scroll bar?
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
@@ -30,8 +29,8 @@ Get dad to send data todo
 Submit Extended Quota Request
 Figure out how to make money
 Stronger password on server
-Figure out proper way to build productions
-Update database.md todo
+Set up proper way to build productions todo
 Update api-guide.md
 
 BEFORE SUBMITTING REQUEST:
+everything marked as todo

@@ -73,7 +73,6 @@ export function Stats() {
         fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username') + '/' + startTime + '-' + endTime, fetchInit('/api/v1/allStats', null, getToken()))
             .then(response => response.json())
             .then(data => {
-
                 console.log(data)
 
                 if (data === "No songs found for this time period.") {
@@ -319,16 +318,15 @@ export function Stats() {
                         <div className={'custom-time'}>
                             <div className={'time-input-wrapper'}>
                                 <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) => {
-                                    submitTimes(dateToMillis(date), dateToMillis(selectedEndDate) + 86399999)
                                     setSelectedStartDate(date)
                                 }}/>
                             </div>
                             <div className={'time-input-wrapper'}>
                                 <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => {
-                                    submitTimes(dateToMillis(selectedStartDate), dateToMillis(date) + 86399999)
                                     setSelectedEndDate(date)
                                 }}/>
                             </div>
+                            <div className={'login-button submit-times'} onClick={() => submitTimes(dateToMillis(selectedStartDate), dateToMillis(selectedEndDate) + 86399999)}>GO</div>
                         </div>
                     </div>
                 )}
