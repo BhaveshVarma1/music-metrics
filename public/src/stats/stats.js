@@ -326,7 +326,7 @@ export function Stats() {
                                     setSelectedEndDate(date)
                                 }}/>
                             </div>
-                            <div className={'submit-times'} onClick={() => submitTimes(dateToMillis(selectedStartDate), dateToMillis(selectedEndDate) + 86399999)}>GO</div>
+                            <div className={'submit-times'} onClick={() => submitTimes(dateToMillis(selectedStartDate), dateToMillis(selectedEndDate) + 86399999)}><b>GO</b></div>
                         </div>
                     </div>
                 )}
