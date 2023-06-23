@@ -801,7 +801,7 @@ function AllCharts(props) {
             <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={"That was a good year."}/>
             <BasicPanel primary={"Average Song Length"} data={props.averageLength} commentary={"That's not very long."}/>
             <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={"That was a better year."}/>
-            <BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={"That's too high."}/>
+            {/*<BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={"That's too high."}/>*/}
             <BasicPanel primary={"Total Songs"} data={props.totalSongs} commentary={"Looks like you spend too much time on Spotify."}/>
             <BasicPanel primary={"Unique Album Count"} data={props.uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
             <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={"Nice!"}/>
