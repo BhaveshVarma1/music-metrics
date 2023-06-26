@@ -797,16 +797,16 @@ function AllCharts(props) {
 
     return (
         <div className={'all-panels'}>
-            <BasicPanel primary={"Total Minutes"} data={props.totalMinutes} commentary={"Rookie numbers."}/>
-            <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={"That was a good year."}/>
-            <BasicPanel primary={"Average Song Length"} data={props.averageLength} commentary={"That's not very long."}/>
-            <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={"That was a better year."}/>
-            {/*<BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={"That's too high."}/>*/}
-            <BasicPanel primary={"Total Songs"} data={props.totalSongs} commentary={"Looks like you spend too much time on Spotify."}/>
-            <BasicPanel primary={"Unique Album Count"} data={props.uniqueAlbums} commentary={"Wow, not a whole lot of diversity there."}/>
-            <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={"Nice!"}/>
-            <BasicPanel primary={"Unique Song Count"} data={props.uniqueSongs} commentary={"That's pretty ok."}/>
-            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={"Looks like you need more diversity."}/>
+            <BasicPanel primary={"Total Minutes"} data={props.totalMinutes} commentary={getCommentary('totalMinutes')}/>
+            <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={getCommentary('averageYear')}/>
+            <BasicPanel primary={"Average Song Length"} data={props.averageLength} commentary={getCommentary('averageLength')}/>
+            <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={getCommentary('medianYear')}/>
+            {/*<BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={getCommentary('percentExplicit)}/>*/}
+            <BasicPanel primary={"Total Songs"} data={props.totalSongs} commentary={getCommentary('totalSongs')}/>
+            <BasicPanel primary={"Unique Album Count"} data={props.uniqueAlbums} commentary={getCommentary('uniqueAlbums')}/>
+            <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={getCommentary('uniqueArtists')}/>
+            <BasicPanel primary={"Unique Song Count"} data={props.uniqueSongs} commentary={getCommentary('uniqueSongs')}/>
+            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={getCommentary('decadeBreakdown')}/>
             <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
         </div>
     )
@@ -931,6 +931,35 @@ function LinkedArtistList(props) {
 }
 
 // HELPER FUNCTIONS
+function getCommentary(metric) {
+    switch (metric) {
+        case 'totalMinutes':
+            return "Rookie numbers."
+        case 'averageYear':
+            return "That was a good year."
+        case 'averageLength':
+            return "That's not very long."
+        case 'medianYear':
+            return "That was a better year."
+        case 'percentExplicit':
+            return "That's too high."
+        case 'totalSongs':
+            return "Looks like you spend too much time on Spotify."
+        case 'uniqueAlbums':
+            return "Wow, not a whole lot of diversity there."
+        case 'uniqueArtists':
+            return "Nice!"
+        case 'uniqueSongs':
+            return "That's pretty ok."
+        case 'decadeBreakdown':
+            return "Looks like you need more diversity."
+        case 'hourBreakdown':
+            return "You're a night owl."
+        default:
+            return "That's pretty ok."
+    }
+}
+
 function addRankColumn(items) {
     let rank = 1
     items.forEach(item => {
