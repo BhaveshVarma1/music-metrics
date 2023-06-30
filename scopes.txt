@@ -13,7 +13,7 @@ user-read-recently-played,
 user-read-private,
 user-library-read,
 playlist-modify-private (WRITE),
-playlist-modify-public (WRITE,
+playlist-modify-public (WRITE),
 
 NOT ALLOWED (write):
 ugc-image-upload,
