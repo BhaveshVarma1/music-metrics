@@ -13,18 +13,6 @@
     }
 }
 
-.corner-rounded-left {
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
-    border-left: .1rem solid #cce2e6;
-}
-
-.corner-rounded-right {
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-    border-right: .1rem solid #cce2e6;
-}
-
 .custom-time {
     position: relative;
     display: flex;
@@ -169,22 +157,6 @@
     width: 100%;
 }
 
-.panel {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    color: #cce2e6;
-    border-bottom: .1rem solid #cce2e6;
-    width: 100%;
-}
-
-@media (orientation: portrait) {
-    .panel {
-        flex-direction: column;
-    }
-}
-
 .panel-commentary {
     font-size: .8rem;
 }
@@ -192,10 +164,6 @@
 .panel-data {
     font-size: 3rem;
     color: #3de2ff;
-}
-
-.panel-last {
-    border-bottom: none !important;
 }
 
 .panel-primary {
@@ -232,18 +200,6 @@
     }
 }
 
-.pie-chart-wrapper {
-    margin: 0 auto;
-    width: 30rem;
-    height: 30rem;
-}
-
-@media (orientation: portrait) {
-    .pie-chart-wrapper {
-        width: 90%;
-    }
-}
-
 .selector {
     display: flex;
     cursor: pointer;
@@ -267,16 +223,6 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-}
-
-.selector-selected {
-    background-color: #cce2e6;
-    color: #1a1e1f;
-}
-
-.selector-unselected {
-    background-color: #1a1e1f;
-    color: #cce2e6;
 }
 
 .small-description {
@@ -405,14 +351,6 @@
     display: flex;
 }
 
-.time-inputs {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.time-input-wrapper > div > div.react-datepicker__input-container,
 .time-input-wrapper > div > div.react-datepicker__input-container input {
     display: flex;
     width: 100%;

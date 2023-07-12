@@ -58,24 +58,6 @@ func PrintMessage(message string) {
 	}
 }
 
-func SliceContainsInt64(slice []int64, i int64) bool {
-	for _, s := range slice {
-		if s == i {
-			return true
-		}
-	}
-	return false
-}
-
-func SliceContainsListen(slice []model.ListenBean, listen model.ListenBean) bool {
-	for _, s := range slice {
-		if s.Timestamp == listen.Timestamp {
-			return true
-		}
-	}
-	return false
-}
-
 func SliceContainsString(slice []string, str string) bool {
 	for _, s := range slice {
 		if s == str {
