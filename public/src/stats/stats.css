@@ -389,14 +389,6 @@
     cursor: pointer;
 }
 
-.time-inputs {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.time-input-wrapper > div > div.react-datepicker__input-container,
 .time-input-button-wrapper {
     display: flex;
     height: 100%;
@@ -413,6 +405,14 @@
     display: flex;
 }
 
+.time-inputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.time-input-wrapper > div > div.react-datepicker__input-container,
 .time-input-wrapper > div > div.react-datepicker__input-container input {
     display: flex;
     width: 100%;
