@@ -308,29 +308,30 @@ export function Stats() {
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
-            <div className={'small-description'}>Showing stats from:</div>
-            <div className={'extra-bottom-margin'}>
-                <Dropdown/>
-                {usingCustomTimeRange && (
-                    <div className={'custom-time-wrapper'}>
-                        <div className={'custom-time'}>
-                            <div className={'time-input-wrapper'}>
-                                <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) => {
-                                    setSelectedStartDate(date)
-                                }}/>
-                            </div>
-                            <div className={'time-input-wrapper'}>
-                                <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => {
-                                    setSelectedEndDate(date)
-                                }}/>
-                            </div>
-                            <div className={'submit-times'} onClick={() => submitTimes(dateToMillis(selectedStartDate), dateToMillis(selectedEndDate) + 86399999)}><b>GO</b></div>
-                        </div>
-                    </div>
-                )}
-            </div>
+
             {showAllSelectors && (
                 <>
+                    <div className={'small-description'}>Showing stats from:</div>
+                    <div className={'extra-bottom-margin'}>
+                        <Dropdown/>
+                        {usingCustomTimeRange && (
+                            <div className={'custom-time-wrapper'}>
+                                <div className={'custom-time'}>
+                                    <div className={'time-input-wrapper'}>
+                                        <DatePicker className={'time-input'} selected={selectedStartDate} onChange={(date) => {
+                                            setSelectedStartDate(date)
+                                        }}/>
+                                    </div>
+                                    <div className={'time-input-wrapper'}>
+                                        <DatePicker className={'time-input'} selected={selectedEndDate} onChange={(date) => {
+                                            setSelectedEndDate(date)
+                                        }}/>
+                                    </div>
+                                    <div className={'submit-times'} onClick={() => submitTimes(dateToMillis(selectedStartDate), dateToMillis(selectedEndDate) + 86399999)}><b>GO</b></div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                     <div className={'selector'}>
                         <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
                         <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
@@ -360,7 +361,6 @@ function TopTable(props) {
     const [currentHeader, setCurrentHeader] = useState(null)
     const [currentRow, setCurrentRow] = useState(null)
     const [displayedItems, setDisplayedItems] = useState([])
-    //const [dropdownValue, setDropdownValue] = useState(0)
     const [tableStyle, setTableStyle] = useState('table-all')
     const [dropdown, setDropdown] = useState(null)
     const allItems = props.items
@@ -707,7 +707,6 @@ function TopTable(props) {
             default:
                 currentProps = songCountProps
         }
-        //setDropdownValue(currentProps.defaultCount)
         setDisplayedItems(allItems.slice(0, currentProps.defaultCount))
         setTableStyle(currentProps.tableStyle)
         setDropdown(<Dropdown values={currentProps.ddValues} initial={currentProps.defaultCount} />)

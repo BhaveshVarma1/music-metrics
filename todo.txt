@@ -23,8 +23,7 @@ Optimization for mobile todo
 Time zone issue
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
-Set table size... 0 todo
-Rapid switching between time ranges
+Rapid switching between time ranges todo
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
 Get dad to send data todo
