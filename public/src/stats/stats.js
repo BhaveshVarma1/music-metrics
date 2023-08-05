@@ -249,9 +249,7 @@ export function Stats() {
         // Close the dropdown if the user clicks outside of it
         useEffect(() => {
             document.addEventListener('click', (event) => {
-                if (!event.target.classList.toString().includes('dropdown-time')) {
-                    setIsOpen(false);
-                }
+                if (!event.target.classList.toString().includes('dropdown-time')) setIsOpen(false);
             })
         }, [])
 
@@ -362,7 +360,7 @@ function TopTable(props) {
     const [currentHeader, setCurrentHeader] = useState(null)
     const [currentRow, setCurrentRow] = useState(null)
     const [displayedItems, setDisplayedItems] = useState([])
-    const [dropdownValue, setDropdownValue] = useState(0)
+    //const [dropdownValue, setDropdownValue] = useState(0)
     const [tableStyle, setTableStyle] = useState('table-all')
     const [dropdown, setDropdown] = useState(null)
     const allItems = props.items
@@ -709,10 +707,10 @@ function TopTable(props) {
             default:
                 currentProps = songCountProps
         }
-        setDropdownValue(currentProps.defaultCount)
+        //setDropdownValue(currentProps.defaultCount)
         setDisplayedItems(allItems.slice(0, currentProps.defaultCount))
         setTableStyle(currentProps.tableStyle)
-        setDropdown(<Dropdown values={currentProps.ddValues} />)
+        setDropdown(<Dropdown values={currentProps.ddValues} initial={currentProps.defaultCount} />)
 
         const mediaQuery = window.matchMedia('(orientation: portrait)');
         setCurrentHeader(mediaQuery.matches ? currentProps.head_vert : currentProps.head_horiz)
@@ -733,6 +731,7 @@ function TopTable(props) {
 
         const ddValues = props.values
         const [isOpen, setIsOpen] = useState(false);
+        const [currentValue, setCurrentValue] = useState(props.initial)
 
         // Close the dropdown if the user clicks outside of it
         useEffect(() => {
@@ -749,7 +748,7 @@ function TopTable(props) {
 
         function itemClicked(size) {
             toggle()
-            setDropdownValue(size)
+            setCurrentValue(size)
             setDisplayedItems(allItems.slice(0, size))
         }
 
@@ -767,7 +766,7 @@ function TopTable(props) {
                         </div>
                     )}
                     <div className='dropdown-stats-button' onClick={toggle}>
-                        Select table size... {dropdownValue}
+                        Select table size... {currentValue}
                     </div>
                 </div>
             </div>
@@ -988,9 +987,7 @@ function convertHoursToChartData(data) {
 }
 
 function makeIntDoubleDigit(num) {
-    if (num < 10) {
-        return '0' + num
-    }
+    if (num < 10) return '0' + num
     return num
 }
 
