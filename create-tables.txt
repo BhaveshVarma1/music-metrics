@@ -12,7 +12,7 @@ CREATE TABLE authtoken (
 	expiration varchar(255),
 	PRIMARY KEY (token)
 );
-CREATE TABLE song (
+CREATE TABLE track (
 	id varchar(255) not null,
 	name varchar(255) not null,
 	artist varchar(1023) not null,
@@ -27,9 +27,9 @@ CREATE TABLE song (
 CREATE TABLE listen (
 	username varchar(255) not null,
 	timestamp bigint not null,
-	songID varchar(255) not null,
-	PRIMARY KEY (username, timestamp, songID),
-	FOREIGN KEY (songID) REFERENCES song(id)
+	trackID varchar(255) not null,
+	PRIMARY KEY (username, timestamp, trackID),
+	FOREIGN KEY (trackID) REFERENCES track(id)
 );
 CREATE TABLE album (
     id varchar(255) not null,
