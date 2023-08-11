@@ -1,7 +1,7 @@
 .all-panels {
     display: flex;
     flex-direction: column;
-    margin: 0 auto 5rem;
+    margin: 0 auto;
     width: 50%;
     border-radius: .5rem;
     border: .1rem solid #cce2e6;
@@ -52,7 +52,7 @@
     text-align: left;
     font-size: .8rem;
     color: #3de2ff;
-    margin: 0 auto;
+    margin: 0 auto 5rem;
     width: 50%;
     padding: .4rem;
 }
