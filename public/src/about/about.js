@@ -1,10 +1,11 @@
 import './about.css';
-import {PrimaryInfo} from "../util/util";
+import {PrimaryInfo, SecondaryInfo} from "../util/util";
 
 export function About() {
     return (
         <div>
-            <PrimaryInfo text="🚧About Music Metrics🚧"/>
+            <PrimaryInfo text={"🚧About Music Metrics🚧"}/>
+            <SecondaryInfo text={"Page coming soon..."}/>
         </div>
     )
 }
