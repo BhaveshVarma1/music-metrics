@@ -9,7 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import spotifyIcon from './spotify-icon.png'
 
 // Default values for the dropdowns (must be in the array specified in the props)
-const DEFAULT_SONG_COUNT_LIMIT = 100
+const DEFAULT_TRACK_COUNT_LIMIT = 100
 const DEFAULT_ARTIST_COUNT_LIMIT = 50
 const DEFAULT_ALBUM_COUNT_LIMIT = 50
 
@@ -25,7 +25,7 @@ export function Stats() {
     // STYLING VARIABLES
     const selectedStyle = 'selector-selected'
     const unselectedStyle = 'selector-unselected'
-    const [songStyle, setSongStyle] = useState(selectedStyle);
+    const [trackStyle, setTrackStyle] = useState(selectedStyle);
     const [artistStyle, setArtistStyle] = useState(unselectedStyle);
     const [albumStyle, setAlbumStyle] = useState(unselectedStyle);
     const [chartStyle, setChartStyle] = useState(unselectedStyle);
@@ -55,13 +55,13 @@ export function Stats() {
     const [topAlbumsTime, setTopAlbumsTime] = useState([]);
     const [topArtists, setTopArtists] = useState([]);
     const [topArtistsTime, setTopArtistsTime] = useState([]);
-    const [topSongs, setTopSongs] = useState([]);
-    const [topSongsTime, setTopSongsTime] = useState([]);
+    const [topTracks, setTopTracks] = useState([]);
+    const [topTracksTime, setTopTracksTime] = useState([]);
     const [totalMinutes, setTotalMinutes] = useState(0);
-    const [totalSongs, setTotalSongs] = useState(0);
+    const [totalTracks, setTotalTracks] = useState(0);
     const [uniqueAlbums, setUniqueAlbums] = useState(0);
     const [uniqueArtists, setUniqueArtists] = useState(0);
-    const [uniqueSongs, setUniqueSongs] = useState(0);
+    const [uniqueTracks, setUniqueTracks] = useState(0);
     const [weekDayBreakdown, setWeekDayBreakdown] = useState([]);
 
     // OTHER
@@ -75,7 +75,7 @@ export function Stats() {
             .then(data => {
                 console.log(data)
 
-                if (data === "No songs found for this time period.") {
+                if (data === "No tracks found for this time period.") {
                     setShowAllSelectors(false)
                     setCurrentData(<StatsInfo text="No listening history found for this time period."/>)
                     return
@@ -86,8 +86,8 @@ export function Stats() {
                 addRankColumn(data.topAlbumsTime.items)
                 addRankColumn(data.topArtists.items)
                 addRankColumn(data.topArtistsTime.items)
-                addRankColumn(data.topSongs.items)
-                addRankColumn(data.topSongsTime.items)
+                addRankColumn(data.topTracks.items)
+                addRankColumn(data.topTracksTime.items)
 
                 // DO CALCULATIONS FOR OTHER RELEVANT DATA
                 let minutes = Math.floor(data.averageLength.value / 60)
@@ -105,21 +105,21 @@ export function Stats() {
                 setTopAlbumsTime(data.topAlbumsTime.items)
                 setTopArtists(data.topArtists.items)
                 setTopArtistsTime(data.topArtistsTime.items)
-                setTopSongs(data.topSongs.items)
-                setTopSongsTime(data.topSongsTime.items)
+                setTopTracks(data.topTracks.items)
+                setTopTracksTime(data.topTracksTime.items)
                 setTotalMinutes(addCommaToNumber(data.totalMinutes.value))
-                setTotalSongs(addCommaToNumber(data.totalSongs.value))
+                setTotalTracks(addCommaToNumber(data.totalTracks.value))
                 setUniqueAlbums(addCommaToNumber(data.uniqueAlbums.value))
                 setUniqueArtists(addCommaToNumber(data.uniqueArtists.value))
-                setUniqueSongs(addCommaToNumber(data.uniqueSongs.value))
+                setUniqueTracks(addCommaToNumber(data.uniqueTracks.value))
                 setWeekDayBreakdown(addCommaToNumber(data.weekDayBreakdown.items))
 
                 // REMOVE LOADING MESSAGE
                 setShowAllSelectors(true)
-                setCurrentData(<TopTable items={data.topSongs.items} type={'songCount'}/>)
+                setCurrentData(<TopTable items={data.topTracks.items} type={'trackCount'}/>)
 
                 // RESET THE SELECTORS
-                setSongStyle(selectedStyle)
+                setTrackStyle(selectedStyle)
                 setArtistStyle(unselectedStyle)
                 setAlbumStyle(unselectedStyle)
                 setChartStyle(unselectedStyle)
@@ -145,8 +145,8 @@ export function Stats() {
         )
     }
 
-    function setToSong() {
-        setSongStyle(selectedStyle)
+    function setToTrack() {
+        setTrackStyle(selectedStyle)
         setArtistStyle(unselectedStyle)
         setAlbumStyle(unselectedStyle)
         setChartStyle(unselectedStyle)
@@ -154,10 +154,10 @@ export function Stats() {
         setCountStyle(selectedStyle)
         setTimeStyle(unselectedStyle)
 
-        setCurrentData(<TopTable items={topSongs} type={'songCount'}/>)
+        setCurrentData(<TopTable items={topTracks} type={'trackCount'}/>)
     }
     function setToArtist() {
-        setSongStyle(unselectedStyle)
+        setTrackStyle(unselectedStyle)
         setArtistStyle(selectedStyle)
         setAlbumStyle(unselectedStyle)
         setChartStyle(unselectedStyle)
@@ -168,7 +168,7 @@ export function Stats() {
         setCurrentData(<TopTable items={topArtists} type={'artistCount'}/>)
     }
     function setToAlbum() {
-        setSongStyle(unselectedStyle)
+        setTrackStyle(unselectedStyle)
         setArtistStyle(unselectedStyle)
         setAlbumStyle(selectedStyle)
         setChartStyle(unselectedStyle)
@@ -179,7 +179,7 @@ export function Stats() {
         setCurrentData(<TopTable items={topAlbums} type={'albumCount'}/>)
     }
     function setToChart() {
-        setSongStyle(unselectedStyle)
+        setTrackStyle(unselectedStyle)
         setArtistStyle(unselectedStyle)
         setAlbumStyle(unselectedStyle)
         setChartStyle(selectedStyle)
@@ -195,10 +195,10 @@ export function Stats() {
             modeYear={modeYear}
             percentExplicit={percentExplicit}
             totalMinutes={totalMinutes}
-            totalSongs={totalSongs}
+            totalTracks={totalTracks}
             uniqueAlbums={uniqueAlbums}
             uniqueArtists={uniqueArtists}
-            uniqueSongs={uniqueSongs}
+            uniqueTracks={uniqueTracks}
             weekDayBreakdown={weekDayBreakdown}
         />)
     }
@@ -206,8 +206,8 @@ export function Stats() {
         setCountStyle(selectedStyle)
         setTimeStyle(unselectedStyle)
 
-        if (songStyle === selectedStyle) {
-            setCurrentData(<TopTable items={topSongs} type={'songCount'}/>)
+        if (trackStyle === selectedStyle) {
+            setCurrentData(<TopTable items={topTracks} type={'trackCount'}/>)
         } else if (artistStyle === selectedStyle) {
             setCurrentData(<TopTable items={topArtists} type={'artistCount'}/>)
         } else if (albumStyle === selectedStyle) {
@@ -218,8 +218,8 @@ export function Stats() {
         setCountStyle(unselectedStyle)
         setTimeStyle(selectedStyle)
 
-        if (songStyle === selectedStyle) {
-            setCurrentData(<TopTable items={topSongsTime} type={'songTime'}/>)
+        if (trackStyle === selectedStyle) {
+            setCurrentData(<TopTable items={topTracksTime} type={'trackTime'}/>)
         } else if (artistStyle === selectedStyle) {
             setCurrentData(<TopTable items={topArtistsTime} type={'artistTime'}/>)
         } else if (albumStyle === selectedStyle) {
@@ -332,7 +332,7 @@ export function Stats() {
                         )}
                     </div>
                     <div className={'selector'}>
-                        <div className={songStyle + ' selector-option corner-rounded-left'} onClick={setToSong}>Top Songs</div>
+                        <div className={trackStyle + ' selector-option corner-rounded-left'} onClick={setToTrack}>Top Tracks</div>
                         <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
                         <div className={albumStyle + ' selector-option'} onClick={setToAlbum}>Top Albums</div>
                         <div className={chartStyle + ' selector-option corner-rounded-right'} onClick={setToChart}>Other</div>
@@ -355,7 +355,7 @@ function TopTable(props) {
 
     // TO PASS IN AS PROPS:
     // array of items
-    // string representing type of item (songCount, artistTime, ...)
+    // string representing type of item (trackCount, artistTime, ...)
 
     const [currentHeader, setCurrentHeader] = useState(null)
     const [currentRow, setCurrentRow] = useState(null)
@@ -369,8 +369,8 @@ function TopTable(props) {
         let type = props.type
 
         let currentProps = null
-        const songCountProps = {
-            defaultCount: DEFAULT_SONG_COUNT_LIMIT,
+        const trackCountProps = {
+            defaultCount: DEFAULT_TRACK_COUNT_LIMIT,
             ddValues: [25, 50, 100, 250],
             tableStyle: 'table-all',
             head_horiz: (
@@ -379,7 +379,7 @@ function TopTable(props) {
                     <th style={{width: "5%"}}></th>
                     <th style={{width: "5%"}}>#</th>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Song</th>
+                    <th style={{width: "40%"}}>Track</th>
                     <th style={{width: "40%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Listens</th>
                 </tr>
@@ -391,7 +391,7 @@ function TopTable(props) {
                     <th style={{}}></th>
                     <th style={{}}>#</th>
                     <th style={{}}></th>
-                    <th style={{}}>Song</th>
+                    <th style={{}}>Track</th>
                     <th style={{textAlign: 'right'}}>Listens</th>
                 </tr>
                 </thead>
@@ -399,10 +399,10 @@ function TopTable(props) {
             row_horiz: (item) => {
                 return (
                     <tr className={"table-row"}>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.trackId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.trackId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.track}</a></td>
                         <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                         <td style={{textAlign: 'right'}}>{addCommaToNumber(item.count)}</td>
                     </tr>
@@ -411,12 +411,12 @@ function TopTable(props) {
             row_vert: (item) => {
                 return (
                     <tr className={"table-row"}>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.trackId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                         <td>
                             <div style={{display: "flex", flexDirection: "column"}}>
-                                <a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}><b>{item.song}</b></a>
+                                <a href={OPEN_SPOTIFY + '/track/' + item.trackId} target={"_blank"} rel={"noreferrer"} className={'table-link'}><b>{item.track}</b></a>
                                 <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
                             </div>
                         </td>
@@ -425,8 +425,8 @@ function TopTable(props) {
                 )
             }
         }
-        const songTimeProps = {
-            defaultCount: DEFAULT_SONG_COUNT_LIMIT,
+        const trackTimeProps = {
+            defaultCount: DEFAULT_TRACK_COUNT_LIMIT,
             ddValues: [25, 50, 100, 250],
             tableStyle: 'table-all',
             head_horiz: (
@@ -435,7 +435,7 @@ function TopTable(props) {
                     <th style={{width: "5%"}}></th>
                     <th style={{width: "5%"}}>#</th>
                     <th style={{width: "5%"}}></th>
-                    <th style={{width: "40%"}}>Song</th>
+                    <th style={{width: "40%"}}>Track</th>
                     <th style={{width: "40%"}}>Artist</th>
                     <th style={{textAlign: 'right', width: "5%"}}>Minutes</th>
                 </tr>
@@ -447,7 +447,7 @@ function TopTable(props) {
                     <th style={{}}></th>
                     <th style={{}}>#</th>
                     <th style={{}}></th>
-                    <th style={{}}>Song</th>
+                    <th style={{}}>Track</th>
                     <th style={{textAlign: 'right'}}>Minutes</th>
                 </tr>
                 </thead>
@@ -455,10 +455,10 @@ function TopTable(props) {
             row_horiz: (item) => {
                 return (
                     <tr className={"table-row"}>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.trackId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.trackId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.track}</a></td>
                         <td><LinkedArtistList nameString={item.artist} idString={item.artistId}/></td>
                         <td style={{textAlign: 'right'}}>{addCommaToNumber(Math.round(item.count/60))}</td>
                     </tr>
@@ -467,12 +467,12 @@ function TopTable(props) {
             row_vert: (item) => {
                 return (
                     <tr className={"table-row"}>
-                        <td><a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
+                        <td><a href={OPEN_SPOTIFY + '/track/' + item.trackId} target={"_blank"} rel={"noreferrer"}><img src={spotifyIcon} alt={"Unavailable"} style={{width: "1.5rem"}}/></a></td>
                         <td>{item.rank}</td>
                         <td><img src={item.image} style={{width: "3rem"}} alt={"Unavailable"}/></td>
                         <td>
                             <div>
-                                <a href={OPEN_SPOTIFY + '/track/' + item.songId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.song}</a>
+                                <a href={OPEN_SPOTIFY + '/track/' + item.trackId} target={"_blank"} rel={"noreferrer"} className={'table-link'}>{item.track}</a>
                                 <LinkedArtistList nameString={item.artist} idString={item.artistId}/>
                             </div>
                         </td>
@@ -685,11 +685,11 @@ function TopTable(props) {
         }
 
         switch (type) {
-            case 'songCount':
-                currentProps = songCountProps
+            case 'trackCount':
+                currentProps = trackCountProps
                 break
-            case 'songTime':
-                currentProps = songTimeProps
+            case 'trackTime':
+                currentProps = trackTimeProps
                 break
             case 'artistCount':
                 currentProps = artistCountProps
@@ -704,7 +704,7 @@ function TopTable(props) {
                 currentProps = albumTimeProps
                 break
             default:
-                currentProps = songCountProps
+                currentProps = trackCountProps
         }
         setDisplayedItems(allItems.slice(0, currentProps.defaultCount))
         setTableStyle(currentProps.tableStyle)
@@ -796,13 +796,13 @@ function AllCharts(props) {
         <div className={'all-panels'}>
             <BasicPanel primary={"Total Minutes"} data={props.totalMinutes} commentary={getCommentary('totalMinutes')}/>
             <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={getCommentary('averageYear')}/>
-            <BasicPanel primary={"Average Song Length"} data={props.averageLength} commentary={getCommentary('averageLength')}/>
+            <BasicPanel primary={"Average Track Length"} data={props.averageLength} commentary={getCommentary('averageLength')}/>
             <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={getCommentary('medianYear')}/>
             {/*<BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={getCommentary('percentExplicit)}/>*/}
-            <BasicPanel primary={"Total Songs"} data={props.totalSongs} commentary={getCommentary('totalSongs')}/>
+            <BasicPanel primary={"Total Tracks"} data={props.totalTracks} commentary={getCommentary('totalTracks')}/>
             <BasicPanel primary={"Unique Album Count"} data={props.uniqueAlbums} commentary={getCommentary('uniqueAlbums')}/>
             <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={getCommentary('uniqueArtists')}/>
-            <BasicPanel primary={"Unique Song Count"} data={props.uniqueSongs} commentary={getCommentary('uniqueSongs')}/>
+            <BasicPanel primary={"Unique Track Count"} data={props.uniqueTracks} commentary={getCommentary('uniqueTracks')}/>
             <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={getCommentary('decadeBreakdown')}/>
             <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
         </div>
@@ -940,13 +940,13 @@ function getCommentary(metric) {
             return "That was a better year."
         case 'percentExplicit':
             return "That's too high."
-        case 'totalSongs':
+        case 'totalTracks':
             return "Looks like you spend too much time on Spotify."
         case 'uniqueAlbums':
             return "Wow, not a whole lot of diversity there."
         case 'uniqueArtists':
             return "Nice!"
-        case 'uniqueSongs':
+        case 'uniqueTracks':
             return "That's pretty ok."
         case 'decadeBreakdown':
             return "Looks like you need more diversity."
