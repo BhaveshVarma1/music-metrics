@@ -32,7 +32,8 @@ export function Stats() {
     const [showSelector2, setShowSelector2] = useState(true);
     const [countStyle, setCountStyle] = useState(selectedStyle);
     const [timeStyle, setTimeStyle] = useState(unselectedStyle);
-    const [showAllSelectors, setShowAllSelectors] = useState(false);
+    const [showDataSelectors, setShowDataSelectors] = useState(false);
+    const [showTimeSelector, setShowTimeSelector] = useState(false);
 
     // TIME VARIABLES
     const [displayedTimeRange, setDisplayedTimeRange] = useState('All time');
@@ -77,7 +78,8 @@ export function Stats() {
                 console.log(data)
 
                 if (data === "No tracks found for this time period.") {
-                    setShowAllSelectors(false)
+                    setShowTimeSelector(true)
+                    setShowDataSelectors(false)
                     setCurrentData(<StatsInfo text="No listening history found for this time period."/>)
                     return
                 }
@@ -116,7 +118,8 @@ export function Stats() {
                 setWeekDayBreakdown(addCommaToNumber(data.weekDayBreakdown.items))
 
                 // REMOVE LOADING MESSAGE
-                setShowAllSelectors(true)
+                setShowTimeSelector(true)
+                setShowDataSelectors(true)
                 setCurrentData(<TopTable items={data.topTracks.items} type={'trackCount'}/>)
 
                 // RESET THE SELECTORS
@@ -233,11 +236,13 @@ export function Stats() {
             if (potStartTime === startTime && potEndTime === endTime) return
             setStartTime(potStartTime)
             setEndTime(potEndTime)
-            setShowAllSelectors(false)
+            setShowTimeSelector(false)
+            setShowDataSelectors(false)
             setCurrentData(<StatsInfo text="Loading..."/>)
         } else {
             console.log("ERROR: Invalid times: " + potStartTime + " " + potEndTime)
-            setShowAllSelectors(false)
+            setShowTimeSelector(true)
+            setShowDataSelectors(false)
             setCurrentData(<StatsInfo text="Invalid time range, try again."/>)
         }
         // useEffect triggered when startTime / endTime change
@@ -309,7 +314,7 @@ export function Stats() {
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
-            {showAllSelectors && (
+            {showTimeSelector && (
                 <>
                     <div className={'small-description'}>Showing stats from:</div>
                     <div className={'extra-bottom-margin'}>
@@ -332,6 +337,10 @@ export function Stats() {
                             </div>
                         )}
                     </div>
+                </>
+            )}
+            {showDataSelectors && (
+                <>
                     <div className={'selector'}>
                         <div className={trackStyle + ' selector-option corner-rounded-left'} onClick={setToTrack}>Top Tracks</div>
                         <div className={artistStyle + ' selector-option'} onClick={setToArtist}>Top Artists</div>
