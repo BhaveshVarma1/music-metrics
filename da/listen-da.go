@@ -7,7 +7,7 @@ import (
 )
 
 func CreateListen(tx *sql.Tx, listen model.ListenBean) error {
-	_, err := tx.Exec("INSERT INTO listen (username, timestamp, songID) VALUES(?,?,?);", listen.Username, listen.Timestamp, listen.SongId)
+	_, err := tx.Exec("INSERT INTO listen (username, timestamp, trackID) VALUES(?,?,?);", listen.Username, listen.Timestamp, listen.TrackId)
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func RetrieveListen(tx *sql.Tx, username string, timestamp int64) (model.ListenB
 	}(rows)
 	var listen model.ListenBean
 	for rows.Next() {
-		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.SongId)
+		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.TrackId)
 		if err != nil {
 			return model.ListenBean{}, err
 		}
@@ -50,7 +50,7 @@ func RetrieveAllListensForUser(tx *sql.Tx, username string) ([]model.ListenBean,
 	var listens []model.ListenBean
 	for rows.Next() {
 		var listen model.ListenBean
-		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.SongId)
+		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.TrackId)
 		if err != nil {
 			return nil, err
 		}
@@ -111,7 +111,7 @@ func GetMostRecentListen(tx *sql.Tx, username string) (model.ListenBean, error) 
 	}(rows)
 	var listen model.ListenBean
 	for rows.Next() {
-		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.SongId)
+		err = rows.Scan(&listen.Username, &listen.Timestamp, &listen.TrackId)
 		if err != nil {
 			return model.ListenBean{}, err
 		}

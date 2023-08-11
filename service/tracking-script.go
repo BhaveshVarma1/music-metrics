@@ -63,9 +63,9 @@ func StartTracking() {
 			}
 
 			// Determine which listens are new and add them if they are
-			newSongsCount := loopThroughRecentListens(recentlyPlayed, tx, user, oldTime)
+			newTracksCount := loopThroughRecentListens(recentlyPlayed, tx, user, oldTime)
 
-			fmt.Println(user.Username + " listened to " + strconv.Itoa(newSongsCount) + " songs in the last 2 hours. (" + time.Since(startTimeUser).String() + "), (" + time.Now().Format("2006-01-02 15:04:05 -0700 MST") + ")")
+			fmt.Println(user.Username + " listened to " + strconv.Itoa(newTracksCount) + " tracks in the last 2 hours. (" + time.Since(startTimeUser).String() + "), (" + time.Now().Format("2006-01-02 15:04:05 -0700 MST") + ")")
 
 			// Sleep for a little bit to avoid rate limiting
 			time.Sleep(500 * time.Millisecond)
@@ -84,11 +84,11 @@ func StartTracking() {
 }
 
 func loopThroughRecentListens(listens []model.RecentlyPlayedObject, tx *sql.Tx, user model.UserBean, oldTime int64) int {
-	newSongsCount := 0
+	newTracksCount := 0
 	for _, rpObj := range listens {
 		if rpObj.Timestamp > oldTime {
 			// Add album to database if it isn't already there
-			// Do this before adding song because of foreign key constraint
+			// Do this before adding track because of foreign key constraint
 			album, err := da.RetrieveAlbum(tx, rpObj.Album.Id)
 			if err != nil {
 				fmt.Println("Error retrieving album for username: " + user.Username)
@@ -110,25 +110,25 @@ func loopThroughRecentListens(listens []model.RecentlyPlayedObject, tx *sql.Tx, 
 				}
 			}
 
-			// Add song to database if it isn't already there
-			newSongsCount++
-			song, err := da.RetrieveSong(tx, rpObj.Song.Id)
+			// Add track to database if it isn't already there
+			newTracksCount++
+			track, err := da.RetrieveTrack(tx, rpObj.Track.Id)
 			if err != nil {
-				fmt.Println("Error retrieving song for username: " + user.Username)
+				fmt.Println("Error retrieving track for username: " + user.Username)
 				fmt.Println(err)
 				continue
 			}
-			if (song == model.SongBean{}) {
-				err = da.CreateSong(tx, &rpObj.Song)
+			if (track == model.TrackBean{}) {
+				err = da.CreateTrack(tx, &rpObj.Track)
 				if err != nil {
-					fmt.Println("Error creating song for username: " + user.Username)
+					fmt.Println("Error creating track for username: " + user.Username)
 					continue
 				}
 			} else {
-				// Update song if it is already there
-				err = da.UpdateSong(tx, &rpObj.Song)
+				// Update track if it is already there
+				err = da.UpdateTrack(tx, &rpObj.Track)
 				if err != nil {
-					fmt.Println("Error updating song for username: " + user.Username)
+					fmt.Println("Error updating track for username: " + user.Username)
 					continue
 				}
 			}
@@ -137,7 +137,7 @@ func loopThroughRecentListens(listens []model.RecentlyPlayedObject, tx *sql.Tx, 
 			newListen := model.ListenBean{
 				Username:  user.Username,
 				Timestamp: rpObj.Timestamp,
-				SongId:    rpObj.Song.Id,
+				TrackId:   rpObj.Track.Id,
 			}
 			err = da.CreateListen(tx, newListen)
 			if err != nil {
@@ -149,5 +149,5 @@ func loopThroughRecentListens(listens []model.RecentlyPlayedObject, tx *sql.Tx, 
 			break
 		}
 	}
-	return newSongsCount
+	return newTracksCount
 }

@@ -215,7 +215,7 @@ func GetRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 
 	var toReturn []model.RecentlyPlayedObject
 	for _, item := range respBody.Items {
-		song := model.SongBean{
+		track := model.TrackBean{
 			Id:         item.Track.ID,
 			Name:       item.Track.Name,
 			Artist:     ArtistsToString(item.Track.Artists),
@@ -237,7 +237,7 @@ func GetRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 			Popularity:  item.Track.Album.Popularity,
 		}
 		returnObj := model.RecentlyPlayedObject{
-			Song:      song,
+			Track:     track,
 			Album:     album,
 			Timestamp: DatetimeToUnixMilli(item.PlayedAt),
 		}

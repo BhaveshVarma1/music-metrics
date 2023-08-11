@@ -50,7 +50,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 						listen := model.ListenBean{
 							Username:  username,
 							Timestamp: millis,
-							SongId:    trackID,
+							TrackId:   trackID,
 						}
 						listensToAdd = append(listensToAdd, listen)
 					}
@@ -64,33 +64,33 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		}
 
 		// The listening history has now been filtered and the listen beans have been created
-		// Because of foreign key constraints, the listensToAdd cannot be added to the DB until song/album metadata is added
+		// Because of foreign key constraints, the listensToAdd cannot be added to the DB until track/album metadata is added
 
-		// We only want to get data from Spotify for songs and albums that aren't already in the DB to save time
-		var newSongIDs []string
-		var dbSongIDs []string
-		dbSongs, err := da.RetrieveAllSongs(tx)
+		// We only want to get data from Spotify for tracks and albums that aren't already in the DB to save time
+		var newTrackIDs []string
+		var dbTrackIDs []string
+		dbTracks, err := da.RetrieveAllTracks(tx)
 		if err != nil {
-			fmt.Println("Error retrieving songs in load service: ", err)
+			fmt.Println("Error retrieving tracks in load service: ", err)
 			return
 		}
-		for _, song := range dbSongs {
-			dbSongIDs = append(dbSongIDs, song.Id)
+		for _, track := range dbTracks {
+			dbTrackIDs = append(dbTrackIDs, track.Id)
 		}
-		for _, song := range uniqueTrackIDs {
-			if !SliceContainsString(dbSongIDs, song) {
-				newSongIDs = append(newSongIDs, song)
+		for _, track := range uniqueTrackIDs {
+			if !SliceContainsString(dbTrackIDs, track) {
+				newTrackIDs = append(newTrackIDs, track)
 			}
 		}
 
-		// Obtain song metadata for new songs
-		songs, err := getAllSongData(token, newSongIDs)
+		// Obtain track metadata for new tracks
+		tracks, err := getAllTrackData(token, newTrackIDs)
 		if err != nil {
-			fmt.Println("Error getting song data in load service: ", err)
+			fmt.Println("Error getting track data in load service: ", err)
 			return
 		}
 
-		// Using the song metadata, obtain album metadata for new albums only
+		// Using the track metadata, obtain album metadata for new albums only
 		var dbAlbumIDs []string
 		dbAlbums, err := da.RetrieveAllAlbums(tx)
 		if err != nil {
@@ -101,10 +101,10 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 			dbAlbumIDs = append(dbAlbumIDs, album.Id)
 		}
 		var newUniqueAlbumIDs []string
-		for _, song := range songs {
-			if !SliceContainsString(dbAlbumIDs, song.Album) {
-				if !SliceContainsString(newUniqueAlbumIDs, song.Album) {
-					newUniqueAlbumIDs = append(newUniqueAlbumIDs, song.Album)
+		for _, track := range tracks {
+			if !SliceContainsString(dbAlbumIDs, track.Album) {
+				if !SliceContainsString(newUniqueAlbumIDs, track.Album) {
+					newUniqueAlbumIDs = append(newUniqueAlbumIDs, track.Album)
 				}
 			}
 		}
@@ -115,7 +115,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 			return
 		}
 
-		// Add song and album metadata to DB
+		// Add track and album metadata to DB
 		// Add albums first due to foreign key constraints
 		for _, album := range albums {
 			if da.CreateAlbum(tx, &album) != nil {
@@ -123,9 +123,9 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 				continue
 			}
 		}
-		for _, song := range songs {
-			if da.CreateSong(tx, &song) != nil {
-				// There's a good chance the song already exists, so ignore the error
+		for _, track := range tracks {
+			if da.CreateTrack(tx, &track) != nil {
+				// There's a good chance the track already exists, so ignore the error
 				continue
 			}
 		}
@@ -153,9 +153,9 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 	}
 }
 
-func getAllSongData(token string, trackIDs []string) ([]model.SongBean, error) {
+func getAllTrackData(token string, trackIDs []string) ([]model.TrackBean, error) {
 
-	var songs []model.SongBean
+	var beans []model.TrackBean
 
 	tracks, err := GetSeveralTracks(token, trackIDs)
 	if err != nil {
@@ -164,7 +164,7 @@ func getAllSongData(token string, trackIDs []string) ([]model.SongBean, error) {
 	}
 
 	for _, track := range tracks {
-		song := model.SongBean{
+		bean := model.TrackBean{
 			Id:         track.ID,
 			Name:       track.Name,
 			Artist:     ArtistsToString(track.Artists),
@@ -174,10 +174,10 @@ func getAllSongData(token string, trackIDs []string) ([]model.SongBean, error) {
 			Popularity: track.Popularity,
 			Duration:   track.DurationMs,
 		}
-		songs = append(songs, song)
+		beans = append(beans, bean)
 	}
 
-	return songs, nil
+	return beans, nil
 }
 
 func getAllAlbumData(token string, albumIDs []string) ([]model.AlbumBean, error) {

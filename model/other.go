@@ -11,10 +11,10 @@ type ModeYear struct {
 }
 
 type PopularityObject struct {
-	Song       string `json:"song"`
+	Track      string `json:"track"`
 	Artist     string `json:"artist"`
 	Popularity int    `json:"popularity"`
-	SongId     string `json:"songId"`
+	TrackId    string `json:"trackId"`
 	ArtistId   string `json:"artistId"`
 }
 
@@ -25,16 +25,16 @@ type RawArtistTime struct {
 }
 
 type RecentlyPlayedObject struct {
-	Song      SongBean
+	Track     TrackBean
 	Album     AlbumBean
 	Timestamp int64
 }
 
-type TopSong struct {
-	Song     string `json:"song"`
+type TopTrack struct {
+	Track    string `json:"track"`
 	Artist   string `json:"artist"`
 	Count    int    `json:"count"`
-	SongId   string `json:"songId"`
+	TrackId  string `json:"trackId"`
 	ArtistId string `json:"artistId"`
 	Image    string `json:"image"`
 }

@@ -7,13 +7,13 @@ import (
 	"music-metrics/model"
 )
 
-func GetTopSongs(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.TopSong, error) {
-	stmt, err := tx.Prepare(SQL_TOP_SONGS)
+func GetTopTracks(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.TopTrack, error) {
+	stmt, err := tx.Prepare(SQL_TOP_TRACKS)
 	if err != nil {
 		return nil, err
 	}
 
-	var results []model.TopSong
+	var results []model.TopTrack
 	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
@@ -26,21 +26,21 @@ func GetTopSongs(tx *sql.Tx, username string, startTime int64, endTime int64) ([
 	}(rows)
 
 	for rows.Next() {
-		var song string
-		var songId string
+		var track string
+		var trackId string
 		var artist string
 		var artistId string
 		var image string
 		var count int
-		err = rows.Scan(&song, &songId, &artist, &artistId, &image, &count)
+		err = rows.Scan(&track, &trackId, &artist, &artistId, &image, &count)
 		if err != nil {
 			return nil, err
 		}
-		results = append(results, model.TopSong{
-			Song:     song,
+		results = append(results, model.TopTrack{
+			Track:    track,
 			Artist:   artist,
 			Count:    count,
-			SongId:   songId,
+			TrackId:  trackId,
 			ArtistId: artistId,
 			Image:    image,
 		})
@@ -49,13 +49,13 @@ func GetTopSongs(tx *sql.Tx, username string, startTime int64, endTime int64) ([
 	return results, nil
 }
 
-func GetTopSongsTime(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.TopSong, error) {
-	stmt, err := tx.Prepare(SQL_TOP_SONGS_TIME)
+func GetTopTracksTime(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.TopTrack, error) {
+	stmt, err := tx.Prepare(SQL_TOP_TRACKS_TIME)
 	if err != nil {
 		return nil, err
 	}
 
-	var results []model.TopSong
+	var results []model.TopTrack
 	rows, err := stmt.Query(username, startTime, endTime)
 	if err != nil {
 		return nil, err
@@ -68,21 +68,21 @@ func GetTopSongsTime(tx *sql.Tx, username string, startTime int64, endTime int64
 	}(rows)
 
 	for rows.Next() {
-		var song string
-		var songId string
+		var track string
+		var trackId string
 		var artist string
 		var artistId string
 		var image string
 		var count int
-		err = rows.Scan(&song, &songId, &artist, &artistId, &image, &count)
+		err = rows.Scan(&track, &trackId, &artist, &artistId, &image, &count)
 		if err != nil {
 			return nil, err
 		}
-		results = append(results, model.TopSong{
-			Song:     song,
+		results = append(results, model.TopTrack{
+			Track:    track,
 			Artist:   artist,
 			Count:    count,
-			SongId:   songId,
+			TrackId:  trackId,
 			ArtistId: artistId,
 			Image:    image,
 		})
@@ -299,8 +299,8 @@ func GetPercentExplicit(tx *sql.Tx, username string, startTime int64, endTime in
 	return result, nil
 }
 
-func GetTotalSongs(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
-	stmt, err := tx.Prepare(SQL_TOTAL_SONGS)
+func GetTotalTracks(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
+	stmt, err := tx.Prepare(SQL_TOTAL_TRACKS)
 	if err != nil {
 		return 0, err
 	}
@@ -318,8 +318,8 @@ func GetTotalSongs(tx *sql.Tx, username string, startTime int64, endTime int64) 
 	return result, nil
 }
 
-func GetUniqueSongs(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
-	stmt, err := tx.Prepare(SQL_UNIQUE_SONGS)
+func GetUniqueTracks(tx *sql.Tx, username string, startTime int64, endTime int64) (int, error) {
+	stmt, err := tx.Prepare(SQL_UNIQUE_TRACKS)
 	if err != nil {
 		return 0, err
 	}
@@ -450,7 +450,7 @@ func GetRawTimestamps(tx *sql.Tx, username string, startTime int64, endTime int6
 	return results, nil
 }
 
-func GetAveragePopularityWithSongs(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.PopularityObject, error) {
+func GetAveragePopularityWithTracks(tx *sql.Tx, username string, startTime int64, endTime int64) ([]model.PopularityObject, error) {
 	stmt, err := tx.Prepare(SQL_AVG_POPULARITY)
 	if err != nil {
 		return nil, err
@@ -470,20 +470,20 @@ func GetAveragePopularityWithSongs(tx *sql.Tx, username string, startTime int64,
 	}(rows)
 
 	for rows.Next() {
-		var song string
-		var songId string
+		var track string
+		var trackId string
 		var artist string
 		var artistId string
 		var popularity int
-		err = rows.Scan(&song, &songId, &artist, &artistId, &popularity)
+		err = rows.Scan(&track, &trackId, &artist, &artistId, &popularity)
 		if err != nil {
 			return nil, err
 		}
 		results = append(results, model.PopularityObject{
-			Song:       song,
+			Track:      track,
 			Artist:     artist,
 			Popularity: popularity,
-			SongId:     songId,
+			TrackId:    trackId,
 			ArtistId:   artistId,
 		})
 	}

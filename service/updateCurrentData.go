@@ -29,8 +29,8 @@ func UpdateCurrentData() {
 		return
 	}
 
-	// Grab songs to iterate through
-	songs, err := da.RetrieveAllSongs(tx)
+	// Grab tracks to iterate through
+	tracks, err := da.RetrieveAllTracks(tx)
 	if err != nil {
 		if da.CommitAndClose(tx, db, false) != nil {
 			fmt.Println("Error committing transaction")
@@ -47,29 +47,29 @@ func UpdateCurrentData() {
 		}
 	}
 
-	// Update all songs
+	// Update all tracks
 	iteration := 0
-	for _, song := range songs {
+	for _, track := range tracks {
 		fmt.Printf("Iteration: %d\n", iteration)
-		track, err := GetTrack(token, song.Id)
+		spotifyTrack, err := GetTrack(token, track.Id)
 		if err != nil {
-			fmt.Println("Error getting song data for song: " + song.Id)
+			fmt.Println("Error getting track data for track: " + track.Id)
 			continue
 		}
 
-		newSong := model.SongBean{
-			Id:         track.ID,
-			Name:       track.Name,
-			Artist:     ArtistsToString(track.Artists),
-			ArtistId:   ArtistIdsToString(track.Artists),
-			Album:      track.Album.ID,
-			Explicit:   track.Explicit,
-			Popularity: track.Popularity,
-			Duration:   track.DurationMs,
+		newTrack := model.TrackBean{
+			Id:         spotifyTrack.ID,
+			Name:       spotifyTrack.Name,
+			Artist:     ArtistsToString(spotifyTrack.Artists),
+			ArtistId:   ArtistIdsToString(spotifyTrack.Artists),
+			Album:      spotifyTrack.Album.ID,
+			Explicit:   spotifyTrack.Explicit,
+			Popularity: spotifyTrack.Popularity,
+			Duration:   spotifyTrack.DurationMs,
 		}
 
-		if da.UpdateSong(tx, &newSong) != nil {
-			fmt.Println("Error updating song: " + newSong.Id)
+		if da.UpdateTrack(tx, &newTrack) != nil {
+			fmt.Println("Error updating track: " + newTrack.Id)
 			continue
 		}
 

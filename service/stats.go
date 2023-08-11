@@ -38,19 +38,19 @@ type TopArtistsService struct{}
 
 type TopArtistsTimeService struct{}
 
-type TopSongsService struct{}
+type TopTracksService struct{}
 
-type TopSongsTimeService struct{}
+type TopTracksTimeService struct{}
 
 type TotalMinutesService struct{}
 
-type TotalSongsService struct{}
+type TotalTracksService struct{}
 
 type UniqueAlbumsService struct{}
 
 type UniqueArtistsService struct{}
 
-type UniqueSongsService struct{}
+type UniqueTracksService struct{}
 
 type WeekDayBreakdownService struct{}
 
@@ -68,19 +68,19 @@ func (s AllStatsService) ExecuteService(username string, startTime int64, endTim
 	var topAlbumTimeService TopAlbumsTimeService
 	var topArtistService TopArtistsService
 	var topArtistTimeService TopArtistsTimeService
-	var topSongService TopSongsService
-	var topSongTimeService TopSongsTimeService
+	var topTrackService TopTracksService
+	var topTrackTimeService TopTracksTimeService
 	var totalMinutesService TotalMinutesService
-	var totalSongsService TotalSongsService
+	var totalTracksService TotalTracksService
 	var uniqueAlbumsService UniqueAlbumsService
 	var uniqueArtistsService UniqueArtistsService
-	var uniqueSongsService UniqueSongsService
+	var uniqueTracksService UniqueTracksService
 	var weekDayBreakdownService WeekDayBreakdownService
 
-	totalSongs := totalSongsService.ExecuteService(username, startTime, endTime)
-	if response, ok := totalSongs.(model.SingleIntResponse); ok {
+	totalTracks := totalTracksService.ExecuteService(username, startTime, endTime)
+	if response, ok := totalTracks.(model.SingleIntResponse); ok {
 		if response.Value < 1 {
-			return "No songs found for this time period."
+			return "No tracks found for this time period."
 		}
 	}
 
@@ -97,13 +97,13 @@ func (s AllStatsService) ExecuteService(username string, startTime int64, endTim
 		TopAlbumsTime:     topAlbumTimeService.ExecuteService(username, startTime, endTime),
 		TopArtists:        topArtistService.ExecuteService(username, startTime, endTime),
 		TopArtistsTime:    topArtistTimeService.ExecuteService(username, startTime, endTime),
-		TopSongs:          topSongService.ExecuteService(username, startTime, endTime),
-		TopSongsTime:      topSongTimeService.ExecuteService(username, startTime, endTime),
+		TopTracks:         topTrackService.ExecuteService(username, startTime, endTime),
+		TopTracksTime:     topTrackTimeService.ExecuteService(username, startTime, endTime),
 		TotalMinutes:      totalMinutesService.ExecuteService(username, startTime, endTime),
-		TotalSongs:        totalSongsService.ExecuteService(username, startTime, endTime),
+		TotalTracks:       totalTracksService.ExecuteService(username, startTime, endTime),
 		UniqueAlbums:      uniqueAlbumsService.ExecuteService(username, startTime, endTime),
 		UniqueArtists:     uniqueArtistsService.ExecuteService(username, startTime, endTime),
-		UniqueSongs:       uniqueSongsService.ExecuteService(username, startTime, endTime),
+		UniqueTracks:      uniqueTracksService.ExecuteService(username, startTime, endTime),
 		WeekDayBreakdown:  weekDayBreakdownService.ExecuteService(username, startTime, endTime),
 	}
 
@@ -138,7 +138,7 @@ func (s AveragePopularityService) ExecuteService(username string, startTime int6
 		return nil
 	}
 
-	result, err := da.GetAveragePopularityWithSongs(tx, username, startTime, endTime)
+	result, err := da.GetAveragePopularityWithTracks(tx, username, startTime, endTime)
 	if err != nil {
 		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -147,7 +147,7 @@ func (s AveragePopularityService) ExecuteService(username string, startTime int6
 	}
 
 	if result == nil {
-		return "No songs found"
+		return "No tracks found"
 	}
 
 	if da.CommitAndClose(tx, db, true) != nil {
@@ -269,7 +269,7 @@ func (s ModeYearService) ExecuteService(username string, startTime int64, endTim
 	}
 
 	// Calculate percentages
-	total, err := da.GetTotalSongs(tx, username, startTime, endTime)
+	total, err := da.GetTotalTracks(tx, username, startTime, endTime)
 	if err != nil {
 		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -473,14 +473,14 @@ func (s TopArtistsTimeService) ExecuteService(username string, startTime int64, 
 	return model.TopArtistsResponse{Items: toReturn}
 }
 
-func (s TopSongsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
+func (s TopTracksService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := da.GetTopSongs(tx, username, startTime, endTime)
+	result, err := da.GetTopTracks(tx, username, startTime, endTime)
 	if err != nil {
 		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -492,17 +492,17 @@ func (s TopSongsService) ExecuteService(username string, startTime int64, endTim
 		return nil
 	}
 
-	return model.TopSongsResponse{Items: result}
+	return model.TopTracksResponse{Items: result}
 }
 
-func (s TopSongsTimeService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
+func (s TopTracksTimeService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := da.GetTopSongsTime(tx, username, startTime, endTime)
+	result, err := da.GetTopTracksTime(tx, username, startTime, endTime)
 	if err != nil {
 		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -514,17 +514,17 @@ func (s TopSongsTimeService) ExecuteService(username string, startTime int64, en
 		return nil
 	}
 
-	return model.TopSongsResponse{Items: result}
+	return model.TopTracksResponse{Items: result}
 }
 
-func (s TotalSongsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
+func (s TotalTracksService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := da.GetTotalSongs(tx, username, startTime, endTime)
+	result, err := da.GetTotalTracks(tx, username, startTime, endTime)
 	if err != nil {
 		if da.CommitAndClose(tx, db, false) != nil {
 			return nil
@@ -617,14 +617,14 @@ func (s UniqueArtistsService) ExecuteService(username string, startTime int64, e
 	return model.SingleIntResponse{Value: count}
 }
 
-func (s UniqueSongsService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
+func (s UniqueTracksService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
 
 	tx, db, err := da.BeginTX()
 	if err != nil {
 		return nil
 	}
 
-	result, err := da.GetUniqueSongs(tx, username, startTime, endTime)
+	result, err := da.GetUniqueTracks(tx, username, startTime, endTime)
 	if err != nil {
 		if da.CommitAndClose(tx, db, false) != nil {
 			return nil

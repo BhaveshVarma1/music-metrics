@@ -113,16 +113,16 @@ func TestTopArtistsTime(t *testing.T) {
 	fmt.Println(result)
 }
 
-func TestTopSongs(t *testing.T) {
+func TestTopTracks(t *testing.T) {
 
-	var service TopSongsService
+	var service TopTracksService
 	result := service.ExecuteService(GetUsername(), GetStartTime(), GetEndTime())
 	fmt.Println(result)
 }
 
-func TestTopSongsTime(t *testing.T) {
+func TestTopTracksTime(t *testing.T) {
 
-	var service TopSongsTimeService
+	var service TopTracksTimeService
 	result := service.ExecuteService(GetUsername(), GetStartTime(), GetEndTime())
 	fmt.Println(result)
 }
@@ -134,9 +134,9 @@ func TestTotalMinutes(t *testing.T) {
 	fmt.Println(result)
 }
 
-func TestTotalSongs(t *testing.T) {
+func TestTotalTracks(t *testing.T) {
 
-	var service TotalSongsService
+	var service TotalTracksService
 	result := service.ExecuteService(GetUsername(), GetStartTime(), GetEndTime())
 	fmt.Println(result)
 }
@@ -156,9 +156,9 @@ func TestGetUniqueArtists(t *testing.T) {
 
 }
 
-func TestUniqueSongs(t *testing.T) {
+func TestUniqueTracks(t *testing.T) {
 
-	var service UniqueSongsService
+	var service UniqueTracksService
 	result := service.ExecuteService(GetUsername(), GetStartTime(), GetEndTime())
 	fmt.Println(result)
 }

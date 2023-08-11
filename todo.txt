@@ -24,6 +24,7 @@ IMPROVEMENTS TO MAKE: ----------------------------------------------------------
 Loading screen
 Double check optimization for mobile todo
 Time zone issue (make a note about it) todo
+Reformat sql-util.go
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
 

@@ -21,10 +21,10 @@ type AuthTokenBean struct {
 type ListenBean struct {
 	Username  string `json:"username"`
 	Timestamp int64  `json:"timestamp"`
-	SongId    string `json:"songID"`
+	TrackId   string `json:"trackID"`
 }
 
-type SongBean struct {
+type TrackBean struct {
 	Id         string `json:"id"`
 	Name       string `json:"name"`
 	Artist     string `json:"artist"`
