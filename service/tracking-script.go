@@ -13,6 +13,9 @@ func StartTracking() {
 
 	fmt.Println("STARTING TRACKING SCRIPT...")
 
+	// Wait until the next even 2 hours to start
+	time.Sleep(time.Until(time.Now().Truncate(2 * time.Hour).Add(2 * time.Hour)))
+
 	for {
 
 		startTime := time.Now()
