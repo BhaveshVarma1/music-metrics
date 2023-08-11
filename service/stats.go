@@ -407,6 +407,11 @@ func (s TopArtistsService) ExecuteService(username string, startTime int64, endT
 		return nil
 	}
 
+	// Take only the first 1000 items
+	if len(sortedArtists) > 1000 {
+		sortedArtists = sortedArtists[:1000]
+	}
+
 	return model.TopArtistsResponse{Items: sortedArtists}
 }
 
@@ -458,6 +463,11 @@ func (s TopArtistsTimeService) ExecuteService(username string, startTime int64, 
 
 	if da.CommitAndClose(tx, db, true) != nil {
 		return nil
+	}
+
+	// Take only the first 1000 items
+	if len(toReturn) > 1000 {
+		toReturn = toReturn[:1000]
 	}
 
 	return model.TopArtistsResponse{Items: toReturn}
