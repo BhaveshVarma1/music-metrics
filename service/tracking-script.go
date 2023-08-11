@@ -72,6 +72,8 @@ func StartTracking() {
 
 		}
 
+		fmt.Print("\n")
+
 		if da.CommitAndClose(tx, db, true) != nil {
 			fmt.Println("Error committing transaction")
 			return
