@@ -7,7 +7,7 @@ Graphs of certain stats over time (like StatsForSpotify)
 Artists by track diversity
 
 FRONTEND FEATURES TO ADD: ----------------------------------------------------------------------------------------------
-Finish current endpoints (mode year, avg popularity)
+Finish current endpoints (mode year, avg popularity, weekday breakdown)
 Custom descriptions for Other
 Playlist builder
 Contact page todo
@@ -15,8 +15,6 @@ About page
 Search functionality
 Expladed scroll bar?
 Time zone selection
-Popup on stats page about how to get extended streaming history todo
-Coming soon... on unfinished pages todo
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
 Write better test cases

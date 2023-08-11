@@ -48,6 +48,14 @@
     }
 }
 
+.disclaimer {
+    text-align: left;
+    font-size: .8rem;
+    color: #3de2ff;
+    margin: 0 auto;
+    width: 100%;
+}
+
 .dropdown-stats {
     position: relative;
     display: inline-block;

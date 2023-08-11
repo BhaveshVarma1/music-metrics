@@ -817,7 +817,11 @@ function AllCharts(props) {
             <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={getCommentary(props.totalMinutes, 'uniqueArtists', props.uniqueArtists)}/>
             <BasicPanel primary={"Unique Track Count"} data={props.uniqueTracks} commentary={getCommentary(props.totalMinutes, 'uniqueTracks', props.uniqueTracks)}/>
             <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={getCommentary(props.totalMinutes, 'decadeBreakdown', props.decadeBreakdown)}/>
+            {/*breakdown by day of the week*/}
             <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
+            <div className={'disclaimer'}>
+                Disclaimer: Spotify does not provide time zone data, so breakdowns by hour and day are based on Mountain Time.
+            </div>
         </div>
     )
 }
