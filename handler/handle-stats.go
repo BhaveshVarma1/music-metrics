@@ -42,7 +42,7 @@ func StatsHandler(s service.StatsService) echo.HandlerFunc {
 			if da.CommitAndClose(tx, db, false) != nil {
 				return c.JSON(500, model.GenericResponse{Success: false, Message: "Internal server error"})
 			}
-			return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token"})
+			return c.JSON(401, model.GenericResponse{Success: false, Message: "Bad token or username"})
 		}
 
 		// Log this request

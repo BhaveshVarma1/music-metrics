@@ -12,9 +12,9 @@ export const DOMAIN = 'dev.musicmetrics.app';
 export const BASE_URL_API = 'https://' + DOMAIN;
 export const BASE_URL_WEB = 'https://' + DOMAIN;
 const HTTP_METHODS = {
-    '/api/v1/updateCode': 'POST',
-    '/api/v1/allStats': 'GET',
-    '/api/v1/load': 'POST',
+    '/code': 'PUT',
+    '/stats': 'GET',
+    '/data': 'POST',
 }
 
 // ELEMENTS COMMON TO EVERY PAGE ---------------------------------------------------------------------------------------

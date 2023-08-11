@@ -1,87 +1,143 @@
 # Music Metrics API Guide
 
-The root url for this API is `https://dev.musicmetrics.app/api/v1`.  
-The WebSocket is accessed via `wss://dev.musicmetrics.app/ws`.
+The root url for this API is `https://dev.musicmetrics.app`.  
+The WebSocket is accessed via `wss://dev.musicmetrics.app/ws`.  
+All APIs are require authentication via HTTP header `Authorization`.  
+Last Updated: August 10, 2023
 
-# Currently Available Endpoints
-* All APIs are require authentication via HTTP header `Authorization`.  
-* All `GET` endpoints can respond with only `200 OK`, `401 Bad Token`, and `500 Internal Server Error`.  
-* Unless otherwise specified, all `GET` endpoints return JSON formatted data. For lists of things, the data is stored 
-as a single object, which is an array of objects called `items`. In the case of single values, the data is stored as a
-single object, which is an integer called `value`.  
-* Last Updated: April 11, 2023
-
-## `POST /updateCode`
+# `PUT /code`
 Called only when a user logs in with Spotify from the frontend. The `update-code` service uses the access token
 obtained from Spotify (see authorization-info.md) to get user information from Spotify. If the user is already in the
 database, their authtoken is updated both in the database and in local storage. If the user is not in the database,
 they are added to the database and their authtoken is stored in local storage, meaning they will be added to the
-tracking script as well, which runs every 2 hours. This endpoint can respond with only 200, 400, and 500.
+tracking script as well, which runs every 2 hours. This endpoint will respond with `200`, `400`, or `500`.
 
-## `GET /averageLength/{username}`
-Returns the average duration, in seconds, of all songs ever listened to by the user.
+# `GET /stats/[username]/[range]`
+Executes the primary function of this software, computing and returning all statistics. The first parameter is the
+username for whom to retrieve stats. The second is the time range, formatted like "x-y" where x is the start time and y
+is the end time. Both times are inclusive and must be in unix milliseconds. All metrics described below are computed
+with this time range considered.
 
-## `GET /averagePopularity/{username}`
-Returns 3 objects each containing the name of the song, the artist, and the popularity of that song. All three songs
-will be of the same popularity, which is the average. If no songs of the average popularity have been listened to,
-the array is null but will still return `200`.
+This endpoint will respond with `200`, `401`, or `500`. The successful response is one JSON object
+containing one child object per metric, all of which are either value objects (an object with one attribute which is an
+integer called `value`) or list objects (an object with one attribute which is an array called `items`). Here are the
+current attributes of the successful response object:
 
-## `GET /averageYear/{username}`
-Returns the average release year of all songs ever listened to by the user.
+### `averageLength`
+A value object containing the average duration, in seconds, of the songs listened to by the user.
 
-## `GET /decadeBreakdown/{username}`
-Returns an array of objects, each containing the decade (formatted as '2000s') and the number of songs listened to
-in that decade, ordered by most listened to descending.
+### `averagePopularity`
+A list object containing 3 objects which are formatted like so:
 
-## `GET /hourBreakdown/{username}`
-Returns an array of integers, whose indices correspond to the hour of the day (0-23) and whose values correspond to the
-number of songs listened to in that hour by the user. Currently doesn't take time zones into account.
+| Attribute    | Type   | Description                                                      |
+|--------------|--------|------------------------------------------------------------------|
+| `artist`     | string | The artist's name                                                |
+| `artistId`   | string | The artist's Spotify ID                                          |
+| `popularity` | int    | An integer 0-100 from Spotify representing the song's popularity |
+| `song`       | string | The song's name                                                  |
+| `songId`     | string | The song's Spotify ID                                            |
+If no songs of the average popularity have been listened to, the array is null.
 
-## `GET /medianYear/{username}`
+### `averageYear`
+A value object containing the average release year of the songs listened to by the user.
+
+### `decadeBreakdown`
+A list object containing 1 object for every decade containing year(s) in which a song was released that the user
+listened to. The objects are formatted like so and are sorted by descending `count`:
+
+| Attribute | Type   | Description                                                    |
+|-----------|--------|----------------------------------------------------------------|
+| `count`   | int    | The number of songs from this decade that the user listened to |
+| `decade`  | string | The decade in question, formatted like "1990s"                 |
+
+### `hourBreakdown`
+A list object containing an array of 24 integers, whose indices correspond to the hour of the day and whose values
+correspond to the number of songs listened to in that hour by the user. Time zone is not taken into account.
+
+### `medianYear`
 Similar to `averageYear`, but returns the median year instead.
 
-## `GET /modeYear/{username}`
-Returns the 3 objects, each containing the year as an int and the percent of total songs listened to that that year
-represents.
+### `modeYear`
+A list object containing 3 objects which are formatted like so and are sorted by descending `count`:
 
-## `GET /percentExplicit/{username}`
-Returns a single integer, which is the percent of songs ever listened to by the user that are marked as explicit
-by Spotify.
+| Attribute | Type | Description                                                                           |
+|-----------|------|---------------------------------------------------------------------------------------|
+| `count`   | int  | An integer representing what percent of the user's listens were released in this year |
+| `year`    | int  | A year                                                                                |
 
-## `GET /topAlbums/{username}`
-Returns an array of TopAlbum objects, which contain the album's name, artist, URL to its cover art, and a count
-representing how many times a song on that album has been listened to by the user.
+### `percentExplicit`
+A value object containing an integer representing what percentage of the user's listens are marked as explicit by
+Spotify.
 
-## `GET /topAlbumsTime/{username}`
-Same as `topAlbums`, but returns the top albums listened to by time, where the count is the total time in seconds
-instead of the number of songs.
+### `topAlbums`
+A list object containing 1000 objects which are formatted like so and are sorted by descending `count`:
 
-## `GET /topArtists/{username}`
-Returns an array of TopArtist objects, which contain the artist's name and a count representing how many times a
-song by that artist has been listened to by the user.
+| Attribute  | Type   | Description                                                         |
+|------------|--------|---------------------------------------------------------------------|
+| `album`    | string | The album's name                                                    |
+| `albumId`  | string | The album's Spotify ID                                              |
+| `artist`   | string | The album's artist(s) as a string separated by `;;`                 |
+| `artistId` | string | The Spotify ID(s) of the album's artist(s) separated by `;;`        |
+| `count`    | int    | The number of times the user has listened to a song from this album |
+| `image`    | string | The URL of the album's highest resolution cover art                 |
 
-## `GET /topArtistsTime/{username}`
-Same as `topArtists`, but returns the top artists listened to by time, where the count is the total time in seconds.
+### `topAlbumsTime`
+Similar to `topAlbums`, but the `count` attribute is the total number of seconds the user has spent listening to that
+album.
 
-## `GET /topSongs/{username}`
-Returns an array of TopSong objects, which contain the song's name, artist, and a count representing how many times
-that song has been listened to by the user.
+### `topArtists`
+A list object containing 1000 objects which are formatted like so and are sorted by descending `count`:
 
-## `GET /topSongsTime/{username}`
-Same as `topSongs`, but returns the top songs listened to by time, where the count is the total time in seconds.
+| Attribute  | Type   | Description                                                        |
+|------------|--------|--------------------------------------------------------------------|
+| `artist`   | string | The artist's name                                                  |
+| `artistId` | string | The artist's Spotify ID                                            |
+| `count`    | int    | The number of times the user has listened to a song by this artist |
 
-## `GET /totalSongs/{username}`
-Returns the total number of songs the user has listened to, including duplicates.
+### `topArtistsTime`
+Similar to `topArtists`, but the `count` attribute is the total number of seconds the user has spent listening to that
+artist.
 
-## `GET /uniqueAlbums/{username}`
-Returns the number of distinct albums the user has listened to.
+### `topSongs`
+A list object containing 1000 objects which are formatted like so and are sorted by descending `count`:
 
-## `GET /uniqueArtists/{username}`
-Returns the number of distinct artists the user has listened to.
+| Attribute  | Type   | Description                                                  |
+|------------|--------|--------------------------------------------------------------|
+| `artist`   | string | The song's artist(s) as a string separated by `;;`           |
+| `artistId` | string | The Spotify ID(s) of the album's artist(s) separated by `;;` |
+| `count`    | int    | The number of times the user has listened to this song       |
+| `image`    | string | The URL of the album's highest resolution cover art          |
+| `song`     | string | The song's name                                              |
+| `songId`   | string | The song's Spotify ID                                        |
 
-## `GET /uniqueSongs/{username}`
-Returns the number of distinct songs the user has listened to.
+### `topSongsTime`
+Similar to `topSongs`, but the `count` attribute is the total number of seconds the user has spent listening to that
+song.
 
-## `GET /weekDayBreakdown/{username}`
-Returns an array of integers, whose indices correspond to the day of the week (0-6) and whose values correspond to the
-number of songs listened to on that day by the user. Currently doesn't take time zones into account.
+### `totalMinutes`
+A value object containing the total number of minutes the user has spent listening to Spotify.
+
+### `totalSongs`
+A value object containing the total number of songs the user has listened to, including duplicates.
+
+### `uniqueAlbums`
+A value object containing the number of distinct albums the user has listened to.
+
+### `uniqueArtists`
+A value object containing the number of distinct artists the user has listened to.
+
+### `uniqueSongs`
+A value object containing the number of distinct songs the user has listened to.
+
+### `weekDayBreakdown`
+A list object containing an array of integers, whose indices correspond to the day of the week (0-6) and whose values
+correspond to the number of songs listened to on that day by the user. Time zone is not taken into account.
+
+# `POST /data/[username]`
+Asynchronously loads the provided data into the database for the given username. Request body must be formatted as a
+JSON array of Spotify's Extended Streaming History objects. This endpoint will respond with `200`, `400`, `401`, or
+`500`.
+
+# `DELETE /data/[username]`
+Deletes account information and any auth tokens for this user (deleting listening data not yet supported). This endpoint
+will respond with `200`, `401`, or `500`.

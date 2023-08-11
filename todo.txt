@@ -1,6 +1,6 @@
 METRICS TO ADD: --------------------------------------------------------------------------------------------------------
 First song listened to (with date)
-Day(s) with the most minutes listened
+Specific day(s) with the most minutes listened
 Stats surrounding audio features
 Most popular song per artist - to put in top artist table
 Graphs of certain stats over time (like StatsForSpotify)
@@ -12,18 +12,21 @@ Custom descriptions for Other todo
 Playlist builder
 Contact page todo
 About page
+Search functionality
 Fancy scroll bar?
+Time zone selection
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
+Restrict top artist / top artist time return count to 1000 todo
 Write better test cases
+Time zone selection
 
 IMPROVEMENTS TO MAKE: --------------------------------------------------------------------------------------------------
 Loading screen
 Optimization for mobile todo
-Time zone issue
+Time zone issue (make a note about it) todo
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
-Rapid switching between time ranges todo
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
 Get dad to send data todo
@@ -31,6 +34,7 @@ Submit Extended Quota Request
 Figure out how to make money
 Stronger password on server todo
 Set up proper way to build productions todo
+Update readme
 Update api-guide.md
 Contact musicmetrics.com
 

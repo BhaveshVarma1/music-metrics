@@ -120,7 +120,7 @@ function Dropzone() {
             const reader = new FileReader()
             const promise = new Promise((resolve, reject) => {
                 reader.onload = (event) => {
-                    fetch(BASE_URL_API + '/api/v1/load/' + localStorage.getItem('username'), fetchInit('/api/v1/load', event.target.result, getToken()))
+                    fetch(BASE_URL_API + '/data/' + localStorage.getItem('username'), fetchInit('/data', event.target.result, getToken()))
                         .then(response => response.json())
                         .then(data => {
                             console.log(data)

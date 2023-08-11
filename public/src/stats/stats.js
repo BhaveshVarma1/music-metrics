@@ -70,7 +70,7 @@ export function Stats() {
     useEffect(() => {
         console.log("Stats component mounted.")
         if (getToken() == null || getToken() === 'undefined') return
-        fetch(BASE_URL_API + '/api/v1/allStats/' + localStorage.getItem('username') + '/' + startTime + '-' + endTime, fetchInit('/api/v1/allStats', null, getToken()))
+        fetch(BASE_URL_API + '/stats/' + localStorage.getItem('username') + '/' + startTime + '-' + endTime, fetchInit('/stats', null, getToken()))
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -308,7 +308,6 @@ export function Stats() {
     return (
         <div>
             <PrimaryInfo text="Stats central."/>
-
             {showAllSelectors && (
                 <>
                     <div className={'small-description'}>Showing stats from:</div>
