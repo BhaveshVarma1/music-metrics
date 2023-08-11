@@ -806,23 +806,26 @@ function StatsInfo(props) {
 function AllCharts(props) {
 
     return (
-        <div className={'all-panels'}>
-            <BasicPanel primary={"Total Minutes"} data={props.totalMinutes} commentary={getCommentary(props.totalMinutes, 'totalMinutes', props.totalMinutes)}/>
-            <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={getCommentary(props.totalMinutes, 'averageYear', props.averageYear)}/>
-            <BasicPanel primary={"Average Track Length"} data={props.averageLength} commentary={getCommentary(props.totalMinutes, 'averageLength', props.averageLength)}/>
-            <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={getCommentary(props.totalMinutes, 'medianYear', props.medianYear)}/>
-            {/*<BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={getCommentary(props.totalMinutes, 'percentExplicit', props.percentExplicit)}/>*/}
-            <BasicPanel primary={"Total Tracks"} data={props.totalTracks} commentary={getCommentary(props.totalMinutes, 'totalTracks', props.totalTracks)}/>
-            <BasicPanel primary={"Unique Album Count"} data={props.uniqueAlbums} commentary={getCommentary(props.totalMinutes, 'uniqueAlbums', props.uniqueAlbums)}/>
-            <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={getCommentary(props.totalMinutes, 'uniqueArtists', props.uniqueArtists)}/>
-            <BasicPanel primary={"Unique Track Count"} data={props.uniqueTracks} commentary={getCommentary(props.totalMinutes, 'uniqueTracks', props.uniqueTracks)}/>
-            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={getCommentary(props.totalMinutes, 'decadeBreakdown', props.decadeBreakdown)}/>
-            {/*breakdown by day of the week*/}
-            <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
+        <>
+            <div className={'all-panels'}>
+                <BasicPanel primary={"Total Minutes"} data={props.totalMinutes} commentary={getCommentary(props.totalMinutes, 'totalMinutes', props.totalMinutes)}/>
+                <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={getCommentary(props.totalMinutes, 'averageYear', props.averageYear)}/>
+                <BasicPanel primary={"Average Track Length"} data={props.averageLength} commentary={getCommentary(props.totalMinutes, 'averageLength', props.averageLength)}/>
+                <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={getCommentary(props.totalMinutes, 'medianYear', props.medianYear)}/>
+                {/*<BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={getCommentary(props.totalMinutes, 'percentExplicit', props.percentExplicit)}/>*/}
+                <BasicPanel primary={"Total Tracks"} data={props.totalTracks} commentary={getCommentary(props.totalMinutes, 'totalTracks', props.totalTracks)}/>
+                <BasicPanel primary={"Unique Album Count"} data={props.uniqueAlbums} commentary={getCommentary(props.totalMinutes, 'uniqueAlbums', props.uniqueAlbums)}/>
+                <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={getCommentary(props.totalMinutes, 'uniqueArtists', props.uniqueArtists)}/>
+                <BasicPanel primary={"Unique Track Count"} data={props.uniqueTracks} commentary={getCommentary(props.totalMinutes, 'uniqueTracks', props.uniqueTracks)}/>
+                <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={getCommentary(props.totalMinutes, 'decadeBreakdown', props.decadeBreakdown)}/>
+                {/*breakdown by day of the week*/}
+                <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
+            </div>
             <div className={'disclaimer'}>
                 Disclaimer: Spotify does not provide time zone data, so breakdowns by hour and day are based on Mountain Time.
             </div>
-        </div>
+        </>
+
     )
 }
 
