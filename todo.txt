@@ -8,13 +8,15 @@ Artists by track diversity
 
 FRONTEND FEATURES TO ADD: ----------------------------------------------------------------------------------------------
 Finish current endpoints (mode year, avg popularity)
-Custom descriptions for Other todo
+Custom descriptions for Other
 Playlist builder
 Contact page todo
 About page
 Search functionality
 Expladed scroll bar?
 Time zone selection
+Popup on stats page about how to get extended streaming history todo
+Coming soon... on unfinished pages todo
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
 Write better test cases
@@ -22,9 +24,7 @@ Time zone selection
 
 IMPROVEMENTS TO MAKE: --------------------------------------------------------------------------------------------------
 Loading screen
-Double check optimization for mobile todo
 Time zone issue (make a note about it) todo
-Reformat sql-util.go
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
 
@@ -34,9 +34,7 @@ Submit Extended Quota Request
 Figure out how to make money
 Stronger password on server todo
 Set up proper way to build productions todo
-Change 'song' to 'track' everywhere
 Update readme
-Update api-guide.md
 Contact musicmetrics.com
 
 BEFORE SUBMITTING REQUEST:

@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable,JSCheckFunctionSignatures,JSUnusedGlobalSymbols
 
 import './stats.css';
-import {BASE_URL_API, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
+import {BASE_URL_API, ExtendedStreamingInfo, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
 import React, {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 import DatePicker from "react-datepicker";
@@ -66,6 +66,7 @@ export function Stats() {
 
     // OTHER
     const [currentData, setCurrentData] = useState(<StatsInfo text={"Loading..."}/>);
+    const [popupVisible, setPopupVisible] = useState(true)
 
     useEffect(() => {
         console.log("Stats component mounted.")
@@ -346,6 +347,9 @@ export function Stats() {
                 </>
             )}
             {currentData}
+            {popupVisible && (
+                <ExtendedStreamingInfo callback={() => setPopupVisible(false)} />
+            )}
         </div>
     )
 }
@@ -794,16 +798,16 @@ function AllCharts(props) {
 
     return (
         <div className={'all-panels'}>
-            <BasicPanel primary={"Total Minutes"} data={props.totalMinutes} commentary={getCommentary('totalMinutes')}/>
-            <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={getCommentary('averageYear')}/>
-            <BasicPanel primary={"Average Track Length"} data={props.averageLength} commentary={getCommentary('averageLength')}/>
-            <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={getCommentary('medianYear')}/>
-            {/*<BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={getCommentary('percentExplicit)}/>*/}
-            <BasicPanel primary={"Total Tracks"} data={props.totalTracks} commentary={getCommentary('totalTracks')}/>
-            <BasicPanel primary={"Unique Album Count"} data={props.uniqueAlbums} commentary={getCommentary('uniqueAlbums')}/>
-            <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={getCommentary('uniqueArtists')}/>
-            <BasicPanel primary={"Unique Track Count"} data={props.uniqueTracks} commentary={getCommentary('uniqueTracks')}/>
-            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={getCommentary('decadeBreakdown')}/>
+            <BasicPanel primary={"Total Minutes"} data={props.totalMinutes} commentary={getCommentary(props.totalMinutes, 'totalMinutes', props.totalMinutes)}/>
+            <BasicPanel primary={"Average Year"} data={props.averageYear} commentary={getCommentary(props.totalMinutes, 'averageYear', props.averageYear)}/>
+            <BasicPanel primary={"Average Track Length"} data={props.averageLength} commentary={getCommentary(props.totalMinutes, 'averageLength', props.averageLength)}/>
+            <BasicPanel primary={"Median Year"} data={props.medianYear} commentary={getCommentary(props.totalMinutes, 'medianYear', props.medianYear)}/>
+            {/*<BasicPanel primary={"Percent Explicit"} data={props.percentExplicit} commentary={getCommentary(props.totalMinutes, 'percentExplicit', props.percentExplicit)}/>*/}
+            <BasicPanel primary={"Total Tracks"} data={props.totalTracks} commentary={getCommentary(props.totalMinutes, 'totalTracks', props.totalTracks)}/>
+            <BasicPanel primary={"Unique Album Count"} data={props.uniqueAlbums} commentary={getCommentary(props.totalMinutes, 'uniqueAlbums', props.uniqueAlbums)}/>
+            <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={getCommentary(props.totalMinutes, 'uniqueArtists', props.uniqueArtists)}/>
+            <BasicPanel primary={"Unique Track Count"} data={props.uniqueTracks} commentary={getCommentary(props.totalMinutes, 'uniqueTracks', props.uniqueTracks)}/>
+            <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={getCommentary(props.totalMinutes, 'decadeBreakdown', props.decadeBreakdown)}/>
             <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
         </div>
     )
@@ -900,7 +904,7 @@ function BasicPanel(props) {
             <div className={'panel-primary'}>{props.primary}</div>
             <div className={'panel-right'}>
                 <div className={'panel-data'}>{props.data}</div>
-                <div className={'panel-commentary'}>{props.commentary}</div>
+                {/*<div className={'panel-commentary'}>{props.commentary}</div>*/}
             </div>
         </div>
     )
@@ -928,7 +932,7 @@ function LinkedArtistList(props) {
 }
 
 // HELPER FUNCTIONS
-function getCommentary(metric) {
+function getCommentary(minutes, metric, data) {
     switch (metric) {
         case 'totalMinutes':
             return "Rookie numbers."

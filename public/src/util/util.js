@@ -146,6 +146,24 @@ export function SecondaryInfo(props) {
     )
 }
 
+export function ExtendedStreamingInfo(props) {
+    return (
+        <div className={'popup-container'}>
+            <div className={'popup-content'}>
+                <div style={{width: "100%"}}>
+                    <h1>Want Better Stats?</h1>
+                    <div>To obtain your extended streaming history, visit your
+                        <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}> <u>Privacy Settings</u></a> on Spotify.
+                        Select 'Extended streaming history' and click 'Request data'. It will be sent to you within 30 days.
+                        Once you receive the data as a .zip, download and extract it. Then upload the endsong_x.json files here.
+                    </div>
+                </div>
+                <div className={'login-button popup-ok'} onClick={props.callback}><b>OK</b></div>
+            </div>
+        </div>
+    )
+}
+
 // LOGIN ELEMENTS ------------------------------------------------------------------------------------------------------
 
 export function LoginButton(props) {
