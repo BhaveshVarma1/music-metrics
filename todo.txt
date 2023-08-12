@@ -21,19 +21,22 @@ Write better test cases
 Time zone selection
 
 IMPROVEMENTS TO MAKE: --------------------------------------------------------------------------------------------------
+Compress home screen pictures
 Loading screen
-Time zone issue (make a note about it) todo
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
-Get dad to send data todo
+Get dad to send data
 Submit Extended Quota Request
 Figure out how to make money
-Stronger password on server todo
-Set up proper way to build productions todo
 Update readme
 Contact musicmetrics.com
+Set up email server
 
 BEFORE SUBMITTING REQUEST:
 everything marked as todo
+
+AFTER SUBMITTING REQUEST:
+Move everything to musicmetrics.app
+Set up proper way to build productions
