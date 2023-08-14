@@ -70,7 +70,6 @@ export function Stats() {
     const [popupVisible, setPopupVisible] = useState(true)
 
     useEffect(() => {
-        console.log("Stats component mounted.")
         if (getToken() == null || getToken() === 'undefined') return
         fetch(BASE_URL_API + '/stats/' + localStorage.getItem('username') + '/' + startTime + '-' + endTime, fetchInit('/stats', null, getToken()))
             .then(response => response.json())
@@ -123,7 +122,7 @@ export function Stats() {
                 setCurrentData(<TopTable items={data.topTracks.items} type={'trackCount'}/>)
 
                 // RESET THE SELECTORS
-                setTrackStyle(selectedStyle)
+                /*setTrackStyle(selectedStyle)
                 setArtistStyle(unselectedStyle)
                 setAlbumStyle(unselectedStyle)
                 setChartStyle(unselectedStyle)
@@ -131,7 +130,7 @@ export function Stats() {
                 setCountStyle(selectedStyle)
                 setTimeStyle(unselectedStyle)
                 setCountStyle(selectedStyle)
-                setTimeStyle(unselectedStyle)
+                setTimeStyle(unselectedStyle)*/
 
             }).catch(error => {
                 console.error(error)
@@ -822,7 +821,7 @@ function AllCharts(props) {
                 <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
             </div>
             <div className={'disclaimer'}>
-                Disclaimer: Spotify does not provide time zone data, so breakdowns by hour and day are based on Mountain Time.
+                Disclaimer: Spotify does not provide time zone data, so breakdowns by hour and day are based on Mountain Daylight Time (UTC -6:00).
             </div>
         </>
 
