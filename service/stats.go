@@ -22,6 +22,8 @@ type AverageYearService struct{}
 
 type DecadeBreakdownService struct{}
 
+type FirstTrackService struct{}
+
 type HourBreakdownService struct{}
 
 type MedianYearService struct{}
@@ -60,6 +62,7 @@ func (s AllStatsService) ExecuteService(username string, startTime int64, endTim
 	var avgPopularityService AveragePopularityService
 	var avgYearService AverageYearService
 	var decadeBreakdownService DecadeBreakdownService
+	var firstTrackService FirstTrackService
 	var hourBreakdownService HourBreakdownService
 	var medianYearService MedianYearService
 	var modeYearService ModeYearService
@@ -89,6 +92,7 @@ func (s AllStatsService) ExecuteService(username string, startTime int64, endTim
 		AveragePopularity: avgPopularityService.ExecuteService(username, startTime, endTime),
 		AverageYear:       avgYearService.ExecuteService(username, startTime, endTime),
 		DecadeBreakdown:   decadeBreakdownService.ExecuteService(username, startTime, endTime),
+		FirstTrack:        firstTrackService.ExecuteService(username, startTime, endTime),
 		HourBreakdown:     hourBreakdownService.ExecuteService(username, startTime, endTime),
 		MedianYear:        medianYearService.ExecuteService(username, startTime, endTime),
 		ModeYear:          modeYearService.ExecuteService(username, startTime, endTime),
@@ -199,6 +203,28 @@ func (s DecadeBreakdownService) ExecuteService(username string, startTime int64,
 	}
 
 	return model.DecadeBreakdownResponse{Items: result}
+}
+
+func (s FirstTrackService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {
+
+	tx, db, err := da.BeginTX()
+	if err != nil {
+		return nil
+	}
+
+	result, err := da.GetFirstTrack(tx, username, startTime, endTime)
+	if err != nil {
+		if da.CommitAndClose(tx, db, false) != nil {
+			return nil
+		}
+		return nil
+	}
+
+	if da.CommitAndClose(tx, db, true) != nil {
+		return nil
+	}
+
+	return result
 }
 
 func (s HourBreakdownService) ExecuteService(username string, startTime int64, endTime int64) model.StatsResponse {

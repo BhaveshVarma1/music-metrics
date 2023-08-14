@@ -2,24 +2,19 @@ HOW TO ADD A NEW STATS ENDPOINT
 
 BACKEND:
 
-main.go:
-add a new variable for the service
-declare a new /get endpoint passing in the new variable
-
-stats.go:
+service\stats.go:
 declare a new struct {}
 define ExecuteService() for that struct (where the logic goes)
 add necessary steps inside allStats service
 
-stats-response.go:
+model\stats.go:
 add return type to AllStatsResponse struct definition
+
+stats-test.go:
+add test
 
 FRONTEND:
 
 stats.js
 add a new useState variable in the Stats component
 assign the new variable to its respective object in the fetch call
-
-util.js
-add endpoint to ENDPOINTS array with GET
-

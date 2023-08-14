@@ -48,6 +48,7 @@ export function Stats() {
     const [averagePopularity, setAveragePopularity] = useState([]);
     const [averageYear, setAverageYear] = useState(0);
     const [decadeBreakdown, setDecadeBreakdown] = useState([]);
+    const [firstTrack, setFirstTrack] = useState({});
     const [hourBreakdown, setHourBreakdown] = useState([]);
     const [medianYear, setMedianYear] = useState(0);
     const [modeYear, setModeYear] = useState(0);
@@ -99,6 +100,7 @@ export function Stats() {
                 setAveragePopularity(data.averagePopularity.items)
                 setAverageYear(data.averageYear.value)
                 setDecadeBreakdown(convertDecadesToPieChartData(data.decadeBreakdown.items))
+                setFirstTrack(data.firstTrack)
                 setHourBreakdown(data.hourBreakdown.items)
                 setMedianYear(data.medianYear.value)
                 setModeYear(data.modeYear.items)

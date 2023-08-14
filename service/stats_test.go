@@ -15,7 +15,7 @@ func GetStartTime() int64 {
 	// April 1st, 2023 (Utah): 1680328800000
 	// May 1st, 2023 (Utah): 1682920800000
 
-	return 0
+	return 1682920800000
 }
 
 func GetEndTime() int64 {
@@ -53,6 +53,13 @@ func TestAverageYear(t *testing.T) {
 func TestDecadeBreakdown(t *testing.T) {
 
 	var service DecadeBreakdownService
+	result := service.ExecuteService(GetUsername(), GetStartTime(), GetEndTime())
+	fmt.Println(result)
+}
+
+func TestFirstTrack(t *testing.T) {
+
+	var service FirstTrackService
 	result := service.ExecuteService(GetUsername(), GetStartTime(), GetEndTime())
 	fmt.Println(result)
 }

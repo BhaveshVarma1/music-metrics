@@ -8,6 +8,7 @@ type AllStatsResponse struct {
 	AveragePopularity StatsResponse `json:"averagePopularity,omitempty"`
 	AverageYear       StatsResponse `json:"averageYear,omitempty"`
 	DecadeBreakdown   StatsResponse `json:"decadeBreakdown,omitempty"`
+	FirstTrack        StatsResponse `json:"firstTrack,omitempty"`
 	HourBreakdown     StatsResponse `json:"hourBreakdown,omitempty"`
 	MedianYear        StatsResponse `json:"medianYear,omitempty"`
 	ModeYear          StatsResponse `json:"modeYear,omitempty"`
@@ -32,6 +33,15 @@ type AveragePopularityResponse struct {
 
 type DecadeBreakdownResponse struct {
 	Items []DecadeBreakdown `json:"items,omitempty"`
+}
+
+type FirstTrackResponse struct {
+	Track     string `json:"track"`
+	Artist    string `json:"artist"`
+	TrackId   string `json:"trackId"`
+	ArtistId  string `json:"artistId"`
+	Image     string `json:"image"`
+	Timestamp int64  `json:"timestamp"`
 }
 
 type HourBreakdownResponse struct {

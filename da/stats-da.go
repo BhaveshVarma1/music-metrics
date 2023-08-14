@@ -509,3 +509,22 @@ func GetTotalMinutes(tx *sql.Tx, username string, startTime int64, endTime int64
 	}
 	return result, nil
 }
+
+func GetFirstTrack(tx *sql.Tx, username string, startTime int64, endTime int64) (model.FirstTrackResponse, error) {
+	stmt, err := tx.Prepare(SQL_FIRST_TRACK)
+	if err != nil {
+		return model.FirstTrackResponse{}, err
+	}
+
+	var result model.FirstTrackResponse
+	err = stmt.QueryRow(username, startTime, endTime).Scan(&result.Track, &result.TrackId, &result.Artist, &result.ArtistId, &result.Image, &result.Timestamp)
+	if err != nil {
+		return model.FirstTrackResponse{}, err
+	}
+
+	err = stmt.Close()
+	if err != nil {
+		return model.FirstTrackResponse{}, err
+	}
+	return result, nil
+}
