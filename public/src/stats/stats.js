@@ -99,7 +99,7 @@ export function Stats() {
                 setAverageLength(minutes + ":" + makeIntDoubleDigit(data.averageLength.value - minutes * 60))
                 setAveragePopularity(data.averagePopularity.items)
                 setAverageYear(data.averageYear.value)
-                setDecadeBreakdown(data.decadeBreakdown.items)
+                setDecadeBreakdown(convertDecadesToPieChartData(data.decadeBreakdown.items))
                 setHourBreakdown(data.hourBreakdown.items)
                 setMedianYear(data.medianYear.value)
                 setModeYear(data.modeYear.items)
@@ -115,7 +115,7 @@ export function Stats() {
                 setUniqueAlbums(addCommaToNumber(data.uniqueAlbums.value))
                 setUniqueArtists(addCommaToNumber(data.uniqueArtists.value))
                 setUniqueTracks(addCommaToNumber(data.uniqueTracks.value))
-                setWeekDayBreakdown(addCommaToNumber(data.weekDayBreakdown.items))
+                setWeekDayBreakdown(addWeekDayToData(data.weekDayBreakdown.items))
 
                 // REMOVE LOADING MESSAGE
                 setShowTimeSelector(true)
@@ -818,7 +818,7 @@ function AllCharts(props) {
                 <BasicPanel primary={"Unique Artist Count"} data={props.uniqueArtists} commentary={getCommentary(props.totalMinutes, 'uniqueArtists', props.uniqueArtists)}/>
                 <BasicPanel primary={"Unique Track Count"} data={props.uniqueTracks} commentary={getCommentary(props.totalMinutes, 'uniqueTracks', props.uniqueTracks)}/>
                 <BasicPanel primary={"Breakdown by Decade"} data={<DecadePieChart data={props.decadeBreakdown}/>} commentary={getCommentary(props.totalMinutes, 'decadeBreakdown', props.decadeBreakdown)}/>
-                {/*breakdown by day of the week*/}
+                <BasicPanel primary={"Breakdown by Day"} data={<DecadePieChart data={props.weekDayBreakdown}/>}/>
                 <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
             </div>
             <div className={'disclaimer'}>
@@ -836,7 +836,7 @@ function DecadePieChart(props) {
         <div className={'decade-wrapper'}>
             <Chart
                 chartType="PieChart"
-                data={convertDecadesToPieChartData(props.data)}
+                data={props.data}
                 options={{
                     backgroundColor: 'transparent',
                     fontColor: '#cce2e6',
@@ -1026,6 +1026,20 @@ function dateToMillis(date) {
 
 function addCommaToNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function addWeekDayToData(data) {
+    // assumes data is formatted correctly
+    let result = []
+    result.push(["Day", "Count"])
+    result.push(["Sunday", data[0]])
+    result.push(["Monday", data[1]])
+    result.push(["Tuesday", data[2]])
+    result.push(["Wednesday", data[3]])
+    result.push(["Thursday", data[4]])
+    result.push(["Friday", data[5]])
+    result.push(["Saturday", data[6]])
+    return result
 }
 
 function findMax(data) {

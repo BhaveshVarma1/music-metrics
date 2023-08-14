@@ -10,7 +10,6 @@ FRONTEND FEATURES TO ADD: ------------------------------------------------------
 Finish current endpoints (mode year, avg popularity, weekday breakdown)
 Custom descriptions for Other
 Playlist builder
-Contact page todo
 About page
 Search functionality
 Expladed scroll bar?
@@ -28,15 +27,14 @@ BUGS TO FIX: -------------------------------------------------------------------
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
 Get dad to send data
-Submit Extended Quota Request
 Figure out how to make money
 Update readme
 Contact musicmetrics.com
 Set up email server
 
 BEFORE SUBMITTING REQUEST:
-everything marked as todo
 
-AFTER SUBMITTING REQUEST:
+AFTER REQUEST IS APPROVED:
+Make sure it works fine for Hayden and DJ
 Move everything to musicmetrics.app
 Set up proper way to build productions
