@@ -122,7 +122,7 @@ export function Stats() {
                 setCurrentData(<TopTable items={data.topTracks.items} type={'trackCount'}/>)
 
                 // RESET THE SELECTORS
-                /*setTrackStyle(selectedStyle)
+                setTrackStyle(selectedStyle)
                 setArtistStyle(unselectedStyle)
                 setAlbumStyle(unselectedStyle)
                 setChartStyle(unselectedStyle)
@@ -130,7 +130,7 @@ export function Stats() {
                 setCountStyle(selectedStyle)
                 setTimeStyle(unselectedStyle)
                 setCountStyle(selectedStyle)
-                setTimeStyle(unselectedStyle)*/
+                setTimeStyle(unselectedStyle)
 
             }).catch(error => {
                 console.error(error)
