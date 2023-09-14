@@ -77,6 +77,11 @@ func UpdateCode(code string, ip string) model.UpdateCodeResponse {
 		}
 		PrintMessage("Successfully created user and auth token")
 
+		// Notify myself via email
+		totalUsers, err := da.RetrieveAllUsers(tx)
+		emailBody := "Username: " + currUser.Username + "\nDisplay name: " + currUser.DisplayName + "\nTotal users: " + fmt.Sprintf("%d", len(totalUsers))
+		SendEmail("New Music Metrics User", emailBody)
+
 		// Add recent listens to DB for instant access
 		PrintMessage("Adding recent listens to DB...")
 		recentListens, err := GetRecentlyPlayed(accessToken)

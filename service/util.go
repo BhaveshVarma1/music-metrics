@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math/rand"
 	"music-metrics/model"
+	"net/smtp"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -55,6 +57,25 @@ func GenerateID(length int) string {
 func PrintMessage(message string) {
 	if verbose {
 		fmt.Println(message)
+	}
+}
+
+func SendEmail(subject string, message string) {
+
+	from := "musicmetricsapp@gmail.com"
+	password := os.Getenv("MM_GMAIL")
+
+	auth := smtp.PlainAuth("", from, password, "smtp.gmail.com")
+
+	to := []string{"prattnj@gmail.com"}
+
+	header := make(map[string]string)
+	header["From"] = "Music Metrics <" + from + ">"
+	body := "To: " + to[0] + "\r\nSubject: " + subject + "\r\n\r\n" + message
+
+	err := smtp.SendMail("smtp.gmail.com:587", auth, from, to, []byte(body))
+	if err != nil {
+		fmt.Println("Error sending email: ", err)
 	}
 }
 
