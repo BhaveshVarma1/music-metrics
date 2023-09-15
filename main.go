@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"music-metrics/handler"
 	"music-metrics/service"
+	"os"
 )
 
 func main() {
@@ -12,6 +14,13 @@ func main() {
 	buildPath := "public/build"
 
 	e := echo.New()
+
+	// Get the port from the command line
+	port := os.Args[1]
+	if port == "" {
+		fmt.Println("Please provide a port number.")
+		return
+	}
 
 	// Handle WebSocket connections
 	e.GET("/ws", handler.HandleWebsocket)
