@@ -1,5 +1,4 @@
 METRICS TO ADD: --------------------------------------------------------------------------------------------------------
-First track listened to (with date)
 Specific day(s) with the most minutes listened
 Stats surrounding audio features
 Most popular track per artist - to put in top artist table
@@ -7,7 +6,7 @@ Graphs of certain stats over time (like StatsForSpotify)
 Artists by track diversity
 
 FRONTEND FEATURES TO ADD: ----------------------------------------------------------------------------------------------
-Finish current endpoints (mode year, avg popularity)
+Finish current endpoints (mode year, avg popularity, first track)
 Custom descriptions for Other
 Playlist builder
 About page
@@ -26,6 +25,7 @@ Loading screen
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
+Add directional screenshot to Extended Streaming History instructions
 Get dad to send data
 Figure out how to make money
 Update readme
