@@ -38,3 +38,4 @@ AFTER REQUEST IS APPROVED:
 Make sure it works fine for Hayden and DJ
 Move everything to musicmetrics.app
 Set up proper way to build productions
+delete this line
