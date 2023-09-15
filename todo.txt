@@ -25,7 +25,6 @@ Loading screen
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
-Add directional screenshot to Extended Streaming History instructions
 Get dad to send data
 Figure out how to make money
 Update readme
@@ -38,4 +37,3 @@ AFTER REQUEST IS APPROVED:
 Make sure it works fine for Hayden and DJ
 Move everything to musicmetrics.app
 Set up proper way to build productions
-delete this line

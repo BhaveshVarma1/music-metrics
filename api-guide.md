@@ -1,7 +1,7 @@
 # Music Metrics API Guide
 
-The root url for this API is `https://dev.musicmetrics.app`.  
-The WebSocket is accessed via `wss://dev.musicmetrics.app/ws`.  
+The root url for this API is `https://musicmetrics.app`.  
+The WebSocket is accessed via `wss://musicmetrics.app/ws`.  
 All APIs are require authentication via HTTP header `Authorization`.  
 Last Updated: August 10, 2023
 
