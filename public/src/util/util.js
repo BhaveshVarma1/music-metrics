@@ -153,7 +153,7 @@ export function ExtendedStreamingInfo(props) {
             <div className={'popup-content'}>
                 <div style={{width: "100%"}}>
                     <h1>Want All-Time Stats?</h1>
-                    <div>To obtain your extended streaming history:
+                    <div style={{textAlign: "left"}}>To obtain your extended streaming history:<br/>
                         1. Visit your <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}><u>Privacy Settings</u></a> on Spotify.<br/>
                         2. Uncheck 'Account data' and select 'Extended streaming history' so that it looks like the screenshot below.<br/>
                         3. Within 30 days, you will receive a .zip file via email.<br/>
