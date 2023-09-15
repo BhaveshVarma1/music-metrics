@@ -2,6 +2,7 @@
 
 import './util.css';
 import logo from './logo.png';
+import screenshot from './esh_screenshot.png';
 import {Link} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import {websocket} from "../index";
@@ -152,11 +153,15 @@ export function ExtendedStreamingInfo(props) {
             <div className={'popup-content'}>
                 <div style={{width: "100%"}}>
                     <h1>Want All-Time Stats?</h1>
-                    <div>To obtain your extended streaming history, visit your
-                        <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}> <u>Privacy Settings</u></a> on Spotify.
-                        Select 'Extended streaming history' (NOT 'Account Data') and click 'Request data'. It will be sent to you within 30 days.
-                        Once you receive the data as a .zip, download and extract it. Then upload the endsong_x.json files here (account tab).
+                    <div>To obtain your extended streaming history:
+                        1. Visit your <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}><u>Privacy Settings</u></a> on Spotify.<br/>
+                        2. Uncheck 'Account data' and select 'Extended streaming history' so that it looks like the screenshot below.<br/>
+                        3. Within 30 days, you will receive a .zip file via email.<br/>
+                        4. Download and extract the .zip file.<br/>
+                        5. Upload here (account tab) all the files called endsong_[x].json.<br/>
+                        6. Stats from your complete history will be available within a few minutes.<br/>
                     </div>
+                    <img src={screenshot} alt="Not found." className="screenshot"/>
                 </div>
                 <div className={'login-button popup-ok'} onClick={props.callback}><b>OK</b></div>
             </div>
