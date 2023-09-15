@@ -153,13 +153,15 @@ export function ExtendedStreamingInfo(props) {
             <div className={'popup-content'}>
                 <div style={{width: "100%"}}>
                     <h1>Want All-Time Stats?</h1>
-                    <div style={{textAlign: "left"}}>To obtain your extended streaming history:<br/>
-                        1. Visit your <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}><u>Privacy Settings</u></a> on Spotify.<br/>
-                        2. Uncheck 'Account data' and select 'Extended streaming history' so that it looks like the screenshot below.<br/>
-                        3. Within 30 days, you will receive a .zip file via email.<br/>
-                        4. Download and extract the .zip file.<br/>
-                        5. Upload here (account tab) all the files called endsong_[x].json.<br/>
-                        6. Stats from your complete history will be available within a few minutes.<br/>
+                    <div>To obtain your extended streaming history:<br/>
+                        <div style={{textAlign: "left"}}>
+                            1. Visit your <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}><u>Privacy Settings</u></a> on Spotify.<br/>
+                            2. Uncheck 'Account data' and select 'Extended streaming history' so that it looks like the screenshot below.<br/>
+                            3. Within 30 days, you will receive a .zip file via email.<br/>
+                            4. Download and extract the .zip file.<br/>
+                            5. Upload here (account tab) all the files called endsong_[x].json.<br/>
+                            6. Stats from your complete history will be available within a few minutes.<br/>
+                        </div>
                     </div>
                     <img src={screenshot} alt="Not found." className="screenshot"/>
                 </div>
