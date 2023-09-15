@@ -96,6 +96,8 @@
 }
 
 .popup-content {
+    height: 85%;
+    overflow-y: auto;
     background-color: #2a2e2f;
     padding: 1rem;
     border-radius: .5rem;
