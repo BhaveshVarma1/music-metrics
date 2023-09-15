@@ -17,8 +17,8 @@ func main() {
 
 	// Get the port from the command line
 	port := os.Args[1]
-	if port == "" {
-		fmt.Println("Please provide a port number.")
+	if port == "" || port[0] != ':' {
+		fmt.Println("Please provide a port number (format-> :8080).")
 		return
 	}
 
@@ -56,5 +56,5 @@ func main() {
 		return c.File(buildPath + "/index.html")
 	})
 
-	e.Logger.Fatal(e.Start(":3000"))
+	e.Logger.Fatal(e.Start(port))
 }
