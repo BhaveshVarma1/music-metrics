@@ -154,7 +154,7 @@ export function ExtendedStreamingInfo(props) {
                     <h1>Want All-Time Stats?</h1>
                     <div>To obtain your extended streaming history, visit your
                         <a href={"https://www.spotify.com/us/account/privacy/"} target={"_blank"} rel={"noreferrer"} className={'custom-link'}> <u>Privacy Settings</u></a> on Spotify.
-                        Select 'Extended streaming history' and click 'Request data'. It will be sent to you within 30 days.
+                        Select 'Extended streaming history' (NOT 'Account Data') and click 'Request data'. It will be sent to you within 30 days.
                         Once you receive the data as a .zip, download and extract it. Then upload the endsong_x.json files here (account tab).
                     </div>
                 </div>
