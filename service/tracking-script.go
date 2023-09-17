@@ -31,6 +31,7 @@ func StartTracking() {
 		if err != nil {
 			if da.CommitAndClose(tx, db, false) != nil {
 				fmt.Println("Error committing transaction")
+				fmt.Println(err.Error())
 				return
 			}
 		}
@@ -42,6 +43,7 @@ func StartTracking() {
 			newToken, err := RefreshToken(user.Refresh)
 			if err != nil || newToken == "" {
 				fmt.Println("Error refreshing token for username: " + user.Username)
+				fmt.Println(err.Error())
 				continue
 			}
 
@@ -49,6 +51,7 @@ func StartTracking() {
 			recentlyPlayed, err := GetRecentlyPlayed(newToken)
 			if err != nil {
 				fmt.Println("Error getting recently played for username: " + user.Username)
+				fmt.Println(err.Error())
 				continue
 			}
 
@@ -57,6 +60,7 @@ func StartTracking() {
 			var oldTime int64
 			if err != nil {
 				fmt.Println("Error getting most recent listen for username: " + user.Username)
+				fmt.Println(err.Error())
 				continue
 			}
 			if (mostRecentListen == model.ListenBean{}) {
@@ -68,7 +72,7 @@ func StartTracking() {
 			// Determine which listens are new and add them if they are
 			newTracksCount := loopThroughRecentListens(recentlyPlayed, tx, user, oldTime)
 
-			fmt.Println(user.Username + " listened to " + strconv.Itoa(newTracksCount) + " tracks in the last 2 hours. (" + time.Since(startTimeUser).String() + "), (" + time.Now().Format("2006-01-02 15:04:05 -0700 MST") + ")")
+			fmt.Println(user.DisplayName + " listened to " + strconv.Itoa(newTracksCount) + " tracks in the last 2 hours. (" + time.Since(startTimeUser).String() + "), (" + time.Now().Format("2006-01-02 15:04:05 -0700 MST") + ")")
 
 			// Sleep for a little bit to avoid rate limiting
 			time.Sleep(500 * time.Millisecond)
@@ -79,6 +83,7 @@ func StartTracking() {
 
 		if da.CommitAndClose(tx, db, true) != nil {
 			fmt.Println("Error committing transaction")
+			fmt.Println(err.Error())
 			return
 		}
 
