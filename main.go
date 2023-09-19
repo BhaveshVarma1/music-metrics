@@ -38,6 +38,7 @@ func main() {
 	e.GET("/stats/:username/:range", handler.StatsHandler(allStatsService))
 	e.POST("/data/:username", handler.HandleLoad)
 	e.DELETE("/data/:username", handler.HandleDelete)
+	e.GET("/analytics", handler.HandleAnalytics)
 
 	// STATIC / REACT FILES
 	e.GET("/static/*", func(c echo.Context) error {

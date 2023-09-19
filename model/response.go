@@ -1,5 +1,10 @@
 package model
 
+type AnalyticsResponse struct {
+	TotalUsers int    `json:"totalUsers"`
+	LastAction string `json:"lastAction"`
+}
+
 type GenericResponse struct {
 	Message string `json:"message,omitempty"`
 	Success bool   `json:"success"`
