@@ -159,7 +159,7 @@ export function ExtendedStreamingInfo(props) {
                             <b>2.</b> Uncheck 'Account data' and select 'Extended streaming history' so that it looks like the screenshot below.<br/>
                             <b>3.</b> Within 30 days, you will receive a .zip file via email.<br/>
                             <b>4.</b> Download and extract the .zip file.<br/>
-                            <b>5.</b> Upload here (account tab) all the files called endsong_[x].json.<br/>
+                            <b>5.</b> Upload here (account tab) all the .json files.<br/>
                             <b>6.</b> Stats from your complete history will be available within a few minutes.<br/>
                         </div>
                     </div>
