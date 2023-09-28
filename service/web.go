@@ -233,7 +233,7 @@ func GetRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 			Genre:       strings.Join(item.Track.Album.Genres, SEPARATOR),
 			TotalTracks: item.Track.Album.TotalTracks,
 			Year:        YearFromReleaseDate(item.Track.Album.ReleaseDate),
-			Image:       item.Track.Album.Images[0].URL,
+			Image:       GetAlbumImage(item.Track.Album),
 			Popularity:  item.Track.Album.Popularity,
 		}
 		returnObj := model.RecentlyPlayedObject{

@@ -54,6 +54,16 @@ func GenerateID(length int) string {
 	return string(result)
 }
 
+func GetAlbumImage(album model.Album) string {
+	// Donda album cover for non-existent album covers
+	defaultImage := "https://i.scdn.co/image/ab67616d0000b273cad190f1a73c024e5a40dddd"
+	if album.Images == nil || len(album.Images) == 0 {
+		return defaultImage
+	} else {
+		return album.Images[0].URL
+	}
+}
+
 func PrintMessage(message string) {
 	if verbose {
 		fmt.Println(message)

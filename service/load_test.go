@@ -8,7 +8,7 @@ import (
 )
 
 func TestLoad(t *testing.T) {
-	filePathStr := "../json-test/endsong_1.json"
+	filePathStr := "../json-test/2021_0.json"
 	fileReader, err := os.Open(filePathStr)
 	if err != nil {
 		t.Errorf("Error opening file: %v", err)
@@ -20,5 +20,5 @@ func TestLoad(t *testing.T) {
 		t.Errorf("Error decoding json: %v", err)
 	}
 
-	Load(req, GetUsername())
+	Load(req, "1251455712")
 }

@@ -95,7 +95,7 @@ func UpdateCurrentData() {
 			Genre:       strings.Join(spotifyAlbum.Genres, SEPARATOR),
 			TotalTracks: spotifyAlbum.TotalTracks,
 			Year:        YearFromReleaseDate(spotifyAlbum.ReleaseDate),
-			Image:       spotifyAlbum.Images[0].URL,
+			Image:       GetAlbumImage(spotifyAlbum),
 			Popularity:  spotifyAlbum.Popularity,
 		}
 

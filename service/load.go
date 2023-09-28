@@ -59,7 +59,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		}
 		if listensToAdd == nil {
 			// User has already submitted this file
-			fmt.Println("No new listensToAdd to add.")
+			fmt.Println("No new listens to add for this file.")
 			return
 		}
 
@@ -199,7 +199,7 @@ func getAllAlbumData(token string, albumIDs []string) ([]model.AlbumBean, error)
 			Genre:       strings.Join(album.Genres, SEPARATOR),
 			TotalTracks: album.TotalTracks,
 			Year:        YearFromReleaseDate(album.ReleaseDate),
-			Image:       album.Images[0].URL,
+			Image:       GetAlbumImage(album),
 			Popularity:  album.Popularity,
 		}
 		albums = append(albums, albumBean)
