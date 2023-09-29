@@ -36,12 +36,13 @@ func HandleLoad(c echo.Context) error {
 	}
 
 	// Log this request
-	if da.CreateLog(tx, &model.LogBean{
+	err = da.CreateLog(tx, &model.LogBean{
 		Username:  username,
 		Timestamp: time.Now().UnixMilli(),
 		Action:    "load",
 		IP:        c.RealIP(),
-	}) != nil {
+	})
+	if err != nil {
 		fmt.Println("Error creating log in load handler: ", err)
 	}
 
