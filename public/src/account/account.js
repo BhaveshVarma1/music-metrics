@@ -1,6 +1,5 @@
 import './account.css';
 import {
-    BASE_URL_API,
     clearStorage,
     ExtendedStreamingInfo,
     fetchInit,
@@ -128,7 +127,7 @@ function Dropzone() {
             const reader = new FileReader()
             const promise = new Promise((resolve, reject) => {
                 reader.onload = (event) => {
-                    fetch(BASE_URL_API + '/data/' + localStorage.getItem('username'), fetchInit('/data', event.target.result, getToken()))
+                    fetch('/data/' + localStorage.getItem('username'), fetchInit('/data', event.target.result, getToken()))
                         .then(response => response.json())
                         .then(data => {
                             console.log(data)

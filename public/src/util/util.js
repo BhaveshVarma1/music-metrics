@@ -10,7 +10,6 @@ import {websocket} from "../index";
 // GLOBAL CONSTANTS ----------------------------------------------------------------------------------------------------
 
 export const DOMAIN = 'musicmetrics.app';
-export const BASE_URL_API = 'https://' + DOMAIN;
 export const BASE_URL_WEB = 'https://' + DOMAIN;
 const HTTP_METHODS = {
     '/code': 'PUT',

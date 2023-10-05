@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable,JSCheckFunctionSignatures,JSUnusedGlobalSymbols
 
 import './stats.css';
-import {BASE_URL_API, ExtendedStreamingInfo, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
+import {ExtendedStreamingInfo, fetchInit, getToken, LoginButton, PrimaryInfo} from "../util/util";
 import React, {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 import DatePicker from "react-datepicker";
@@ -72,7 +72,7 @@ export function Stats() {
 
     useEffect(() => {
         if (getToken() == null || getToken() === 'undefined') return
-        fetch(BASE_URL_API + '/stats/' + localStorage.getItem('username') + '/' + startTime + '-' + endTime, fetchInit('/stats', null, getToken()))
+        fetch('/stats/' + localStorage.getItem('username') + '/' + startTime + '-' + endTime, fetchInit('/stats', null, getToken()))
             .then(response => response.json())
             .then(data => {
                 console.log(data)

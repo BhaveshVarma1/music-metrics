@@ -1,4 +1,4 @@
-import {BASE_URL_API, BASE_URL_WEB, fetchInit, PrimaryInfo, SecondaryInfo} from "./util";
+import {BASE_URL_WEB, fetchInit, PrimaryInfo, SecondaryInfo} from "./util";
 
 export function SpotifyLanding() {
     onload()
@@ -28,7 +28,7 @@ function onload() {
             console.log("ERROR: code is null")
             window.location = BASE_URL_WEB
         }
-        fetch(BASE_URL_API + '/code', fetchInit('/code', JSON.stringify({code: code}), null))
+        fetch('/code', fetchInit('/code', JSON.stringify({code: code}), null))
             .then(response => response.json())
             .then(data => {
                 localStorage.setItem('token', data.token)

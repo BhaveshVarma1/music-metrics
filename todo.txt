@@ -8,6 +8,7 @@ Average number of tracks per day
 Artists by time of day
 Artists by season/month
 Ability to filter out artists/albums
+An artist stats popup that incorporates much of the above
 
 FRONTEND FEATURES TO ADD: ----------------------------------------------------------------------------------------------
 Finish current endpoints (mode year, avg popularity, first track)
@@ -20,6 +21,7 @@ Time zone selection
 Add "What's this?" to describe each stat
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
+Playlist builder
 Write better test cases
 Time zone selection
 
@@ -28,6 +30,9 @@ Compress home screen pictures
 Loading screen
 
 BUGS TO FIX: -----------------------------------------------------------------------------------------------------------
+Thing where it loads indefinitely and the local/session storage needs to be cleared
+Potential fix for the problem above:
+On the spotify redirect page, wait a certain amount of time, clear the local/session storage, and redirect to the home page
 
 OTHER: -----------------------------------------------------------------------------------------------------------------
 Get dad to send data
@@ -35,10 +40,4 @@ Figure out how to make money
 Update readme
 Contact musicmetrics.com
 Set up email server
-
-BEFORE SUBMITTING REQUEST:
-
-AFTER REQUEST IS APPROVED:
-Make sure it works fine for Hayden and DJ
-Move everything to musicmetrics.app
-Set up proper way to build productions
+Set up proper way to build and deploy
