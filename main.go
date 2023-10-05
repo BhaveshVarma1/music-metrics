@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 	"music-metrics/handler"
 	"music-metrics/service"
 	"os"
@@ -24,12 +23,6 @@ func main() {
 
 	// Handle WebSocket connections
 	e.GET("/ws", handler.HandleWebsocket)
-
-	// todo: change this to NOT allow all origins
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
-	}))
 
 	var allStatsService service.AllStatsService
 
