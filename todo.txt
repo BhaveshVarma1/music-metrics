@@ -1,17 +1,16 @@
 METRICS TO ADD: --------------------------------------------------------------------------------------------------------
 Specific day(s) with the most minutes listened
-Stats surrounding audio features
+Stats surrounding audio features (your "average" song)
 Most popular track per artist - to put in top artist table
 Graphs of certain stats over time (like StatsForSpotify)
 Artists by track diversity
 Average number of tracks per day
 Artists by time of day
 Artists by season/month
-Ability to filter out artists/albums
 An artist stats popup that incorporates much of the above
 
 FRONTEND FEATURES TO ADD: ----------------------------------------------------------------------------------------------
-Finish current endpoints (mode year, avg popularity, first track)
+Finish current metrics (mode year, avg popularity, first track)
 Custom descriptions for Other
 Playlist builder
 About page
@@ -19,6 +18,7 @@ Search functionality
 Expladed scroll bar?
 Time zone selection
 Add "What's this?" to describe each stat
+Ability to filter out artists/albums
 
 BACKEND FEATURES TO ADD: -----------------------------------------------------------------------------------------------
 Playlist builder
