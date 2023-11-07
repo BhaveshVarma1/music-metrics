@@ -823,7 +823,7 @@ function AllCharts(props) {
                 <BasicPanel primary={"Breakdown by Hour"} data={<HourChart data={props.hourBreakdown}/>} last={true}/>
             </div>
             <div className={'disclaimer'}>
-                Disclaimer: Spotify does not provide time zone data, so breakdowns by hour and day are based on Mountain Daylight Time (UTC -6:00).
+                Disclaimer: Spotify does not provide time zone data, so breakdowns by hour and day are based on Mountain Standard Time (UTC -7:00).
             </div>
         </>
 
