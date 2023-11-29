@@ -36,7 +36,8 @@ func visit(path string, info os.FileInfo, err error) error {
 		fmt.Printf("Error decoding json: %v", err)
 	}
 
-	go service.Load(req, username)
+	fmt.Printf("Synchronously loading %d items for %s...\n", len(req), username)
+	service.Load(req, username)
 
 	return nil
 }
