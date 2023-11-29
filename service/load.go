@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"music-metrics/da"
 	"music-metrics/model"
+	"music-metrics/util"
 	"strings"
 )
 
@@ -37,13 +38,13 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		var listensToAdd []model.ListenBean
 		for _, item := range history {
 			if item.TrackName != "" && item.MsPlayed > 29999 {
-				millis := DatetimeToUnixMilli(item.Timestamp)
+				millis := util.DatetimeToUnixMilli(item.Timestamp)
 				if millis != -1 {
 					//item.Timestamp = strconv.FormatInt(millis, 10)
 					if millis < endTime {
 						// At this point, item is a listen of at least 30 seconds that occurred before the account was created
 						trackID := item.TrackURI[strings.LastIndex(item.TrackURI, ":")+1:]
-						if !SliceContainsString(uniqueTrackIDs, trackID) {
+						if !util.SliceContainsString(uniqueTrackIDs, trackID) {
 							uniqueTrackIDs = append(uniqueTrackIDs, trackID)
 						}
 						// Create listen object and add it to the slice that will be added to the DB
@@ -78,7 +79,7 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 			dbTrackIDs = append(dbTrackIDs, track.Id)
 		}
 		for _, track := range uniqueTrackIDs {
-			if !SliceContainsString(dbTrackIDs, track) {
+			if !util.SliceContainsString(dbTrackIDs, track) {
 				newTrackIDs = append(newTrackIDs, track)
 			}
 		}
@@ -102,8 +103,8 @@ func Load(history []model.ExtendedStreamingObject, username string) {
 		}
 		var newUniqueAlbumIDs []string
 		for _, track := range tracks {
-			if !SliceContainsString(dbAlbumIDs, track.Album) {
-				if !SliceContainsString(newUniqueAlbumIDs, track.Album) {
+			if !util.SliceContainsString(dbAlbumIDs, track.Album) {
+				if !util.SliceContainsString(newUniqueAlbumIDs, track.Album) {
 					newUniqueAlbumIDs = append(newUniqueAlbumIDs, track.Album)
 				}
 			}
@@ -167,8 +168,8 @@ func getAllTrackData(token string, trackIDs []string) ([]model.TrackBean, error)
 		bean := model.TrackBean{
 			Id:         track.ID,
 			Name:       track.Name,
-			Artist:     ArtistsToString(track.Artists),
-			ArtistId:   ArtistIdsToString(track.Artists),
+			Artist:     util.ArtistsToString(track.Artists),
+			ArtistId:   util.ArtistIdsToString(track.Artists),
 			Album:      track.Album.ID,
 			Explicit:   track.Explicit,
 			Popularity: track.Popularity,
@@ -194,12 +195,12 @@ func getAllAlbumData(token string, albumIDs []string) ([]model.AlbumBean, error)
 		albumBean := model.AlbumBean{
 			Id:          album.ID,
 			Name:        album.Name,
-			Artist:      ArtistsToString(album.Artists),
-			ArtistId:    ArtistIdsToString(album.Artists),
-			Genre:       strings.Join(album.Genres, SEPARATOR),
+			Artist:      util.ArtistsToString(album.Artists),
+			ArtistId:    util.ArtistIdsToString(album.Artists),
+			Genre:       strings.Join(album.Genres, util.SEPARATOR),
 			TotalTracks: album.TotalTracks,
-			Year:        YearFromReleaseDate(album.ReleaseDate),
-			Image:       GetAlbumImage(album),
+			Year:        util.YearFromReleaseDate(album.ReleaseDate),
+			Image:       util.GetAlbumImage(album),
 			Popularity:  album.Popularity,
 		}
 		albums = append(albums, albumBean)

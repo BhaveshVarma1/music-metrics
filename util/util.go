@@ -1,4 +1,4 @@
-package service
+package util
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var serverErrorStr = "Internal server error"
+var SERVER_ERROR_STR = "Internal server error"
 var SPOTIFY_BASE_ACCOUNT = "https://accounts.spotify.com"
 var SPOTIFY_BASE_API = "https://api.spotify.com/v1"
 var SPOTIFY_REDIRECT_URL = "https://musicmetrics.app/spotify-landing" // note: this has to be the same as the one on the front end

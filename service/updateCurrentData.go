@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"music-metrics/da"
 	"music-metrics/model"
+	"music-metrics/util"
 	"strings"
 	"time"
 )
@@ -60,8 +61,8 @@ func UpdateCurrentData() {
 		newTrack := model.TrackBean{
 			Id:         spotifyTrack.ID,
 			Name:       spotifyTrack.Name,
-			Artist:     ArtistsToString(spotifyTrack.Artists),
-			ArtistId:   ArtistIdsToString(spotifyTrack.Artists),
+			Artist:     util.ArtistsToString(spotifyTrack.Artists),
+			ArtistId:   util.ArtistIdsToString(spotifyTrack.Artists),
 			Album:      spotifyTrack.Album.ID,
 			Explicit:   spotifyTrack.Explicit,
 			Popularity: spotifyTrack.Popularity,
@@ -90,12 +91,12 @@ func UpdateCurrentData() {
 		newAlbum := model.AlbumBean{
 			Id:          spotifyAlbum.ID,
 			Name:        spotifyAlbum.Name,
-			Artist:      ArtistsToString(spotifyAlbum.Artists),
-			ArtistId:    ArtistIdsToString(spotifyAlbum.Artists),
-			Genre:       strings.Join(spotifyAlbum.Genres, SEPARATOR),
+			Artist:      util.ArtistsToString(spotifyAlbum.Artists),
+			ArtistId:    util.ArtistIdsToString(spotifyAlbum.Artists),
+			Genre:       strings.Join(spotifyAlbum.Genres, util.SEPARATOR),
 			TotalTracks: spotifyAlbum.TotalTracks,
-			Year:        YearFromReleaseDate(spotifyAlbum.ReleaseDate),
-			Image:       GetAlbumImage(spotifyAlbum),
+			Year:        util.YearFromReleaseDate(spotifyAlbum.ReleaseDate),
+			Image:       util.GetAlbumImage(spotifyAlbum),
 			Popularity:  spotifyAlbum.Popularity,
 		}
 

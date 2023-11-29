@@ -3,6 +3,7 @@ package service
 import (
 	"music-metrics/da"
 	"music-metrics/model"
+	"music-metrics/util"
 	"sort"
 	"strings"
 	"time"
@@ -629,7 +630,7 @@ func (s UniqueArtistsService) ExecuteService(username string, startTime int64, e
 	for _, rawArtist := range result {
 		artists := strings.Split(rawArtist.Artist, ";;")
 		for _, artist := range artists {
-			if !SliceContainsString(uniqueArtists, artist) {
+			if !util.SliceContainsString(uniqueArtists, artist) {
 				uniqueArtists = append(uniqueArtists, artist)
 				count++
 			}

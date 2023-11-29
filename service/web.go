@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"music-metrics/model"
+	"music-metrics/util"
 	"net/http"
 	"net/url"
 	"os"
@@ -15,7 +16,7 @@ import (
 
 func GetTrack(token string, trackID string) (model.Track, error) {
 
-	uri := SPOTIFY_BASE_API + "/tracks/" + trackID
+	uri := util.SPOTIFY_BASE_API + "/tracks/" + trackID
 
 	req, err := http.NewRequest("GET", uri, nil)
 	if err != nil {
@@ -61,7 +62,7 @@ func GetSeveralTracks(token string, trackIDs []string) ([]model.Track, error) {
 	var tracks []model.Track
 	for _, group := range trackIDGroups {
 
-		uri := SPOTIFY_BASE_API + "/tracks?ids=" + strings.Join(group, ",")
+		uri := util.SPOTIFY_BASE_API + "/tracks?ids=" + strings.Join(group, ",")
 
 		req, err := http.NewRequest("GET", uri, nil)
 		if err != nil {
@@ -98,7 +99,7 @@ func GetSeveralTracks(token string, trackIDs []string) ([]model.Track, error) {
 
 func GetAlbum(token string, albumID string) (model.Album, error) {
 
-	uri := SPOTIFY_BASE_API + "/albums/" + albumID
+	uri := util.SPOTIFY_BASE_API + "/albums/" + albumID
 
 	req, err := http.NewRequest("GET", uri, nil)
 	if err != nil {
@@ -145,7 +146,7 @@ func GetSeveralAlbums(token string, albumIDs []string) ([]model.Album, error) {
 	var albums []model.Album
 	for _, group := range albumIDGroups {
 
-		uri := SPOTIFY_BASE_API + "/albums?ids=" + strings.Join(group, ",")
+		uri := util.SPOTIFY_BASE_API + "/albums?ids=" + strings.Join(group, ",")
 
 		req, err := http.NewRequest("GET", uri, nil)
 		if err != nil {
@@ -182,7 +183,7 @@ func GetSeveralAlbums(token string, albumIDs []string) ([]model.Album, error) {
 
 func GetRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 
-	uri := SPOTIFY_BASE_API + "/me/player/recently-played"
+	uri := util.SPOTIFY_BASE_API + "/me/player/recently-played"
 
 	params := url.Values{}
 	params.Add("before", strconv.FormatInt(time.Now().UnixMilli(), 10))
@@ -218,8 +219,8 @@ func GetRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 		track := model.TrackBean{
 			Id:         item.Track.ID,
 			Name:       item.Track.Name,
-			Artist:     ArtistsToString(item.Track.Artists),
-			ArtistId:   ArtistIdsToString(item.Track.Artists),
+			Artist:     util.ArtistsToString(item.Track.Artists),
+			ArtistId:   util.ArtistIdsToString(item.Track.Artists),
 			Album:      item.Track.Album.ID,
 			Explicit:   item.Track.Explicit,
 			Popularity: item.Track.Popularity,
@@ -228,18 +229,18 @@ func GetRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 		album := model.AlbumBean{
 			Id:          item.Track.Album.ID,
 			Name:        item.Track.Album.Name,
-			Artist:      ArtistsToString(item.Track.Album.Artists),
-			ArtistId:    ArtistIdsToString(item.Track.Album.Artists),
-			Genre:       strings.Join(item.Track.Album.Genres, SEPARATOR),
+			Artist:      util.ArtistsToString(item.Track.Album.Artists),
+			ArtistId:    util.ArtistIdsToString(item.Track.Album.Artists),
+			Genre:       strings.Join(item.Track.Album.Genres, util.SEPARATOR),
 			TotalTracks: item.Track.Album.TotalTracks,
-			Year:        YearFromReleaseDate(item.Track.Album.ReleaseDate),
-			Image:       GetAlbumImage(item.Track.Album),
+			Year:        util.YearFromReleaseDate(item.Track.Album.ReleaseDate),
+			Image:       util.GetAlbumImage(item.Track.Album),
 			Popularity:  item.Track.Album.Popularity,
 		}
 		returnObj := model.RecentlyPlayedObject{
 			Track:     track,
 			Album:     album,
-			Timestamp: DatetimeToUnixMilli(item.PlayedAt),
+			Timestamp: util.DatetimeToUnixMilli(item.PlayedAt),
 		}
 		toReturn = append(toReturn, returnObj)
 	}
@@ -249,12 +250,12 @@ func GetRecentlyPlayed(token string) ([]model.RecentlyPlayedObject, error) {
 
 func RefreshToken(refresh string) (string, error) {
 
-	uri := SPOTIFY_BASE_ACCOUNT + "/api/token"
+	uri := util.SPOTIFY_BASE_ACCOUNT + "/api/token"
 	secret := os.Getenv("SPOTIFY_CLIENT_SECRET")
 	if secret == "" {
 		return "", fmt.Errorf("secret is empty")
 	}
-	encodedSecret := base64.StdEncoding.EncodeToString([]byte(SPOTIFY_CLIENT_ID + ":" + secret))
+	encodedSecret := base64.StdEncoding.EncodeToString([]byte(util.SPOTIFY_CLIENT_ID + ":" + secret))
 
 	reqBody := url.Values{}
 	reqBody.Set("grant_type", "refresh_token")
@@ -291,17 +292,17 @@ func RefreshToken(refresh string) (string, error) {
 
 func RequestAccessToken(code string) (string, string, error) {
 
-	uri := SPOTIFY_BASE_ACCOUNT + "/api/token"
+	uri := util.SPOTIFY_BASE_ACCOUNT + "/api/token"
 	secret := os.Getenv("SPOTIFY_CLIENT_SECRET")
 	if secret == "" {
 		return "", "", fmt.Errorf("secret is empty")
 	}
-	encodedSecret := base64.StdEncoding.EncodeToString([]byte(SPOTIFY_CLIENT_ID + ":" + secret))
+	encodedSecret := base64.StdEncoding.EncodeToString([]byte(util.SPOTIFY_CLIENT_ID + ":" + secret))
 
 	reqBody := url.Values{}
 	reqBody.Set("grant_type", "authorization_code")
 	reqBody.Set("code", code)
-	reqBody.Set("redirect_uri", SPOTIFY_REDIRECT_URL)
+	reqBody.Set("redirect_uri", util.SPOTIFY_REDIRECT_URL)
 
 	encodedRequestBody := reqBody.Encode()
 
@@ -335,7 +336,7 @@ func RequestAccessToken(code string) (string, string, error) {
 
 func RequestUserInfo(access string) (model.UserBean, error) {
 
-	uri := SPOTIFY_BASE_API + "/me"
+	uri := util.SPOTIFY_BASE_API + "/me"
 
 	req, err := http.NewRequest("GET", uri, nil)
 	if err != nil {
