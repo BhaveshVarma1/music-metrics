@@ -1,15 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="See in-depth stats for your Spotify listening history."/>
-    <link rel="manifest" href="manifest.json" />
-    <title>Music Metrics</title>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="See in-depth stats for your Spotify listening history."/>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.2/css/perfect-scrollbar.min.css">
+
+  <title>Music Metrics</title>
+
+  <style>
+    /* Style for the scrollable container */
+    .scrollable-container {
+      height: 300px; /* Define the height of the container */
+      overflow-y: auto; /* Enable vertical scrollbar */
+      padding: 20px; /* Optional: add padding for better appearance */
+    }
+
+    /* Style for the content inside the scrollable container */
+    .scrollable-content {
+      /* Add styles as needed */
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <!-- Your content goes here -->
+    <div class="scrollable-container">
+      <!-- Your scrollable content goes here -->
+      <div class="scrollable-content">
+        <!-- Sample content -->
+        <p>This is a sample paragraph. You can add more content to make it scrollable.</p>
+        <p>This is another paragraph. You can add more content to make it scrollable.</p>
+        <!-- Add more content as needed -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Include jQuery and Perfect Scrollbar JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.2/perfect-scrollbar.min.js"></script>
+  <!-- Initialize Perfect Scrollbar -->
+  <script>
+    $(document).ready(function() {
+      $('.scrollable-container').perfectScrollbar();
+    });
+  </script>
+</body>
 </html>
